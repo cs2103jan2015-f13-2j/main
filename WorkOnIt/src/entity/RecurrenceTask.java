@@ -5,15 +5,17 @@ import java.util.Date;
 public class RecurrenceTask extends Task {
 
 	private long tagId;
-	private Date recurrenceDate;
+	private Date startRecurrenceDate, endRecurrenceDate;
 	
-	public RecurrenceTask(String taskName, int priority, Date recurrenceDate) {
+	public RecurrenceTask(String taskName, int priority, Date startRecurrenceDate, Date endRecurrenceDate) {
 		
 		super(taskName, priority);
 		
 		long generatedTagId = System.currentTimeMillis();
 		this.setTagId(generatedTagId);
-		this.setRecurrenceDate(recurrenceDate);
+		this.setStartRecurrenceDate(startRecurrenceDate);
+		this.setEndRecurrenceDate(endRecurrenceDate);
+		
 	}
 
 	public long getTagId() {
@@ -24,18 +26,27 @@ public class RecurrenceTask extends Task {
 		this.tagId = tagId;
 	}
 
-	public Date getRecurrenceDate() {
-		return recurrenceDate;
+	public Date getStartRecurrenceDate() {
+		return startRecurrenceDate;
 	}
 
-	public void setRecurrenceDate(Date recurrenceDate) {
-		this.recurrenceDate = recurrenceDate;
+	public void setStartRecurrenceDate(Date startRecurrenceDate) {
+		this.startRecurrenceDate = startRecurrenceDate;
+	}
+
+	public Date getEndRecurrenceDate() {
+		return endRecurrenceDate;
+	}
+
+	public void setEndRecurrenceDate(Date endRecurrenceDate) {
+		this.endRecurrenceDate = endRecurrenceDate;
 	}
 
 	@Override
 	public String toString() {
-		return "RecurrenceTask [tagId=" + tagId + ", recurrenceDate="
-				+ recurrenceDate + ", getTaskId()=" + getTaskId()
+		return "RecurrenceTask [tagId=" + tagId + ", startRecurrenceDate="
+				+ startRecurrenceDate + ", endRecurrenceDate="
+				+ endRecurrenceDate + ", getTaskId()=" + getTaskId()
 				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
 				+ getPriority() + ", getDateCreated()=" + getDateCreated()
 				+ "]";
