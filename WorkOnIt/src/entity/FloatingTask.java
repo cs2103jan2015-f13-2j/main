@@ -1,12 +1,10 @@
 package entity;
 
 public class FloatingTask extends Task {
-	
-	private static final int DEFAULT_PRIORITY = 1;
 
-	public FloatingTask(String taskName) {
+	public FloatingTask(String taskName, int priority) {
 		
-		super(taskName, DEFAULT_PRIORITY);
+		super(taskName, priority);
 	}
 
 	@Override
