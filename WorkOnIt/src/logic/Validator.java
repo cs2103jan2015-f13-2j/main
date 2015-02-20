@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,6 +36,8 @@ public class Validator {
 		
 		Object obj = null;
 		
+		Engine engineObj = new Engine();
+		
 		Scanner sc = new Scanner(fullCommand);
 		
 		String command = sc.next();
@@ -42,7 +45,12 @@ public class Validator {
 		if(command.equalsIgnoreCase(KEYWORD_ADD)) {
 			String remainingCommand = sc.nextLine();
 			obj = parseAddCommand(remainingCommand);
-		
+			try {
+				engineObj.insertIntoFile(obj);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		} else if(command.equalsIgnoreCase(KEYWORD_UPDATE)) {
 			//obj = parseUpdateCommand() : return Error object (contain isSuccess)
 		
