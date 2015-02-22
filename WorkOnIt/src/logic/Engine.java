@@ -10,23 +10,30 @@ import java.util.ArrayList;
 import data.FileIO;
 import entity.NormalTask;
 import entity.Task;
+import entity.Error;
 
 
 public class Engine {
 	
 
 	//save task into database
-	public static boolean insertIntoFile(Object task) throws IOException
-	{
+	public  Error insertIntoFile(Task task) {
+		
+		Error errorStatus = null;
+		
 		FileIO dataStorage = new FileIO();
-		dataStorage.saveIntoFile((Task) task);
-		return true;
+		errorStatus = dataStorage.saveIntoFile(task);
+
+		return errorStatus;
 	}
 	
 	//retrieve task from database
-	public Task retrieveFromFile()
-	{
+	public Task retrieveFromFile() {
+		
 		Task object = null;
+		
+//		to be implemented
+		
 		return object;
 	}
 	
