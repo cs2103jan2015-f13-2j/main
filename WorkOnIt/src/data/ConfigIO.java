@@ -1,38 +1,78 @@
 package data;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+
+import com.google.gson.Gson;
 
 public class ConfigIO {
 	
-	private static final String KEYWORD_ADD = "add";
-	private static final String KEYWORD_UPDATE = "update";
-	private static final String KEYWORD_DELETE = "delete";
-	private static final String KEYWORD_BY = "by";
-	private static final String KEYWORD_FROM = "from";
-	private static final String KEYWORD_TO = "to";
-	private static final String KEYWORD_EVERY = "every";
-	private static final String KEYWORD_UNTIL = "until";
-	private static final String KEYWORD_PRIORITY = "priority";
+	private static final String CFG_FILENAME = "command.cfg";
 	
-	private static final int PRIORITY_LOW = 0;
-	private static final int PRIORITY_MEDIUM = 1;
-	private static final int PRIORITY_HIGH = 2;
-
 	public Map<String, String> getFullKeywordMap() {
 		
-		Map<String, String> KEYWORD_MAP = new HashMap<String, String>();
+		String loadedContents = loadFromFile();
 		
-		KEYWORD_MAP.put(KEYWORD_ADD, KEYWORD_ADD);
-		KEYWORD_MAP.put(KEYWORD_UPDATE, KEYWORD_UPDATE);
-		KEYWORD_MAP.put(KEYWORD_DELETE, KEYWORD_DELETE);
-		KEYWORD_MAP.put(KEYWORD_BY, KEYWORD_BY);
-		KEYWORD_MAP.put(KEYWORD_FROM, KEYWORD_FROM);
-		KEYWORD_MAP.put(KEYWORD_TO, KEYWORD_TO);
-		KEYWORD_MAP.put(KEYWORD_EVERY, KEYWORD_EVERY);
-		KEYWORD_MAP.put(KEYWORD_UNTIL, KEYWORD_UNTIL);
-		KEYWORD_MAP.put(KEYWORD_PRIORITY, KEYWORD_PRIORITY);
+		@SuppressWarnings("unchecked")
+		Map<String, String> KEYWORD_MAP = 
+				(Map<String, String>) deserializeFromJson(loadedContents, HashMap.class);
 		
 		return KEYWORD_MAP;
+	}
+	
+	private String loadFromFile() {
+		
+		String loadedContents = null;
+		File configFile = new File(CFG_FILENAME);
+		
+		try {
+		
+			if (configFile.exists()) {
+				Scanner fileScanner = new Scanner(configFile);
+				
+				loadedContents = fileScanner.nextLine();
+				fileScanner.close();
+				
+			} else {
+				createNewFile(configFile);
+				System.err.println("loadFromFile: new file created.");
+			}
+		} catch(FileNotFoundException e) {
+			System.err.println("loadFromFile: file not found.");
+		}
+		
+		return loadedContents;
+	}
+
+	private void createNewFile(File file) {
+		
+		try {
+			file.createNewFile();
+			
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	private static String serializeToJson(Object object) {
+		
+		String json;
+		
+		Gson gson = new Gson();
+		json = gson.toJson(object);
+		
+		return json;
+	}
+	
+	private static <T> Object deserializeFromJson(String json, Class<T> type) {
+		
+		Gson gson = new Gson();
+		Object object = gson.fromJson(json, type);
+		
+		return object;
 	}
 }
