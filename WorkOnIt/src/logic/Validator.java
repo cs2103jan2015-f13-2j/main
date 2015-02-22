@@ -1,14 +1,15 @@
 package logic;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
+import data.ConfigIO;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -33,6 +34,25 @@ public class Validator {
 	private static final int PRIORITY_HIGH = 2;
 	private static final int PRIORITY_DEFAULT = PRIORITY_MEDIUM;
 	
+	private Map<String, String> KEYWORD_MAP = null;
+	
+	public Validator() {
+		
+		ConfigIO config = new ConfigIO();
+		KEYWORD_MAP = config.getFullKeywordMap();
+	}
+	
+	public boolean validateKeyword(String keyword) {
+		
+		boolean isKeyword = false;
+		
+		if(KEYWORD_MAP.containsKey(keyword)) {
+			isKeyword = true;
+		} 
+		
+		return isKeyword;
+	}
+	
 	public Object parseCommand(String fullCommand) {
 		
 		Object obj = null;
@@ -53,10 +73,10 @@ public class Validator {
 			obj = status;
 
 		} else if(command.equalsIgnoreCase(KEYWORD_UPDATE)) {
-			//obj = parseUpdateCommand() : return Error object (contain isSuccess)
+			//obj = parseUpdateCommand() : return Success object (contain isSuccess)
 		
 		} else if(command.equalsIgnoreCase(KEYWORD_DELETE)) {
-			//obj = parseDeleteCommand() : return Error object (contain isSuccess)
+			//obj = parseDeleteCommand() : return Success object (contain isSuccess)
 		
 		} else {
 			sc.close();

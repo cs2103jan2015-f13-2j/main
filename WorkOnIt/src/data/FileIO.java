@@ -33,8 +33,8 @@ public class FileIO {
 			status = new Success(true, null);
 			
 		} catch (IOException e) {
-			System.err.println("saveIntoFile: IO error. Please check.");
-			status = new Success(false, "saveIntoFile: IO error. Please check.");
+			System.err.println("saveIntoFile: IO error. Please check R/W/X access.");
+			status = new Success(false, "saveIntoFile: IO error. Please check R/W/X access.");
 		} finally {
 			filewrite.close();
 		}	
