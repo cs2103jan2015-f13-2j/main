@@ -14,7 +14,7 @@ import entity.FloatingTask;
 import entity.NormalTask;
 import entity.RecurrenceTask;
 import entity.Task;
-import entity.Error;
+import entity.Success;
 
 public class Validator {
 	
@@ -46,11 +46,11 @@ public class Validator {
 		if(command.equalsIgnoreCase(KEYWORD_ADD)) {
 			
 			String remainingCommand = sc.nextLine();
-			obj = parseAddCommand(remainingCommand);
+			Task task = parseAddCommand(remainingCommand);
 
-			Error errorStatus = engineObj.insertIntoFile((Task)obj);
+			Success status = engineObj.insertIntoFile(task);
 			
-			obj = errorStatus;
+			obj = status;
 
 		} else if(command.equalsIgnoreCase(KEYWORD_UPDATE)) {
 			//obj = parseUpdateCommand() : return Error object (contain isSuccess)

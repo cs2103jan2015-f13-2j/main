@@ -10,21 +10,21 @@ import java.util.ArrayList;
 import data.FileIO;
 import entity.NormalTask;
 import entity.Task;
-import entity.Error;
+import entity.Success;
 
 
 public class Engine {
 	
 
 	//save task into database
-	public  Error insertIntoFile(Task task) {
+	public  Success insertIntoFile(Task task) {
 		
-		Error errorStatus = null;
+		Success status = null;
 		
 		FileIO dataStorage = new FileIO();
-		errorStatus = dataStorage.saveIntoFile(task);
+		status = dataStorage.saveIntoFile(task);
 
-		return errorStatus;
+		return status;
 	}
 	
 	//retrieve task from database

@@ -9,18 +9,16 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import entity.Task;
-import entity.Error;
+import entity.Success;
 
 public class FileIO {
 	
 	
 	final static String FILE_NAME = "datafile.txt";
 	
-	public Error saveIntoFile(Task task) {
+	public Success saveIntoFile(Task task) {
 		
-		Error errorStatus = null;
-		
-		boolean isSuccess = false;
+		Success status = null;
 		
 		//body
 		String gsonSerial = serializeToJson(task);
@@ -32,15 +30,16 @@ public class FileIO {
 					new FileWriter(FILE_NAME, true)));
 			filewrite.println(gsonSerial);
 			
-			errorStatus = new Error(true, null);
+			status = new Success(true, null);
 			
 		} catch (IOException e) {
 			System.err.println("saveIntoFile: IO error. Please check.");
-			errorStatus = new Error(false, "saveIntoFile: IO error. Please check.");
+			status = new Success(false, "saveIntoFile: IO error. Please check.");
 		} finally {
 			filewrite.close();
 		}	
-		return errorStatus;
+		
+		return status;
 	}
 	
 	

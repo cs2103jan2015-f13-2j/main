@@ -1,11 +1,11 @@
 package entity;
 
-public class Error {
+public class Success {
 	
 	private boolean isSuccess;
 	private String message;
 
-	public Error(boolean isSuccess, String message) {
+	public Success(boolean isSuccess, String message) {
 		
 		this.setSuccess(isSuccess);
 		this.setMessage(message);
