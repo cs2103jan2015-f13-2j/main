@@ -52,7 +52,6 @@ public class Main extends Application {
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 	            public void handle(KeyEvent event) {
 	            	commandHandler(event);
-	            	txtF.clear();
 		            }
 		        });
 
@@ -73,60 +72,31 @@ public class Main extends Application {
 	
 	public static void commandHandler(KeyEvent event)
 	{
+		//get current char
 		inputText+=event.getText();
-		if(inputText.equals("add")){
+		
+		//detects a space
+		if(event.getText().equals(" ")){
 			
-			openAddWindow("add");
-			
-			
-			
-			//Task task = null;
-			//Validator commandValidator = new Validator();
-			//Task obj  = (Task) commandValidator.parseCommand(command);
-			//System.out.println(obj.getTaskName()
+			//if program detects a command, call a handler
+			if(inputText.equals("add"+ " ")){
+				
+				//this method is for fencing the keyword (will implement later)
+				handleMethod(inputText);
+				
+				//Task task = null;
+				//Validator commandValidator = new Validator();
+				//Task obj  = (Task) commandValidator.parseCommand(inputText);
+				//System.out.println(obj.getTaskName()
+			}
 		}
+		
 		
 	}
 	
 	//just a proof of concept the thing works
-	private static void openAddWindow(String windowTitle){
-    	
-		try {
-			Pane root = new Pane();
-			Stage stage = new Stage();
-			Scene scene = new Scene(root,300,100);
-			scene.getStylesheets().add(Main.class.getResource("../css/application.css").toExternalForm());
-			scene.setFill(null);
-	        
-			final TextField txtF = new TextField();
-			txtF.setId("textField");
-			txtF.setLayoutX(0);
-			txtF.setLayoutY(0);
-			txtF.setPrefWidth(300);
-			txtF.setText("input here");
-//			txtF.setOnAction(new EventHandler<ActionEvent>() {
-//	            public void handle(ActionEvent event) {
-//	               commandHandler(txtF.getText());
-//	               txtF.clear();
-//	            }
-//	        });
-			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
-				 public void handle(KeyEvent event) {
-		            	commandHandler(event);
-		            	txtF.clear();
-			            }
-		        });
-
-			root.getChildren().add(txtF);
-			
-	        //primaryStage.initStyle(StageStyle.TRANSPARENT);		
-			stage.setScene(scene);
-			stage.show();
-		}
-		catch(Exception e){
-			
-		}
-      
-    }
+	private static void handleMethod(String input){
+		System.out.println(input);
+	}
 	
 }
