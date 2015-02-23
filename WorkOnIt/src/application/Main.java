@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import logic.Validator;
 
 
@@ -19,7 +20,7 @@ public class Main extends Application {
 		try {
 			Pane root = new Pane();
 			
-			Scene scene = new Scene(root,300,100);
+			Scene scene = new Scene(root,400,200);
 			scene.getStylesheets().add(Main.class.getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
 	        
@@ -35,9 +36,15 @@ public class Main extends Application {
 	               txtF.clear();
 	            }
 	        });
-
-			root.getChildren().add(txtF);
 			
+			final Text displayText = new Text();
+			displayText.setText("1. Due Assignment \t 3 March \n2. Finish Homework");
+			displayText.setLayoutX(10);
+			displayText.setLayoutY(50);
+			
+			
+			root.getChildren().add(txtF);
+			root.getChildren().add(displayText);
 	        //primaryStage.initStyle(StageStyle.TRANSPARENT);		
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -53,12 +60,8 @@ public class Main extends Application {
 	
 	public static void commandHandler(String command)
 	{
-		Task task = null;
 		Validator commandValidator = new Validator();
-		Task obj  = (Task) commandValidator.parseCommand(command);
-		//System.out.println(obj.getTaskName()
-		
-		
+		commandValidator.parseCommand(command);
 	}
 	
 }

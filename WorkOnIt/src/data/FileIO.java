@@ -1,6 +1,8 @@
 package data;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,8 +43,23 @@ public class FileIO {
 	public ArrayList<Task> loadFromFile() {
 		
 		ArrayList<Task> taskList = new ArrayList<Task>();
-		
+		String getLineFromFile;
 		//body
+		try
+		{
+		BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME));
+		
+		while ((getLineFromFile = reader.readLine()) != null) {
+			Task task = null;
+			task = (Task)deserializeFromJson(getLineFromFile , task.getClass());
+			System.out.println(task.getTaskName());
+		}
+		
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		return taskList;
 	}

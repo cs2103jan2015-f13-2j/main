@@ -20,6 +20,7 @@ public class Validator {
 	private static final String KEYWORD_ADD = "add";
 	private static final String KEYWORD_UPDATE = "update";
 	private static final String KEYWORD_DELETE = "delete";
+	private static final String KEYWORD_DISPLAY = "display";
 	private static final String KEYWORD_BY = "by";
 	private static final String KEYWORD_FROM = "from";
 	private static final String KEYWORD_TO = "to";
@@ -56,6 +57,10 @@ public class Validator {
 		
 		} else if(command.equalsIgnoreCase(KEYWORD_DELETE)) {
 			//obj = parseDeleteCommand() : return Error object (contain isSuccess)
+		
+		} else if(command.equalsIgnoreCase(KEYWORD_DISPLAY)) {
+			String remainingCommand = sc.nextLine();
+			parseDisplayCommand(remainingCommand);
 		
 		} else {
 			sc.close();
@@ -323,5 +328,12 @@ public class Validator {
 			
 			return dates.get(0);
 		}
+	}
+	
+	private static void parseDisplayCommand(String displayCommand){
+		
+		Engine engineObj = new Engine();
+		engineObj.retrieveFromFile();
+		
 	}
 }

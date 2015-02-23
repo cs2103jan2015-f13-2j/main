@@ -24,10 +24,13 @@ public class Engine {
 	}
 	
 	//retrieve task from database
-	public Task retrieveFromFile()
+	public ArrayList retrieveFromFile()
 	{
-		Task object = null;
-		return object;
+		FileIO dataStorage = new FileIO();
+		ArrayList<Task> taskList = new ArrayList<Task>();
+		taskList =  dataStorage.loadFromFile();
+		return taskList;
+		
 	}
 	
 	
