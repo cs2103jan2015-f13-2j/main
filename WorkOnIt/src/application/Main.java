@@ -22,9 +22,6 @@ import logic.Validator;
 public class Main extends Application {
 	
 	//need a global variable for the input
-	static String inputText = "";
-	static String commandText = "";
-	static String tempText ="";
 	static ArrayList<String> elementList = new ArrayList();
 	
 	
@@ -46,8 +43,9 @@ public class Main extends Application {
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 	            public void handle(ActionEvent event) {
 	            	System.out.println("textfield Text: "+txtF.getText());
-	               executeCommand(txtF.getText());
-	               txtF.clear();
+	            	wordHandler(txtF.getText());
+	            	executeCommand(txtF.getText());
+	            	txtF.clear();
 	            }
 	        });
 			
@@ -82,44 +80,38 @@ public class Main extends Application {
 	}
 	
 	public static void commandHandler(KeyEvent event, String textFieldText){
-		//get current char
-		inputText+=event.getText();
-		Validator commandValidator = new Validator(); 
 		
-		//detects a space
+		//detects a space, handle new word
 		if(event.getText().equals(" ")){
-			
-			tempText = textFieldText.trim();
-			String[] stringArr = tempText.split(" ");
-	
-			
-			for(int i =0;i<stringArr.length;i++){
-				if(!elementList.contains(stringArr[i])){
-					elementList.add(stringArr[i]);
-					if(commandValidator.validateKeyword(stringArr[i])){
-						
-						
-						//this method is for fencing the keyword (will implement later)
-						handleMethod("Handling: "+tempText);
-						
-						commandText+=tempText;
-						
-					}
-				}
-			}
-			
-			for(int i=0;i<elementList.size();i++){
-				System.out.println(elementList.get(i));
-			}
-			
-			//if program detects a keyword, call a handler
-			
-			
-			inputText = "";
+			wordHandler(textFieldText);
 		}
 		
 		
 	}
+
+	private static void wordHandler(String textFieldText) {
+		
+		Validator commandValidator = new Validator();
+		String[] stringArr = textFieldText.trim().split(" ");
+
+		//iterate thru the input
+		for(int i =0;i<stringArr.length;i++){
+			//find and add new word to a list if not already in it
+			if(!elementList.contains(stringArr[i])){
+				elementList.add(stringArr[i]);
+				
+				//check if current word is a keyword
+				if(commandValidator.validateKeyword(stringArr[i])){
+					
+					//this method is for fencing the keyword (will implement later)
+					handleMethod("Handling: "+stringArr[i]);
+					
+				}
+			}
+		}
+	}
+	
+	
 	
 	//just a proof of concept the thing works
 	private static void handleMethod(String input){
