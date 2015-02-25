@@ -23,7 +23,7 @@ public class Main extends Application {
 	
 	//need a global variable for the input
 	static ArrayList<String> elementList = new ArrayList();
-	
+	static ArrayList<String> secondaryList = new ArrayList();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -93,25 +93,23 @@ public class Main extends Application {
 		
 		Validator commandValidator = new Validator();
 		String[] stringArr = textFieldText.trim().split(" ");
-
+		
 		//iterate thru the input
 		for(int i =0;i<stringArr.length;i++){
 			//find and add new word to a list if not already in it
-			if(!elementList.contains(stringArr[i])){
-				elementList.add(stringArr[i]);
+			
+			elementList.add(stringArr[i]);
+			
+			//check if current word is a keyword
+			if(commandValidator.validateKeyword(stringArr[i])){
 				
-				//check if current word is a keyword
-				if(commandValidator.validateKeyword(stringArr[i])){
-					
-					//this method is for fencing the keyword (will implement later)
-					handleMethod("Handling: "+stringArr[i]);
-					
-				}
+				//this method is for fencing the keyword (will implement later)
+				handleMethod("Handling: "+stringArr[i]);
+				
 			}
+			
 		}
 	}
-	
-	
 	
 	//just a proof of concept the thing works
 	private static void handleMethod(String input){
