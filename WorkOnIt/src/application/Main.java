@@ -44,7 +44,6 @@ public class Main extends Application {
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 	            public void handle(ActionEvent event) {
 
-	            	commandHandlerOld(txtF.getText());
 	            	System.out.println("textfield Text: "+txtF.getText());
 	            	wordHandler(txtF.getText());
 	            	executeCommand(txtF.getText());
@@ -56,11 +55,7 @@ public class Main extends Application {
 			//onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 	            public void handle(KeyEvent event) {
-
-	            	//commandHandler(event);
-
 	            	commandHandler(event, txtF.getText());
-
 		            }
 		        });
 
@@ -82,7 +77,10 @@ public class Main extends Application {
 		
 		if(temp instanceof Success){
 			successCheck  = (Success) temp;
-			System.out.println(successCheck.getMessage());
+			if(successCheck.isSuccess() == false)
+				System.out.println(successCheck.getMessage());
+			else
+				System.out.println("Command executed successfully");
 		} else {
 			System.out.println("failed");
 		}
@@ -112,8 +110,6 @@ public class Main extends Application {
 		
 		//iterate thru the input
 		for(int i =0;i<stringArr.length;i++){
-			//find and add new word to a list if not already in it
-			
 			elementList.add(stringArr[i]);
 			
 			//check if current word is a keyword
@@ -126,20 +122,7 @@ public class Main extends Application {
 			
 		}
 	}
-	
-	//to be removed once testing are done
- 	public static void commandHandlerOld(String command)
- 	{
-		Task task = null;
- 		Validator commandValidator = new Validator();
-		commandValidator.parseCommand(command);
-		//System.out.println(obj.getTaskName()
-		
-		
-		//commandValidator.parseCommand(command);
- 	}
 
-	
 	
 	//just a proof of concept the thing works
 	private static void handleMethod(String input){
