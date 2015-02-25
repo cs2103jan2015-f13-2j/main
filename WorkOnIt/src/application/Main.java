@@ -1,6 +1,7 @@
 package application;
 	
 import java.io.IOException;
+import java.util.ArrayList;
 
 import entity.Task;
 import javafx.application.Application;
@@ -21,9 +22,7 @@ import logic.Validator;
 public class Main extends Application {
 	
 	//need a global variable for the input
-	static String inputText="";
-	
-	
+	static ArrayList<String> elementList = new ArrayList();
 	
 	
 	@Override
@@ -43,15 +42,26 @@ public class Main extends Application {
 			txtF.setText("input here");
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 	            public void handle(ActionEvent event) {
+<<<<<<< HEAD
 	            	commandHandlerOld(txtF.getText());
 	               txtF.clear();
+=======
+	            	System.out.println("textfield Text: "+txtF.getText());
+	            	wordHandler(txtF.getText());
+	            	executeCommand(txtF.getText());
+	            	txtF.clear();
+>>>>>>> 7368ad70b4715c1d4ea8521c436c302ff24a73f9
 	            }
 	        });
 			
 			//onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 	            public void handle(KeyEvent event) {
+<<<<<<< HEAD
 	            	//commandHandler(event);
+=======
+	            	commandHandler(event, txtF.getText());
+>>>>>>> 7368ad70b4715c1d4ea8521c436c302ff24a73f9
 		            }
 		        });
 
@@ -66,33 +76,51 @@ public class Main extends Application {
 		}
 	}
 	
+	protected void executeCommand(String commandString) {
+		Task task = null;
+		Validator commandValidator = new Validator();
+		Task obj  = (Task) commandValidator.parseCommand(commandString);
+		//System.out.println(obj.getTaskName()
+		
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
-	public static void commandHandler(KeyEvent event)
-	{
-		//get current char
-		inputText+=event.getText();
+	public static void commandHandler(KeyEvent event, String textFieldText){
 		
-		//detects a space
+		//detects a space, handle new word
 		if(event.getText().equals(" ")){
-			
-			//if program detects a command, call a handler
-			if(inputText.equals("add"+ " ")){
-				
-				//this method is for fencing the keyword (will implement later)
-				handleMethod(inputText);
-				
-				//Task task = null;
-				//Validator commandValidator = new Validator();
-				//Task obj  = (Task) commandValidator.parseCommand(inputText);
-				//System.out.println(obj.getTaskName()
-			}
+			wordHandler(textFieldText);
 		}
 		
 		
 	}
+
+	private static void wordHandler(String textFieldText) {
+		
+		Validator commandValidator = new Validator();
+		String[] stringArr = textFieldText.trim().split(" ");
+
+		//iterate thru the input
+		for(int i =0;i<stringArr.length;i++){
+			//find and add new word to a list if not already in it
+			if(!elementList.contains(stringArr[i])){
+				elementList.add(stringArr[i]);
+				
+				//check if current word is a keyword
+				if(commandValidator.validateKeyword(stringArr[i])){
+					
+					//this method is for fencing the keyword (will implement later)
+					handleMethod("Handling: "+stringArr[i]);
+					
+				}
+			}
+		}
+	}
+	
+	
 	
 	//to be removed once testing are done
  	public static void commandHandlerOld(String command)
