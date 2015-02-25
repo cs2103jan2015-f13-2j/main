@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import entity.Task;
+import entity.Success;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -75,9 +76,17 @@ public class Main extends Application {
 	}
 	
 	protected void executeCommand(String commandString) {
-		Task task = null;
+		Success successCheck = null;
 		Validator commandValidator = new Validator();
-		Task obj  = (Task) commandValidator.parseCommand(commandString);
+		Object temp = commandValidator.parseCommand(commandString);
+		
+		if(temp instanceof Success){
+			successCheck  = (Success) temp;
+			System.out.println(successCheck.getMessage());
+		} else {
+			System.out.println("failed");
+		}
+		
 		//System.out.println(obj.getTaskName()
 		
 	}
