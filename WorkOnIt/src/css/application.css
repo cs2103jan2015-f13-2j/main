@@ -1,3 +1,6 @@
-.root {
-     -fx-background-image: url("../graphic/textbox.png");
+#textField
+{
+	-fx-max-width: 300;
+	
+	
 }

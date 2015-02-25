@@ -1,5 +1,7 @@
 package logic;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,13 @@ public class Validator {
 			
 			} else if(commandResolved.equalsIgnoreCase(KEYWORD_DELETE)) {
 				//obj = parseDeleteCommand() : return Success object (contain isSuccess)
+			
+			} else if(commandResolved.equalsIgnoreCase(KEYWORD_RETRIEVE)) {
+				 try {
+					parseRetrieveCommand();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			
 			}
 			
@@ -390,4 +399,23 @@ public class Validator {
 			return dates.get(0);
 		}
 	}
+	
+	private static void parseRetrieveCommand() throws IOException
+	{
+		Engine en = new Engine();
+		
+		//body (To read and determine what parameter to put into retrieve)
+		//Take Note : Anis
+		
+		ArrayList<Task> taskList = en.retrieveTask();
+		
+		//display Task.
+		for(int i = 0 ; i < taskList.size() ; i ++)
+		{
+			System.out.println(taskList.get(i));
+		}
+		
+		
+	}
+	
 }
