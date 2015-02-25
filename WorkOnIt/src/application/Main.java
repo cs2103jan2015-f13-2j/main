@@ -1,21 +1,17 @@
 package application;
-	
-import java.io.IOException;
-import java.util.ArrayList;
 
-import entity.Task;
+import java.util.ArrayList;
+import java.util.List;
+
 import entity.Success;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import logic.Validator;
 
@@ -23,8 +19,8 @@ import logic.Validator;
 public class Main extends Application {
 	
 	//need a global variable for the input
-	static ArrayList<String> elementList = new ArrayList();
-	static ArrayList<String> secondaryList = new ArrayList();
+	static List<String> elementList = new ArrayList<String>();
+	static List<String> secondaryList = new ArrayList<String>();
 	
 	@Override
 	public void start(Stage primaryStage) {
