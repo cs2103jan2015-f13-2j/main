@@ -29,7 +29,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Pane root = new Pane();
-			
+			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root,300,100);
 			scene.getStylesheets().add(Main.class.getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
@@ -44,8 +44,6 @@ public class Main extends Application {
 	            public void handle(ActionEvent event) {
 
 	            	commandHandlerOld(txtF.getText());
-	               txtF.clear();
-
 	            	System.out.println("textfield Text: "+txtF.getText());
 	            	wordHandler(txtF.getText());
 	            	executeCommand(txtF.getText());
