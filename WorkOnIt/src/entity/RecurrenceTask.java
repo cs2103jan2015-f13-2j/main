@@ -56,7 +56,11 @@ public class RecurrenceTask extends Task {
 	}
 
 	public void setEndRecurrenceDate(Date endRecurrenceDate) {
-		this.endRecurrenceDate = endRecurrenceDate;
+		if(endRecurrenceDate == null) {
+			this.endRecurrenceDate = this.getStartRecurrenceDate();
+		} else {
+			this.endRecurrenceDate = endRecurrenceDate;
+		}
 	}
 
 	public String getOccurenceType() {
