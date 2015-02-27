@@ -2,10 +2,13 @@ package entity;
 
 import java.util.Date;
 
+import logic.Validator;
+
 public class RecurrenceTask extends Task {
 
 	private long tagId;
 	private Date startRecurrenceDate, endRecurrenceDate;
+	private String occurenceType;
 
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate) {
@@ -16,7 +19,19 @@ public class RecurrenceTask extends Task {
 		this.setTagId(generatedTagId);
 		this.setStartRecurrenceDate(startRecurrenceDate);
 		this.setEndRecurrenceDate(endRecurrenceDate);
+		this.setOccurenceType(Validator.KEYWORD_DEFAULT_OCCURENCE);
+	}
+	
+	public RecurrenceTask(String taskName, int priority,
+			Date startRecurrenceDate, Date endRecurrenceDate, String occurenceType) {
 
+		super(taskName, priority);
+
+		long generatedTagId = System.currentTimeMillis();
+		this.setTagId(generatedTagId);
+		this.setStartRecurrenceDate(startRecurrenceDate);
+		this.setEndRecurrenceDate(endRecurrenceDate);
+		this.setOccurenceType(occurenceType);
 	}
 
 	public long getTagId() {
@@ -41,7 +56,19 @@ public class RecurrenceTask extends Task {
 	}
 
 	public void setEndRecurrenceDate(Date endRecurrenceDate) {
-		this.endRecurrenceDate = endRecurrenceDate;
+		if(endRecurrenceDate == null) {
+			this.endRecurrenceDate = this.getStartRecurrenceDate();
+		} else {
+			this.endRecurrenceDate = endRecurrenceDate;
+		}
+	}
+
+	public String getOccurenceType() {
+		return occurenceType;
+	}
+
+	public void setOccurenceType(String occurenceType) {
+		this.occurenceType = occurenceType;
 	}
 
 	@Override
@@ -52,6 +79,8 @@ public class RecurrenceTask extends Task {
 				* result
 				+ ((endRecurrenceDate == null) ? 0 : endRecurrenceDate
 						.hashCode());
+		result = prime * result
+				+ ((occurenceType == null) ? 0 : occurenceType.hashCode());
 		result = prime
 				* result
 				+ ((startRecurrenceDate == null) ? 0 : startRecurrenceDate
@@ -74,6 +103,11 @@ public class RecurrenceTask extends Task {
 				return false;
 		} else if (!endRecurrenceDate.equals(other.endRecurrenceDate))
 			return false;
+		if (occurenceType == null) {
+			if (other.occurenceType != null)
+				return false;
+		} else if (!occurenceType.equals(other.occurenceType))
+			return false;
 		if (startRecurrenceDate == null) {
 			if (other.startRecurrenceDate != null)
 				return false;
@@ -88,9 +122,10 @@ public class RecurrenceTask extends Task {
 	public String toString() {
 		return "RecurrenceTask [tagId=" + tagId + ", startRecurrenceDate="
 				+ startRecurrenceDate + ", endRecurrenceDate="
-				+ endRecurrenceDate + ", getTaskId()=" + getTaskId()
-				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
-				+ getPriority() + ", getDateCreated()=" + getDateCreated()
-				+ "]";
+				+ endRecurrenceDate + ", occurenceType=" + occurenceType
+				+ ", getTaskId()=" + getTaskId() + ", getTaskName()="
+				+ getTaskName() + ", getPriority()=" + getPriority()
+				+ ", getSortDate()=" + getSortDate() + ", getDateCreated()="
+				+ getDateCreated() + "]";
 	}
 }
