@@ -7,22 +7,32 @@ import org.jnativehook.keyboard.NativeKeyListener;
 
 public class KeyListener implements NativeKeyListener{
 	
-
+	private static boolean ctrl = false;
+	private static boolean space = false;
 	public void nativeKeyPressed(NativeKeyEvent e) {
           System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
-
-          if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
-                  try {
-					GlobalScreen.unregisterNativeHook();
-				} catch (NativeHookException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+          if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Space")){
+        	  space = true;
+        	  if(ctrl==true){
+        		  System.out.println("Hotkey Activated");
+        	  }
           }
+          if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Left Control")){
+        	  ctrl = true;
+        	  if(space==true){
+        		  System.out.println("Hotkey Activated");
+        	  }
+          }
+         
 	}
 
 	public void nativeKeyReleased(NativeKeyEvent e) {
-          System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Space")){
+        	space = false;
+        }
+        if(NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Left Control")){
+        	ctrl = false;
+        }
 	}
 
 	public void nativeKeyTyped(NativeKeyEvent e) {

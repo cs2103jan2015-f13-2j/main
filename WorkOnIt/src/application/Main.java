@@ -28,6 +28,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			listener.registerHook();
+			GlobalScreen.addNativeKeyListener(listener);
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root, 300, 100);
