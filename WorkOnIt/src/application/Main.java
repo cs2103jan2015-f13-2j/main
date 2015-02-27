@@ -15,15 +15,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import logic.Validator;
 
+import org.jnativehook.GlobalScreen;
 public class Main extends Application {
 
 	// need a global variable for the input
 	static List<String> elementList = new ArrayList<String>();
 	static List<String> secondaryList = new ArrayList<String>();
-
+	KeyListener listener = new KeyListener();
+	
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			listener.registerHook();
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root, 300, 100);
