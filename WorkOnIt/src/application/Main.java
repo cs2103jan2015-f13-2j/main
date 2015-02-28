@@ -1,39 +1,42 @@
 package application;
-	
-import java.io.IOException;
-import java.util.ArrayList;
 
-import entity.Task;
+import java.util.ArrayList;
+import java.util.List;
+
+import entity.Success;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import logic.Validator;
 
-
+import org.jnativehook.GlobalScreen;
 public class Main extends Application {
-	
-	//need a global variable for the input
-	static ArrayList<String> elementList = new ArrayList();
+
+	// need a global variable for the input
+	static List<String> elementList = new ArrayList<String>();
+	static List<String> secondaryList = new ArrayList<String>();
+	KeyListener listener = new KeyListener();
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			listener.registerHook();
+			GlobalScreen.addNativeKeyListener(listener);
 			Pane root = new Pane();
-			
-			Scene scene = new Scene(root,300,100);
-			scene.getStylesheets().add(Main.class.getResource("../css/application.css").toExternalForm());
+			primaryStage.initStyle(StageStyle.TRANSPARENT);
+			Scene scene = new Scene(root, 300, 100);
+			scene.getStylesheets().add(
+					Main.class.getResource("../css/application.css")
+							.toExternalForm());
 			scene.setFill(null);
-			
+
 			final TextField txtF = new TextField();
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -41,6 +44,7 @@ public class Main extends Application {
 			txtF.setPrefWidth(300);
 			txtF.setText("input here");
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
+<<<<<<< HEAD
 	            public void handle(ActionEvent event) {
 	            	commandHandlerOld(txtF.getText());
 	               txtF.clear();
@@ -58,81 +62,92 @@ public class Main extends Application {
 	            	commandHandler(event, txtF.getText());
 		            }
 		        });
+=======
+				public void handle(ActionEvent event) {
+
+					System.out.println("textfield Text: " + txtF.getText());
+					wordHandler(txtF.getText());
+					executeCommand(txtF.getText());
+					txtF.clear();
+
+				}
+			});
+
+			// onKeyPressed for each char entered
+			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					commandHandler(event, txtF.getText());
+				}
+			});
+>>>>>>> 9c389a6365c9b67afdd10038cb6d37de9747edeb
 
 			root.getChildren().add(txtF);
-			
-	        //primaryStage.initStyle(StageStyle.TRANSPARENT);		
+
+			// primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void executeCommand(String commandString) {
-		Task task = null;
+		Success successCheck = null;
 		Validator commandValidator = new Validator();
-		Task obj  = (Task) commandValidator.parseCommand(commandString);
-		//System.out.println(obj.getTaskName()
-		
+		Object temp = commandValidator.parseCommand(commandString);
+
+		if (temp instanceof Success) {
+			successCheck = (Success) temp;
+			if (successCheck.isSuccess() == false) {
+				System.out.println(successCheck.getMessage());
+			} else {
+				System.out.println("Command executed successfully");
+			}
+		} else {
+			System.out.println("failed");
+		}
+
+		// System.out.println(obj.getTaskName()
+
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	public static void commandHandler(KeyEvent event, String textFieldText){
-		
-		//detects a space, handle new word
-		if(event.getText().equals(" ")){
+
+	public static void commandHandler(KeyEvent event, String textFieldText) {
+
+		// detects a space, handle new word
+		if (event.getText().equals(" ")) {
 			wordHandler(textFieldText);
 		}
-		
-		
+
 	}
 
 	private static void wordHandler(String textFieldText) {
-		
+
 		Validator commandValidator = new Validator();
 		String[] stringArr = textFieldText.trim().split(" ");
 
-		//iterate thru the input
-		for(int i =0;i<stringArr.length;i++){
-			//find and add new word to a list if not already in it
-			if(!elementList.contains(stringArr[i])){
-				elementList.add(stringArr[i]);
-				
-				//check if current word is a keyword
-				if(commandValidator.validateKeyword(stringArr[i])){
-					
-					//this method is for fencing the keyword (will implement later)
-					handleMethod("Handling: "+stringArr[i]);
-					
-				}
+		// iterate thru the input
+		for (int i = 0; i < stringArr.length; i++) {
+			elementList.add(stringArr[i]);
+
+			// check if current word is a keyword
+			if (commandValidator.validateKeyword(stringArr[i])) {
+
+				// this method is for fencing the keyword (will implement later)
+				handleMethod("Handling: " + stringArr[i]);
+
 			}
+
 		}
 	}
-	
-	
-	
-	//to be removed once testing are done
- 	public static void commandHandlerOld(String command)
- 	{
-		Task task = null;
- 		Validator commandValidator = new Validator();
-		commandValidator.parseCommand(command);
-		//System.out.println(obj.getTaskName()
-		
-		
-		//commandValidator.parseCommand(command);
- 	}
 
-	
-	
-	//just a proof of concept the thing works
-	private static void handleMethod(String input){
+	// just a proof of concept the thing works
+	private static void handleMethod(String input) {
 		System.out.println(input);
 	}
-	
+
 }
