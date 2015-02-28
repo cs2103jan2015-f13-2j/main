@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import data.FileIO;
 import entity.DeadlineTask;
@@ -19,6 +20,8 @@ import entity.Success;
 
 public class Engine {
 	
+	final static String SUCCESS_MESSAGE = "List successfully retrived";
+	final static String FAIL_MESSAGE = "List fail to retrived";
 
 	//save task into database
 	public  Success insertIntoFile(Task task) {
@@ -32,105 +35,123 @@ public class Engine {
 	}
 	
 	//retrieve all task from database
-	public ArrayList<Task> retrieveTask() throws IOException {
-			ArrayList<Task> taskList = new ArrayList<Task>();
+	public Success retrieveTask()  {
+		
+			Success successObj;
+		
+			try
+			{
+			List<Task> taskList = new ArrayList<Task>();
 	
 			FileIO dataStorage = new FileIO();
 	
-			taskList.addAll(dataStorage.loadFromFileFloatingTask());
-			taskList.addAll(dataStorage.loadFromFileNormalTask());
-			taskList.addAll(dataStorage.loadFromFileRecurTask());
-			taskList.addAll(dataStorage.loadFromFileDeadlineTask());
+			taskList.addAll((ArrayList)dataStorage.loadFromFileFloatingTask().getObj());
+			taskList.addAll((ArrayList)dataStorage.loadFromFileNormalTask().getObj());
+			taskList.addAll((ArrayList)dataStorage.loadFromFileRecurTask().getObj());
+			taskList.addAll((ArrayList)dataStorage.loadFromFileDeadlineTask().getObj());
 			
-			return taskList;
-		}
+				successObj = new Success(taskList , true , SUCCESS_MESSAGE);
+			
+			}catch(Exception e)
+			{
+				successObj = new Success(false , e.getMessage());
+			}
+			
+			
+			return successObj;
+
+	}
 	
 	
 	// retrieve selected task entity from database. 
-	public ArrayList<Task> retrieveTask(Task task) throws IOException {
+	public Success retrieveTask(Task task) throws IOException {
 		
 		Task object = null;
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success succesObj = null;
+		
+		List<Task> taskList = new ArrayList<Task>();
 		FileIO dataStorage = new FileIO();
 		
 		if(task instanceof FloatingTask)
 		{
-			taskList = dataStorage.loadFromFileFloatingTask();
+			succesObj = dataStorage.loadFromFileFloatingTask();
 		};
 		if(task instanceof NormalTask)
 		{
-			taskList = dataStorage.loadFromFileNormalTask();
+			succesObj = dataStorage.loadFromFileNormalTask();
 		};
 		if(task instanceof RecurrenceTask)
 		{
-			taskList = dataStorage.loadFromFileRecurTask();
+			succesObj = dataStorage.loadFromFileRecurTask();
 		};
 		if(task instanceof DeadlineTask)
 		{
-			taskList = dataStorage.loadFromFileDeadlineTask();
+			succesObj = dataStorage.loadFromFileDeadlineTask();
 		};
 		
-		return taskList;
+		return succesObj;
 	}
 	
 	//retrieve task with specific START DATE
 	//Affected File > NormalTask, DeadlineTask, RecurTask
-	public ArrayList<Task> retrieveTask(Date date) throws IOException {
+	public Success retrieveTask(Date date) throws IOException {
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success succesObj = null;
+		//i check the date.
 		FileIO dataStorage = new FileIO();
 		
-		taskList = dataStorage.loadFromStartDate(date);
+		succesObj = dataStorage.loadFromStartDate(date);
 		
-		return taskList;
+		return succesObj;
 	}
 	
 	//retrieve task with specific INBETWEEN DATE 
 	//Affected File > NormalTask, DeadlineTask, RecurTask
-	public ArrayList<Task> retrieveTask(Date startDate , Date endDate) throws IOException {
+	public Success retrieveTask(Date startDate , Date endDate) throws IOException {
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success succesObj = null;
+		
 		FileIO dataStorage = new FileIO();
 		
-		taskList = dataStorage.loadFromBetweenDate(startDate,endDate);
+		succesObj = dataStorage.loadFromBetweenDate(startDate,endDate);
 		
-		return taskList;
+		return succesObj;
 	}
 	
 	//retrieve task with specific priority (EG. URGENT)
 	//Affected File > NormalTask, DeadlineTask, RecurTask
-	public ArrayList<Task> retrieveTask(int priority) throws IOException {
+	public Success retrieveTask(int priority) throws IOException {
 			
-			ArrayList<Task> taskList = new ArrayList<Task>();
+			Success succesObj = null;
 			FileIO dataStorage = new FileIO();
 			
-			taskList = dataStorage.loadFromPriority(priority);
+			succesObj = dataStorage.loadFromPriority(priority);
 			
-			return taskList;
+			return succesObj;
 	}
 	
 	//retrieve task with specific task and date (EG. URGENT)
 	//Affected File > NormalTask, DeadlineTask, RecurTask
-	public ArrayList<Task> retrieveTask(Task task, Date date) throws IOException {
+	public Success retrieveTask(Task task, Date date) throws IOException {
 				
-				ArrayList<Task> taskList = new ArrayList<Task>();
+				Success succesObj = null;
 				FileIO dataStorage = new FileIO();
 				
-				taskList = dataStorage.loadFromStartDateWithTask(task,date);
+				succesObj = dataStorage.loadFromStartDateWithTask(task,date);
 				
-				return taskList;
+				return succesObj;
 		}
 	
 	//retrieve task with specific priority (EG. URGENT)
 	//Affected File > NormalTask, DeadlineTask, RecurTask
-	public ArrayList<Task> retrieveTask(Task task, Date startDate , Date endDate) throws IOException {
+	public Success retrieveTask(Task task, Date startDate , Date endDate) throws IOException {
 					
-				ArrayList<Task> taskList = new ArrayList<Task>();
+				Success succesObj = null;
 				FileIO dataStorage = new FileIO();
 					
-				taskList = dataStorage.loadFromBetweenDateWithTask(task,startDate, endDate);
+				succesObj = dataStorage.loadFromBetweenDateWithTask(task,startDate, endDate);
 					
-				return taskList;
+				return succesObj;
 		}
 	
 	

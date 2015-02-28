@@ -42,26 +42,20 @@ public class Main extends Application {
 			txtF.setText("input here");
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 	            public void handle(ActionEvent event) {
-<<<<<<< HEAD
 	            	commandHandlerOld(txtF.getText());
 	               txtF.clear();
-=======
 	            	System.out.println("textfield Text: "+txtF.getText());
 	            	wordHandler(txtF.getText());
 	            	executeCommand(txtF.getText());
 	            	txtF.clear();
->>>>>>> 7368ad70b4715c1d4ea8521c436c302ff24a73f9
 	            }
 	        });
 			
 			//onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 	            public void handle(KeyEvent event) {
-<<<<<<< HEAD
 	            	//commandHandler(event);
-=======
 	            	commandHandler(event, txtF.getText());
->>>>>>> 7368ad70b4715c1d4ea8521c436c302ff24a73f9
 		            }
 		        });
 

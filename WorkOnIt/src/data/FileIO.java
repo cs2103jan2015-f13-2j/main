@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -27,6 +28,8 @@ public class FileIO {
 	final static String FILE_NAME_NORMAL = "datafile_normal.txt";
 	final static String FILE_NAME_RECUR = "datafile_recur.txt";
 	final static String FILE_NAME = "datafile.txt";
+	final static String SUCCESS_MESSAGE = "List successfully retrived";
+	final static String FAIL_MESSAGE = "List fail to retrived";
 	private static String file_type;
 	
 	
@@ -37,19 +40,19 @@ public class FileIO {
 		if(task instanceof FloatingTask)
 		{
 			file_type = FILE_NAME_FLOATING;
-		};
-		if(task instanceof NormalTask)
+		}
+		else if(task instanceof NormalTask)
 		{
 			file_type = FILE_NAME_NORMAL;
-		};
-		if(task instanceof RecurrenceTask)
+		}
+		else if(task instanceof RecurrenceTask)
 		{
 			file_type = FILE_NAME_RECUR ;
-		};
-		if(task instanceof DeadlineTask)
+		}
+		else if(task instanceof DeadlineTask)
 		{
 			file_type = FILE_NAME_DEADLINE;
-		};
+		}
 		
 		
 		
@@ -78,77 +81,119 @@ public class FileIO {
 	}
 	
 	
-	public ArrayList<Task> loadFromFileFloatingTask() throws IOException {
+	public Success loadFromFileFloatingTask()  {
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
-		
-		BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_FLOATING));
-		String printLine;
-		
-		while ((printLine = reader.readLine()) != null) 
+		Success successObj;
+		try
 		{
-				FloatingTask task = (FloatingTask) deserializeFromJson(printLine, FloatingTask.class);
+			List<Task> taskList = new ArrayList<Task>();
+		
+			BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_FLOATING));
+			String printLine;
+		
+			while ((printLine = reader.readLine()) != null) 
+			{
+				Task task = (FloatingTask) deserializeFromJson(printLine, FloatingTask.class);
 				taskList.add(task);
-		}	
+			}	
 			
-		return taskList;
+			successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+			
+		}
+		catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
+		
+		return successObj;
 	}
 	
-	public ArrayList<Task> loadFromFileNormalTask() throws IOException {
+	public Success loadFromFileNormalTask(){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
-				
-		BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_NORMAL));
-		String printLine;
-		
-		while ((printLine = reader.readLine()) != null) 
+		Success successObj;
+		try
 		{
-				NormalTask task = (NormalTask) deserializeFromJson(printLine, NormalTask.class);
+			List<Task> taskList = new ArrayList<Task>();
+				
+			BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_NORMAL));
+			String printLine;
+		
+			while ((printLine = reader.readLine()) != null) 
+			{
+				Task task = (NormalTask) deserializeFromJson(printLine, NormalTask.class);
 				taskList.add(task);
-		}	
+			}	
 		
+		    successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+		    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
 		
-		return taskList;
+		return successObj;
 	}
 	
-	public ArrayList<Task> loadFromFileDeadlineTask() throws IOException {
+	public Success loadFromFileDeadlineTask(){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
-				
-		BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
-		String printLine;
-		
-		while ((printLine = reader.readLine()) != null) 
+		Success successObj;
+		try
 		{
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(printLine, DeadlineTask.class);
+			List<Task> taskList = new ArrayList<Task>();
+			
+			BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
+			String printLine;
+		
+			while ((printLine = reader.readLine()) != null) 
+			{
+				Task task = (DeadlineTask) deserializeFromJson(printLine, DeadlineTask.class);
 				taskList.add(task);
-		}	
+			}	
+			successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+		    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
 		
-		
-		return taskList;
+		return successObj;
+
 	}
 
-	public ArrayList<Task> loadFromFileRecurTask() throws IOException {
+	public Success loadFromFileRecurTask(){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
+		
+		try{
+			List<Task> taskList = new ArrayList<Task>();
 				
-		BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
-		String printLine;
+			BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
+			String printLine;
 		
-		while ((printLine = reader.readLine()) != null) 
-		{
-			RecurrenceTask task = (RecurrenceTask) deserializeFromJson(printLine, RecurrenceTask.class);
+			while ((printLine = reader.readLine()) != null) 
+			{
+			Task task = (RecurrenceTask) deserializeFromJson(printLine, RecurrenceTask.class);
 			taskList.add(task);
-		}	
+			}	
+			successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
 		
-		return taskList;
+		return successObj;
 	}
 	
 	
 	
-	public ArrayList<Task> loadFromStartDate(Date date) throws IOException {
+	public Success loadFromStartDate(Date date){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
+		
+		try
+		{
+		List<Task> taskList = new ArrayList<Task>();
 				
 		BufferedReader recurReader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
 		BufferedReader deadlineReader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
@@ -190,19 +235,24 @@ public class FileIO {
 				}		
 		}	
 		
-		return taskList;
+			successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
+		
+		
+		return successObj;
 	}
 	
-	//Issues : Change to check startDate or endDate fall inbetween.
-	//Issues : startDate and endDate should'nt indicate the exact date timing. (Should set to day_end_value )
-	//Issues : recurrenceTask endRecurrenceDate should have default value.
-	//Issues : we need priority and date.
-	//Issues : RecurrenceRetrieve not accurate. Because of various cases such as no default endRecurrence value
-	
-	public ArrayList<Task> loadFromBetweenDate(Date startDate , Date endDate) throws IOException {
+
+	public Success loadFromBetweenDate(Date startDate , Date endDate){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
 		
+		try{
+		List<Task> taskList = new ArrayList<Task>();
 				
 		BufferedReader recurReader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
 		BufferedReader deadlineReader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
@@ -240,14 +290,26 @@ public class FileIO {
 				}		
 		}	
 		
-		return taskList;
+		successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
+	
+	
+		return successObj;
 	}
 	
 	
 	
-	public ArrayList<Task> loadFromPriority(int priority) throws IOException {
+	public Success loadFromPriority(int priority){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
+		
+		try
+		{
+		List<Task> taskList = new ArrayList<Task>();
 				
 		BufferedReader recurReader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
 		BufferedReader deadlineReader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
@@ -293,13 +355,25 @@ public class FileIO {
 				}		
 		}	
 		
-		return taskList;
+		successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
+
+
+		return successObj;
 	}
 	
 	
-	public ArrayList<Task> loadFromStartDateWithTask(Task taskObj, Date date) throws IOException {
+	public Success loadFromStartDateWithTask(Task taskObj, Date date){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
+		
+		try
+		{
+		List<Task> taskList = new ArrayList<Task>();
 		String printLine;
 		
 		if(taskObj instanceof NormalTask)
@@ -352,12 +426,23 @@ public class FileIO {
 			}	
 			
 		}
-		return taskList;
+		successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}
+
+
+		return successObj;
 	}
 	
-	public ArrayList<Task> loadFromBetweenDateWithTask(Task taskObj, Date startDate , Date endDate) throws IOException {
+	public Success loadFromBetweenDateWithTask(Task taskObj, Date startDate , Date endDate){
 		
-		ArrayList<Task> taskList = new ArrayList<Task>();
+		Success successObj;
+		try
+		{
+		List<Task> taskList = new ArrayList<Task>();
 		String printLine;
 		
 		if(taskObj instanceof NormalTask)
@@ -408,7 +493,15 @@ public class FileIO {
 			
 		}
 		
-		return taskList;
+		successObj = new Success(taskList, true , SUCCESS_MESSAGE);
+	    
+		}catch(IOException e)
+		{
+			successObj = new Success(false , e.getMessage());
+		}	
+
+
+		return successObj;
 	}
 	/*
 	 * Sample Usage of GSON:
