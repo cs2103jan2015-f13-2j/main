@@ -15,20 +15,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import logic.Validator;
 
-import org.jnativehook.GlobalScreen;
-
-public class Main extends Application {
+public class Main extends Application implements Runnable {
 
 	// need a global variable for the input
 	static List<String> elementList = new ArrayList<String>();
 	static List<String> secondaryList = new ArrayList<String>();
-	KeyListener listener = new KeyListener();
+
+	// KeyListener listener = new KeyListener();
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			listener.registerHook();
-			GlobalScreen.addNativeKeyListener(listener);
+			// listener.registerHook();
+			// GlobalScreen.addNativeKeyListener(listener);
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root, 300, 100);
@@ -63,13 +62,17 @@ public class Main extends Application {
 
 			root.getChildren().add(txtF);
 
-			// primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void run() {
+		launch();
 	}
 
 	protected void executeCommand(String commandString) {
@@ -90,10 +93,6 @@ public class Main extends Application {
 
 		// System.out.println(obj.getTaskName()
 
-	}
-
-	public static void main(String[] args) {
-		launch(args);
 	}
 
 	public static void commandHandler(KeyEvent event, String textFieldText) {
