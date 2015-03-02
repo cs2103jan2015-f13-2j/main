@@ -1,7 +1,7 @@
 package entity;
 
 public class Success {
-	
+
 	private Object obj;
 	private boolean isSuccess;
 	private String message;
@@ -10,9 +10,9 @@ public class Success {
 
 		this(null, isSuccess, message);
 	}
-	
+
 	public Success(Object obj, boolean isSuccess, String message) {
-		
+
 		this.setObj(obj);
 		this.setSuccess(isSuccess);
 		this.setMessage(message);

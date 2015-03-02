@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
 import logic.Validator;
 
 import org.jnativehook.GlobalScreen;
+
 public class Main extends Application {
 
 	// need a global variable for the input
 	static List<String> elementList = new ArrayList<String>();
 	static List<String> secondaryList = new ArrayList<String>();
 	KeyListener listener = new KeyListener();
-	
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -44,25 +44,6 @@ public class Main extends Application {
 			txtF.setPrefWidth(300);
 			txtF.setText("input here");
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
-<<<<<<< HEAD
-	            public void handle(ActionEvent event) {
-	            	commandHandlerOld(txtF.getText());
-	               txtF.clear();
-	            	System.out.println("textfield Text: "+txtF.getText());
-	            	wordHandler(txtF.getText());
-	            	executeCommand(txtF.getText());
-	            	txtF.clear();
-	            }
-	        });
-			
-			//onKeyPressed for each char entered
-			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
-	            public void handle(KeyEvent event) {
-	            	//commandHandler(event);
-	            	commandHandler(event, txtF.getText());
-		            }
-		        });
-=======
 				public void handle(ActionEvent event) {
 
 					System.out.println("textfield Text: " + txtF.getText());
@@ -79,7 +60,6 @@ public class Main extends Application {
 					commandHandler(event, txtF.getText());
 				}
 			});
->>>>>>> 9c389a6365c9b67afdd10038cb6d37de9747edeb
 
 			root.getChildren().add(txtF);
 

@@ -21,9 +21,10 @@ public class RecurrenceTask extends Task {
 		this.setEndRecurrenceDate(endRecurrenceDate);
 		this.setOccurenceType(Validator.KEYWORD_DEFAULT_OCCURENCE);
 	}
-	
+
 	public RecurrenceTask(String taskName, int priority,
-			Date startRecurrenceDate, Date endRecurrenceDate, String occurenceType) {
+			Date startRecurrenceDate, Date endRecurrenceDate,
+			String occurenceType) {
 
 		super(taskName, priority);
 
@@ -56,7 +57,7 @@ public class RecurrenceTask extends Task {
 	}
 
 	public void setEndRecurrenceDate(Date endRecurrenceDate) {
-		if(endRecurrenceDate == null) {
+		if (endRecurrenceDate == null) {
 			this.endRecurrenceDate = this.getStartRecurrenceDate();
 		} else {
 			this.endRecurrenceDate = endRecurrenceDate;

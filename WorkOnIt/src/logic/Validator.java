@@ -462,14 +462,13 @@ public class Validator {
 		// body (To read and determine what parameter to put into retrieve)
 		// Take Note : Anis
 
-		//ArrayList<Task> taskList = en.retrieveTask();
+		// ArrayList<Task> taskList = en.retrieveTask();
 
 		// display Task.
 		/*
-		for (int i = 0; i < taskList.size(); i++) {
-			System.out.println(taskList.get(i));
-		}
-		*/
+		 * for (int i = 0; i < taskList.size(); i++) {
+		 * System.out.println(taskList.get(i)); }
+		 */
 
 	}
 

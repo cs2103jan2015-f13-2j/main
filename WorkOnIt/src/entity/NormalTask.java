@@ -28,7 +28,7 @@ public class NormalTask extends Task {
 	}
 
 	public void setEndDateTime(Date endDateTime) {
-		if(endDateTime == null) {
+		if (endDateTime == null) {
 			this.endDateTime = this.getStartDateTime();
 		} else {
 			this.endDateTime = endDateTime;
