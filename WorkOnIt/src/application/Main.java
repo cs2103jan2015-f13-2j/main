@@ -1,10 +1,12 @@
 package application;
 
+import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.List;
 
 import entity.Success;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -24,7 +26,7 @@ public class Main extends Application implements Runnable {
 	// KeyListener listener = new KeyListener();
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(final Stage primaryStage) {
 		try {
 			// listener.registerHook();
 			// GlobalScreen.addNativeKeyListener(listener);
@@ -56,7 +58,7 @@ public class Main extends Application implements Runnable {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					commandHandler(event, txtF.getText());
+					commandHandler(event, txtF.getText(), primaryStage);
 				}
 			});
 
@@ -75,6 +77,7 @@ public class Main extends Application implements Runnable {
 		launch();
 	}
 
+	
 	protected void executeCommand(String commandString) {
 		Success successCheck = null;
 		Validator commandValidator = new Validator();
@@ -95,8 +98,10 @@ public class Main extends Application implements Runnable {
 
 	}
 
-	public static void commandHandler(KeyEvent event, String textFieldText) {
-
+	public static void commandHandler(KeyEvent event, String textFieldText, final Stage stage) {
+		if(event.getCode().getName().equals("Esc")){
+			hide(stage);
+		}
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
 			wordHandler(textFieldText);
@@ -128,5 +133,18 @@ public class Main extends Application implements Runnable {
 	private static void handleMethod(String input) {
 		System.out.println(input);
 	}
-
+	
+	private static void hide(final Stage stage) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (SystemTray.isSupported()) {
+                    stage.hide();
+                    System.out.println("hidden");
+                } else {
+                    System.exit(0);
+                }
+            }
+        });
+    }
 }
