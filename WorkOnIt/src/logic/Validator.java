@@ -47,6 +47,8 @@ public class Validator {
 	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
 
 	private Map<String, String> keywordFullMap = null;
+	
+	private ArrayList<Task> retrievedTaskList = null;
 
 	public Validator() {
 
@@ -94,12 +96,22 @@ public class Validator {
 				// isSuccess)
 
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_RETRIEVE)) {
-				try {
-					parseRetrieveCommand();
-				} catch (IOException e) {
-					e.printStackTrace();
+				String remainingCommand = sc.nextLine();
+				
+				
+				Success status = parseRetrieveCommand(remainingCommand);
+				if(status.getObj() instanceof ArrayList){
+					retrievedTaskList = (ArrayList<Task>) status.getObj();
+				} else {
+					retrievedTaskList.add((Task)status.getObj());
 				}
-
+				
+				obj = status; 
+				
+				//temporary to show the retrieved list
+				for(Task t:retrievedTaskList){
+					System.out.println(t.getTaskName());
+				}
 			}
 
 		} else {
@@ -456,20 +468,92 @@ public class Validator {
 		}
 	}
 
-	private void parseRetrieveCommand() throws IOException {
-		Engine en = new Engine();
+	private Success parseRetrieveCommand(String remainingCommand){
+		List taskList = null;
+		Success status = null;
+		Scanner sc = new Scanner(remainingCommand);
+		while(sc.hasNext()){
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+		
+			
+			if (resolvedWord != null) {
+				//inbetween
+				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
 
-		// body (To read and determine what parameter to put into retrieve)
-		// Take Note : Anis
+					String remainingDate = sc.nextLine();
+					status = retrieveInBetween(remainingDate);
 
-		// ArrayList<Task> taskList = en.retrieveTask();
+					break;
 
-		// display Task.
-		/*
-		 * for (int i = 0; i < taskList.size(); i++) {
-		 * System.out.println(taskList.get(i)); }
-		 */
+				}  else {
+					//taskDesc += " " + currentWord;
+				}
 
+			} else {
+				//taskDesc += " " + currentWord;
+			}
+			
+			
+		}	
+
+		return status;
+	}
+
+	private Success retrieveInBetween(String remainingDate) {
+		Scanner sc = new Scanner(remainingDate);
+		Engine engineObj = new Engine();
+		String startDateString = "";
+		String endDateString = "";
+		
+		Success status = null;
+		boolean isEndDate = false;
+		boolean noEndDate = false;
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+		
+			if (!isEndDate) {
+				if (resolvedWord != null) {
+					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
+						isEndDate = true;
+					} else {
+						startDateString += " " + currentWord;
+					}
+				} else {
+					startDateString += " " + currentWord;
+				}
+			} else {
+					endDateString += " " + currentWord;
+			}
+		}
+		System.out.println("Start "+startDateString);
+
+		System.out.println("End "+endDateString);
+		try {
+			Date fromDate = parseStringToDate(startDateString);
+			
+			Date toDate;
+			
+			if(!endDateString.trim().equals("")){
+				toDate = parseStringToDate(endDateString);
+				status = engineObj.retrieveTask(fromDate, toDate);
+			} else {
+				System.out.println("no end date");
+				status = engineObj.retrieveTask(fromDate);
+			}
+			
+			
+			System.out.println(status.isSuccess());
+		} catch (IOException e) {
+			System.err
+				.println("retrieveInBetween: Retrieval fail.");
+		}
+
+		sc.close();
+		return status;
 	}
 
 }

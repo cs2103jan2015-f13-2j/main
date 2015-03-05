@@ -131,7 +131,7 @@ public class Main extends Application implements Runnable {
 
 	// just a proof of concept the thing works
 	private static void handleMethod(String input) {
-		System.out.println(input);
+		//System.out.println(input);
 	}
 	
 	private static void hide(final Stage stage) {
@@ -140,7 +140,6 @@ public class Main extends Application implements Runnable {
             public void run() {
                 if (SystemTray.isSupported()) {
                     stage.hide();
-                    System.out.println("hidden");
                 } else {
                     System.exit(0);
                 }

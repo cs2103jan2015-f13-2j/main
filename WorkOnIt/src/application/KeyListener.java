@@ -32,8 +32,7 @@ public class KeyListener implements NativeKeyListener {
 	
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
 	
-		System.out.println("Key Pressed: "
-				+ NativeKeyEvent.getKeyText(e.getKeyCode()));
+		
 		if (keyPressed.equals("Space")) {
 			space = true;
 			if (ctrl == true) {
@@ -55,7 +54,7 @@ public class KeyListener implements NativeKeyListener {
 				System.out.println("Killing application");
 				//Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 				//Iterator iter = threadSet.iterator();
-				System.out.println("hi");
+				
 				
 				//deprecated but able to stop for now
 				thread.stop(); 
