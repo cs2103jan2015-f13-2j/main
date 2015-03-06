@@ -255,8 +255,19 @@ public class Validator {
 			}
 		}
 
-		Date fromDate = parseStringToDate(startDateString);
-		Date toDate = parseStringToDate(endDateString);
+		String combinedDate = startDateString + " to " + endDateString;
+		List<Date> dateList = parseStringToDate(combinedDate);
+		
+		Date fromDate = null;
+		Date toDate = null;
+		
+		if(!dateList.isEmpty()) {
+			fromDate = dateList.remove(0);
+			
+			if(!dateList.isEmpty()) {
+				toDate = dateList.remove(0);
+			}
+		}
 
 		task = new NormalTask(taskDesc, priority, fromDate, toDate);
 
@@ -306,7 +317,12 @@ public class Validator {
 			}
 		}
 
-		Date deadlineDate = parseStringToDate(deadlineDateString);
+		List<Date> dateList = parseStringToDate(deadlineDateString);
+		Date deadlineDate = null;
+		
+		if(!dateList.isEmpty()) {
+			deadlineDate = dateList.remove(0);
+		}
 
 		task = new DeadlineTask(taskDesc, priority, deadlineDate);
 
@@ -393,8 +409,19 @@ public class Validator {
 			}
 		}
 
-		Date startRecurrenceDate = parseStringToDate(startRecurrenceDateString);
-		Date endRecurrenceDate = parseStringToDate(endRecurrenceDateString);
+		String combinedDate = startRecurrenceDateString + " to " + endRecurrenceDateString;
+		List<Date> dateList = parseStringToDate(combinedDate);
+		
+		Date startRecurrenceDate = null;
+		Date endRecurrenceDate = null;
+		
+		if(!dateList.isEmpty()) {
+			startRecurrenceDate = dateList.remove(0);
+			
+			if(!dateList.isEmpty()) {
+				endRecurrenceDate = dateList.remove(0);
+			}
+		}
 
 		if (occurenceType.isEmpty()) {
 			task = new RecurrenceTask(taskDesc, priority, startRecurrenceDate,
@@ -448,25 +475,22 @@ public class Validator {
 		keywordFullMap = config.getFullKeywordMap();
 	}
 
-	private static Date parseStringToDate(String dateInfo) {
+	private static List<Date> parseStringToDate(String dateInfo) {
 
-		if (dateInfo == null) {
-			return null;
-
-		} else {
+		List<Date> dates = new ArrayList<Date>();
+		
+		if (dateInfo != null) {
 
 			Parser parser = new Parser();
 
 			List<DateGroup> groups = parser.parse(dateInfo);
-			if (groups.isEmpty()) {
-				return null;
-			} else {
+			
+			if (!groups.isEmpty()) {
 				DateGroup firstDate = groups.get(0);
-				List<Date> dates = firstDate.getDates();
-
-				return dates.get(0);
+				dates = firstDate.getDates();
 			}
 		}
+		return dates;
 	}
 
 	private Success parseRetrieveCommand(String remainingCommand){
@@ -533,25 +557,25 @@ public class Validator {
 		System.out.println("Start "+startDateString);
 
 		System.out.println("End "+endDateString);
-		try {
-			Date fromDate = parseStringToDate(startDateString);
-			
-			Date toDate;
-			
-			if(!endDateString.trim().equals("")){
-				toDate = parseStringToDate(endDateString);
-				status = engineObj.retrieveTask(fromDate, toDate);
-			} else {
-				System.out.println("no end date");
-				status = engineObj.retrieveTask(fromDate);
-			}
-			
-			
-			System.out.println(status.isSuccess());
-		} catch (IOException e) {
-			System.err
-				.println("retrieveInBetween: Retrieval fail.");
-		}
+//		try {
+//			Date fromDate = parseStringToDate(startDateString);
+//			
+//			Date toDate;
+//			
+//			if(!endDateString.trim().equals("")){
+//				toDate = parseStringToDate(endDateString);
+//				status = engineObj.retrieveTask(fromDate, toDate);
+//			} else {
+//				System.out.println("no end date");
+//				status = engineObj.retrieveTask(fromDate);
+//			}
+//			
+//			
+//			System.out.println(status.isSuccess());
+//		} catch (IOException e) {
+//			System.err
+//				.println("retrieveInBetween: Retrieval fail.");
+//		}
 
 		sc.close();
 		return status;

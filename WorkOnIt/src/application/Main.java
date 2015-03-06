@@ -31,7 +31,7 @@ public class Main extends Application implements Runnable {
 			// listener.registerHook();
 			// GlobalScreen.addNativeKeyListener(listener);
 			Pane root = new Pane();
-			primaryStage.initStyle(StageStyle.TRANSPARENT);
+//			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root, 300, 100);
 			scene.getStylesheets().add(
 					Main.class.getResource("../css/application.css")
@@ -131,7 +131,7 @@ public class Main extends Application implements Runnable {
 
 	// just a proof of concept the thing works
 	private static void handleMethod(String input) {
-		//System.out.println(input);
+		System.out.println(input);
 	}
 	
 	private static void hide(final Stage stage) {
@@ -146,4 +146,8 @@ public class Main extends Application implements Runnable {
             }
         });
     }
+	
+	public static void main(String[] args) {
+		launch();
+	}
 }
