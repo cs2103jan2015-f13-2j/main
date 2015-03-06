@@ -26,6 +26,7 @@ public class Validator {
 	public static final String KEYWORD_DELETE = "delete";
 	public static final String KEYWORD_RETRIEVE = "retrieve";
 	public static final String KEYWORD_BY = "by";
+	public static final String KEYWORD_ON = "on";
 	public static final String KEYWORD_FROM = "from";
 	public static final String KEYWORD_TO = "to";
 	public static final String KEYWORD_EVERY = "every";
