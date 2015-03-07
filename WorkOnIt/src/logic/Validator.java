@@ -1,6 +1,5 @@
 package logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -143,7 +142,8 @@ public class Validator {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (resolvedWord != null) {
-				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
+				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)
+						|| resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
 
 					isNormalTask = true;
 
@@ -223,6 +223,8 @@ public class Validator {
 				if (resolvedWord != null) {
 					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
 						isEndDate = true;
+					} else if(resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+						isPriority = true;
 					} else {
 						startDateString += " " + currentWord;
 					}
