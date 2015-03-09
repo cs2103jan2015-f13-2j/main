@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Validator {
 	public static final String KEYWORD_BY = "by";
 	public static final String KEYWORD_ON = "on";
 	public static final String KEYWORD_FROM = "from";
+	public static final String KEYWORD_SINCE = "since";
 	public static final String KEYWORD_TO = "to";
 	public static final String KEYWORD_EVERY = "every";
 	public static final String KEYWORD_PRIORITY = "priority";
@@ -41,6 +43,8 @@ public class Validator {
 	public static final String KEYWORD_YEARLY = "yearly";
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
 
+	public static final String DATE_MAX = "31 DECEMBER 9999";
+	
 	public static final int PRIORITY_LOW = 0;
 	public static final int PRIORITY_MEDIUM = 1;
 	public static final int PRIORITY_HIGH = 2;
@@ -100,11 +104,9 @@ public class Validator {
 				
 				
 				Success status = parseRetrieveCommand(remainingCommand);
-				if(status.getObj() instanceof ArrayList){
-					retrievedTaskList = (ArrayList<Task>) status.getObj();
-				} else {
-					retrievedTaskList.add((Task)status.getObj());
-				}
+				
+				retrievedTaskList = (ArrayList<Task>) status.getObj();
+				
 				
 				obj = status; 
 				
@@ -496,7 +498,7 @@ public class Validator {
 	}
 
 	private Success parseRetrieveCommand(String remainingCommand){
-		List taskList = null;
+		
 		Success status = null;
 		Scanner sc = new Scanner(remainingCommand);
 		while(sc.hasNext()){
@@ -513,8 +515,16 @@ public class Validator {
 
 					break;
 
-				}  else {
-					//taskDesc += " " + currentWord;
+				}  else if (resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
+					String remainingDate = sc.nextLine();
+					status = retrieveSingleDate(remainingDate);
+
+					break;
+				} else {
+					String remainingDate = sc.nextLine();
+					status = retrieveSingleDate(remainingDate);
+
+					break;
 				}
 
 			} else {
@@ -524,6 +534,37 @@ public class Validator {
 			
 		}	
 
+		return status;
+	}
+
+	private Success retrieveSingleDate(String remainingDate) {
+		Scanner sc = new Scanner(remainingDate);
+		Engine engineObj = new Engine();
+		String dateString = "";
+		Success status = null;
+		
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			dateString += " " + currentWord;
+		}
+		
+		try {
+			Date onDate = null;
+			
+			List<Date> dateList = parseStringToDate(dateString);
+			
+			if(!dateList.isEmpty()) {
+				onDate = dateList.remove(0);
+			}
+
+			status = engineObj.retrieveTask(onDate);
+		
+			
+		} catch (IOException e) {
+			System.err
+				.println("retrieveSingleDate: Retrieval fail.");
+		}
+		sc.close();
 		return status;
 	}
 
@@ -546,9 +587,7 @@ public class Validator {
 				if (resolvedWord != null) {
 					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
 						isEndDate = true;
-					} else {
-						startDateString += " " + currentWord;
-					}
+					} 
 				} else {
 					startDateString += " " + currentWord;
 				}
@@ -559,25 +598,38 @@ public class Validator {
 		System.out.println("Start "+startDateString);
 
 		System.out.println("End "+endDateString);
-//		try {
-//			Date fromDate = parseStringToDate(startDateString);
-//			
-//			Date toDate;
-//			
-//			if(!endDateString.trim().equals("")){
-//				toDate = parseStringToDate(endDateString);
-//				status = engineObj.retrieveTask(fromDate, toDate);
-//			} else {
-//				System.out.println("no end date");
-//				status = engineObj.retrieveTask(fromDate);
-//			}
-//			
-//			
-//			System.out.println(status.isSuccess());
-//		} catch (IOException e) {
-//			System.err
-//				.println("retrieveInBetween: Retrieval fail.");
-//		}
+		try {
+			Date fromDate = null;
+			
+			List<Date> dateListFrom = parseStringToDate(startDateString);
+			
+			if(!dateListFrom.isEmpty()) {
+				fromDate = dateListFrom.remove(0);
+			}
+			
+			
+			Date toDate = null;
+			
+			if(!endDateString.trim().equals("")){
+				toDate = parseStringToDate(endDateString).get(0);
+				status = engineObj.retrieveTask(fromDate, toDate);
+			} else {
+				System.out.println("no end date");
+				
+				
+				List<Date> dateListTo = parseStringToDate(DATE_MAX);
+				
+				if(!dateListTo.isEmpty()) {
+					toDate = dateListTo.remove(0);
+				}
+	
+				status = engineObj.retrieveTask(fromDate, toDate);
+			}
+			
+		} catch (IOException e) {
+			System.err
+				.println("retrieveInBetween: Retrieval fail.");
+		}
 
 		sc.close();
 		return status;
