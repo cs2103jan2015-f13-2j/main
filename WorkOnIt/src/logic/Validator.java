@@ -44,14 +44,14 @@ public class Validator {
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
 
 	public static final String DATE_MAX = "31 DECEMBER 9999";
-	
+
 	public static final int PRIORITY_LOW = 0;
 	public static final int PRIORITY_MEDIUM = 1;
 	public static final int PRIORITY_HIGH = 2;
 	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
 
 	private Map<String, String> keywordFullMap = null;
-	
+
 	private ArrayList<Task> retrievedTaskList = null;
 
 	public Validator() {
@@ -68,6 +68,14 @@ public class Validator {
 		}
 
 		return isKeyword;
+	}
+
+	public boolean validateKeywordSequence(List<String> keywordList) {
+
+		KeywordStructure keySequence = new KeywordStructure();
+		boolean isValidSequence = keySequence.checkKeyword(keywordList);
+
+		return isValidSequence;
 	}
 
 	public Object parseCommand(String fullCommand) {
@@ -101,17 +109,15 @@ public class Validator {
 
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_RETRIEVE)) {
 				String remainingCommand = sc.nextLine();
-				
-				
+
 				Success status = parseRetrieveCommand(remainingCommand);
-				
+
 				retrievedTaskList = (ArrayList<Task>) status.getObj();
-				
-				
-				obj = status; 
-				
-				//temporary to show the retrieved list
-				for(Task t:retrievedTaskList){
+
+				obj = status;
+
+				// temporary to show the retrieved list
+				for (Task t : retrievedTaskList) {
 					System.out.println(t.getTaskName());
 				}
 			}
@@ -225,7 +231,7 @@ public class Validator {
 				if (resolvedWord != null) {
 					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
 						isEndDate = true;
-					} else if(resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
 						isPriority = true;
 					} else {
 						startDateString += " " + currentWord;
@@ -261,14 +267,14 @@ public class Validator {
 
 		String combinedDate = startDateString + " to " + endDateString;
 		List<Date> dateList = parseStringToDate(combinedDate);
-		
+
 		Date fromDate = null;
 		Date toDate = null;
-		
-		if(!dateList.isEmpty()) {
+
+		if (!dateList.isEmpty()) {
 			fromDate = dateList.remove(0);
-			
-			if(!dateList.isEmpty()) {
+
+			if (!dateList.isEmpty()) {
 				toDate = dateList.remove(0);
 			}
 		}
@@ -323,8 +329,8 @@ public class Validator {
 
 		List<Date> dateList = parseStringToDate(deadlineDateString);
 		Date deadlineDate = null;
-		
-		if(!dateList.isEmpty()) {
+
+		if (!dateList.isEmpty()) {
 			deadlineDate = dateList.remove(0);
 		}
 
@@ -413,16 +419,17 @@ public class Validator {
 			}
 		}
 
-		String combinedDate = startRecurrenceDateString + " to " + endRecurrenceDateString;
+		String combinedDate = startRecurrenceDateString + " to "
+				+ endRecurrenceDateString;
 		List<Date> dateList = parseStringToDate(combinedDate);
-		
+
 		Date startRecurrenceDate = null;
 		Date endRecurrenceDate = null;
-		
-		if(!dateList.isEmpty()) {
+
+		if (!dateList.isEmpty()) {
 			startRecurrenceDate = dateList.remove(0);
-			
-			if(!dateList.isEmpty()) {
+
+			if (!dateList.isEmpty()) {
 				endRecurrenceDate = dateList.remove(0);
 			}
 		}
@@ -482,13 +489,13 @@ public class Validator {
 	private static List<Date> parseStringToDate(String dateInfo) {
 
 		List<Date> dates = new ArrayList<Date>();
-		
+
 		if (dateInfo != null) {
 
 			Parser parser = new Parser();
 
 			List<DateGroup> groups = parser.parse(dateInfo);
-			
+
 			if (!groups.isEmpty()) {
 				DateGroup firstDate = groups.get(0);
 				dates = firstDate.getDates();
@@ -497,17 +504,16 @@ public class Validator {
 		return dates;
 	}
 
-	private Success parseRetrieveCommand(String remainingCommand){
-		
+	private Success parseRetrieveCommand(String remainingCommand) {
+
 		Success status = null;
 		Scanner sc = new Scanner(remainingCommand);
-		while(sc.hasNext()){
+		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-		
-			
+
 			if (resolvedWord != null) {
-				//inbetween
+				// inbetween
 				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
 
 					String remainingDate = sc.nextLine();
@@ -515,7 +521,7 @@ public class Validator {
 
 					break;
 
-				}  else if (resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
+				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
 					String remainingDate = sc.nextLine();
 					status = retrieveSingleDate(remainingDate);
 
@@ -528,11 +534,10 @@ public class Validator {
 				}
 
 			} else {
-				//taskDesc += " " + currentWord;
+				// taskDesc += " " + currentWord;
 			}
-			
-			
-		}	
+
+		}
 
 		return status;
 	}
@@ -542,27 +547,25 @@ public class Validator {
 		Engine engineObj = new Engine();
 		String dateString = "";
 		Success status = null;
-		
+
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			dateString += " " + currentWord;
 		}
-		
+
 		try {
 			Date onDate = null;
-			
+
 			List<Date> dateList = parseStringToDate(dateString);
-			
-			if(!dateList.isEmpty()) {
+
+			if (!dateList.isEmpty()) {
 				onDate = dateList.remove(0);
 			}
 
 			status = engineObj.retrieveTask(onDate);
-		
-			
+
 		} catch (IOException e) {
-			System.err
-				.println("retrieveSingleDate: Retrieval fail.");
+			System.err.println("retrieveSingleDate: Retrieval fail.");
 		}
 		sc.close();
 		return status;
@@ -573,7 +576,7 @@ public class Validator {
 		Engine engineObj = new Engine();
 		String startDateString = "";
 		String endDateString = "";
-		
+
 		Success status = null;
 		boolean isEndDate = false;
 		boolean noEndDate = false;
@@ -582,53 +585,50 @@ public class Validator {
 
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-		
+
 			if (!isEndDate) {
 				if (resolvedWord != null) {
 					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
 						isEndDate = true;
-					} 
+					}
 				} else {
 					startDateString += " " + currentWord;
 				}
 			} else {
-					endDateString += " " + currentWord;
+				endDateString += " " + currentWord;
 			}
 		}
-		System.out.println("Start "+startDateString);
+		System.out.println("Start " + startDateString);
 
-		System.out.println("End "+endDateString);
+		System.out.println("End " + endDateString);
 		try {
 			Date fromDate = null;
-			
+
 			List<Date> dateListFrom = parseStringToDate(startDateString);
-			
-			if(!dateListFrom.isEmpty()) {
+
+			if (!dateListFrom.isEmpty()) {
 				fromDate = dateListFrom.remove(0);
 			}
-			
-			
+
 			Date toDate = null;
-			
-			if(!endDateString.trim().equals("")){
+
+			if (!endDateString.trim().equals("")) {
 				toDate = parseStringToDate(endDateString).get(0);
 				status = engineObj.retrieveTask(fromDate, toDate);
 			} else {
 				System.out.println("no end date");
-				
-				
+
 				List<Date> dateListTo = parseStringToDate(DATE_MAX);
-				
-				if(!dateListTo.isEmpty()) {
+
+				if (!dateListTo.isEmpty()) {
 					toDate = dateListTo.remove(0);
 				}
-	
+
 				status = engineObj.retrieveTask(fromDate, toDate);
 			}
-			
+
 		} catch (IOException e) {
-			System.err
-				.println("retrieveInBetween: Retrieval fail.");
+			System.err.println("retrieveInBetween: Retrieval fail.");
 		}
 
 		sc.close();
