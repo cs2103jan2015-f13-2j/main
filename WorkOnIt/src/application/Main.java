@@ -113,7 +113,9 @@ public class Main extends Application implements Runnable {
 
 		Validator commandValidator = new Validator();
 		String[] stringArr = textFieldText.trim().split(" ");
-
+		
+		elementList.clear();
+		
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
