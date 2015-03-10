@@ -44,7 +44,7 @@ public class Validator {
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
 
 	public static final String DATE_MAX = "31 DECEMBER 9999";
-	public static final String DATE_MIN = "1 JANUARY 1000";
+	public static final String DATE_MIN = "1 JANUARY 1970";
 	
 	public static final int PRIORITY_LOW = 0;
 	public static final int PRIORITY_MEDIUM = 1;
@@ -99,9 +99,12 @@ public class Validator {
 			if (commandResolved.equalsIgnoreCase(KEYWORD_ADD)) {
 
 				String remainingCommand = sc.nextLine();
-				Task task = parseAddCommand(remainingCommand);
-
-				Success status = engineObj.insertIntoFile(task);
+				Success status = parseAddCommand(remainingCommand);
+				Task task;
+				if (status.isSuccess()) {
+					task = (Task) status.getObj();
+					status = engineObj.insertIntoFile(task);
+				}
 
 				obj = status;
 
@@ -140,9 +143,9 @@ public class Validator {
 		return obj;
 	}
 
-	private Task parseAddCommand(String remainingCommand) {
+	private Success parseAddCommand(String remainingCommand) {
 
-		Task task = null;
+		Success status = null;
 		Scanner sc = new Scanner(remainingCommand);
 
 		boolean isNormalTask = false;
@@ -164,7 +167,7 @@ public class Validator {
 					isNormalTask = true;
 
 					String remainingDate = sc.nextLine();
-					task = createNormalTask(taskDesc, remainingDate);
+					status = createNormalTask(taskDesc, remainingDate);
 
 					break;
 
@@ -173,7 +176,7 @@ public class Validator {
 					isDeadlineTask = true;
 
 					String remainingDate = sc.nextLine();
-					task = createDeadlineTask(taskDesc, remainingDate);
+					status = createDeadlineTask(taskDesc, remainingDate);
 
 					break;
 
@@ -182,7 +185,7 @@ public class Validator {
 					isRecurrenceTask = true;
 
 					String remainingDate = sc.nextLine();
-					task = createRecurrenceTask(taskDesc, remainingDate);
+					status = createRecurrenceTask(taskDesc, remainingDate);
 
 					break;
 
@@ -210,16 +213,17 @@ public class Validator {
 				System.err.println("No priority found for floating task.");
 			}
 
-			task = createFloatingTask(taskDesc, remainingPriority);
+			status = createFloatingTask(taskDesc, remainingPriority);
 		}
 
 		sc.close();
-		return task;
+		return status;
 	}
-
-	private NormalTask createNormalTask(String taskDesc, String remainingDate) {
+	
+	private Success createNormalTask(String taskDesc, String remainingDate) {
 
 		NormalTask task = null;
+		Success status = null;
 		Scanner sc = new Scanner(remainingDate);
 
 		String startDateString = "";
@@ -241,7 +245,9 @@ public class Validator {
 						isEndDate = true;
 					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
 						isPriority = true;
-					} else {
+					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) 
+							|| resolvedWord.equalsIgnoreCase(KEYWORD_ON))) {
+						System.out.println(resolvedWord);
 						startDateString += " " + currentWord;
 					}
 				} else {
@@ -252,7 +258,8 @@ public class Validator {
 				if (resolvedWord != null) {
 					if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
 						isPriority = true;
-					} else {
+					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) 
+							|| resolvedWord.equalsIgnoreCase(KEYWORD_ON))) {
 						endDateString += " " + currentWord;
 					}
 				} else {
@@ -288,14 +295,16 @@ public class Validator {
 		}
 
 		task = new NormalTask(taskDesc, priority, fromDate, toDate);
+		status = new Success(task, true, null);
 
 		sc.close();
-		return task;
+
+		return status;
 	}
 
-	private DeadlineTask createDeadlineTask(String taskDesc,
-			String remainingDate) {
+	private Success createDeadlineTask(String taskDesc, String remainingDate) {
 
+		Success status = null;
 		DeadlineTask task = null;
 		Scanner sc = new Scanner(remainingDate);
 
@@ -343,14 +352,16 @@ public class Validator {
 		}
 
 		task = new DeadlineTask(taskDesc, priority, deadlineDate);
+		status = new Success(task, true, null);
 
 		sc.close();
-		return task;
+
+		return status;
 	}
 
-	private RecurrenceTask createRecurrenceTask(String taskDesc,
-			String remainingDate) {
+	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 
+		Success status = null;
 		RecurrenceTask task = null;
 		Scanner sc = new Scanner(remainingDate);
 
@@ -449,14 +460,16 @@ public class Validator {
 			task = new RecurrenceTask(taskDesc, priority, startRecurrenceDate,
 					endRecurrenceDate, occurenceType);
 		}
+		status = new Success(task, true, null);
 
 		sc.close();
-		return task;
+
+		return status;
 	}
 
-	private FloatingTask createFloatingTask(String taskDesc,
-			String remainingPriority) {
+	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
+		Success status = null;
 		FloatingTask task = null;
 
 		int priority = PRIORITY_DEFAULT_PRIORITY;
@@ -484,8 +497,9 @@ public class Validator {
 		}
 
 		task = new FloatingTask(taskDesc, priority);
+		status = new Success(task, true, null);
 
-		return task;
+		return status;
 	}
 
 	private void loadConfigFile() {
