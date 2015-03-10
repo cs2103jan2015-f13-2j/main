@@ -36,7 +36,7 @@ public class Validator {
 	public static final String KEYWORD_COMPLETE = "complete";
 	public static final String KEYWORD_CLEAR = "clear";
 	public static final String KEYWORD_EXPORT = "export";
-
+	public static final String KEYWORD_ALL = "all";
 	public static final String KEYWORD_DAILY = "daily";
 	public static final String KEYWORD_WEEKLY = "weekly";
 	public static final String KEYWORD_MONTHLY = "monthly";
@@ -44,11 +44,17 @@ public class Validator {
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
 
 	public static final String DATE_MAX = "31 DECEMBER 9999";
-
+	public static final String DATE_MIN = "1 JANUARY 1000";
+	
 	public static final int PRIORITY_LOW = 0;
 	public static final int PRIORITY_MEDIUM = 1;
 	public static final int PRIORITY_HIGH = 2;
 	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
+	public static final int PRIORITY_MAX = PRIORITY_HIGH;
+	public static final int PRIORITY_MIN = PRIORITY_LOW;
+	
+	
+	
 
 	private Map<String, String> keywordFullMap = null;
 
@@ -111,11 +117,13 @@ public class Validator {
 				String remainingCommand = sc.nextLine();
 
 				Success status = parseRetrieveCommand(remainingCommand);
+				
+				retrievedTaskList = new ArrayList<Task>();
 
 				retrievedTaskList = (ArrayList<Task>) status.getObj();
 
 				obj = status;
-
+				System.out.println(retrievedTaskList.size());
 				// temporary to show the retrieved list
 				for (Task t : retrievedTaskList) {
 					System.out.println(t.getTaskName());
@@ -511,7 +519,7 @@ public class Validator {
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-
+			
 			if (resolvedWord != null) {
 				// inbetween
 				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
@@ -522,23 +530,94 @@ public class Validator {
 					break;
 
 				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
+					
 					String remainingDate = sc.nextLine();
+					
 					status = retrieveSingleDate(remainingDate);
 
 					break;
-				} else {
-					String remainingDate = sc.nextLine();
-					status = retrieveSingleDate(remainingDate);
-
+				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_ALL)) {
+					
+					status = retrieveAllDates();
+					
+					break;
+				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					
+					
+					String remainingPriority = sc.nextLine();
+					
+					status = retrievePriority(remainingPriority);
+					
 					break;
 				}
 
 			} else {
-				// taskDesc += " " + currentWord;
+				
+				String remainingText = "";
+				
+				//re append chopped off text
+				remainingText += currentWord;
+				remainingText += sc.nextLine();
+				
+				//if it's a date
+				if(parseStringToDate(remainingText).size() > 0){
+					status = retrieveSingleDate(remainingText);
+					break;
+				} else {
+					
+					//retrieve using description
+					//status = retrieveTaskDesc(remainingText);
+					//break;
+				}
+				
+
+				break;
 			}
 
 		}
 
+		return status;
+	}
+
+	private Success retrievePriority(String remainingPriority) {
+		Scanner sc = new Scanner(remainingPriority);
+		Engine engineObj = new Engine();
+		Success status = null;
+		
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+			
+			//check if number
+			try {
+				int priority = Integer.parseInt(resolvedWord); 
+				
+				if(priority>= PRIORITY_MIN &&
+						priority <= PRIORITY_MAX){
+				
+					status = engineObj.retrieveTask(priority);
+					
+				}
+			} catch (NumberFormatException e) {
+				System.err
+					.println("retrievePriority: Retrieval fail (Number format).");
+			} catch (IOException e) {
+				System.err
+					.println("retrievePriority: Retrieval fail (IO Exception).");
+			}
+			
+		}
+		
+		
+		return status;
+	}
+
+	private Success retrieveAllDates() {
+		
+		Engine engineObj = new Engine();
+		Success status = null;
+		status = engineObj.retrieveTask();
+		
 		return status;
 	}
 
@@ -565,7 +644,8 @@ public class Validator {
 			status = engineObj.retrieveTask(onDate);
 
 		} catch (IOException e) {
-			System.err.println("retrieveSingleDate: Retrieval fail.");
+			System.err
+				.println("retrieveSingleDate: Retrieval fail.");
 		}
 		sc.close();
 		return status;
@@ -598,9 +678,7 @@ public class Validator {
 				endDateString += " " + currentWord;
 			}
 		}
-		System.out.println("Start " + startDateString);
 
-		System.out.println("End " + endDateString);
 		try {
 			Date fromDate = null;
 
@@ -628,7 +706,8 @@ public class Validator {
 			}
 
 		} catch (IOException e) {
-			System.err.println("retrieveInBetween: Retrieval fail.");
+			System.err
+				.println("retrieveInBetween: Retrieval fail.");
 		}
 
 		sc.close();
