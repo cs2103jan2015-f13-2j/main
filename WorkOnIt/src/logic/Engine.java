@@ -168,7 +168,7 @@ public class Engine {
 		return successObj; 
 	}
 	
-	public Success deleteTask(Task taskUpdate, Task taskOld)
+	public Success updateTask(Task taskUpdate, Task taskOld)
 	{
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
