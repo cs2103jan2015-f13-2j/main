@@ -762,7 +762,7 @@ public class Validator {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 //			// status = Engine.removeTask(taskToRemove); << return Success(true)
-//			System.out.println("Deleted : \"" + taskToRemove.getTaskName() + "\"");
+			System.out.println("Deleted : \"" + taskToRemove.getTaskName() + "\"");
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
