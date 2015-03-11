@@ -38,7 +38,7 @@ public class Main extends Application implements Runnable {
 							.toExternalForm());
 			scene.setFill(null);
 			final TextField txtF = new TextField();
-			
+			initializeGlobals();
 			
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -97,8 +97,8 @@ public class Main extends Application implements Runnable {
 			} else {
 				System.out.println("Command executed successfully");
 			}
-		} else if (temp == null){
-			System.out.println("null");
+		} else {
+			System.out.println("executeCommand: Object not instance of success");
 		}
 
 		// System.out.println(obj.getTaskName()
@@ -157,6 +157,7 @@ public class Main extends Application implements Runnable {
     }
 	
 	public static void main(String[] args) {
+		
 		launch();
 	}
 }
