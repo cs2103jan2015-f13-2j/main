@@ -728,7 +728,7 @@ public class Validator {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
 			String taskDisplay = KEYWORD_UPDATE;
-			taskDisplay += " " + taskToRemove.toDisplay();
+			taskDisplay += taskToRemove.toDisplay();
 			
 			status = new Success(taskDisplay, true, null);
 			System.out.println("found : " + taskDisplay);
@@ -737,6 +737,7 @@ public class Validator {
 			Success statusTask = parseAddCommand(remainingCommand);
 			if (statusTask.isSuccess()) {
 				Task updatedTask = (Task) statusTask.getObj();
+				System.out.println("updated task : " + updatedTask.toString());
 				// status = Engine.updateTask(updatedTask, taskToRemove);
 				if (status.isSuccess()) {
 					taskToRemove = null;

@@ -20,9 +20,9 @@ import logic.Validator;
 public class Main extends Application implements Runnable {
 
 	// need a global variable for the input
-	static List<String> elementList = null;
-	static List<String> secondaryList = null;
-	static Validator commandValidator = null;
+	private static List<String> elementList = null;
+	private static List<String> secondaryList = null;
+	private static Validator commandValidator = null;
 
 	// KeyListener listener = new KeyListener();
 
@@ -51,8 +51,7 @@ public class Main extends Application implements Runnable {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF.getText());
-					executeCommand(txtF.getText());
-					txtF.clear();
+					executeCommand(txtF, txtF.getText());
 
 				}
 			});
@@ -85,13 +84,19 @@ public class Main extends Application implements Runnable {
 		commandValidator = new Validator();
 	}
 
-	protected void executeCommand(String commandString) {
+	protected void executeCommand(TextField txtF, String commandString) {
 
-		Success successCheck = commandValidator.parseCommand(commandString);
+		Success status = commandValidator.parseCommand(commandString);
 
-		if (successCheck.isSuccess() == false) {
-			System.out.println(successCheck.getMessage());
+		if (status.isSuccess() == false) {
+			System.out.println(status.getMessage());
 		} else {
+			if(status.getObj() instanceof String) {
+				String updateCommand = (String) status.getObj();
+				txtF.setText(updateCommand);
+			} else {
+				txtF.clear();
+			}
 			System.out.println("Command executed successfully");
 		}
 
