@@ -20,9 +20,9 @@ import logic.Validator;
 public class Main extends Application implements Runnable {
 
 	// need a global variable for the input
-	static List<String> elementList = new ArrayList<String>();
-	static List<String> secondaryList = new ArrayList<String>();
-
+	static List<String> elementList = null;
+	static List<String> secondaryList = null;
+	static Validator commandValidator = null;
 	// KeyListener listener = new KeyListener();
 
 	@Override
@@ -37,8 +37,9 @@ public class Main extends Application implements Runnable {
 					Main.class.getResource("../css/application.css")
 							.toExternalForm());
 			scene.setFill(null);
-
 			final TextField txtF = new TextField();
+			
+			
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
 			txtF.setLayoutY(0);
@@ -76,11 +77,17 @@ public class Main extends Application implements Runnable {
 	public void run() {
 		launch();
 	}
+	
+	public void initializeGlobals(){
+		elementList = new ArrayList<String>();
+		secondaryList = new ArrayList<String>();
+		commandValidator = new Validator();
+	}
 
 	
 	protected void executeCommand(String commandString) {
 		Success successCheck = null;
-		Validator commandValidator = new Validator();
+		
 		Object temp = commandValidator.parseCommand(commandString);
 
 		if (temp instanceof Success) {
@@ -90,8 +97,8 @@ public class Main extends Application implements Runnable {
 			} else {
 				System.out.println("Command executed successfully");
 			}
-		} else {
-			System.out.println("failed");
+		} else if (temp == null){
+			System.out.println("null");
 		}
 
 		// System.out.println(obj.getTaskName()
@@ -111,7 +118,7 @@ public class Main extends Application implements Runnable {
 
 	private static void wordHandler(String textFieldText) {
 
-		Validator commandValidator = new Validator();
+		
 		String[] stringArr = textFieldText.trim().split(" ");
 		
 		elementList.clear();
