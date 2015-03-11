@@ -2,6 +2,7 @@ package data;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,6 +30,7 @@ public class FileIO {
 	final static String FILE_NAME = "datafile.txt";
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
+	final static String TEMP_FILE = "temp_file.txt";
 	private static String file_type;
 
 	public Success saveIntoFile(Task task) {
@@ -462,17 +464,264 @@ public class FileIO {
 		return successObj;
 	}
 
-	public Success deleteFromFile(Task task)
+	public Success deleteFromFile(Task taskObj)
 	{
 		Success  successObj = null;
 		
 		
+		if (taskObj instanceof FloatingTask) {
+			file_type = FILE_NAME_FLOATING;
+		} else if (taskObj instanceof NormalTask) {
+			file_type = FILE_NAME_NORMAL;
+		} else if (taskObj instanceof RecurrenceTask) {
+			file_type = FILE_NAME_RECUR;
+		} else if (taskObj instanceof DeadlineTask) {
+			file_type = FILE_NAME_DEADLINE;
+		}
 		
-		
+		try
+		{
+			File tempFile = new File(TEMP_FILE);
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+			
+			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+					new FileWriter(TEMP_FILE, true)));
+			
+			if (taskObj instanceof NormalTask) {
+				
+				File outFile = new File(FILE_NAME_NORMAL);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_NORMAL));
+				while ((printLine = reader.readLine()) != null) {
+					NormalTask task = (NormalTask) deserializeFromJson(
+							printLine, NormalTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "Delete Successful");
+					}
+				}
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+
+			if (taskObj instanceof FloatingTask) {
+				
+				File outFile = new File(FILE_NAME_FLOATING);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_FLOATING));
+				while ((printLine = reader.readLine()) != null) {
+					FloatingTask task = (FloatingTask) deserializeFromJson(
+							printLine, FloatingTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "Delete Successful");
+					}
+				}
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			
+			if (taskObj instanceof DeadlineTask) {
+				
+				File outFile = new File(FILE_NAME_DEADLINE);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_DEADLINE));
+				while ((printLine = reader.readLine()) != null) {
+					DeadlineTask task = (DeadlineTask) deserializeFromJson(
+							printLine, DeadlineTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "Delete Successful");
+					}
+				}
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			if (taskObj instanceof RecurrenceTask) {
+				
+				File outFile = new File(FILE_NAME_RECUR);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_RECUR));
+				
+				while ((printLine = reader.readLine()) != null) {
+					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+							printLine, RecurrenceTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "Delete Successful");
+					}
+				}
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
 		
 		return successObj;
 	}
 	
+	
+	public Success updateFromFile(Task taskUpdate, Task taskObj)
+	{
+		Success  successObj = null;
+		
+		
+		if (taskObj instanceof FloatingTask) {
+			file_type = FILE_NAME_FLOATING;
+		} else if (taskObj instanceof NormalTask) {
+			file_type = FILE_NAME_NORMAL;
+		} else if (taskObj instanceof RecurrenceTask) {
+			file_type = FILE_NAME_RECUR;
+		} else if (taskObj instanceof DeadlineTask) {
+			file_type = FILE_NAME_DEADLINE;
+		}
+		
+		try
+		{
+			File tempFile = new File(TEMP_FILE);
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+			
+			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+					new FileWriter(TEMP_FILE, true)));
+			
+			if (taskObj instanceof NormalTask) {
+				
+				File outFile = new File(FILE_NAME_NORMAL);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_NORMAL));
+				while ((printLine = reader.readLine()) != null) {
+					NormalTask task = (NormalTask) deserializeFromJson(
+							printLine, NormalTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "update Successful");
+					}
+				}
+				String gsonSerial = serializeToJson(taskUpdate);
+				filewrite.println(gsonSerial);
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+
+			if (taskObj instanceof FloatingTask) {
+				
+				File outFile = new File(FILE_NAME_FLOATING);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_FLOATING));
+				while ((printLine = reader.readLine()) != null) {
+					FloatingTask task = (FloatingTask) deserializeFromJson(
+							printLine, FloatingTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "update Successful");
+					}
+				}
+				String gsonSerial = serializeToJson(taskUpdate);
+				filewrite.println(gsonSerial);
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			
+			if (taskObj instanceof DeadlineTask) {
+				
+				File outFile = new File(FILE_NAME_DEADLINE);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_DEADLINE));
+				while ((printLine = reader.readLine()) != null) {
+					DeadlineTask task = (DeadlineTask) deserializeFromJson(
+							printLine, DeadlineTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "update Successful");
+					}
+				}
+				String gsonSerial = serializeToJson(taskUpdate);
+				filewrite.println(gsonSerial);
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			if (taskObj instanceof RecurrenceTask) {
+				
+				File outFile = new File(FILE_NAME_RECUR);
+				
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FILE_NAME_RECUR));
+				
+				while ((printLine = reader.readLine()) != null) {
+					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+							printLine, RecurrenceTask.class);
+					if (task.getTaskId() != taskObj.getTaskId()) 
+					{
+						String gsonSerial = serializeToJson(task);
+						filewrite.println(gsonSerial);
+					}
+					else
+					{
+						successObj = new Success(taskList, true, "update Successful");
+					}
+				}
+				String gsonSerial = serializeToJson(taskUpdate);
+				filewrite.println(gsonSerial);
+				filewrite.close();
+				tempFile.renameTo(outFile);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		return successObj;
+	}
 	
 	/*
 	 * Sample Usage of GSON:
