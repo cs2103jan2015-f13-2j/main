@@ -81,9 +81,9 @@ public class Validator {
 		return isValidSequence;
 	}
 
-	public Object parseCommand(String fullCommand) {
+	public Success parseCommand(String fullCommand) {
 
-		Object obj = null;
+		Success status = null;
 		Engine engineObj = new Engine();
 
 		fullCommand = fullCommand.toLowerCase();
@@ -96,35 +96,32 @@ public class Validator {
 			if (commandResolved.equalsIgnoreCase(KEYWORD_ADD)) {
 
 				String remainingCommand = sc.nextLine();
-				Success status = parseAddCommand(remainingCommand);
+				status = parseAddCommand(remainingCommand);
 				Task task;
 				if (status.isSuccess()) {
 					task = (Task) status.getObj();
 					status = engineObj.insertIntoFile(task);
 				}
 
-				obj = status;
-
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_UPDATE)) {
 				String remainingCommand = sc.nextLine();
 
-				obj = parseUpdateCommand(remainingCommand);
+				status = parseUpdateCommand(remainingCommand);
 
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_DELETE)) {
 				String remainingCommand = sc.nextLine();
 
-				obj = parseDeleteCommand(remainingCommand);
+				status = parseDeleteCommand(remainingCommand);
 
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_RETRIEVE)) {
 				String remainingCommand = sc.nextLine();
 
-				Success status = parseRetrieveCommand(remainingCommand);
+				status = parseRetrieveCommand(remainingCommand);
 
 				retrievedTaskList = new ArrayList<Task>();
 
 				retrievedTaskList = (ArrayList<Task>) status.getObj();
 
-				obj = status;
 				System.out.println(retrievedTaskList.size());
 				// temporary to show the retrieved list
 				for (Task t : retrievedTaskList) {
@@ -139,7 +136,7 @@ public class Validator {
 
 		sc.close();
 
-		return obj;
+		return status;
 	}
 
 	private Success parseAddCommand(String remainingCommand) {
@@ -730,7 +727,9 @@ public class Validator {
 		try {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
-			String taskDisplay = taskToRemove.toDisplay();
+			String taskDisplay = KEYWORD_UPDATE;
+			taskDisplay += taskToRemove.toDisplay();
+			
 			status = new Success(taskDisplay, true, null);
 			System.out.println("found : " + taskDisplay);
 
@@ -738,6 +737,7 @@ public class Validator {
 			Success statusTask = parseAddCommand(remainingCommand);
 			if (statusTask.isSuccess()) {
 				Task updatedTask = (Task) statusTask.getObj();
+				System.out.println("updated task : " + updatedTask.toString());
 				// status = Engine.updateTask(updatedTask, taskToRemove);
 				if (status.isSuccess()) {
 					taskToRemove = null;
