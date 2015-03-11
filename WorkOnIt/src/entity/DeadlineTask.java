@@ -2,6 +2,8 @@ package entity;
 
 import java.util.Date;
 
+import logic.Validator;
+
 public class DeadlineTask extends Task {
 
 	private Date deadline;
@@ -52,5 +54,21 @@ public class DeadlineTask extends Task {
 		return "DeadlineTask [deadline=" + deadline + ", getTaskId()="
 				+ getTaskId() + ", getTaskName()=" + getTaskName()
 				+ ", getPriority()=" + getPriority() + "]";
+	}
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+		userString += " " + Validator.KEYWORD_BY;
+		userString += " " + DATE_FORMAT.format(getDeadline());
+
+		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
+			userString += " " + Validator.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
 	}
 }

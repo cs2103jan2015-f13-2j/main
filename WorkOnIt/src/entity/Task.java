@@ -1,9 +1,13 @@
 package entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
 public abstract class Task {
+
+	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+			"dd MM yyyy,  h:mm a");
 
 	private String taskName;
 	private long taskId;
@@ -138,4 +142,6 @@ public abstract class Task {
 	};
 
 	public abstract String toString();
+
+	public abstract String toDisplay();
 }

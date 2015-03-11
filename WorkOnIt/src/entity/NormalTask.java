@@ -2,6 +2,8 @@ package entity;
 
 import java.util.Date;
 
+import logic.Validator;
+
 public class NormalTask extends Task {
 
 	private Date startDateTime, endDateTime;
@@ -74,5 +76,30 @@ public class NormalTask extends Task {
 				+ endDateTime + ", getTaskId()=" + getTaskId()
 				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
 				+ getPriority() + "]";
+	}
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+
+		if (this.getStartDateTime().equals(this.getEndDateTime())) {
+			userString += " " + Validator.KEYWORD_ON;
+			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
+
+		} else {
+			userString += " " + Validator.KEYWORD_FROM;
+			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
+			userString += " " + Validator.KEYWORD_TO;
+			userString += " " + DATE_FORMAT.format(this.getEndDateTime());
+		}
+
+		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
+			userString += " " + Validator.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
 	}
 }

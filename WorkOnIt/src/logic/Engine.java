@@ -155,5 +155,20 @@ public class Engine {
 
 		return succesObj;
 	}
+	
+	// delete task with specific ID
+	public Success deleteTask(Task task)
+	{
+		Success successObj = null;
+		FileIO dataStorage = new FileIO();
+		
+		successObj = dataStorage.deleteFromFile(task);
+				
+				
+		return successObj; 
+	}
+	
+	
+	
 
 }

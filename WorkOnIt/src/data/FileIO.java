@@ -462,6 +462,18 @@ public class FileIO {
 		return successObj;
 	}
 
+	public Success deleteFromFile(Task task)
+	{
+		Success  successObj = null;
+		
+		
+		
+		
+		
+		return successObj;
+	}
+	
+	
 	/*
 	 * Sample Usage of GSON:
 	 * 

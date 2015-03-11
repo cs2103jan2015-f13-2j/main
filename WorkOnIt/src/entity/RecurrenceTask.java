@@ -129,4 +129,33 @@ public class RecurrenceTask extends Task {
 				+ ", getSortDate()=" + getSortDate() + ", getDateCreated()="
 				+ getDateCreated() + "]";
 	}
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+
+		if (this.getStartRecurrenceDate().equals(this.getEndRecurrenceDate())) {
+			userString += " " + Validator.KEYWORD_EVERY;
+			userString += " "
+					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
+
+		} else {
+			userString += " " + Validator.KEYWORD_EVERY;
+			userString += " "
+					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
+			userString += " " + Validator.KEYWORD_TO;
+			userString += " " + DATE_FORMAT.format(this.getEndRecurrenceDate());
+		}
+
+		userString += " " + this.getOccurenceType();
+
+		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
+			userString += " " + Validator.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
+	}
 }
