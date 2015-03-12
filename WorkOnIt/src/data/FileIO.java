@@ -511,11 +511,10 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
+				
 				File newFile = new File(FILE_NAME_NORMAL);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+				
 				for(int i = 0 ; i < taskList.size() ; i ++)
 				{
 					System.out.println(taskList.size());
@@ -523,9 +522,7 @@ public class FileIO {
 				
 					try 
 					{
-						
 						filewriteIntoFile.println(gsonSerial);
-
 					}
 					catch(Exception e)
 					{
@@ -558,11 +555,9 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_FLOATING);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+				
 				for(int i = 0 ; i < taskList.size() ; i ++)
 				{
 					System.out.println(taskList.size());
@@ -601,11 +596,9 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_DEADLINE);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+				
 				for(int i = 0 ; i < taskList.size() ; i ++)
 				{
 					System.out.println(taskList.size());
@@ -644,11 +637,9 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_RECUR);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+				
 				for(int i = 0 ; i < taskList.size() ; i ++)
 				{
 					System.out.println(taskList.size());
@@ -725,11 +716,8 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_NORMAL);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 				taskList.add(taskUpdate);
 				
 				for(int i = 0 ; i < taskList.size() ; i ++)
@@ -773,11 +761,8 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_FLOATING);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 				
 				taskList.add(taskUpdate);
 				for(int i = 0 ; i < taskList.size() ; i ++)
@@ -818,11 +803,8 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_DEADLINE);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 				
 				taskList.add(taskUpdate);
 				for(int i = 0 ; i < taskList.size() ; i ++)
@@ -863,13 +845,11 @@ public class FileIO {
 					}
 				}
 				
-				outFile.delete();
 				File newFile = new File(FILE_NAME_RECUR);
-				PrintWriter filewriteIntoFile = null;
-				filewriteIntoFile = new PrintWriter(new BufferedWriter(new FileWriter(
-						file_type, true)));
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 				
 				taskList.add(taskUpdate);
+				
 				for(int i = 0 ; i < taskList.size() ; i ++)
 				{
 					System.out.println(taskList.size());
@@ -908,23 +888,6 @@ public class FileIO {
 	 * Deserializing : Error e2 = (Error) deserializeFromJson(json,
 	 * e1.getClass()); System.out.println(e2.toString());
 	 */
-	private static void copyFileUsingFileStreams(File source, File dest)
-			throws IOException {
-		InputStream input = null;
-		OutputStream output = null;
-		try {
-			input = new FileInputStream(source);
-			output = new FileOutputStream(dest);
-			byte[] buf = new byte[1024];
-			int bytesRead;
-			while ((bytesRead = input.read(buf)) > 0) {
-				output.write(buf, 0, bytesRead);
-			}
-		} finally {
-			input.close();
-			output.close();
-		}
-	}
 
 	private static String serializeToJson(Object object) {
 
