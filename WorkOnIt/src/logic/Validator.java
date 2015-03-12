@@ -737,8 +737,7 @@ public class Validator {
 			Success statusTask = parseAddCommand(remainingCommand);
 			if (statusTask.isSuccess()) {
 				Task updatedTask = (Task) statusTask.getObj();
-				System.out.println("updated task : " + updatedTask.toString());
-				// status = Engine.updateTask(updatedTask, taskToRemove);
+				status = engineObj.updateTask(updatedTask, taskToRemove);
 				if (status.isSuccess()) {
 					taskToRemove = null;
 				}
@@ -756,12 +755,13 @@ public class Validator {
 	private Success parseDeleteCommand(String index) {
 		
 		Success status = null;
+		Engine engineObj = new Engine();
 		index = index.trim();
 
 		try {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
-//			// status = Engine.removeTask(taskToRemove); << return Success(true)
+			status = engineObj.deleteTask(taskToRemove);
 			System.out.println("Deleted : \"" + taskToRemove.getTaskName() + "\"");
 
 		} catch (NumberFormatException e) {
