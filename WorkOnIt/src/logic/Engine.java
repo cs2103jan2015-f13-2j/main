@@ -130,6 +130,26 @@ public class Engine {
 		return succesObj;
 	}
 
+	public Success retrieveTask(int priority, Date date) throws IOException {
+
+		Success succesObj = null;
+		FileIO dataStorage = new FileIO();
+
+		succesObj = dataStorage.loadFromPriorityAndDate(priority, date);
+
+		return succesObj;
+	}
+	
+	public Success retrieveTask(int priority, Date startDate , Date endDate) throws IOException {
+
+		Success succesObj = null;
+		FileIO dataStorage = new FileIO();
+
+		succesObj = dataStorage.loadFromPriorityBetweenDate(priority, startDate, endDate);
+
+		return succesObj;
+	}
+	
 	// retrieve task with specific task and date (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Task task, Date date) throws IOException {
@@ -166,6 +186,29 @@ public class Engine {
 				
 		return successObj; 
 	}
+	
+	public Success searchTask(String keyword, Date date)
+	{
+		Success successObj = null;
+		FileIO dataStorage = new FileIO();
+		
+		successObj = dataStorage.searchFromFileWithDate(keyword, date);
+				
+				
+		return successObj; 
+	}
+	
+	public Success searchTask(String keyword, Date startDate, Date endDate)
+	{
+		Success successObj = null;
+		FileIO dataStorage = new FileIO();
+		
+		successObj = dataStorage.searchFromFileBetweenDate( keyword,  startDate,  endDate);
+				
+				
+		return successObj; 
+	}
+	
 	
 	// delete task with specific ID
 	public Success deleteTask(Task task)

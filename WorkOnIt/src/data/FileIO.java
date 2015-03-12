@@ -347,6 +347,124 @@ public class FileIO {
 		return successObj;
 	}
 
+	public Success loadFromPriorityAndDate(int priority, Date date) {
+
+		Success successObj;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			BufferedReader recurReader = new BufferedReader(new FileReader(
+					FILE_NAME_RECUR));
+			BufferedReader deadlineReader = new BufferedReader(new FileReader(
+					FILE_NAME_DEADLINE));
+			BufferedReader normalReader = new BufferedReader(new FileReader(
+					FILE_NAME_NORMAL));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				NormalTask task = (NormalTask) deserializeFromJson(printLine,
+						NormalTask.class);
+				if (task.getPriority() == priority
+						&& task.getStartDateTime().getDate() == date.getDate()
+						&& task.getStartDateTime().getMonth() == date
+								.getMonth()
+						&& task.getStartDateTime().getYear() == date.getYear()) {
+
+					taskList.add(task);
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				DeadlineTask task = (DeadlineTask) deserializeFromJson(
+						printLine, DeadlineTask.class);
+				// if haven't reach deadline yet.
+				if (task.getPriority() == priority
+						&& task.getDeadline().compareTo(date) > 0) {
+					taskList.add(task);
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+						printLine, RecurrenceTask.class);
+				if (task.getPriority() == priority
+						&& task.getStartRecurrenceDate().getDate() == date
+								.getDate()
+						&& task.getStartRecurrenceDate().getMonth() == date
+								.getMonth()
+						&& task.getStartRecurrenceDate().getYear() == date
+								.getYear()) {
+					taskList.add(task);
+				}
+			}
+
+			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	public Success loadFromPriorityBetweenDate(int priority, Date startDate, Date endDate) {
+
+		Success successObj;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			BufferedReader recurReader = new BufferedReader(new FileReader(
+					FILE_NAME_RECUR));
+			BufferedReader deadlineReader = new BufferedReader(new FileReader(
+					FILE_NAME_DEADLINE));
+			BufferedReader normalReader = new BufferedReader(new FileReader(
+					FILE_NAME_NORMAL));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				NormalTask task = (NormalTask) deserializeFromJson(printLine,
+						NormalTask.class);
+				if (task.getPriority() == priority
+						&& task.getStartDateTime().compareTo(startDate) > 0
+						&& task.getStartDateTime().compareTo(endDate) <= 0) {
+
+					taskList.add(task);
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				DeadlineTask task = (DeadlineTask) deserializeFromJson(
+						printLine, DeadlineTask.class);
+				// if haven't reach deadline yet.
+				if (task.getPriority() == priority
+						&& task.getDeadline().compareTo(endDate) <= 0) {
+					taskList.add(task);
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+						printLine, RecurrenceTask.class);
+				if (task.getPriority() == priority
+						&& task.getStartRecurrenceDate().compareTo(startDate) > 0
+						&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
+					taskList.add(task);
+				}
+			}
+
+			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+	
 	public Success loadFromStartDateWithTask(Task taskObj, Date date) {
 
 		Success successObj;
@@ -512,6 +630,109 @@ public class FileIO {
 				}
 			}
 
+			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	public Success searchFromFileWithDate(String keyword, Date date) {
+		Success successObj;
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			BufferedReader reader = new BufferedReader(new FileReader(
+					FILE_NAME_NORMAL));
+			while ((printLine = reader.readLine()) != null) {
+				NormalTask task = (NormalTask) deserializeFromJson(printLine,
+						NormalTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getStartDateTime().getDate() == date.getDate()
+						&& task.getStartDateTime().getMonth() == date.getMonth()
+						&& task.getStartDateTime().getYear() == date.getYear()) {
+					taskList.add(task);
+				}
+			}
+
+			reader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
+			while ((printLine = reader.readLine()) != null) {
+				DeadlineTask task = (DeadlineTask) deserializeFromJson(
+						printLine, DeadlineTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getDeadline().compareTo(date) > 0) {
+					taskList.add(task);
+				}
+			}
+
+			reader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
+			while ((printLine = reader.readLine()) != null) {
+				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+						printLine, RecurrenceTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getStartRecurrenceDate().getDate() == date
+								.getDate()
+						&& task.getStartRecurrenceDate().getMonth() == date
+								.getMonth()
+						&& task.getStartRecurrenceDate().getYear() == date
+								.getYear()) {
+					taskList.add(task);
+				}
+			}
+			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+	
+	public Success searchFromFileBetweenDate(String keyword, Date startDate, Date endDate) {
+		Success successObj;
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			BufferedReader reader = new BufferedReader(new FileReader(
+					FILE_NAME_NORMAL));
+			while ((printLine = reader.readLine()) != null) {
+				NormalTask task = (NormalTask) deserializeFromJson(printLine,
+						NormalTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getStartDateTime().compareTo(startDate) > 0
+						&& task.getStartDateTime().compareTo(endDate) <= 0) {
+					taskList.add(task);
+				}
+			}
+
+			reader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
+			while ((printLine = reader.readLine()) != null) {
+				DeadlineTask task = (DeadlineTask) deserializeFromJson(
+						printLine, DeadlineTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getDeadline().compareTo(endDate) <= 0) {
+					taskList.add(task);
+				}
+			}
+
+			reader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
+			while ((printLine = reader.readLine()) != null) {
+				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
+						printLine, RecurrenceTask.class);
+				if (task.getTaskName().toLowerCase().contains(keyword)
+						&& task.getStartRecurrenceDate().compareTo(startDate) > 0
+						&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
+					taskList.add(task);
+				}
+			}
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 		}
 
