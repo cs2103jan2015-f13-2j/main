@@ -2,7 +2,9 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import data.ConfigIO;
 import entity.KeywordNode;
 
 public class KeywordStructure {
@@ -183,32 +185,53 @@ public class KeywordStructure {
 	public boolean checkKeyword(List<String> keywords) {
 
 		boolean isCorrectKeyword = false;
+		Map<String, String> keywordFullMap = loadConfigFile();
 		List<KeywordNode> currentKeywordList = mainKeywordList;
 
 		for (int currIndex = 0; currIndex < keywords.size(); currIndex++) {
 
 			String currentKeyword = keywords.get(currIndex);
+			String resolvedWord = keywordFullMap.get(currentKeyword);
 
-			for (int i = 0; i < currentKeywordList.size(); i++) {
-
-				KeywordNode node = currentKeywordList.get(i);
-
-				if (node.equals(currentKeyword)) {
+			if(resolvedWord != null) {
+				try {
+					Integer.parseInt(resolvedWord);
 					isCorrectKeyword = true;
-					currentKeywordList = node.getSubsequentKeywords();
+					break;
+					
+				} catch(NumberFormatException e) {
+					for (int i = 0; i < currentKeywordList.size(); i++) {
+		
+						KeywordNode node = currentKeywordList.get(i);
+		
+						if (node.equals(resolvedWord)) {
+							isCorrectKeyword = true;
+							currentKeywordList = node.getSubsequentKeywords();
+							break;
+						}
+					}
+				}
+	
+				int lastIndex = keywords.size() - 1;
+	
+				if (isCorrectKeyword && currIndex != lastIndex) {
+					isCorrectKeyword = false;
+				} else {
 					break;
 				}
-			}
-
-			int lastIndex = keywords.size() - 1;
-
-			if (isCorrectKeyword && currIndex != lastIndex) {
-				isCorrectKeyword = false;
 			} else {
-				break;
+				isCorrectKeyword = false;
 			}
 		}
 
 		return isCorrectKeyword;
+	}
+	
+	private Map<String, String> loadConfigFile() {
+
+		ConfigIO config = new ConfigIO();
+		Map<String, String> keywordFullMap = config.getFullKeywordMap();
+		
+		return keywordFullMap;
 	}
 }
