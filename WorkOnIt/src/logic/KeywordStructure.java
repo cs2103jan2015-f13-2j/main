@@ -92,6 +92,79 @@ public class KeywordStructure {
 	
 	private void initRetrieveKeyword() {
 
+		KeywordNode keyComplete = new KeywordNode(Validator.KEYWORD_COMPLETE);
+		KeywordNode keyIncomplete = new KeywordNode(Validator.KEYWORD_INCOMPLETE);
+		
+		KeywordNode keyAll = new KeywordNode(Validator.KEYWORD_ALL);
+		keyAll.addSubsequentKeywords(keyComplete);
+		keyAll.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyToBase = new KeywordNode(Validator.KEYWORD_TO);
+		keyToBase.addSubsequentKeywords(keyComplete);
+		keyToBase.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyAtBase = new KeywordNode(Validator.KEYWORD_AT);
+		keyAtBase.addSubsequentKeywords(keyComplete);
+		keyAtBase.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyFromBase = new KeywordNode(Validator.KEYWORD_FROM);
+		keyFromBase.addSubsequentKeywords(keyToBase);
+		keyFromBase.addSubsequentKeywords(keyComplete);
+		keyFromBase.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyAt = new KeywordNode(Validator.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyFromBase);
+		keyAt.addSubsequentKeywords(keyComplete);
+		keyAt.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyOn = new KeywordNode(Validator.KEYWORD_ON);
+		keyOn.addSubsequentKeywords(keyFromBase);
+		keyOn.addSubsequentKeywords(keyAtBase);
+		keyOn.addSubsequentKeywords(keyComplete);
+		keyOn.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyToFrom = new KeywordNode(Validator.KEYWORD_TO);
+		keyToFrom.addSubsequentKeywords(keyAtBase);
+		keyToFrom.addSubsequentKeywords(keyFromBase);
+		keyToFrom.addSubsequentKeywords(keyComplete);
+		keyToFrom.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyFrom = new KeywordNode(Validator.KEYWORD_FROM);
+		keyFrom.addSubsequentKeywords(keyAtBase);
+		keyFrom.addSubsequentKeywords(keyFromBase);
+		keyFrom.addSubsequentKeywords(keyToFrom);
+		keyFrom.addSubsequentKeywords(keyComplete);
+		keyFrom.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyToPriority = new KeywordNode(Validator.KEYWORD_TO);
+		keyToPriority.addSubsequentKeywords(keyAtBase);
+		keyToPriority.addSubsequentKeywords(keyFromBase);
+		keyToPriority.addSubsequentKeywords(keyComplete);
+		keyToPriority.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyFromPriority = new KeywordNode(Validator.KEYWORD_FROM);
+		keyFromPriority.addSubsequentKeywords(keyAtBase);
+		keyFromPriority.addSubsequentKeywords(keyFromBase);
+		keyFromPriority.addSubsequentKeywords(keyToPriority);
+		keyFromPriority.addSubsequentKeywords(keyComplete);
+		keyFromPriority.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyPriority = new KeywordNode(Validator.KEYWORD_PRIORITY);
+		keyPriority.addSubsequentKeywords(keyFromPriority);
+		keyPriority.addSubsequentKeywords(keyAtBase);
+		keyPriority.addSubsequentKeywords(keyComplete);
+		keyPriority.addSubsequentKeywords(keyIncomplete);
+		
+		KeywordNode keyRetrieve = new KeywordNode(Validator.KEYWORD_RETRIEVE);
+		keyRetrieve.addSubsequentKeywords(keyAll);
+		keyRetrieve.addSubsequentKeywords(keyAt);
+		keyRetrieve.addSubsequentKeywords(keyOn);
+		keyRetrieve.addSubsequentKeywords(keyFrom);
+		keyRetrieve.addSubsequentKeywords(keyPriority);
+		keyRetrieve.addSubsequentKeywords(keyComplete);
+		keyRetrieve.addSubsequentKeywords(keyIncomplete);
+		
+		mainKeywordList.add(keyRetrieve);
 	}
 
 	private void initUndoKeyword() {
