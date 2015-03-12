@@ -19,7 +19,7 @@ public class KeywordStructure {
 		mainKeywordList = new ArrayList<KeywordNode>();
 
 		initAddKeyword();
-		// initRetrieveKyword();
+		initRetrieveKeyword();
 		// initUpdateKeyword();
 		// initDeleteKeyword();
 		// initExportKeyword();
@@ -28,6 +28,7 @@ public class KeywordStructure {
 	}
 
 	private void initAddKeyword() {
+		
 		KeywordNode keyPriority = new KeywordNode(Validator.KEYWORD_PRIORITY);
 
 		KeywordNode keyDaily = new KeywordNode(Validator.KEYWORD_DAILY);
@@ -39,42 +40,58 @@ public class KeywordStructure {
 		KeywordNode keyYearly = new KeywordNode(Validator.KEYWORD_YEARLY);
 		keyYearly.addSubsequentKeywords(keyPriority);
 
-		KeywordNode keyToNormal = new KeywordNode(Validator.KEYWORD_TO);
-		keyToNormal.addSubsequentKeywords(keyPriority);
-
-		KeywordNode keyToRecur = new KeywordNode(Validator.KEYWORD_TO);
-		keyToRecur.addSubsequentKeywords(keyPriority);
-		keyToRecur.addSubsequentKeywords(keyDaily);
-		keyToRecur.addSubsequentKeywords(keyWeekly);
-		keyToRecur.addSubsequentKeywords(keyMonthly);
-		keyToRecur.addSubsequentKeywords(keyYearly);
-
-		KeywordNode keyFrom = new KeywordNode(Validator.KEYWORD_FROM);
-		keyFrom.addSubsequentKeywords(keyPriority);
-		keyFrom.addSubsequentKeywords(keyToNormal);
-
-		KeywordNode keyOn = new KeywordNode(Validator.KEYWORD_ON);
-		keyOn.addSubsequentKeywords(keyPriority);
-		keyOn.addSubsequentKeywords(keyToNormal);
-
-		KeywordNode keyBy = new KeywordNode(Validator.KEYWORD_BY);
-		keyBy.addSubsequentKeywords(keyPriority);
-
+		KeywordNode keyToEvery = new KeywordNode(Validator.KEYWORD_TO);
+		keyToEvery.addSubsequentKeywords(keyPriority);
+		keyToEvery.addSubsequentKeywords(keyDaily);
+		keyToEvery.addSubsequentKeywords(keyWeekly);
+		keyToEvery.addSubsequentKeywords(keyMonthly);
+		keyToEvery.addSubsequentKeywords(keyYearly);
+		
 		KeywordNode keyEvery = new KeywordNode(Validator.KEYWORD_EVERY);
 		keyEvery.addSubsequentKeywords(keyPriority);
-		keyEvery.addSubsequentKeywords(keyToRecur);
+		keyEvery.addSubsequentKeywords(keyToEvery);
 		keyEvery.addSubsequentKeywords(keyDaily);
 		keyEvery.addSubsequentKeywords(keyWeekly);
 		keyEvery.addSubsequentKeywords(keyMonthly);
 		keyEvery.addSubsequentKeywords(keyYearly);
+		
+		KeywordNode keyBy = new KeywordNode(Validator.KEYWORD_BY);
+		keyBy.addSubsequentKeywords(keyPriority);
+		
+		KeywordNode keyToOn = new KeywordNode(Validator.KEYWORD_TO);
+		keyToOn.addSubsequentKeywords(keyPriority);
+		
+		KeywordNode keyFromOn = new KeywordNode(Validator.KEYWORD_FROM);
+		keyFromOn.addSubsequentKeywords(keyToOn);
+		
+		KeywordNode keyOn = new KeywordNode(Validator.KEYWORD_ON);
+		keyOn.addSubsequentKeywords(keyPriority);
+		keyOn.addSubsequentKeywords(keyFromOn);
+		keyOn.addSubsequentKeywords(keyToOn);
 
+		KeywordNode keyOnFrom = new KeywordNode(Validator.KEYWORD_ON);
+		keyOnFrom.addSubsequentKeywords(keyPriority);
+		
+		KeywordNode keyToFrom = new KeywordNode(Validator.KEYWORD_TO);
+		keyToFrom.addSubsequentKeywords(keyPriority);
+		keyToFrom.addSubsequentKeywords(keyOnFrom);
+		
+		KeywordNode keyFrom = new KeywordNode(Validator.KEYWORD_FROM);
+		keyFrom.addSubsequentKeywords(keyPriority);
+		keyFrom.addSubsequentKeywords(keyToFrom);
+		
 		KeywordNode keyAdd = new KeywordNode(Validator.KEYWORD_ADD);
-		keyAdd.addSubsequentKeywords(keyFrom);
-		keyAdd.addSubsequentKeywords(keyOn);
-		keyAdd.addSubsequentKeywords(keyBy);
+		keyAdd.addSubsequentKeywords(keyPriority);
 		keyAdd.addSubsequentKeywords(keyEvery);
-
+		keyAdd.addSubsequentKeywords(keyBy);
+		keyAdd.addSubsequentKeywords(keyOn);
+		keyAdd.addSubsequentKeywords(keyFrom);
+		
 		mainKeywordList.add(keyAdd);
+	}
+	
+	private void initRetrieveKeyword() {
+
 	}
 
 	private void initUndoKeyword() {
