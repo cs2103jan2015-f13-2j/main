@@ -156,6 +156,17 @@ public class Engine {
 		return succesObj;
 	}
 	
+	public Success searchTask(String keyword)
+	{
+		Success successObj = null;
+		FileIO dataStorage = new FileIO();
+		
+		successObj = dataStorage.searchFromFile(keyword);
+				
+				
+		return successObj; 
+	}
+	
 	// delete task with specific ID
 	public Success deleteTask(Task task)
 	{
