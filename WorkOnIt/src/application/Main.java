@@ -85,9 +85,16 @@ public class Main extends Application implements Runnable {
 	}
 
 	protected void executeCommand(TextField txtF, String commandString) {
-
-		Success status = commandValidator.parseCommand(commandString);
-
+		Success status = null;
+		
+		for(String s: secondaryList){
+			System.out.println("secondary List "+ s);
+		}
+		
+		if(commandValidator.validateKeywordSequence(secondaryList) == true){
+			status = commandValidator.parseCommand(commandString);	
+		}
+		
 		if (status.isSuccess() == false) {
 			System.out.println(status.getMessage());
 		} else {
@@ -121,14 +128,16 @@ public class Main extends Application implements Runnable {
 		String[] stringArr = textFieldText.trim().split(" ");
 
 		elementList.clear();
-
+		secondaryList.clear();
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-
+			
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
-
+				String currentKeyword = stringArr[i];
+				
+				secondaryList.add(currentKeyword);
 				// this method is for fencing the keyword (will implement later)
 				handleMethod("Handling: " + stringArr[i]);
 

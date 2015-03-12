@@ -161,6 +161,7 @@ public class KeywordStructure {
 		keyRetrieve.addSubsequentKeywords(keyOn);
 		keyRetrieve.addSubsequentKeywords(keyFrom);
 		keyRetrieve.addSubsequentKeywords(keyPriority);
+		keyRetrieve.addSubsequentKeywords(keyToBase);
 		keyRetrieve.addSubsequentKeywords(keyComplete);
 		keyRetrieve.addSubsequentKeywords(keyIncomplete);
 		
