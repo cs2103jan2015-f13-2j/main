@@ -12,6 +12,7 @@ import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 import data.ConfigIO;
+import resource.KeywordConstant;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -20,40 +21,6 @@ import entity.Task;
 import entity.Success;
 
 public class Validator {
-
-	public static final String KEYWORD_ADD = "add";
-	public static final String KEYWORD_UPDATE = "update";
-	public static final String KEYWORD_DELETE = "delete";
-	public static final String KEYWORD_RETRIEVE = "retrieve";
-	public static final String KEYWORD_BY = "by";
-	public static final String KEYWORD_ON = "on";
-	public static final String KEYWORD_AT = "at";
-	public static final String KEYWORD_FROM = "from";
-	public static final String KEYWORD_SINCE = "since";
-	public static final String KEYWORD_TO = "to";
-	public static final String KEYWORD_EVERY = "every";
-	public static final String KEYWORD_PRIORITY = "priority";
-	public static final String KEYWORD_UNDO = "undo";
-	public static final String KEYWORD_COMPLETE = "complete";
-	public static final String KEYWORD_INCOMPLETE = "incomplete";
-	public static final String KEYWORD_CLEAR = "clear";
-	public static final String KEYWORD_EXPORT = "export";
-	public static final String KEYWORD_ALL = "all";
-	public static final String KEYWORD_DAILY = "daily";
-	public static final String KEYWORD_WEEKLY = "weekly";
-	public static final String KEYWORD_MONTHLY = "monthly";
-	public static final String KEYWORD_YEARLY = "yearly";
-	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
-
-	public static final String DATE_MAX = "31 DECEMBER 9999";
-	public static final String DATE_MIN = "1 JANUARY 1970";
-
-	public static final int PRIORITY_LOW = 0;
-	public static final int PRIORITY_MEDIUM = 1;
-	public static final int PRIORITY_HIGH = 2;
-	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
-	public static final int PRIORITY_MAX = PRIORITY_HIGH;
-	public static final int PRIORITY_MIN = PRIORITY_LOW;
 
 	private Map<String, String> keywordFullMap = null;
 	private ArrayList<Task> retrievedTaskList = null;
@@ -95,7 +62,7 @@ public class Validator {
 
 		if (commandResolved != null) {
 
-			if (commandResolved.equalsIgnoreCase(KEYWORD_ADD)) {
+			if (commandResolved.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
 
 				String remainingCommand = sc.nextLine();
 				status = parseAddCommand(remainingCommand);
@@ -105,17 +72,20 @@ public class Validator {
 					status = engineObj.addTask(task);
 				}
 
-			} else if (commandResolved.equalsIgnoreCase(KEYWORD_UPDATE)) {
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
 				String remainingCommand = sc.nextLine();
 
 				status = parseUpdateCommand(remainingCommand);
 
-			} else if (commandResolved.equalsIgnoreCase(KEYWORD_DELETE)) {
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
 				String remainingCommand = sc.nextLine();
 
 				status = parseDeleteCommand(remainingCommand);
 
-			} else if (commandResolved.equalsIgnoreCase(KEYWORD_RETRIEVE)) {
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_RETRIEVE)) {
 				String remainingCommand = sc.nextLine();
 
 				status = parseRetrieveCommand(remainingCommand);
@@ -127,8 +97,9 @@ public class Validator {
 				System.out.println("No. of records: "
 						+ retrievedTaskList.size());
 				// temporary to show the retrieved list
-				for (Task t : retrievedTaskList) {
-					System.out.println("Task Desc: " + t.getTaskName()
+				for (int i = 0; i < retrievedTaskList.size(); i++) {
+					Task t = retrievedTaskList.get(i);
+					System.out.println((i+1) + ") Task Desc: " + t.getTaskName()
 							+ "\t ; Task Type: " + t.getClass());
 				}
 			}
@@ -161,8 +132,9 @@ public class Validator {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (resolvedWord != null) {
-				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)
-						|| resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
+						|| resolvedWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
 
 					isNormalTask = true;
 
@@ -171,7 +143,8 @@ public class Validator {
 
 					break;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_BY)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_BY)) {
 
 					isDeadlineTask = true;
 
@@ -180,7 +153,8 @@ public class Validator {
 
 					break;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_EVERY)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_EVERY)) {
 
 					isRecurrenceTask = true;
 
@@ -189,7 +163,8 @@ public class Validator {
 
 					break;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 
 					isFloatingTask = true;
 					break;
@@ -228,7 +203,7 @@ public class Validator {
 
 		String startDateString = "";
 		String endDateString = "";
-		int priority = PRIORITY_DEFAULT_PRIORITY;
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
 		boolean isEndDate = false;
 		boolean isPriority = false;
@@ -241,12 +216,15 @@ public class Validator {
 			if (!isEndDate && !isPriority) {
 
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
 						isEndDate = true;
-					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 						isPriority = true;
-					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) || resolvedWord
-							.equalsIgnoreCase(KEYWORD_ON))) {
+					} else if (!(resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM) || resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_ON))) {
 						// System.out.println(resolvedWord);
 						startDateString += " " + currentWord;
 					}
@@ -256,10 +234,12 @@ public class Validator {
 			} else if (isEndDate && !isPriority) {
 
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 						isPriority = true;
-					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) || resolvedWord
-							.equalsIgnoreCase(KEYWORD_ON))) {
+					} else if (!(resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM) || resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_ON))) {
 						endDateString += " " + currentWord;
 					}
 				} else {
@@ -309,7 +289,7 @@ public class Validator {
 		Scanner sc = new Scanner(remainingDate);
 
 		String deadlineDateString = "";
-		int priority = PRIORITY_DEFAULT_PRIORITY;
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
 		boolean isPriority = false;
 
@@ -320,7 +300,8 @@ public class Validator {
 
 			if (!isPriority) {
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 						isPriority = true;
 					} else {
 						deadlineDateString += " " + currentWord;
@@ -367,7 +348,7 @@ public class Validator {
 
 		String startRecurrenceDateString = "";
 		String endRecurrenceDateString = "";
-		int priority = PRIORITY_DEFAULT_PRIORITY;
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
 		boolean isEndRecurrenceDate = false;
 		boolean isPriority = false;
@@ -380,27 +361,33 @@ public class Validator {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (resolvedWord != null) {
-				if (resolvedWord.equalsIgnoreCase(KEYWORD_DAILY)) {
-					occurenceType = KEYWORD_DAILY;
+				if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_DAILY)) {
+					occurenceType = KeywordConstant.KEYWORD_DAILY;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_WEEKLY)) {
-					occurenceType = KEYWORD_WEEKLY;
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEKLY)) {
+					occurenceType = KeywordConstant.KEYWORD_WEEKLY;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_MONTHLY)) {
-					occurenceType = KEYWORD_MONTHLY;
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTHLY)) {
+					occurenceType = KeywordConstant.KEYWORD_MONTHLY;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_YEARLY)) {
-					occurenceType = KEYWORD_YEARLY;
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_YEARLY)) {
+					occurenceType = KeywordConstant.KEYWORD_YEARLY;
 				}
 			}
 
 			if (!isEndRecurrenceDate && !isPriority) {
 
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 						isPriority = true;
 
-					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
 						isEndRecurrenceDate = true;
 
 					} else {
@@ -413,7 +400,8 @@ public class Validator {
 			} else if (isEndRecurrenceDate && !isPriority) {
 
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 						isPriority = true;
 
 					} else {
@@ -472,7 +460,7 @@ public class Validator {
 		Success status = null;
 		FloatingTask task = null;
 
-		int priority = PRIORITY_DEFAULT_PRIORITY;
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
 		if (remainingPriority != null) {
 
@@ -536,26 +524,29 @@ public class Validator {
 
 			if (resolvedWord != null) {
 				// inbetween
-				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
 
 					String remainingDate = sc.nextLine();
 					status = retrieveInBetween(remainingDate);
 
 					break;
 
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_ON)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
 
 					String remainingDate = sc.nextLine();
 
 					status = retrieveSingleDate(remainingDate);
 
 					break;
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_ALL)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
 
 					status = retrieveAllDates();
 
 					break;
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_PRIORITY)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 
 					String remainingPriority = sc.nextLine();
 
@@ -645,14 +636,16 @@ public class Validator {
 
 			} else {
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_AT)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
 						startDateString = sc.nextLine();
 						System.out.println(startDateString);
 						isSingleDate = true;
-					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
 						startDateString = sc.nextLine();
 						System.out.println("keyword from: " + startDateString);
-						endDateString = DATE_MAX;
+						endDateString = KeywordConstant.DATE_MAX;
 						isSingleDate = true;
 						isDoubleDate = true;
 					}
@@ -660,7 +653,8 @@ public class Validator {
 			}
 
 			try {
-				if (priority >= PRIORITY_MIN && priority <= PRIORITY_MAX) {
+				if (priority >= KeywordConstant.PRIORITY_MIN
+						&& priority <= KeywordConstant.PRIORITY_MAX) {
 					if (isSingleDate == false && isDoubleDate == false) {
 						status = engineObj.retrieveTask(priority);
 					} else if (isSingleDate == true && isDoubleDate == false) {
@@ -728,9 +722,10 @@ public class Validator {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (resolvedWord != null) {
-				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
 					isInBetweenTime = true;
-				} else if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
 					isInBetweenTime = true;
 					dateString += " " + currentWord;
 				} else {
@@ -744,7 +739,8 @@ public class Validator {
 
 		try {
 			if (isInBetweenTime == true) {
-				String preparedStatement = KEYWORD_FROM + dateString;
+				String preparedStatement = KeywordConstant.KEYWORD_FROM
+						+ dateString;
 				// System.out.println("prep stmt: "+preparedStatement);
 				status = retrieveInBetween(preparedStatement);
 
@@ -783,7 +779,8 @@ public class Validator {
 
 			if (!isEndDate) {
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_TO)) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
 						isEndDate = true;
 					}
 				} else {
@@ -824,7 +821,7 @@ public class Validator {
 			} else {
 				// System.out.println("no end date");
 
-				List<Date> dateListTo = parseStringToDate(DATE_MAX);
+				List<Date> dateListTo = parseStringToDate(KeywordConstant.DATE_MAX);
 
 				if (!dateListTo.isEmpty()) {
 					toDate = dateListTo.remove(0);
@@ -850,7 +847,7 @@ public class Validator {
 		try {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
-			String taskDisplay = KEYWORD_UPDATE;
+			String taskDisplay = KeywordConstant.KEYWORD_UPDATE;
 			taskDisplay += taskToRemove.toDisplay();
 
 			status = new Success(taskDisplay, true, null);

@@ -1,6 +1,6 @@
 package entity;
 
-import logic.Validator;
+import resource.KeywordConstant;
 
 public class FloatingTask extends Task {
 
@@ -21,8 +21,8 @@ public class FloatingTask extends Task {
 
 		userString += this.getTaskName();
 
-		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
-			userString += " " + Validator.KEYWORD_PRIORITY;
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
 			userString += " " + this.getPriority();
 		}
 

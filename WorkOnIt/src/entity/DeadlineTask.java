@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Date;
 
-import logic.Validator;
+import resource.KeywordConstant;
 
 public class DeadlineTask extends Task {
 
@@ -61,11 +61,11 @@ public class DeadlineTask extends Task {
 		String userString = "";
 
 		userString += this.getTaskName();
-		userString += " " + Validator.KEYWORD_BY;
+		userString += " " + KeywordConstant.KEYWORD_BY;
 		userString += " " + DATE_FORMAT.format(getDeadline());
 
-		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
-			userString += " " + Validator.KEYWORD_PRIORITY;
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
 			userString += " " + this.getPriority();
 		}
 

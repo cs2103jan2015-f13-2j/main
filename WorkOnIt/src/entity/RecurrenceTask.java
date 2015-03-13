@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Date;
 
-import logic.Validator;
+import resource.KeywordConstant;
 
 public class RecurrenceTask extends Task {
 
@@ -19,7 +19,7 @@ public class RecurrenceTask extends Task {
 		this.setTagId(generatedTagId);
 		this.setStartRecurrenceDate(startRecurrenceDate);
 		this.setEndRecurrenceDate(endRecurrenceDate);
-		this.setOccurenceType(Validator.KEYWORD_DEFAULT_OCCURENCE);
+		this.setOccurenceType(KeywordConstant.KEYWORD_DEFAULT_OCCURENCE);
 	}
 
 	public RecurrenceTask(String taskName, int priority,
@@ -137,22 +137,22 @@ public class RecurrenceTask extends Task {
 		userString += this.getTaskName();
 
 		if (this.getStartRecurrenceDate().equals(this.getEndRecurrenceDate())) {
-			userString += " " + Validator.KEYWORD_EVERY;
+			userString += " " + KeywordConstant.KEYWORD_EVERY;
 			userString += " "
 					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
 
 		} else {
-			userString += " " + Validator.KEYWORD_EVERY;
+			userString += " " + KeywordConstant.KEYWORD_EVERY;
 			userString += " "
 					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
-			userString += " " + Validator.KEYWORD_TO;
+			userString += " " + KeywordConstant.KEYWORD_TO;
 			userString += " " + DATE_FORMAT.format(this.getEndRecurrenceDate());
 		}
 
 		userString += " " + this.getOccurenceType();
 
-		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
-			userString += " " + Validator.KEYWORD_PRIORITY;
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
 			userString += " " + this.getPriority();
 		}
 

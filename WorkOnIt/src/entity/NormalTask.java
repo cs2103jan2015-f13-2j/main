@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Date;
 
-import logic.Validator;
+import resource.KeywordConstant;
 
 public class NormalTask extends Task {
 
@@ -85,18 +85,18 @@ public class NormalTask extends Task {
 		userString += this.getTaskName();
 
 		if (this.getStartDateTime().equals(this.getEndDateTime())) {
-			userString += " " + Validator.KEYWORD_ON;
+			userString += " " + KeywordConstant.KEYWORD_ON;
 			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
 
 		} else {
-			userString += " " + Validator.KEYWORD_FROM;
+			userString += " " + KeywordConstant.KEYWORD_FROM;
 			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
-			userString += " " + Validator.KEYWORD_TO;
+			userString += " " + KeywordConstant.KEYWORD_TO;
 			userString += " " + DATE_FORMAT.format(this.getEndDateTime());
 		}
 
-		if (this.getPriority() != Validator.PRIORITY_MEDIUM) {
-			userString += " " + Validator.KEYWORD_PRIORITY;
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
 			userString += " " + this.getPriority();
 		}
 
