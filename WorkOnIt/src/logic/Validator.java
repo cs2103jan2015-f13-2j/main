@@ -99,8 +99,9 @@ public class Validator {
 				// temporary to show the retrieved list
 				for (int i = 0; i < retrievedTaskList.size(); i++) {
 					Task t = retrievedTaskList.get(i);
-					System.out.println((i+1) + ") Task Desc: " + t.getTaskName()
-							+ "\t ; Task Type: " + t.getClass());
+					System.out.println((i + 1) + ") Task Desc: "
+							+ t.getTaskName() + "\t ; Task Type: "
+							+ t.getClass());
 				}
 			}
 
@@ -192,6 +193,11 @@ public class Validator {
 		}
 
 		sc.close();
+		
+		if(status.isSuccess()) {
+			retrievedTaskList = null;
+		}
+		
 		return status;
 	}
 
@@ -860,6 +866,7 @@ public class Validator {
 				status = engineObj.updateTask(updatedTask, taskToRemove);
 				if (status.isSuccess()) {
 					taskToRemove = null;
+					retrievedTaskList = null;
 				}
 				// System.out.println("Task deleted");
 				// System.out.println("updated task added : " +
@@ -889,6 +896,10 @@ public class Validator {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 			status = engineObj.deleteTask(taskToRemove);
+			
+			if(status.isSuccess()) {
+				retrievedTaskList = null;
+			}
 			System.out.println("Deleted : \"" + taskToRemove.getTaskName()
 					+ "\"");
 
