@@ -87,17 +87,14 @@ public class Main extends Application implements Runnable {
 	protected void executeCommand(TextField txtF, String commandString) {
 		Success status = null;
 		
-		for(String s: secondaryList){
-			System.out.println("secondary List "+ s);
-		}
 		
-		if(commandValidator.validateKeywordSequence(secondaryList) == true){
+	//	if(commandValidator.validateKeywordSequence(secondaryList) == true){
 			status = commandValidator.parseCommand(commandString);	
-		}
+	//	}
 		
-		if (status.isSuccess() == false) {
-			System.out.println(status.getMessage());
-		} else {
+		//if (status.isSuccess() == false) {
+			//System.out.println(status.getMessage());
+		//} else {
 			if(status.getObj() instanceof String) {
 				String updateCommand = (String) status.getObj();
 				txtF.setText(updateCommand);
@@ -105,7 +102,7 @@ public class Main extends Application implements Runnable {
 				txtF.clear();
 			}
 			System.out.println("Command executed successfully");
-		}
+		//}
 
 		// System.out.println(obj.getTaskName()
 
@@ -139,7 +136,7 @@ public class Main extends Application implements Runnable {
 				
 				secondaryList.add(currentKeyword);
 				// this method is for fencing the keyword (will implement later)
-				handleMethod("Handling: " + stringArr[i]);
+				//handleMethod("Handling: " + stringArr[i]);
 
 			}
 

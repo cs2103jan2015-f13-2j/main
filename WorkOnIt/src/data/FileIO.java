@@ -54,7 +54,7 @@ public class FileIO {
 
 		// body
 		String gsonSerial = serializeToJson(task);
-		System.out.println(gsonSerial);
+		//System.out.println(gsonSerial);
 		PrintWriter filewrite = null;
 
 		try {
@@ -786,7 +786,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -823,7 +823,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -859,7 +859,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -895,7 +895,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -962,7 +962,7 @@ public class FileIO {
 				taskList.add(taskUpdate);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -1000,7 +1000,7 @@ public class FileIO {
 
 				taskList.add(taskUpdate);
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -1037,7 +1037,7 @@ public class FileIO {
 
 				taskList.add(taskUpdate);
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+				//	System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {
@@ -1075,7 +1075,7 @@ public class FileIO {
 				taskList.add(taskUpdate);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println(taskList.size());
+					//System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 
 					try {

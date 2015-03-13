@@ -102,7 +102,7 @@ public class Validator {
 				Task task;
 				if (status.isSuccess()) {
 					task = (Task) status.getObj();
-					status = engineObj.insertIntoFile(task);
+					status = engineObj.addTask(task);
 				}
 
 			} else if (commandResolved.equalsIgnoreCase(KEYWORD_UPDATE)) {
@@ -124,7 +124,7 @@ public class Validator {
 
 				retrievedTaskList = (ArrayList<Task>) status.getObj();
 
-				System.out.println(retrievedTaskList.size());
+				System.out.println("No. of records: "+retrievedTaskList.size());
 				// temporary to show the retrieved list
 				for (Task t : retrievedTaskList) {
 					System.out.println("Task Desc: " + t.getTaskName() + "\t ; Task Type: " + t.getClass());
@@ -245,7 +245,7 @@ public class Validator {
 						isPriority = true;
 					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) || resolvedWord
 							.equalsIgnoreCase(KEYWORD_ON))) {
-						System.out.println(resolvedWord);
+						//System.out.println(resolvedWord);
 						startDateString += " " + currentWord;
 					}
 				} else {
@@ -291,7 +291,7 @@ public class Validator {
 				toDate = dateList.remove(0);
 			}
 		}
-		System.out.println(combinedDate);
+		//System.out.println(combinedDate);
 		task = new NormalTask(taskDesc, priority, fromDate, toDate);
 		status = new Success(task, true, null);
 
@@ -600,27 +600,102 @@ public class Validator {
 		return status;
 	}
 
+	private boolean isANumber (String text){
+		boolean isNumber;
+		
+		try {
+			int temp = Integer.parseInt(text);
+			isNumber = true;
+		} catch (NumberFormatException e) {
+			isNumber = false;
+		}
+		
+		return isNumber;
+		
+	}
+	
 	private Success retrievePriority(String remainingPriority) {
 		Scanner sc = new Scanner(remainingPriority);
 		Engine engineObj = new Engine();
 		Success status = null;
+		int priority = -1;
+		String startDateString = "";
+		String endDateString = "";
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
 
+		boolean isPriorityResolved = false;
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
 
-			// check if number
-			try {
-				int priority = Integer.parseInt(resolvedWord);
-
-				if (priority >= PRIORITY_MIN && priority <= PRIORITY_MAX) {
-
-					status = engineObj.retrieveTask(priority);
-
+			if (isPriorityResolved == false) {
+				if(resolvedWord != null) {
+					if(isANumber(resolvedWord) == true){
+						priority = Integer.parseInt(resolvedWord);
+						isPriorityResolved = true;
+					}
+				} else {
+					if (isANumber(currentWord) == true) {
+						priority = Integer.parseInt(currentWord);
+						isPriorityResolved = true;
+					}
 				}
-			} catch (NumberFormatException e) {
-				System.err
-						.println("retrievePriority: Retrieval fail (Number format).");
+				
+			} else {
+				if(resolvedWord != null){
+					if (resolvedWord.equalsIgnoreCase(KEYWORD_AT)){
+						startDateString = sc.nextLine();
+						System.out.println(startDateString);
+						isSingleDate = true;
+					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)){
+						startDateString = sc.nextLine();
+						System.out.println("keyword from: "+startDateString);
+						endDateString = DATE_MAX;
+						isSingleDate = true;
+						isDoubleDate = true;
+					}
+				}
+			}
+			
+			
+			try{
+				if (priority >= PRIORITY_MIN && priority <= PRIORITY_MAX) {
+					if(isSingleDate == false && isDoubleDate == false){
+						status = engineObj.retrieveTask(priority);
+					} else if (isSingleDate == true && isDoubleDate == false) {
+						Date fromDate = null;
+						
+						List<Date> dateList = parseStringToDate(startDateString);
+
+						if (!dateList.isEmpty()) {
+							fromDate = dateList.remove(0);
+						}
+						
+						status = engineObj.retrieveTask(priority, fromDate);
+						
+					} else if (isSingleDate == true && isDoubleDate == true) {
+						String combinedDate = startDateString + " to " + endDateString;
+						
+						List<Date> dateList = parseStringToDate(combinedDate);
+
+						Date fromDate = null;
+						Date toDate = null;
+
+						if (!dateList.isEmpty()) {
+							fromDate = dateList.remove(0);
+
+							if (!dateList.isEmpty()) {
+								toDate = dateList.remove(0);
+							}
+						}
+						
+						status = engineObj.retrieveTask(priority, fromDate, toDate);
+						
+					}
+				
+			}
+				
 			} catch (IOException e) {
 				System.err
 						.println("retrievePriority: Retrieval fail (IO Exception).");
@@ -668,12 +743,12 @@ public class Validator {
 		try {
 			if(isInBetweenTime == true) {
 				String preparedStatement = KEYWORD_FROM + dateString;
-				System.out.println("prep stmt: "+preparedStatement);
+				//System.out.println("prep stmt: "+preparedStatement);
 				status = retrieveInBetween(preparedStatement);
 				
 			} else {
 				Date onDate = null;
-				System.out.println("dateString: "+dateString);
+				//System.out.println("dateString: "+dateString);
 				List<Date> dateList = parseStringToDate(dateString);
 	
 				if (!dateList.isEmpty()) {
@@ -733,7 +808,7 @@ public class Validator {
 			if (!endDateString.trim().equals("")) {
 								
 				String combinedDate = startDateString + " to" + endDateString;
-				System.out.println("startdatestring "+combinedDate);
+				//System.out.println("startdatestring "+combinedDate);
 				List<Date> dateList = parseStringToDate(combinedDate);
 
 				if (!dateList.isEmpty()) {
@@ -748,7 +823,7 @@ public class Validator {
 				status = engineObj.retrieveTask(fromDate, toDate);
 
 			} else {
-				System.out.println("no end date");
+				//System.out.println("no end date");
 
 				List<Date> dateListTo = parseStringToDate(DATE_MAX);
 

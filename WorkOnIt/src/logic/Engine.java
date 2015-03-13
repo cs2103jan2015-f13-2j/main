@@ -23,7 +23,7 @@ public class Engine {
 	final static String FAIL_MESSAGE = "List fail to retrived";
 
 	// save task into database
-	public Success insertIntoFile(Task task) {
+	public Success addTask(Task task) {
 
 		Success status = null;
 
