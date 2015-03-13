@@ -124,10 +124,12 @@ public class Validator {
 
 				retrievedTaskList = (ArrayList<Task>) status.getObj();
 
-				System.out.println("No. of records: "+retrievedTaskList.size());
+				System.out.println("No. of records: "
+						+ retrievedTaskList.size());
 				// temporary to show the retrieved list
 				for (Task t : retrievedTaskList) {
-					System.out.println("Task Desc: " + t.getTaskName() + "\t ; Task Type: " + t.getClass());
+					System.out.println("Task Desc: " + t.getTaskName()
+							+ "\t ; Task Type: " + t.getClass());
 				}
 			}
 
@@ -245,7 +247,7 @@ public class Validator {
 						isPriority = true;
 					} else if (!(resolvedWord.equalsIgnoreCase(KEYWORD_FROM) || resolvedWord
 							.equalsIgnoreCase(KEYWORD_ON))) {
-						//System.out.println(resolvedWord);
+						// System.out.println(resolvedWord);
 						startDateString += " " + currentWord;
 					}
 				} else {
@@ -291,7 +293,7 @@ public class Validator {
 				toDate = dateList.remove(0);
 			}
 		}
-		//System.out.println(combinedDate);
+		// System.out.println(combinedDate);
 		task = new NormalTask(taskDesc, priority, fromDate, toDate);
 		status = new Success(task, true, null);
 
@@ -568,7 +570,7 @@ public class Validator {
 
 				// re append chopped off text
 				remainingText += currentWord;
-				if(sc.hasNextLine()){
+				if (sc.hasNextLine()) {
 					remainingText += sc.nextLine();
 				}
 				// if it's a date
@@ -591,29 +593,28 @@ public class Validator {
 
 	private Success retrieveTaskDesc(String searchString) {
 		Success status = null;
-		
+
 		Engine engineObj = new Engine();
-		
+
 		status = engineObj.searchTask(searchString);
-		
-		
+
 		return status;
 	}
 
-	private boolean isANumber (String text){
+	private boolean isANumber(String text) {
 		boolean isNumber;
-		
+
 		try {
 			int temp = Integer.parseInt(text);
 			isNumber = true;
 		} catch (NumberFormatException e) {
 			isNumber = false;
 		}
-		
+
 		return isNumber;
-		
+
 	}
-	
+
 	private Success retrievePriority(String remainingPriority) {
 		Scanner sc = new Scanner(remainingPriority);
 		Engine engineObj = new Engine();
@@ -630,8 +631,8 @@ public class Validator {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (isPriorityResolved == false) {
-				if(resolvedWord != null) {
-					if(isANumber(resolvedWord) == true){
+				if (resolvedWord != null) {
+					if (isANumber(resolvedWord) == true) {
 						priority = Integer.parseInt(resolvedWord);
 						isPriorityResolved = true;
 					}
@@ -641,42 +642,42 @@ public class Validator {
 						isPriorityResolved = true;
 					}
 				}
-				
+
 			} else {
-				if(resolvedWord != null){
-					if (resolvedWord.equalsIgnoreCase(KEYWORD_AT)){
+				if (resolvedWord != null) {
+					if (resolvedWord.equalsIgnoreCase(KEYWORD_AT)) {
 						startDateString = sc.nextLine();
 						System.out.println(startDateString);
 						isSingleDate = true;
-					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)){
+					} else if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
 						startDateString = sc.nextLine();
-						System.out.println("keyword from: "+startDateString);
+						System.out.println("keyword from: " + startDateString);
 						endDateString = DATE_MAX;
 						isSingleDate = true;
 						isDoubleDate = true;
 					}
 				}
 			}
-			
-			
-			try{
+
+			try {
 				if (priority >= PRIORITY_MIN && priority <= PRIORITY_MAX) {
-					if(isSingleDate == false && isDoubleDate == false){
+					if (isSingleDate == false && isDoubleDate == false) {
 						status = engineObj.retrieveTask(priority);
 					} else if (isSingleDate == true && isDoubleDate == false) {
 						Date fromDate = null;
-						
+
 						List<Date> dateList = parseStringToDate(startDateString);
 
 						if (!dateList.isEmpty()) {
 							fromDate = dateList.remove(0);
 						}
-						
+
 						status = engineObj.retrieveTask(priority, fromDate);
-						
+
 					} else if (isSingleDate == true && isDoubleDate == true) {
-						String combinedDate = startDateString + " to " + endDateString;
-						
+						String combinedDate = startDateString + " to "
+								+ endDateString;
+
 						List<Date> dateList = parseStringToDate(combinedDate);
 
 						Date fromDate = null;
@@ -689,13 +690,14 @@ public class Validator {
 								toDate = dateList.remove(0);
 							}
 						}
-						
-						status = engineObj.retrieveTask(priority, fromDate, toDate);
-						
+
+						status = engineObj.retrieveTask(priority, fromDate,
+								toDate);
+
 					}
-				
-			}
-				
+
+				}
+
 			} catch (IOException e) {
 				System.err
 						.println("retrievePriority: Retrieval fail (IO Exception).");
@@ -724,7 +726,7 @@ public class Validator {
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-			
+
 			if (resolvedWord != null) {
 				if (resolvedWord.equalsIgnoreCase(KEYWORD_FROM)) {
 					isInBetweenTime = true;
@@ -737,24 +739,24 @@ public class Validator {
 			} else {
 				dateString += " " + currentWord;
 			}
-					
+
 		}
 
 		try {
-			if(isInBetweenTime == true) {
+			if (isInBetweenTime == true) {
 				String preparedStatement = KEYWORD_FROM + dateString;
-				//System.out.println("prep stmt: "+preparedStatement);
+				// System.out.println("prep stmt: "+preparedStatement);
 				status = retrieveInBetween(preparedStatement);
-				
+
 			} else {
 				Date onDate = null;
-				//System.out.println("dateString: "+dateString);
+				// System.out.println("dateString: "+dateString);
 				List<Date> dateList = parseStringToDate(dateString);
-	
+
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
 				}
-	
+
 				status = engineObj.retrieveTask(onDate);
 			}
 
@@ -788,8 +790,7 @@ public class Validator {
 					startDateString += " " + currentWord;
 				}
 			} else {
-				
-							
+
 				endDateString += " " + currentWord;
 			}
 		}
@@ -804,11 +805,10 @@ public class Validator {
 				fromDate = dateListFrom.remove(0);
 			}
 
-			
 			if (!endDateString.trim().equals("")) {
-								
+
 				String combinedDate = startDateString + " to" + endDateString;
-				//System.out.println("startdatestring "+combinedDate);
+				// System.out.println("startdatestring "+combinedDate);
 				List<Date> dateList = parseStringToDate(combinedDate);
 
 				if (!dateList.isEmpty()) {
@@ -818,19 +818,18 @@ public class Validator {
 						toDate = dateList.remove(0);
 					}
 				}
-				
-				
+
 				status = engineObj.retrieveTask(fromDate, toDate);
 
 			} else {
-				//System.out.println("no end date");
+				// System.out.println("no end date");
 
 				List<Date> dateListTo = parseStringToDate(DATE_MAX);
 
 				if (!dateListTo.isEmpty()) {
 					toDate = dateListTo.remove(0);
 				}
-				
+
 				status = engineObj.retrieveTask(fromDate, toDate);
 			}
 
@@ -853,7 +852,7 @@ public class Validator {
 			taskToRemove = retrievedTaskList.get(indexOffset);
 			String taskDisplay = KEYWORD_UPDATE;
 			taskDisplay += taskToRemove.toDisplay();
-			
+
 			status = new Success(taskDisplay, true, null);
 			System.out.println("found : " + taskDisplay);
 
@@ -865,19 +864,26 @@ public class Validator {
 				if (status.isSuccess()) {
 					taskToRemove = null;
 				}
-//				System.out.println("Task deleted");
-//				System.out.println("updated task added : " + updatedTask.getTaskName());
+				// System.out.println("Task deleted");
+				// System.out.println("updated task added : " +
+				// updatedTask.getTaskName());
 			}
 		} catch (IndexOutOfBoundsException e) {
 			status = new Success(false,
-					"Invalid index to delete. Please enter a valid range.");
+					"Invalid index to update. Please enter a valid range.");
+		} catch (NullPointerException e) {
+			status = new Success(false,
+					"No task to update. Please retrieve task first.");
+		} catch (Exception e) {
+			status = new Success(false,
+					"Unknown error occured while parsing update command.");
 		}
 
 		return status;
 	}
 
 	private Success parseDeleteCommand(String index) {
-		
+
 		Success status = null;
 		Engine engineObj = new Engine();
 		index = index.trim();
@@ -886,18 +892,21 @@ public class Validator {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 			status = engineObj.deleteTask(taskToRemove);
-			System.out.println("Deleted : \"" + taskToRemove.getTaskName() + "\"");
+			System.out.println("Deleted : \"" + taskToRemove.getTaskName()
+					+ "\"");
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
 			status = new Success(false,
 					"Index is not a number. Please enter a numerical value.");
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
 			status = new Success(false,
 					"Invalid index to delete. Please enter a valid range.");
+		} catch (NullPointerException e) {
+			status = new Success(false,
+					"No task to update. Please retrieve task first.");
 		} catch (Exception e) {
-			e.printStackTrace();
+			status = new Success(false,
+					"Unknown error occured while parsing delete command.");
 		}
 
 		return status;

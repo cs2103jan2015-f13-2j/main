@@ -1,4 +1,5 @@
 package logic;
+
 // 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -139,17 +140,19 @@ public class Engine {
 
 		return succesObj;
 	}
-	
-	public Success retrieveTask(int priority, Date startDate , Date endDate) throws IOException {
+
+	public Success retrieveTask(int priority, Date startDate, Date endDate)
+			throws IOException {
 
 		Success succesObj = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromPriorityBetweenDate(priority, startDate, endDate);
+		succesObj = dataStorage.loadFromPriorityBetweenDate(priority,
+				startDate, endDate);
 
 		return succesObj;
 	}
-	
+
 	// retrieve task with specific task and date (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Task task, Date date) throws IOException {
@@ -175,63 +178,52 @@ public class Engine {
 
 		return succesObj;
 	}
-	
-	public Success searchTask(String keyword)
-	{
+
+	public Success searchTask(String keyword) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.searchFromFile(keyword);
-				
-				
-		return successObj; 
+
+		return successObj;
 	}
-	
-	public Success searchTask(String keyword, Date date)
-	{
+
+	public Success searchTask(String keyword, Date date) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.searchFromFileWithDate(keyword, date);
-				
-				
-		return successObj; 
+
+		return successObj;
 	}
-	
-	public Success searchTask(String keyword, Date startDate, Date endDate)
-	{
+
+	public Success searchTask(String keyword, Date startDate, Date endDate) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
-		successObj = dataStorage.searchFromFileBetweenDate( keyword,  startDate,  endDate);
-				
-				
-		return successObj; 
+
+		successObj = dataStorage.searchFromFileBetweenDate(keyword, startDate,
+				endDate);
+
+		return successObj;
 	}
-	
-	
+
 	// delete task with specific ID
-	public Success deleteTask(Task task)
-	{
+	public Success deleteTask(Task task) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.deleteFromFile(task);
-				
-				
-		return successObj; 
+
+		return successObj;
 	}
-	
-	public Success updateTask(Task taskUpdate, Task taskOld)
-	{
+
+	public Success updateTask(Task taskUpdate, Task taskOld) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.updateFromFile(taskUpdate, taskOld);
-				
-				
-		return successObj; 
+
+		return successObj;
 	}
-	
 
 }
