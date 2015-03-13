@@ -85,24 +85,26 @@ public class Main extends Application implements Runnable {
 	}
 
 	protected void executeCommand(TextField txtF, String commandString) {
+
 		Success status = null;
-		
-		
-	//	if(commandValidator.validateKeywordSequence(secondaryList) == true){
-			status = commandValidator.parseCommand(commandString);	
-	//	}
-		
-		//if (status.isSuccess() == false) {
-			//System.out.println(status.getMessage());
-		//} else {
-			if(status.getObj() instanceof String) {
-				String updateCommand = (String) status.getObj();
-				txtF.setText(updateCommand);
+
+		if (commandValidator.validateKeywordSequence(secondaryList) == true) {
+			status = commandValidator.parseCommand(commandString);
+
+			if (status.isSuccess() == false) {
+				System.out.println(status.getMessage());
 			} else {
-				txtF.clear();
+				if (status.getObj() instanceof String) {
+					String updateCommand = (String) status.getObj();
+					txtF.setText(updateCommand);
+				} else {
+					txtF.clear();
+				}
+				System.out.println("Command executed successfully");
 			}
-			System.out.println("Command executed successfully");
-		//}
+		} else {
+			System.out.println("Incorrect command entered.");
+		}
 
 		// System.out.println(obj.getTaskName()
 
@@ -129,14 +131,14 @@ public class Main extends Application implements Runnable {
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-			
+
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
 				String currentKeyword = stringArr[i];
-				
+
 				secondaryList.add(currentKeyword);
 				// this method is for fencing the keyword (will implement later)
-				//handleMethod("Handling: " + stringArr[i]);
+				// handleMethod("Handling: " + stringArr[i]);
 
 			}
 
