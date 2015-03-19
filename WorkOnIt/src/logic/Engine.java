@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 
 import data.FileIO;
 import entity.DeadlineTask;
@@ -17,11 +18,13 @@ import entity.NormalTask;
 import entity.RecurrenceTask;
 import entity.Task;
 import entity.Success;
+import entity.TaskHistory;
 
 public class Engine {
 
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
+	Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 
 	// save task into database
 	public Success addTask(Task task) {
@@ -30,6 +33,9 @@ public class Engine {
 
 		FileIO dataStorage = new FileIO();
 		status = dataStorage.saveIntoFile(task);
+		
+		TaskHistory taskHistoryObj = new TaskHistory("add", task);
+		undoStack.push(taskHistoryObj);
 
 		return status;
 	}
@@ -213,6 +219,9 @@ public class Engine {
 		FileIO dataStorage = new FileIO();
 
 		successObj = dataStorage.deleteFromFile(task);
+		
+		TaskHistory taskHistoryObj = new TaskHistory("delete", task);
+		undoStack.push(taskHistoryObj);
 
 		return successObj;
 	}
@@ -223,7 +232,44 @@ public class Engine {
 
 		successObj = dataStorage.updateFromFile(taskUpdate, taskOld);
 
+		TaskHistory taskHistoryObj = new TaskHistory("update", taskUpdate, taskOld);
+		undoStack.push(taskHistoryObj);
+		
 		return successObj;
+	}
+	
+	public Success undoTask()
+	{
+		
+		Success status = null;
+		
+		if(undoStack.size() > 0)
+		{
+		TaskHistory undoTask = undoStack.pop();
+		String undoOperation = undoTask.getOperation();
+		Task taskObj = undoTask.getTask();
+		
+		//delete the task obj.
+		if(undoOperation.equalsIgnoreCase("add"))
+		{
+			status = deleteTask(taskObj);			
+		}	
+		//add the taskObj.
+		else if(undoOperation.equalsIgnoreCase("delete"))
+		{
+			status = addTask(taskObj);	
+		}
+		//revert the taskObj to previous version.
+		else if(undoOperation.equalsIgnoreCase("update"))
+		{
+			Task taskToRevert = undoTask.getAuxTask();
+			updateTask(taskToRevert,taskObj);
+		}
+		}else
+		{
+			status = new Success(false, "Can't undo");
+		}
+		return status;
 	}
 
 }
