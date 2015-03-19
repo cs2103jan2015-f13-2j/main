@@ -242,6 +242,7 @@ public class Engine {
 	{
 		
 		Success status = null;
+		FileIO dataStorage = new FileIO();
 		
 		if(undoStack.size() > 0)
 		{
@@ -251,19 +252,19 @@ public class Engine {
 		
 		//delete the task obj.
 		if(undoOperation.equalsIgnoreCase("add"))
-		{
-			status = deleteTask(taskObj);			
+		{		
+			status = dataStorage.deleteFromFile(taskObj);	
 		}	
 		//add the taskObj.
 		else if(undoOperation.equalsIgnoreCase("delete"))
 		{
-			status = addTask(taskObj);	
+			status = dataStorage.saveIntoFile(taskObj);	
 		}
 		//revert the taskObj to previous version.
 		else if(undoOperation.equalsIgnoreCase("update"))
 		{
 			Task taskToRevert = undoTask.getAuxTask();
-			updateTask(taskToRevert,taskObj);
+			status = dataStorage.updateFromFile(taskToRevert, taskObj);
 		}
 		}else
 		{
