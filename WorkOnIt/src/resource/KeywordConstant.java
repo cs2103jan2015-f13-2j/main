@@ -15,6 +15,7 @@ public class KeywordConstant {
 	public static final String KEYWORD_EVERY = "every";
 	public static final String KEYWORD_PRIORITY = "priority";
 	public static final String KEYWORD_UNDO = "undo";
+	public static final String KEYWORD_REDO = "redo";
 	public static final String KEYWORD_COMPLETE = "complete";
 	public static final String KEYWORD_INCOMPLETE = "incomplete";
 	public static final String KEYWORD_CLEAR = "clear";

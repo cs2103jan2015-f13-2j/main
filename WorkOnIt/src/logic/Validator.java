@@ -23,12 +23,13 @@ import entity.Success;
 
 public class Validator {
 
+	private Engine engine;
 	private Map<String, String> keywordFullMap = null;
 	private ArrayList<Task> retrievedTaskList = null;
 	private Task taskToRemove = null;
 
 	public Validator() {
-
+		engine = new Engine();
 		loadConfigFile();
 	}
 
@@ -54,7 +55,6 @@ public class Validator {
 	public Success parseCommand(String fullCommand) {
 
 		Success status = null;
-		Engine engineObj = new Engine();
 
 		fullCommand = fullCommand.toLowerCase();
 		Scanner sc = new Scanner(fullCommand);
@@ -70,7 +70,7 @@ public class Validator {
 				Task task;
 				if (status.isSuccess()) {
 					task = (Task) status.getObj();
-					status = engineObj.addTask(task);
+					status = engine.addTask(task);
 				}
 
 			} else if (commandResolved
@@ -104,11 +104,17 @@ public class Validator {
 							+ t.getTaskName() + "\t ; Task Type: "
 							+ t.getClass());
 				}
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDO)) {
+				status = undoCommand();
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
+				status = redoCommand();
 			}
 
 		} else {
 			sc.close();
-			throw new UnsupportedOperationException("Unrecognized command.");
+			status = new Success(false, "Unrecognized command.");
 		}
 
 		sc.close();
@@ -597,9 +603,7 @@ public class Validator {
 	private Success retrieveTaskDesc(String searchString) {
 		Success status = null;
 
-		Engine engineObj = new Engine();
-
-		status = engineObj.searchTask(searchString);
+		status = engine.searchTask(searchString);
 
 		return status;
 	}
@@ -619,8 +623,8 @@ public class Validator {
 	}
 
 	private Success retrievePriority(String remainingPriority) {
+		
 		Scanner sc = new Scanner(remainingPriority);
-		Engine engineObj = new Engine();
 		Success status = null;
 		int priority = -1;
 		String startDateString = "";
@@ -668,7 +672,7 @@ public class Validator {
 				if (priority >= KeywordConstant.PRIORITY_MIN
 						&& priority <= KeywordConstant.PRIORITY_MAX) {
 					if (isSingleDate == false && isDoubleDate == false) {
-						status = engineObj.retrieveTask(priority);
+						status = engine.retrieveTask(priority);
 					} else if (isSingleDate == true && isDoubleDate == false) {
 						Date fromDate = null;
 
@@ -678,7 +682,7 @@ public class Validator {
 							fromDate = dateList.remove(0);
 						}
 
-						status = engineObj.retrieveTask(priority, fromDate);
+						status = engine.retrieveTask(priority, fromDate);
 
 					} else if (isSingleDate == true && isDoubleDate == true) {
 						String combinedDate = startDateString + " to "
@@ -697,7 +701,7 @@ public class Validator {
 							}
 						}
 
-						status = engineObj.retrieveTask(priority, fromDate,
+						status = engine.retrieveTask(priority, fromDate,
 								toDate);
 
 					}
@@ -716,19 +720,18 @@ public class Validator {
 
 	private Success retrieveAllDates() {
 
-		Engine engineObj = new Engine();
 		Success status = null;
-		status = engineObj.retrieveTask();
+		status = engine.retrieveTask();
 
 		return status;
 	}
 
 	private Success retrieveSingleDate(String remainingDate) {
 		Scanner sc = new Scanner(remainingDate);
-		Engine engineObj = new Engine();
 		String dateString = "";
 		Success status = null;
 		boolean isInBetweenTime = false;
+		
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -765,7 +768,7 @@ public class Validator {
 					onDate = dateList.remove(0);
 				}
 
-				status = engineObj.retrieveTask(onDate);
+				status = engine.retrieveTask(onDate);
 			}
 
 		} catch (IOException e) {
@@ -777,7 +780,6 @@ public class Validator {
 
 	private Success retrieveInBetween(String remainingDate) {
 		Scanner sc = new Scanner(remainingDate);
-		Engine engineObj = new Engine();
 		String startDateString = "";
 		String endDateString = "";
 
@@ -828,7 +830,7 @@ public class Validator {
 					}
 				}
 
-				status = engineObj.retrieveTask(fromDate, toDate);
+				status = engine.retrieveTask(fromDate, toDate);
 
 			} else {
 				// System.out.println("no end date");
@@ -839,7 +841,7 @@ public class Validator {
 					toDate = dateListTo.remove(0);
 				}
 
-				status = engineObj.retrieveTask(fromDate, toDate);
+				status = engine.retrieveTask(fromDate, toDate);
 			}
 
 		} catch (IOException e) {
@@ -852,7 +854,6 @@ public class Validator {
 
 	private Success parseUpdateCommand(String remainingCommand) {
 
-		Engine engineObj = new Engine();
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
 
@@ -869,7 +870,7 @@ public class Validator {
 			Success statusTask = parseAddCommand(remainingCommand);
 			if (statusTask.isSuccess()) {
 				Task updatedTask = (Task) statusTask.getObj();
-				status = engineObj.updateTask(updatedTask, taskToRemove);
+				status = engine.updateTask(updatedTask, taskToRemove);
 				if (status.isSuccess()) {
 					taskToRemove = null;
 					retrievedTaskList = null;
@@ -895,13 +896,12 @@ public class Validator {
 	private Success parseDeleteCommand(String index) {
 
 		Success status = null;
-		Engine engineObj = new Engine();
 		index = index.trim();
 
 		try {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
-			status = engineObj.deleteTask(taskToRemove);
+			status = engine.deleteTask(taskToRemove);
 
 			if (status.isSuccess()) {
 				retrievedTaskList = null;
@@ -923,6 +923,18 @@ public class Validator {
 					"Unknown error occured while parsing delete command.");
 		}
 
+		return status;
+	}
+
+	private Success undoCommand() {
+		Success status = engine.undoTask();
+		
+		return status;
+	}
+
+	private Success redoCommand() {
+		Success status = new Success(false, "fake redo");//engine.redoTask();
+		
 		return status;
 	}
 
