@@ -2,6 +2,7 @@ package logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -193,11 +194,11 @@ public class Validator {
 		}
 
 		sc.close();
-		
-		if(status.isSuccess()) {
+
+		if (status.isSuccess()) {
 			retrievedTaskList = null;
 		}
-		
+
 		return status;
 	}
 
@@ -273,10 +274,12 @@ public class Validator {
 		Date toDate = null;
 
 		if (!dateList.isEmpty()) {
-			fromDate = dateList.remove(0);
+			Date unprocessedStartDate = dateList.remove(0);
+			fromDate = fixStartDate(unprocessedStartDate);
 
 			if (!dateList.isEmpty()) {
-				toDate = dateList.remove(0);
+				Date unprocessedEndDate = dateList.remove(0);
+				toDate = fixEndDate(unprocessedEndDate);
 			}
 		}
 		// System.out.println(combinedDate);
@@ -335,7 +338,8 @@ public class Validator {
 		Date deadlineDate = null;
 
 		if (!dateList.isEmpty()) {
-			deadlineDate = dateList.remove(0);
+			Date unprocessedDate = dateList.remove(0);
+			deadlineDate = fixEndDate(unprocessedDate);
 		}
 
 		task = new DeadlineTask(taskDesc, priority, deadlineDate);
@@ -440,10 +444,12 @@ public class Validator {
 		Date endRecurrenceDate = null;
 
 		if (!dateList.isEmpty()) {
-			startRecurrenceDate = dateList.remove(0);
+			Date unprocessedStartDate = dateList.remove(0);
+			startRecurrenceDate = fixStartDate(unprocessedStartDate);
 
 			if (!dateList.isEmpty()) {
-				endRecurrenceDate = dateList.remove(0);
+				Date unprocessedEndDate = dateList.remove(0);
+				endRecurrenceDate = fixEndDate(unprocessedEndDate);
 			}
 		}
 
@@ -896,8 +902,8 @@ public class Validator {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 			status = engineObj.deleteTask(taskToRemove);
-			
-			if(status.isSuccess()) {
+
+			if (status.isSuccess()) {
 				retrievedTaskList = null;
 			}
 			System.out.println("Deleted : \"" + taskToRemove.getTaskName()
@@ -918,5 +924,69 @@ public class Validator {
 		}
 
 		return status;
+	}
+
+	private Date fixStartDate(Date inDate) {
+
+		int delayInMillisec = 3000;
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		// System.out.println("TimeDiff start : " + timeDifference);
+
+		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+			inCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			inCalendar.set(Calendar.MINUTE, 0);
+			inCalendar.set(Calendar.SECOND, 0);
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	private Date fixEndDate(Date inDate) {
+
+		int delayInMillisec = 3000;
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		// System.out.println("TimeDiff end : " + timeDifference);
+
+		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+			inCalendar.set(Calendar.HOUR_OF_DAY, 23);
+			inCalendar.set(Calendar.MINUTE, 59);
+			inCalendar.set(Calendar.SECOND, 59);
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
 	}
 }
