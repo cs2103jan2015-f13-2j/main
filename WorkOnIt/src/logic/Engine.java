@@ -24,7 +24,13 @@ public class Engine {
 
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
-	Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
+	
+	final static String DEADLINE_KEYWORD = "deadline";
+	final static String FLOATING_KEYWORD = "floating";
+	final static String NORMAL_KEYWORD = "normal";
+	final static String RECUR_KEYWORD = "recur";
+	
+	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 
 	// save task into database
 	public Success addTask(Task task) {
@@ -50,13 +56,13 @@ public class Engine {
 
 			FileIO dataStorage = new FileIO();
 
-			taskList.addAll((ArrayList) dataStorage.loadFromFileFloatingTask()
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(FLOATING_KEYWORD)
 					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileNormalTask()
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(NORMAL_KEYWORD)
 					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileRecurTask()
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(DEADLINE_KEYWORD)
 					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileDeadlineTask()
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(RECUR_KEYWORD)
 					.getObj());
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
@@ -72,29 +78,30 @@ public class Engine {
 	// retrieve selected task entity from database.
 	public Success retrieveTask(Task task) throws IOException {
 
-		Task object = null;
 		Success succesObj = null;
+		String file_type = null;
 
-		List<Task> taskList = new ArrayList<Task>();
 		FileIO dataStorage = new FileIO();
 
 		if (task instanceof FloatingTask) {
-			succesObj = dataStorage.loadFromFileFloatingTask();
-		}
-		;
+			file_type  = FLOATING_KEYWORD;
+		};
+		
 		if (task instanceof NormalTask) {
-			succesObj = dataStorage.loadFromFileNormalTask();
-		}
-		;
+			file_type  = NORMAL_KEYWORD;
+		};
+		
 		if (task instanceof RecurrenceTask) {
-			succesObj = dataStorage.loadFromFileRecurTask();
-		}
-		;
+			file_type  = RECUR_KEYWORD;
+		};
+		
 		if (task instanceof DeadlineTask) {
-			succesObj = dataStorage.loadFromFileDeadlineTask();
-		}
-		;
-
+			file_type  = DEADLINE_KEYWORD;
+		};
+		
+		succesObj = dataStorage.loadFromFileTask(file_type);
+		
+		
 		return succesObj;
 	}
 

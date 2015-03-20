@@ -32,6 +32,10 @@ public class FileIO {
 	final static String FILE_NAME_FLOATING = "datafile_floating.txt";
 	final static String FILE_NAME_NORMAL = "datafile_normal.txt";
 	final static String FILE_NAME_RECUR = "datafile_recur.txt";
+	final static String DEADLINE_KEYWORD = "deadline";
+	final static String FLOATING_KEYWORD = "floating";
+	final static String NORMAL_KEYWORD = "normal";
+	final static String RECUR_KEYWORD = "recur";
 	final static String FILE_NAME = "datafile.txt";
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
@@ -63,146 +67,83 @@ public class FileIO {
 			filewrite.println(gsonSerial);
 
 			status = new Success(true, null);
+			filewrite.close();
 
 		} catch (IOException e) {
 			System.err
 					.println("saveIntoFile: IO error. Please check R/W/X access.");
 			status = new Success(false,
 					"saveIntoFile: IO error. Please check R/W/X access.");
-		} finally {
-			filewrite.close();
-
 		}
 
 		return status;
 	}
 
-	public Success loadFromFileFloatingTask() {
+	public Success loadFromFileTask(String file_keyword)
+	{
 
 		Success successObj;
 		BufferedReader reader = null;
+		
+		if (file_keyword.equalsIgnoreCase(FLOATING_KEYWORD)) {
+			file_type = FILE_NAME_FLOATING;
+		} else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) {
+			file_type = FILE_NAME_NORMAL;
+		} else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) {
+			file_type = FILE_NAME_RECUR;
+		} else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) {
+			file_type = FILE_NAME_DEADLINE;
+		}
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
-			reader = new BufferedReader(new FileReader(FILE_NAME_FLOATING));
+			reader = new BufferedReader(new FileReader(file_type));
 			String printLine;
 
-			while ((printLine = reader.readLine()) != null) {
-				Task task = (FloatingTask) deserializeFromJson(printLine,
-						FloatingTask.class);
-				taskList.add(task);
+			if(file_keyword.equalsIgnoreCase(FLOATING_KEYWORD))
+			{
+				while ((printLine = reader.readLine()) != null) {
+					Task task = (FloatingTask) deserializeFromJson(printLine,
+							FloatingTask.class);
+					taskList.add(task);
+				}
 			}
-
+			else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) 
+			{
+				while ((printLine = reader.readLine()) != null) {
+					Task task = (NormalTask) deserializeFromJson(printLine,
+							NormalTask.class);
+					taskList.add(task);
+				}
+			}
+			else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) 
+			{
+				while ((printLine = reader.readLine()) != null) {
+					Task task = (DeadlineTask) deserializeFromJson(printLine,
+							DeadlineTask.class);
+					taskList.add(task);
+				}
+			}
+			else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) 
+			{
+				while ((printLine = reader.readLine()) != null) {
+					Task task = (RecurrenceTask) deserializeFromJson(printLine,
+							RecurrenceTask.class);
+					taskList.add(task);
+				}
+			}
+			
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			reader.close();
 
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
 	}
-
-	public Success loadFromFileNormalTask() {
-
-		Success successObj;
-		BufferedReader reader = null;
-		try {
-			List<Task> taskList = new ArrayList<Task>();
-
-			reader = new BufferedReader(new FileReader(FILE_NAME_NORMAL));
-			String printLine;
-
-			while ((printLine = reader.readLine()) != null) {
-				Task task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
-				taskList.add(task);
-			}
-
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
-
-		} catch (IOException e) {
-			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
-		}
-
-		return successObj;
-	}
-
-	public Success loadFromFileDeadlineTask() {
-
-		Success successObj;
-		BufferedReader reader = null;
-
-		try {
-			List<Task> taskList = new ArrayList<Task>();
-
-			reader = new BufferedReader(new FileReader(FILE_NAME_DEADLINE));
-			String printLine;
-
-			while ((printLine = reader.readLine()) != null) {
-				Task task = (DeadlineTask) deserializeFromJson(printLine,
-						DeadlineTask.class);
-				taskList.add(task);
-			}
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
-
-		} catch (IOException e) {
-			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
-		}
-
-		return successObj;
-
-	}
-
-	public Success loadFromFileRecurTask() {
-
-		Success successObj;
-		BufferedReader reader = null;
-
-		try {
-			List<Task> taskList = new ArrayList<Task>();
-
-			reader = new BufferedReader(new FileReader(FILE_NAME_RECUR));
-			String printLine;
-
-			while ((printLine = reader.readLine()) != null) {
-				Task task = (RecurrenceTask) deserializeFromJson(printLine,
-						RecurrenceTask.class);
-				taskList.add(task);
-			}
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
-
-		} catch (IOException e) {
-			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
-		}
-
-		return successObj;
-	}
-
+	
 	public Success loadFromStartDate(Date date) {
 
 		Success successObj;
@@ -254,16 +195,12 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				recurReader.close();
-				deadlineReader.close();
-				normalReader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -316,16 +253,12 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				recurReader.close();
-				deadlineReader.close();
-				normalReader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -384,17 +317,13 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+			floatReader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				recurReader.close();
-				deadlineReader.close();
-				normalReader.close();
-				floatReader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -456,17 +385,12 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				recurReader.close();
-				deadlineReader.close();
-				normalReader.close();
-
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -524,17 +448,12 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				recurReader.close();
-				deadlineReader.close();
-				normalReader.close();
-
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -596,14 +515,10 @@ public class FileIO {
 			}
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			reader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -660,14 +575,10 @@ public class FileIO {
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
+			reader.close();
+
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -717,16 +628,12 @@ public class FileIO {
 			}
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+
+			reader.close();
 		}
 
 		catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -778,16 +685,9 @@ public class FileIO {
 				}
 			}
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
-		}
-
-		catch (IOException e) {
+			reader.close();
+		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -836,16 +736,11 @@ public class FileIO {
 				}
 			}
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			reader.close();
 		}
 
 		catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
@@ -925,7 +820,6 @@ public class FileIO {
 
 				}
 
-				
 				filewriteIntoFile.close();
 			}
 
@@ -953,7 +847,6 @@ public class FileIO {
 
 				}
 
-				
 				filewriteIntoFile.close();
 			}
 
@@ -980,21 +873,15 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 				}
 
-				
 				filewriteIntoFile.close();
 			}
 
+			reader.close();
 		}
 
 		catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
 
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 		return successObj;
 	}
@@ -1034,14 +921,13 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_NORMAL);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-				
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
-				}		
+				}
 				filewriteIntoFile.close();
 				saveIntoFile(taskUpdate);
 			}
@@ -1062,15 +948,14 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_FLOATING);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-				
-				
+
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
-				
+
 				filewriteIntoFile.close();
 				saveIntoFile(taskUpdate);
 			}
@@ -1091,14 +976,13 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_DEADLINE);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-				
-				
+
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-				
+
 				filewriteIntoFile.close();
 				saveIntoFile(taskUpdate);
 			}
@@ -1120,27 +1004,21 @@ public class FileIO {
 				File newFile = new File(FILE_NAME_RECUR);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
-				
-
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-				
+
 				filewriteIntoFile.close();
 				taskList.add(taskUpdate);
 			}
+
+			reader.close();
 		}
 
 		catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				successObj = new Success(false, e.getMessage());
-			}
 		}
 
 		return successObj;
