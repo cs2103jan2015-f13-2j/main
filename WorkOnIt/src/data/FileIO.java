@@ -35,7 +35,7 @@ public class FileIO {
 	final static String FILE_NAME = "datafile.txt";
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
-	final static String TEMP_FILE = "temp_file.txt";
+
 	private static String file_type;
 
 	public Success saveIntoFile(Task task) {
@@ -1041,10 +1041,9 @@ public class FileIO {
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
-				}
-				saveIntoFile(taskUpdate);
+				}		
 				filewriteIntoFile.close();
-
+				saveIntoFile(taskUpdate);
 			}
 
 			if (taskObj instanceof FloatingTask) {
@@ -1071,8 +1070,9 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 
 				}
-				saveIntoFile(taskUpdate);
+				
 				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
 			}
 
 			if (taskObj instanceof DeadlineTask) {
@@ -1098,8 +1098,9 @@ public class FileIO {
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-				saveIntoFile(taskUpdate);
+				
 				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
 			}
 
 			if (taskObj instanceof RecurrenceTask) {
@@ -1126,8 +1127,9 @@ public class FileIO {
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-				taskList.add(taskUpdate);
+				
 				filewriteIntoFile.close();
+				taskList.add(taskUpdate);
 			}
 		}
 
