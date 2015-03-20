@@ -872,9 +872,6 @@ public class FileIO {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
 
-			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
-					new FileWriter(TEMP_FILE, true)));
-
 			if (taskObj instanceof NormalTask) {
 
 				reader = new BufferedReader(new FileReader(FILE_NAME_NORMAL));
@@ -899,7 +896,6 @@ public class FileIO {
 
 				}
 
-				filewrite.close();
 				filewriteIntoFile.close();
 
 			}
@@ -929,7 +925,7 @@ public class FileIO {
 
 				}
 
-				filewrite.close();
+				
 				filewriteIntoFile.close();
 			}
 
@@ -957,7 +953,7 @@ public class FileIO {
 
 				}
 
-				filewrite.close();
+				
 				filewriteIntoFile.close();
 			}
 
@@ -984,7 +980,7 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 				}
 
-				filewrite.close();
+				
 				filewriteIntoFile.close();
 			}
 
@@ -1022,9 +1018,6 @@ public class FileIO {
 
 			String printLine;
 
-			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
-					new FileWriter(TEMP_FILE, true)));
-
 			if (taskObj instanceof NormalTask) {
 
 				reader = new BufferedReader(new FileReader(FILE_NAME_NORMAL));
@@ -1050,7 +1043,6 @@ public class FileIO {
 
 				}
 				saveIntoFile(taskUpdate);
-				filewrite.close();
 				filewriteIntoFile.close();
 
 			}
@@ -1080,7 +1072,6 @@ public class FileIO {
 
 				}
 				saveIntoFile(taskUpdate);
-				filewrite.close();
 				filewriteIntoFile.close();
 			}
 
@@ -1108,7 +1099,6 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 				}
 				saveIntoFile(taskUpdate);
-				filewrite.close();
 				filewriteIntoFile.close();
 			}
 
@@ -1137,7 +1127,6 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 				}
 				taskList.add(taskUpdate);
-				filewrite.close();
 				filewriteIntoFile.close();
 			}
 		}
