@@ -1,7 +1,7 @@
 package resource;
 
 public class KeywordConstant {
-	
+
 	public static final String KEYWORD_ADD = "add";
 	public static final String KEYWORD_UPDATE = "update";
 	public static final String KEYWORD_DELETE = "delete";
@@ -36,5 +36,5 @@ public class KeywordConstant {
 	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
 	public static final int PRIORITY_MAX = PRIORITY_HIGH;
 	public static final int PRIORITY_MIN = PRIORITY_LOW;
-	
+
 }

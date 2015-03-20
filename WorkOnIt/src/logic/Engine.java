@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
+import resource.KeywordConstant;
 import data.FileIO;
 import entity.DeadlineTask;
 import entity.FloatingTask;
@@ -24,12 +25,12 @@ public class Engine {
 
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
-	
+
 	final static String DEADLINE_KEYWORD = "deadline";
 	final static String FLOATING_KEYWORD = "floating";
 	final static String NORMAL_KEYWORD = "normal";
 	final static String RECUR_KEYWORD = "recur";
-	
+
 	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 
 	// save task into database
@@ -39,8 +40,9 @@ public class Engine {
 
 		FileIO dataStorage = new FileIO();
 		status = dataStorage.saveIntoFile(task);
-		
-		TaskHistory taskHistoryObj = new TaskHistory("add", task);
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_ADD, task);
 		undoStack.push(taskHistoryObj);
 
 		return status;
@@ -56,14 +58,14 @@ public class Engine {
 
 			FileIO dataStorage = new FileIO();
 
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(FLOATING_KEYWORD)
-					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(NORMAL_KEYWORD)
-					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(DEADLINE_KEYWORD)
-					.getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(RECUR_KEYWORD)
-					.getObj());
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+					FLOATING_KEYWORD).getObj());
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+					NORMAL_KEYWORD).getObj());
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+					DEADLINE_KEYWORD).getObj());
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+					RECUR_KEYWORD).getObj());
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
@@ -84,24 +86,23 @@ public class Engine {
 		FileIO dataStorage = new FileIO();
 
 		if (task instanceof FloatingTask) {
-			file_type  = FLOATING_KEYWORD;
-		};
-		
+			file_type = FLOATING_KEYWORD;
+		}
+
 		if (task instanceof NormalTask) {
-			file_type  = NORMAL_KEYWORD;
-		};
-		
+			file_type = NORMAL_KEYWORD;
+		}
+
 		if (task instanceof RecurrenceTask) {
-			file_type  = RECUR_KEYWORD;
-		};
-		
+			file_type = RECUR_KEYWORD;
+		}
+
 		if (task instanceof DeadlineTask) {
-			file_type  = DEADLINE_KEYWORD;
-		};
-		
+			file_type = DEADLINE_KEYWORD;
+		}
+
 		succesObj = dataStorage.loadFromFileTask(file_type);
-		
-		
+
 		return succesObj;
 	}
 
@@ -226,8 +227,9 @@ public class Engine {
 		FileIO dataStorage = new FileIO();
 
 		successObj = dataStorage.deleteFromFile(task);
-		
-		TaskHistory taskHistoryObj = new TaskHistory("delete", task);
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_DELETE, task);
 		undoStack.push(taskHistoryObj);
 
 		return successObj;
@@ -239,42 +241,39 @@ public class Engine {
 
 		successObj = dataStorage.updateFromFile(taskUpdate, taskOld);
 
-		TaskHistory taskHistoryObj = new TaskHistory("update", taskUpdate, taskOld);
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
 		undoStack.push(taskHistoryObj);
-		
+
 		return successObj;
 	}
-	
-	public Success undoTask()
-	{
-		
+
+	public Success undoTask() {
+
 		Success status = null;
 		FileIO dataStorage = new FileIO();
-		
-		if(undoStack.size() > 0)
-		{
-		TaskHistory undoTask = undoStack.pop();
-		String undoOperation = undoTask.getOperation();
-		Task taskObj = undoTask.getTask();
-		
-		//delete the task obj.
-		if(undoOperation.equalsIgnoreCase("add"))
-		{		
-			status = dataStorage.deleteFromFile(taskObj);	
-		}	
-		//add the taskObj.
-		else if(undoOperation.equalsIgnoreCase("delete"))
-		{
-			status = dataStorage.saveIntoFile(taskObj);	
-		}
-		//revert the taskObj to previous version.
-		else if(undoOperation.equalsIgnoreCase("update"))
-		{
-			Task taskToRevert = undoTask.getAuxTask();
-			status = dataStorage.updateFromFile(taskToRevert, taskObj);
-		}
-		}else
-		{
+
+		if (undoStack.size() > 0) {
+			TaskHistory undoTask = undoStack.pop();
+			String undoOperation = undoTask.getOperation();
+			Task taskObj = undoTask.getTask();
+
+			// delete the task obj.
+			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+				status = dataStorage.deleteFromFile(taskObj);
+			}
+			// add the taskObj.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+				status = dataStorage.saveIntoFile(taskObj);
+			}
+			// revert the taskObj to previous version.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+				Task taskToRevert = undoTask.getAuxTask();
+				status = dataStorage.updateFromFile(taskToRevert, taskObj);
+			}
+		} else {
 			status = new Success(false, "Can't undo");
 		}
 		return status;

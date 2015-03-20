@@ -1,4 +1,4 @@
- package application;
+package application;
 
 import org.jnativehook.GlobalScreen;
 
@@ -12,4 +12,4 @@ public class Start {
 		GlobalScreen.addNativeKeyListener(listener);
 	}
 
-} 
+}

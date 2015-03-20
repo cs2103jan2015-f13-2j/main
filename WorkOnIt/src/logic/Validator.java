@@ -623,7 +623,7 @@ public class Validator {
 	}
 
 	private Success retrievePriority(String remainingPriority) {
-		
+
 		Scanner sc = new Scanner(remainingPriority);
 		Success status = null;
 		int priority = -1;
@@ -701,8 +701,8 @@ public class Validator {
 							}
 						}
 
-						status = engine.retrieveTask(priority, fromDate,
-								toDate);
+						status = engine
+								.retrieveTask(priority, fromDate, toDate);
 
 					}
 
@@ -731,7 +731,7 @@ public class Validator {
 		String dateString = "";
 		Success status = null;
 		boolean isInBetweenTime = false;
-		
+
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -928,13 +928,13 @@ public class Validator {
 
 	private Success undoCommand() {
 		Success status = engine.undoTask();
-		
+
 		return status;
 	}
 
 	private Success redoCommand() {
-		Success status = new Success(false, "fake redo");//engine.redoTask();
-		
+		Success status = new Success(false, "fake redo");// engine.redoTask();
+
 		return status;
 	}
 

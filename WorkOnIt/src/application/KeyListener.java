@@ -20,6 +20,7 @@ public class KeyListener implements NativeKeyListener {
 	private Main mainApp;
 	private Logger logger;
 	private Thread thread;
+
 	public KeyListener() {
 		mainApp = new Main();
 		// disable jnativehook logging
@@ -29,10 +30,9 @@ public class KeyListener implements NativeKeyListener {
 
 	@SuppressWarnings("deprecation")
 	public void nativeKeyPressed(NativeKeyEvent e) {
-	
+
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
-	
-		
+
 		if (keyPressed.equals("Space")) {
 			space = true;
 			if (ctrl == true) {
@@ -52,15 +52,14 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals("Escape")) {
 			try {
 				System.out.println("Killing application");
-				//Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-				//Iterator iter = threadSet.iterator();
-				
-				
-				//deprecated but able to stop for now
-				thread.stop(); 
-			
-				//mainApp.hide();
-				//Platform.exit();
+				// Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+				// Iterator iter = threadSet.iterator();
+
+				// deprecated but able to stop for now
+				thread.stop();
+
+				// mainApp.hide();
+				// Platform.exit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -77,7 +76,7 @@ public class KeyListener implements NativeKeyListener {
 	}
 
 	public void nativeKeyTyped(NativeKeyEvent e) {
-		
+
 	}
 
 	public void registerHook() {

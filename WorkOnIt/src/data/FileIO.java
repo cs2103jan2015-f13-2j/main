@@ -79,12 +79,11 @@ public class FileIO {
 		return status;
 	}
 
-	public Success loadFromFileTask(String file_keyword)
-	{
+	public Success loadFromFileTask(String file_keyword) {
 
 		Success successObj;
 		BufferedReader reader = null;
-		
+
 		if (file_keyword.equalsIgnoreCase(FLOATING_KEYWORD)) {
 			file_type = FILE_NAME_FLOATING;
 		} else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) {
@@ -101,39 +100,32 @@ public class FileIO {
 			reader = new BufferedReader(new FileReader(file_type));
 			String printLine;
 
-			if(file_keyword.equalsIgnoreCase(FLOATING_KEYWORD))
-			{
+			if (file_keyword.equalsIgnoreCase(FLOATING_KEYWORD)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (FloatingTask) deserializeFromJson(printLine,
 							FloatingTask.class);
 					taskList.add(task);
 				}
-			}
-			else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) 
-			{
+			} else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (NormalTask) deserializeFromJson(printLine,
 							NormalTask.class);
 					taskList.add(task);
 				}
-			}
-			else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) 
-			{
+			} else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (DeadlineTask) deserializeFromJson(printLine,
 							DeadlineTask.class);
 					taskList.add(task);
 				}
-			}
-			else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) 
-			{
+			} else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (RecurrenceTask) deserializeFromJson(printLine,
 							RecurrenceTask.class);
 					taskList.add(task);
 				}
 			}
-			
+
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 			reader.close();
 
@@ -143,7 +135,7 @@ public class FileIO {
 
 		return successObj;
 	}
-	
+
 	public Success loadFromStartDate(Date date) {
 
 		Success successObj;
