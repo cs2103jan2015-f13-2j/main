@@ -629,12 +629,13 @@ public class Validator {
 		String endDateString = "";
 		boolean isSingleDate = false;
 		boolean isDoubleDate = false;
-
+		boolean isEndDate = false;
 		boolean isPriorityResolved = false;
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
 
+			System.out.println("curr: "+currentWord);
 			if (isPriorityResolved == false) {
 				if (resolvedWord != null) {
 					if (isANumber(resolvedWord) == true) {
@@ -649,6 +650,7 @@ public class Validator {
 				}
 
 			} else {
+				
 				if (resolvedWord != null) {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
@@ -657,59 +659,99 @@ public class Validator {
 						isSingleDate = true;
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
-						startDateString = sc.nextLine();
+						startDateString = currentWord;
 						System.out.println("keyword from: " + startDateString);
-						endDateString = KeywordConstant.DATE_MAX;
+						
 						isSingleDate = true;
 						isDoubleDate = true;
+					
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)){
+						endDateString = sc.nextLine();
+						isSingleDate = false;
+						System.out.println("keyword to: " + endDateString);
+						
+					} else {
+						System.out.println("here");
+						startDateString = " "+ currentWord;
 					}
+					
+				} else {
+					System.out.println("there");
+					startDateString = " "+ currentWord;
 				}
 			}
 
-			try {
-				if (priority >= KeywordConstant.PRIORITY_MIN
-						&& priority <= KeywordConstant.PRIORITY_MAX) {
-					if (isSingleDate == false && isDoubleDate == false) {
-						status = engine.retrieveTask(priority);
-					} else if (isSingleDate == true && isDoubleDate == false) {
-						Date fromDate = null;
+		}
+		try {
+			if (priority >= KeywordConstant.PRIORITY_MIN
+					&& priority <= KeywordConstant.PRIORITY_MAX) {
+				if (isSingleDate == false && isDoubleDate == false) {
+					status = engine.retrieveTask(priority);
+				} else if (isSingleDate == true && isDoubleDate == false) {
+					Date fromDate = null;
 
-						List<Date> dateList = parseStringToDate(startDateString);
+					List<Date> dateList = parseStringToDate(startDateString);
 
-						if (!dateList.isEmpty()) {
-							fromDate = dateList.remove(0);
-						}
-
-						status = engine.retrieveTask(priority, fromDate);
-
-					} else if (isSingleDate == true && isDoubleDate == true) {
-						String combinedDate = startDateString + " to "
-								+ endDateString;
-
-						List<Date> dateList = parseStringToDate(combinedDate);
-
-						Date fromDate = null;
-						Date toDate = null;
-
-						if (!dateList.isEmpty()) {
-							fromDate = dateList.remove(0);
-
-							if (!dateList.isEmpty()) {
-								toDate = dateList.remove(0);
-							}
-						}
-
-						status = engine
-								.retrieveTask(priority, fromDate, toDate);
-
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
 					}
 
+					status = engine.retrieveTask(priority, fromDate);
+
+				} else if (isSingleDate == true && isDoubleDate == true) {
+					
+					List<Date> dateMaxList = parseStringToDate(KeywordConstant.DATE_MAX);
+					Date maxDate= null;
+					if (!dateMaxList.isEmpty()) {
+						maxDate = dateMaxList.remove(0);
+					}
+				
+					String combinedDate = startDateString + " to "
+							+ endDateString;
+					
+					System.out.println(startDateString);
+					List<Date> dateList = parseStringToDate(combinedDate);
+
+					Date fromDate = null;
+					Date toDate = null;
+
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+
+						if (!dateList.isEmpty()) {
+							toDate = dateList.remove(0);
+						}
+					}
+
+					status = engine
+							.retrieveTask(priority, fromDate, toDate);
+
+				} else if(isSingleDate == false && isDoubleDate == true) {
+					String combinedDate = startDateString + " to "
+							+ endDateString;
+
+					List<Date> dateList = parseStringToDate(combinedDate);
+
+					Date fromDate = null;
+					Date toDate = null;
+
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+
+						if (!dateList.isEmpty()) {
+							toDate = dateList.remove(0);
+						}
+					}
+
+					status = engine
+							.retrieveTask(priority, fromDate, toDate);
 				}
 
-			} catch (IOException e) {
-				System.err.println(Message.ERROR_RETRIEVE);
 			}
 
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_RETRIEVE);
 		}
 
 		return status;
