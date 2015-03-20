@@ -23,13 +23,8 @@ import entity.TaskHistory;
 
 public class Engine {
 
-	final static String SUCCESS_MESSAGE = "List successfully retrived";
-	final static String FAIL_MESSAGE = "List fail to retrived";
-
-	final static String DEADLINE_KEYWORD = "deadline";
-	final static String FLOATING_KEYWORD = "floating";
-	final static String NORMAL_KEYWORD = "normal";
-	final static String RECUR_KEYWORD = "recur";
+	private final static String SUCCESS_MESSAGE = "List successfully retrived";
+	private final static String FAIL_MESSAGE = "List fail to retrived";
 
 	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 
@@ -59,13 +54,13 @@ public class Engine {
 			FileIO dataStorage = new FileIO();
 
 			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
-					FLOATING_KEYWORD).getObj());
+					KeywordConstant.KEYWORD_FLOATING_TASK).getObj());
 			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
-					NORMAL_KEYWORD).getObj());
+					KeywordConstant.KEYWORD_NORMAL_TASK).getObj());
 			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
-					DEADLINE_KEYWORD).getObj());
+					KeywordConstant.KEYWORD_DEADLINE_TASK).getObj());
 			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
-					RECUR_KEYWORD).getObj());
+					KeywordConstant.KEYWORD_RECUR_TASK).getObj());
 
 			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
 
@@ -86,19 +81,19 @@ public class Engine {
 		FileIO dataStorage = new FileIO();
 
 		if (task instanceof FloatingTask) {
-			file_type = FLOATING_KEYWORD;
+			file_type = KeywordConstant.KEYWORD_FLOATING_TASK;
 		}
 
 		if (task instanceof NormalTask) {
-			file_type = NORMAL_KEYWORD;
+			file_type = KeywordConstant.KEYWORD_NORMAL_TASK;
 		}
 
 		if (task instanceof RecurrenceTask) {
-			file_type = RECUR_KEYWORD;
+			file_type = KeywordConstant.KEYWORD_RECUR_TASK;
 		}
 
 		if (task instanceof DeadlineTask) {
-			file_type = DEADLINE_KEYWORD;
+			file_type = KeywordConstant.KEYWORD_DEADLINE_TASK;
 		}
 
 		succesObj = dataStorage.loadFromFileTask(file_type);
