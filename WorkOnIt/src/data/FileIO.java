@@ -1041,7 +1041,7 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_NORMAL);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-				taskList.add(taskUpdate);
+				
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
@@ -1049,7 +1049,7 @@ public class FileIO {
 					filewriteIntoFile.println(gsonSerial);
 
 				}
-
+				saveIntoFile(taskUpdate);
 				filewrite.close();
 				filewriteIntoFile.close();
 
@@ -1071,15 +1071,15 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_FLOATING);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-
-				taskList.add(taskUpdate);
+				
+				
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
-
+				saveIntoFile(taskUpdate);
 				filewrite.close();
 				filewriteIntoFile.close();
 			}
@@ -1100,14 +1100,14 @@ public class FileIO {
 
 				File newFile = new File(FILE_NAME_DEADLINE);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
-
-				taskList.add(taskUpdate);
+				
+				
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-
+				saveIntoFile(taskUpdate);
 				filewrite.close();
 				filewriteIntoFile.close();
 			}
@@ -1129,14 +1129,14 @@ public class FileIO {
 				File newFile = new File(FILE_NAME_RECUR);
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
-				taskList.add(taskUpdate);
+				
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
 					String gsonSerial = serializeToJson(taskList.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
-
+				taskList.add(taskUpdate);
 				filewrite.close();
 				filewriteIntoFile.close();
 			}
