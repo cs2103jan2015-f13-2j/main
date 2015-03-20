@@ -29,6 +29,11 @@ public class KeywordConstant {
 
 	public static final String DATE_MAX = "31 DECEMBER 9999";
 	public static final String DATE_MIN = "1 JANUARY 1970";
+	
+	public final static String KEYWORD_DEADLINE_TASK = "deadline";
+	public final static String KEYWORD_FLOATING_TASK = "floating";
+	public final static String KEYWORD_NORMAL_TASK = "normal";
+	public final static String KEYWORD_RECUR_TASK = "recur";
 
 	public static final int PRIORITY_LOW = 0;
 	public static final int PRIORITY_MEDIUM = 1;

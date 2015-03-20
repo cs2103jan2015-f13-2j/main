@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import resource.KeywordConstant;
+
 import com.google.gson.Gson;
 
 import entity.FloatingTask;
@@ -32,10 +34,6 @@ public class FileIO {
 	final static String FILE_NAME_FLOATING = "datafile_floating.txt";
 	final static String FILE_NAME_NORMAL = "datafile_normal.txt";
 	final static String FILE_NAME_RECUR = "datafile_recur.txt";
-	final static String DEADLINE_KEYWORD = "deadline";
-	final static String FLOATING_KEYWORD = "floating";
-	final static String NORMAL_KEYWORD = "normal";
-	final static String RECUR_KEYWORD = "recur";
 	final static String FILE_NAME = "datafile.txt";
 	final static String SUCCESS_MESSAGE = "List successfully retrived";
 	final static String FAIL_MESSAGE = "List fail to retrived";
@@ -84,13 +82,17 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
-		if (file_keyword.equalsIgnoreCase(FLOATING_KEYWORD)) {
+		if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
 			file_type = FILE_NAME_FLOATING;
-		} else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) {
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
 			file_type = FILE_NAME_NORMAL;
-		} else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) {
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
 			file_type = FILE_NAME_RECUR;
-		} else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) {
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
 			file_type = FILE_NAME_DEADLINE;
 		}
 
@@ -100,25 +102,29 @@ public class FileIO {
 			reader = new BufferedReader(new FileReader(file_type));
 			String printLine;
 
-			if (file_keyword.equalsIgnoreCase(FLOATING_KEYWORD)) {
+			if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (FloatingTask) deserializeFromJson(printLine,
 							FloatingTask.class);
 					taskList.add(task);
 				}
-			} else if (file_keyword.equalsIgnoreCase(NORMAL_KEYWORD)) {
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (NormalTask) deserializeFromJson(printLine,
 							NormalTask.class);
 					taskList.add(task);
 				}
-			} else if (file_keyword.equalsIgnoreCase(DEADLINE_KEYWORD)) {
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (DeadlineTask) deserializeFromJson(printLine,
 							DeadlineTask.class);
 					taskList.add(task);
 				}
-			} else if (file_keyword.equalsIgnoreCase(RECUR_KEYWORD)) {
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
 					Task task = (RecurrenceTask) deserializeFromJson(printLine,
 							RecurrenceTask.class);
