@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import resource.FileName;
+import resource.Message;
+
 import com.google.gson.Gson;
 
 public class ConfigIO {
-
-	private static final String CFG_FILENAME = "command.cfg";
 
 	public Map<String, String> getFullKeywordMap() {
 
@@ -27,7 +28,9 @@ public class ConfigIO {
 	private String loadFromFile() {
 
 		String loadedContents = null;
-		File configFile = new File(CFG_FILENAME);
+		String filenameCfg = FileName.getFilenameCfg();
+
+		File configFile = new File(filenameCfg);
 
 		try {
 
@@ -39,10 +42,10 @@ public class ConfigIO {
 
 			} else {
 				createNewFile(configFile);
-				System.err.println("loadFromFile: new file created.");
+				System.err.println(Message.FILE_CREATED);
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("loadFromFile: file not found.");
+			System.err.println(Message.FILE_NOT_FOUND);
 		}
 
 		return loadedContents;

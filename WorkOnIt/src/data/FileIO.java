@@ -13,6 +13,7 @@ import java.util.List;
 
 import resource.FileName;
 import resource.KeywordConstant;
+import resource.Message;
 
 import com.google.gson.Gson;
 
@@ -25,14 +26,10 @@ import entity.Success;
 
 public class FileIO {
 
-	final static String FILE_NAME = "datafile.txt";
-	final static String SUCCESS_MESSAGE = "List successfully retrived";
-	final static String FAIL_MESSAGE = "List fail to retrived";
-	
-	private String filename_floating = FileName.getFilename_floating();
-	private String filename_normal = FileName.getFilename_normal();
-	private String filename_recur = FileName.getFilename_recur();
-	private String filename_deadline = FileName.getFilename_deadline();
+	private String filename_floating = FileName.getFilenameFloating();
+	private String filename_normal = FileName.getFilenameNormal();
+	private String filename_recur = FileName.getFilenameRecur();
+	private String filename_deadline = FileName.getFilenameDeadline();
 
 	private static String file_type;
 
@@ -64,10 +61,8 @@ public class FileIO {
 			filewrite.close();
 
 		} catch (IOException e) {
-			System.err
-					.println("saveIntoFile: IO error. Please check R/W/X access.");
-			status = new Success(false,
-					"saveIntoFile: IO error. Please check R/W/X access.");
+			System.err.println(Message.ERROR_SAVE_INTO_FILE);
+			status = new Success(false, Message.ERROR_SAVE_INTO_FILE);
 		}
 
 		return status;
@@ -128,7 +123,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 			reader.close();
 
 		} catch (IOException e) {
@@ -187,7 +183,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			recurReader.close();
 			deadlineReader.close();
@@ -245,7 +242,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			recurReader.close();
 			deadlineReader.close();
@@ -309,7 +307,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			recurReader.close();
 			deadlineReader.close();
@@ -377,7 +376,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			recurReader.close();
 			deadlineReader.close();
@@ -440,7 +440,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			recurReader.close();
 			deadlineReader.close();
@@ -507,7 +508,8 @@ public class FileIO {
 				}
 
 			}
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			reader.close();
 
@@ -567,7 +569,8 @@ public class FileIO {
 
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			reader.close();
 
@@ -621,7 +624,8 @@ public class FileIO {
 				}
 			}
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 			reader.close();
 		}
@@ -678,7 +682,8 @@ public class FileIO {
 					taskList.add(task);
 				}
 			}
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 			reader.close();
 		} catch (IOException e) {
 			successObj = new Success(false, e.getMessage());
@@ -729,7 +734,8 @@ public class FileIO {
 					taskList.add(task);
 				}
 			}
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 			reader.close();
 		}
 
@@ -771,7 +777,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Delete Successful");
+								Message.SUCCESS_DELETE);
 					}
 				}
 
@@ -799,7 +805,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Delete Successful");
+								Message.SUCCESS_DELETE);
 					}
 				}
 
@@ -827,7 +833,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Delete Successful");
+								Message.SUCCESS_DELETE);
 					}
 				}
 
@@ -854,7 +860,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Delete Successful");
+								Message.SUCCESS_DELETE);
 					}
 				}
 
@@ -909,7 +915,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Update Successful");
+								Message.SUCCESS_UPDATE);
 					}
 				}
 
@@ -936,7 +942,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Update Successful");
+								Message.SUCCESS_UPDATE);
 					}
 				}
 
@@ -964,7 +970,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Update Successful");
+								Message.SUCCESS_UPDATE);
 					}
 				}
 
@@ -991,7 +997,7 @@ public class FileIO {
 						taskList.add(task);
 					} else {
 						successObj = new Success(taskList, true,
-								"Update Successful");
+								Message.SUCCESS_UPDATE);
 					}
 				}
 

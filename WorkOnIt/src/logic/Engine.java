@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 import resource.KeywordConstant;
+import resource.Message;
 import data.FileIO;
 import entity.DeadlineTask;
 import entity.FloatingTask;
@@ -17,9 +18,6 @@ import entity.Success;
 import entity.TaskHistory;
 
 public class Engine {
-
-	private final static String SUCCESS_MESSAGE = "List successfully retrived";
-	private final static String FAIL_MESSAGE = "List fail to retrived";
 
 	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 
@@ -57,7 +55,8 @@ public class Engine {
 			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_RECUR_TASK).getObj());
 
-			successObj = new Success(taskList, true, SUCCESS_MESSAGE);
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
 
 		} catch (Exception e) {
 			successObj = new Success(false, e.getMessage());
@@ -264,7 +263,7 @@ public class Engine {
 				status = dataStorage.updateFromFile(taskToRevert, taskObj);
 			}
 		} else {
-			status = new Success(false, "Can't undo");
+			status = new Success(false, Message.FAIL_UNDO);
 		}
 		return status;
 	}

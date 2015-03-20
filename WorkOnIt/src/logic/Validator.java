@@ -14,6 +14,7 @@ import com.joestelmach.natty.Parser;
 
 import data.ConfigIO;
 import resource.KeywordConstant;
+import resource.Message;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -27,6 +28,7 @@ public class Validator {
 	private Map<String, String> keywordFullMap = null;
 	private ArrayList<Task> retrievedTaskList = null;
 	private Task taskToRemove = null;
+	private int delayInMillisec = 3000; // 3 sec optimal delay time for process
 
 	public Validator() {
 		engine = new Engine();
@@ -114,7 +116,7 @@ public class Validator {
 
 		} else {
 			sc.close();
-			status = new Success(false, "Unrecognized command.");
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
 		sc.close();
@@ -193,7 +195,7 @@ public class Validator {
 			try {
 				remainingPriority = sc.nextLine();
 			} catch (NoSuchElementException e) {
-				System.err.println("No priority found for floating task.");
+				System.err.println(Message.ERROR_NO_PRIORITY_FOUND);
 			}
 
 			status = createFloatingTask(taskDesc, remainingPriority);
@@ -267,8 +269,7 @@ public class Validator {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err
-							.println("createNormalTask: Cannot parse priority.");
+					System.err.println(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -334,8 +335,7 @@ public class Validator {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err
-							.println("createDeadlineTask: Cannot parse priority.");
+					System.err.println(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -436,8 +436,7 @@ public class Validator {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err
-							.println("createRecurrenceTask: Cannot parse priority.");
+					System.err.println(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -495,8 +494,7 @@ public class Validator {
 				}
 
 			} catch (NumberFormatException e) {
-				System.err
-						.println("createFloatingTask: Cannot parse priority.");
+				System.err.println(Message.FAIL_PARSE_PRIORITY);
 			}
 
 			sc.close();
@@ -709,8 +707,7 @@ public class Validator {
 				}
 
 			} catch (IOException e) {
-				System.err
-						.println("retrievePriority: Retrieval fail (IO Exception).");
+				System.err.println(Message.ERROR_RETRIEVE);
 			}
 
 		}
@@ -772,7 +769,7 @@ public class Validator {
 			}
 
 		} catch (IOException e) {
-			System.err.println("retrieveSingleDate: Retrieval fail.");
+			System.err.println(Message.ERROR_RETRIEVE);
 		}
 		sc.close();
 		return status;
@@ -880,14 +877,11 @@ public class Validator {
 				// updatedTask.getTaskName());
 			}
 		} catch (IndexOutOfBoundsException e) {
-			status = new Success(false,
-					"Invalid index to update. Please enter a valid range.");
+			status = new Success(false, Message.ERROR_UPDATE_INVALID_INDEX);
 		} catch (NullPointerException e) {
-			status = new Success(false,
-					"No task to update. Please retrieve task first.");
+			status = new Success(false, Message.ERROR_UPDATE_NO_TASK_LIST);
 		} catch (Exception e) {
-			status = new Success(false,
-					"Unknown error occured while parsing update command.");
+			status = new Success(false, Message.ERROR_UPDATE);
 		}
 
 		return status;
@@ -910,17 +904,13 @@ public class Validator {
 					+ "\"");
 
 		} catch (NumberFormatException e) {
-			status = new Success(false,
-					"Index is not a number. Please enter a numerical value.");
+			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
-			status = new Success(false,
-					"Invalid index to delete. Please enter a valid range.");
+			status = new Success(false, Message.ERROR_DELETE_INVALID_INDEX);
 		} catch (NullPointerException e) {
-			status = new Success(false,
-					"No task to update. Please retrieve task first.");
+			status = new Success(false, Message.ERROR_DELETE_NO_TASK_LIST);
 		} catch (Exception e) {
-			status = new Success(false,
-					"Unknown error occured while parsing delete command.");
+			status = new Success(false, Message.ERROR_DELETE);
 		}
 
 		return status;
@@ -939,8 +929,6 @@ public class Validator {
 	}
 
 	private Date fixStartDate(Date inDate) {
-
-		int delayInMillisec = 3000;
 
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();
@@ -962,7 +950,7 @@ public class Validator {
 		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
 			inCalendar.set(Calendar.HOUR_OF_DAY, 0);
 			inCalendar.set(Calendar.MINUTE, 0);
-			inCalendar.set(Calendar.SECOND, 0);
+			inCalendar.set(Calendar.SECOND, 1);
 		}
 
 		Date processedDate = inCalendar.getTime();
@@ -971,8 +959,6 @@ public class Validator {
 	}
 
 	private Date fixEndDate(Date inDate) {
-
-		int delayInMillisec = 3000;
 
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();

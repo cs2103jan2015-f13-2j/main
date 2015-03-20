@@ -2,41 +2,50 @@ package resource;
 
 public class FileName {
 
-	private static String filename_deadline = "datafile_deadLine.txt";
-	private static String filename_floating = "datafile_floating.txt";
-	private static String filename_normal = "datafile_normal.txt";
-	private static String filename_recur = "datafile_recur.txt";
+	private static String filenameDeadline = "datafile_deadLine.txt";
+	private static String filenameFloating = "datafile_floating.txt";
+	private static String filenameNormal = "datafile_normal.txt";
+	private static String filenameRecur = "datafile_recur.txt";
+	private static String filenameCfg = "command.cfg";
 
-	public static String getFilename_deadline() {
-		return filename_deadline;
+	public static String getFilenameDeadline() {
+		return filenameDeadline;
 	}
 
-	public static void setFilename_deadline(String filename_deadline) {
-		FileName.filename_deadline = filename_deadline;
+	public static void setFilenameDeadline(String filenameDeadline) {
+		FileName.filenameDeadline = filenameDeadline;
 	}
 
-	public static String getFilename_floating() {
-		return filename_floating;
+	public static String getFilenameFloating() {
+		return filenameFloating;
 	}
 
-	public static void setFilename_floating(String filename_floating) {
-		FileName.filename_floating = filename_floating;
+	public static void setFilenameFloating(String filenameFloating) {
+		FileName.filenameFloating = filenameFloating;
 	}
 
-	public static String getFilename_normal() {
-		return filename_normal;
+	public static String getFilenameNormal() {
+		return filenameNormal;
 	}
 
-	public static void setFilename_normal(String filename_normal) {
-		FileName.filename_normal = filename_normal;
+	public static void setFilenameNormal(String filenameNormal) {
+		FileName.filenameNormal = filenameNormal;
 	}
 
-	public static String getFilename_recur() {
-		return filename_recur;
+	public static String getFilenameRecur() {
+		return filenameRecur;
 	}
 
-	public static void setFilename_recur(String filename_recur) {
-		FileName.filename_recur = filename_recur;
+	public static void setFilenameRecur(String filenameRecur) {
+		FileName.filenameRecur = filenameRecur;
+	}
+
+	public static String getFilenameCfg() {
+		return filenameCfg;
+	}
+
+	public static void setFilenameCfg(String filenameCfg) {
+		FileName.filenameCfg = filenameCfg;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.List;
 
+import resource.Message;
 import entity.Success;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -45,7 +46,7 @@ public class Main extends Application implements Runnable {
 			txtF.setLayoutX(0);
 			txtF.setLayoutY(0);
 			txtF.setPrefWidth(300);
-			txtF.setText("input here");
+			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
@@ -100,10 +101,10 @@ public class Main extends Application implements Runnable {
 				} else {
 					txtF.clear();
 				}
-				System.out.println("Command executed successfully");
+				System.out.println(Message.SUCCESS_COMMAND);
 			}
 		} else {
-			System.out.println("Incorrect command entered.");
+			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
 
 		// System.out.println(obj.getTaskName()
