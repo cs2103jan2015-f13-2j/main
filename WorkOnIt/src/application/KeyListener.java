@@ -39,7 +39,6 @@ public class KeyListener implements NativeKeyListener {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						// Your class that extends Application
 						new Main().start(new Stage());
 					}
 				});
@@ -53,7 +52,6 @@ public class KeyListener implements NativeKeyListener {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						// Your class that extends Application
 						new Main().start(new Stage());
 					}
 				});

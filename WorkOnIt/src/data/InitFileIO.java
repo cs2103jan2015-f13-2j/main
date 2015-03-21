@@ -2,25 +2,31 @@ package data;
 
 import java.io.File;
 
-import application.FolderChooser;
+import application.ChooseFolder;
+import application.Main;
 import javafx.application.Application;
-import javafx.stage.FileChooser;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
 import resource.FileName;
 import resource.Message;
 import entity.Success;
 
 public class InitFileIO {
 	
-	public InitFileIO() {
-		processFile();
-	}
-	
-	private void processFile() {
+	public void checkAndProcessFile() {
 		
 		if(isFilesExist()) {
 		} else {
 			
-			Application.launch(FolderChooser.class);
+			new JFXPanel();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					new ChooseFolder().start(new Stage());
+				}
+			});
+			
 			System.out.println(FileName.getCanonicalPath());
 		}
 	}

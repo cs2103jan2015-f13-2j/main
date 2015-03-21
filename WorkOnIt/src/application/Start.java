@@ -9,6 +9,7 @@ public class Start {
 	public static void main(String[] args) {
 		
 		InitFileIO initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
 		KeyListener listener = new KeyListener();
 
 		listener.registerHook();

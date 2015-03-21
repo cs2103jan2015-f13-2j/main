@@ -18,7 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import logic.Validator;
 
-public class Main extends Application implements Runnable {
+public class Main extends Application {
 
 	// need a global variable for the input
 	private static List<String> elementList = null;
@@ -72,10 +72,6 @@ public class Main extends Application implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
-		launch();
-	}
 
 	public void initializeGlobals() {
 		elementList = new ArrayList<String>();
