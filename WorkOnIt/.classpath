@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/natty-0.10.jar"/>
 	<classpathentry kind="lib" path="lib/JNativeHook.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="lib/richtextfx-0.4.3.jar"/>
+	<classpathentry kind="lib" path="lib/richtextfx-0.6.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
