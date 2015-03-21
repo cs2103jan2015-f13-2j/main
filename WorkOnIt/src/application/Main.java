@@ -25,15 +25,13 @@ public class Main extends Application implements Runnable {
 	private static List<String> secondaryList = null;
 	private static Validator commandValidator = null;
 
-	// KeyListener listener = new KeyListener();
-
 	@Override
 	public void start(final Stage primaryStage) {
+		
 		try {
-			// listener.registerHook();
-			// GlobalScreen.addNativeKeyListener(listener);
+			
 			Pane root = new Pane();
-			// primaryStage.initStyle(StageStyle.TRANSPARENT);
+			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			Scene scene = new Scene(root, 300, 100);
 			scene.getStylesheets().add(
 					Main.class.getResource("../css/application.css")
@@ -129,6 +127,7 @@ public class Main extends Application implements Runnable {
 
 		elementList.clear();
 		secondaryList.clear();
+		
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
@@ -164,6 +163,7 @@ public class Main extends Application implements Runnable {
 		});
 	}
 
+	//for running via Main, bypassing hotkey
 	public static void main(String[] args) {
 
 		launch();

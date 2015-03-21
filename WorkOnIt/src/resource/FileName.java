@@ -2,6 +2,7 @@ package resource;
 
 public class FileName {
 
+	private static String canonicalPath = ".";
 	private static String filenameDeadline = "datafile_deadLine.txt";
 	private static String filenameFloating = "datafile_floating.txt";
 	private static String filenameNormal = "datafile_normal.txt";
@@ -46,6 +47,14 @@ public class FileName {
 
 	public static void setFilenameCfg(String filenameCfg) {
 		FileName.filenameCfg = filenameCfg;
+	}
+
+	public static String getCanonicalPath() {
+		return canonicalPath;
+	}
+
+	public static void setCanonicalPath(String canonicalPath) {
+		FileName.canonicalPath = canonicalPath;
 	}
 
 }
