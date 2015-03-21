@@ -50,7 +50,7 @@ public class Main extends Application {
 				public void handle(ActionEvent event) {
 
 					System.out.println("textfield Text: " + txtF.getText());
-					wordHandler(txtF.getText());
+					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText());
 
 				}
@@ -59,7 +59,7 @@ public class Main extends Application {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					commandHandler(event, txtF.getText(), primaryStage);
+					commandHandler(event, txtF.getText(), primaryStage, txtF);
 				}
 			});
 
@@ -107,18 +107,18 @@ public class Main extends Application {
 	}
 
 	public static void commandHandler(KeyEvent event, String textFieldText,
-			final Stage stage) {
+			final Stage stage, TextField txtF) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} 
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
-			wordHandler(textFieldText);
+			wordHandler(txtF, textFieldText);
 		}
 
 	}
 
-	private static void wordHandler(String textFieldText) {
+	private static void wordHandler(TextField txtF, String textFieldText) {
 
 		String[] stringArr = textFieldText.trim().split(" ");
 
@@ -131,12 +131,15 @@ public class Main extends Application {
 
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
+				txtF.setStyle("-fx-text-fill: red;");
 				String currentKeyword = stringArr[i];
 
 				secondaryList.add(currentKeyword);
 				// this method is for fencing the keyword (will implement later)
 				// handleMethod("Handling: " + stringArr[i]);
 
+			} else {
+				txtF.setStyle("-fx-text-fill: black;");
 			}
 
 		}
