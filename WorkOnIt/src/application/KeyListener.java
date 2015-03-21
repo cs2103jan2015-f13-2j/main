@@ -1,7 +1,5 @@
 package application;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +16,6 @@ public class KeyListener implements NativeKeyListener {
 
 	private static boolean ctrl = false;
 	private static boolean space = false;
-	private static boolean isStarted = false;
 	private Main mainApp;
 	private Logger logger;
 	private Thread thread;
@@ -30,7 +27,6 @@ public class KeyListener implements NativeKeyListener {
 		logger.setLevel(Level.OFF);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void nativeKeyPressed(NativeKeyEvent e) {
 
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
@@ -38,9 +34,7 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals("Space")) {
 			space = true;
 			if (ctrl == true) {
-				System.out.println("Hotkey Activated");
-//				thread = new Thread(mainApp);
-//				thread.start();
+
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
@@ -54,16 +48,21 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals("Left Control")) {
 			ctrl = true;
 			if (space == true) {
-				System.out.println("Hotkey Activated");
-				thread = new Thread(mainApp);
-				thread.start();
+
+				new JFXPanel();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						// Your class that extends Application
+						new Main().start(new Stage());
+					}
+				});
 			}
 		}
 		if (keyPressed.equals("Escape")) {
 			try {
-				System.out.println("Closing application");
 				Platform.isImplicitExit();
-				
+
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
