@@ -12,6 +12,8 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
+import com.sun.javafx.application.PlatformImpl;
+
 public class KeyListener implements NativeKeyListener {
 
 	private static boolean ctrl = false;
@@ -59,7 +61,8 @@ public class KeyListener implements NativeKeyListener {
 		}
 		if (keyPressed.equals("Escape")) {
 			try {
-				Platform.isImplicitExit();
+				Platform.exit();
+				System.out.println("die");
 
 			} catch (Exception e1) {
 				e1.printStackTrace();

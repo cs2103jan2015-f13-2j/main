@@ -108,7 +108,7 @@ public class Main extends Application {
 	public static void commandHandler(KeyEvent event, String textFieldText,
 			final Stage stage) {
 		if (event.getCode().getName().equals("Esc")) {
-			hide(stage);
+//			hide(stage);
 		}
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
