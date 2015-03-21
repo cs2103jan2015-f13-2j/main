@@ -61,8 +61,7 @@ public class KeyListener implements NativeKeyListener {
 		}
 		if (keyPressed.equals("Escape")) {
 			try {
-				Platform.exit();
-				System.out.println("die");
+//				 Platform.exit();
 
 			} catch (Exception e1) {
 				e1.printStackTrace();

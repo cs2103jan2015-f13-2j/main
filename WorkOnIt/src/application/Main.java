@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import logic.Validator;
@@ -107,9 +108,9 @@ public class Main extends Application {
 
 	public static void commandHandler(KeyEvent event, String textFieldText,
 			final Stage stage) {
-		if (event.getCode().getName().equals("Esc")) {
-//			hide(stage);
-		}
+		if (event.getCode().equals(KeyCode.ESCAPE)) {
+			hide(stage);
+		} 
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
 			wordHandler(textFieldText);
@@ -151,7 +152,9 @@ public class Main extends Application {
 			@Override
 			public void run() {
 				if (SystemTray.isSupported()) {
+					stage.setOnHiding(null);
 					stage.hide();
+					System.out.println("hide");
 				} else {
 					System.exit(0);
 				}
