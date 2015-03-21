@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
@@ -37,8 +39,16 @@ public class KeyListener implements NativeKeyListener {
 			space = true;
 			if (ctrl == true) {
 				System.out.println("Hotkey Activated");
-				thread = new Thread(mainApp);
-				thread.start();
+//				thread = new Thread(mainApp);
+//				thread.start();
+				new JFXPanel();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						// Your class that extends Application
+						new Main().start(new Stage());
+					}
+				});
 			}
 		}
 		if (keyPressed.equals("Left Control")) {
@@ -51,15 +61,9 @@ public class KeyListener implements NativeKeyListener {
 		}
 		if (keyPressed.equals("Escape")) {
 			try {
-				System.out.println("Killing application");
-				// Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-				// Iterator iter = threadSet.iterator();
-
-				// deprecated but able to stop for now
-				thread.stop();
-
-				// mainApp.hide();
-				// Platform.exit();
+				System.out.println("Closing application");
+				Platform.isImplicitExit();
+				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
