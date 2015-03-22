@@ -666,7 +666,7 @@ public class Validator {
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)){
 						endDateString = sc.nextLine();
 						isSingleDate = false;
-						System.out.println("keyword to: " + endDateString);
+					
 						
 					} else {
 						startDateString += " "+ currentWord;
@@ -732,7 +732,7 @@ public class Validator {
 							toDate = dateList.remove(0);
 						}
 					}
-					
+					System.out.println(fromDate + " " + toDate);
 					status = engine
 							.retrieveTask(priority, fromDate, toDate);
 				}
