@@ -1,6 +1,7 @@
 package data;
 
 import java.io.File;
+import java.io.IOException;
 
 import application.ChooseFolder;
 import application.Main;
@@ -16,19 +17,21 @@ public class InitFileIO {
 	
 	public void checkAndProcessFile() {
 		
-		if(isFilesExist()) {
-		} else {
-			
-			new JFXPanel();
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					new ChooseFolder().start(new Stage());
-				}
-			});
-			
-			System.out.println(FileName.getCanonicalPath());
+		FileName.setDefaultCanonicalPath();
+		
+		if(!isFilesExist()) {
+			showChooseFolderUi();
 		}
+	}
+	
+	private void showChooseFolderUi() {
+		new JFXPanel();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				new ChooseFolder().start(new Stage());
+			}
+		});
 	}
 
 	private boolean isFilesExist() {

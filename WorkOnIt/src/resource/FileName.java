@@ -1,5 +1,8 @@
 package resource;
 
+import java.io.File;
+import java.io.IOException;
+
 public class FileName {
 
 	private static String canonicalPath = "";
@@ -8,9 +11,9 @@ public class FileName {
 	private static String filenameNormal = "datafile_normal.txt";
 	private static String filenameRecur = "datafile_recur.txt";
 	private static String filenameCfg = "command.cfg";
-
+	
 	public static String getFilenameDeadline() {
-		return filenameDeadline;
+		return getCanonicalPath() + "\\" + filenameDeadline;
 	}
 
 	public static void setFilenameDeadline(String filenameDeadline) {
@@ -18,7 +21,7 @@ public class FileName {
 	}
 
 	public static String getFilenameFloating() {
-		return filenameFloating;
+		return getCanonicalPath() + "\\" + filenameFloating;
 	}
 
 	public static void setFilenameFloating(String filenameFloating) {
@@ -26,7 +29,7 @@ public class FileName {
 	}
 
 	public static String getFilenameNormal() {
-		return filenameNormal;
+		return getCanonicalPath() + "\\" + filenameNormal;
 	}
 
 	public static void setFilenameNormal(String filenameNormal) {
@@ -34,7 +37,7 @@ public class FileName {
 	}
 
 	public static String getFilenameRecur() {
-		return filenameRecur;
+		return getCanonicalPath() + "\\" + filenameRecur;
 	}
 
 	public static void setFilenameRecur(String filenameRecur) {
@@ -42,7 +45,7 @@ public class FileName {
 	}
 
 	public static String getFilenameCfg() {
-		return filenameCfg;
+		return getCanonicalPath() + "\\" + filenameCfg;
 	}
 
 	public static void setFilenameCfg(String filenameCfg) {
@@ -55,6 +58,14 @@ public class FileName {
 
 	public static void setCanonicalPath(String canonicalPath) {
 		FileName.canonicalPath = canonicalPath;
+	}
+	
+	public static void setDefaultCanonicalPath() {
+		try {
+			canonicalPath = new File( "." ).getCanonicalPath();
+		} catch(IOException e) {
+			System.err.println(Message.ERROR_GENERAL);
+		}
 	}
 
 }

@@ -4,12 +4,14 @@ public class Message {
 
 	public static final String UI_INPUT_HERE = "input here";
 
+	public static final String SUCCESS_GENERAL = "Operation successful.";
 	public static final String SUCCESS_COMMAND = "Command executed successfully";
 	public static final String SUCCESS_RETRIEVE_LIST = "List successfully retrieved.";
 	public static final String SUCCESS_DELETE = "Successfully deleted.";
 	public static final String SUCCESS_UPDATE = "Successfully updated.";
 	public static final String SUCCESS_FILES_EXIST = "All required files exist.";
 
+	public static final String FAIL_GENERAL = "Operation failed.";
 	public static final String FAIL_RETRIEVE_LIST = "List fail to retrieved.";
 	public static final String FAIL_UNDO = "Unable to perform Undo operation.";
 	public static final String FAIL_PARSE_COMMAND = "Unrecognized command.";
@@ -19,6 +21,7 @@ public class Message {
 	public static final String FILE_CREATED = "New file(s) created.";
 	public static final String FILE_NOT_FOUND = "File(s) not found.";
 
+	public static final String ERROR_GENERAL = "Error occured.";
 	public static final String ERROR_SAVE_INTO_FILE = "saveIntoFile: IO error. Please check R/W/X access.";
 	public static final String ERROR_NO_PRIORITY_FOUND = "No priority found.";
 	public static final String ERROR_RETRIEVE = "Retrieval error.";

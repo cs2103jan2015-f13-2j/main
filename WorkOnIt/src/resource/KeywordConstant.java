@@ -1,5 +1,8 @@
 package resource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class KeywordConstant {
 
 	public static final String KEYWORD_ADD = "add";
@@ -41,5 +44,7 @@ public class KeywordConstant {
 	public static final int PRIORITY_DEFAULT_PRIORITY = PRIORITY_MEDIUM;
 	public static final int PRIORITY_MAX = PRIORITY_HIGH;
 	public static final int PRIORITY_MIN = PRIORITY_LOW;
-
+	
+	private Map<String, String> basicCommand = new HashMap<String, String>();
+	//create basic HashMap of keywords
 }
