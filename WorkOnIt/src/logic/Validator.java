@@ -659,9 +659,6 @@ public class Validator {
 						isSingleDate = true;
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
-						startDateString = currentWord;
-						System.out.println("keyword from: " + startDateString);
-						
 						isSingleDate = true;
 						isDoubleDate = true;
 					
@@ -672,17 +669,16 @@ public class Validator {
 						System.out.println("keyword to: " + endDateString);
 						
 					} else {
-						System.out.println("here");
-						startDateString = " "+ currentWord;
+						startDateString += " "+ currentWord;
 					}
 					
 				} else {
-					System.out.println("there");
-					startDateString = " "+ currentWord;
+					startDateString += " "+ currentWord;
 				}
 			}
 
 		}
+
 		try {
 			if (priority >= KeywordConstant.PRIORITY_MIN
 					&& priority <= KeywordConstant.PRIORITY_MAX) {
@@ -700,32 +696,25 @@ public class Validator {
 					status = engine.retrieveTask(priority, fromDate);
 
 				} else if (isSingleDate == true && isDoubleDate == true) {
+
 					
-					List<Date> dateMaxList = parseStringToDate(KeywordConstant.DATE_MAX);
+					List<Date> dateList = parseStringToDate(startDateString.trim());
+
+					Date fromDate = null;
+					
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+					}
+					
 					Date maxDate= null;
+					List<Date> dateMaxList = parseStringToDate(KeywordConstant.DATE_MAX);
+					
 					if (!dateMaxList.isEmpty()) {
 						maxDate = dateMaxList.remove(0);
 					}
-				
-					String combinedDate = startDateString + " to "
-							+ endDateString;
-					
-					System.out.println(startDateString);
-					List<Date> dateList = parseStringToDate(combinedDate);
-
-					Date fromDate = null;
-					Date toDate = null;
-
-					if (!dateList.isEmpty()) {
-						fromDate = dateList.remove(0);
-
-						if (!dateList.isEmpty()) {
-							toDate = dateList.remove(0);
-						}
-					}
-
+					System.out.println(fromDate + " " + maxDate);
 					status = engine
-							.retrieveTask(priority, fromDate, toDate);
+							.retrieveTask(priority, fromDate, maxDate);
 
 				} else if(isSingleDate == false && isDoubleDate == true) {
 					String combinedDate = startDateString + " to "
@@ -743,7 +732,7 @@ public class Validator {
 							toDate = dateList.remove(0);
 						}
 					}
-
+					
 					status = engine
 							.retrieveTask(priority, fromDate, toDate);
 				}
