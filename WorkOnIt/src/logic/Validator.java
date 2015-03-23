@@ -540,6 +540,8 @@ public class Validator {
 		boolean isDoubleDate = false;
 		boolean isPriority = false;
 		boolean isAll = false;
+		boolean isFrom = false;
+		boolean isOn = false;
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -550,6 +552,7 @@ public class Validator {
 					remainingText = sc.nextLine();
 					isSingleDate = true;
 					isDoubleDate = true;
+					isFrom = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
@@ -557,6 +560,7 @@ public class Validator {
 					remainingText = sc.nextLine();
 					isSingleDate = true;
 					isDoubleDate = false;
+					isOn = true;
 		
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
@@ -569,25 +573,32 @@ public class Validator {
 					isPriority = true;
 
 				} 
-			} else {
-			
+			} else {		
 				searchString += " " + currentWord;
-				// re append chopped off text
-				remainingText += " " + currentWord;
-				
+		
 			}
 		}
 		
 		System.out.println("ss: "+searchString);
-		// if it's a date
-		if (parseStringToDate(remainingText).size() > 0) {
+		System.out.println("remaining: "+remainingText);
+		String combinedSearch = searchString + " " + remainingText;
+		// if captured by searchString and not remainingText, means the user only typed a single date
+		if (remainingText.trim().equals("") && 
+				parseStringToDate(combinedSearch).size()>0) {
 			System.out.println("in there");
-			status = retrieveSingleDate(remainingText);
+			status = retrieveSingleDate(searchString);
 		
 		} else {
 			System.out.println("in here");
 			// retrieve using description
-			status = retrieveTaskDesc(remainingText);
+			if(isOn == true){
+				combinedSearch = searchString.trim() + " on "+ remainingText.trim();
+			} else if(isFrom == true){
+				combinedSearch = searchString.trim() + " from "+ remainingText.trim();
+			}
+				
+			
+			status = retrieveTaskDesc(combinedSearch);
 
 		}
 		
@@ -630,7 +641,7 @@ public class Validator {
 			
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-			System.out.println("searchstring: "+searchString);
+		
 
 			if (resolvedWord != null) {
 				if (resolvedWord
@@ -698,6 +709,7 @@ public class Validator {
 					maxDate = dateList.remove(0);
 				}
 				System.out.println("date to max date");
+				System.out.println("searchString: "+searchString + " fromdate: " + fromDate + " enddate " + maxDate);
 				status = engine.searchTask(searchString, fromDate, maxDate);
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
@@ -715,7 +727,7 @@ public class Validator {
 					endDate = dateList.remove(0);
 				}
 				System.out.println("date to date");
-				System.out.println(searchString + " fromdate:" + fromDate + " enddate" + endDate);
+				System.out.println("searchString: "+searchString + " fromdate: " + fromDate + " enddate " + endDate);
 				status = engine.searchTask(searchString, fromDate, endDate);
 
 			} 
