@@ -1084,7 +1084,7 @@ public class Validator {
 	}
 
 	private Success redoCommand() {
-		Success status = new Success(false, "fake redo");// engine.redoTask();
+		Success status = engine.redoTask();
 
 		return status;
 	}
