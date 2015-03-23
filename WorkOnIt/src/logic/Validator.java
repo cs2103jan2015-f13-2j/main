@@ -542,6 +542,7 @@ public class Validator {
 		boolean isAll = false;
 		boolean isFrom = false;
 		boolean isOn = false;
+		boolean isDesc = false;
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -585,29 +586,29 @@ public class Validator {
 		// if captured by searchString and not remainingText, means the user only typed a single date
 		if (remainingText.trim().equals("") && 
 				parseStringToDate(combinedSearch).size()>0) {
-			System.out.println("in there");
-			status = retrieveSingleDate(searchString);
-		
+
+			isSingleDate = true;
+			isDoubleDate = false;
+			remainingText = searchString;
+			
 		} else {
-			System.out.println("in here");
+
 			// retrieve using description
 			if(isOn == true){
 				combinedSearch = searchString.trim() + " on "+ remainingText.trim();
 			} else if(isFrom == true){
 				combinedSearch = searchString.trim() + " from "+ remainingText.trim();
 			}
-				
-			
-			status = retrieveTaskDesc(combinedSearch);
+			isDesc = true;
 
 		}
-		
-		
 		
 		if(isAll == true){
 			status = retrieveAllDates();
 		} else if(isPriority == true){
 			status = retrievePriority(remainingText);
+		} else if(isDesc == true){
+			status = retrieveTaskDesc(combinedSearch);
 		} else {
 			if(isSingleDate == true &&
 					isDoubleDate == false){
@@ -616,11 +617,6 @@ public class Validator {
 				status = retrieveInBetween(remainingText);
 			}
 		}
-		
-		
-		
-		
-		
 		
 		return status;
 	}
@@ -709,8 +705,9 @@ public class Validator {
 					maxDate = dateList.remove(0);
 				}
 				System.out.println("date to max date");
-				System.out.println("searchString: "+searchString + " fromdate: " + fromDate + " enddate " + maxDate);
+				System.out.println("searchString: "+searchString + " from: " + fromDate + " end: " + maxDate);
 				status = engine.searchTask(searchString, fromDate, maxDate);
+				
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
 				Date fromDate = null;
@@ -727,7 +724,7 @@ public class Validator {
 					endDate = dateList.remove(0);
 				}
 				System.out.println("date to date");
-				System.out.println("searchString: "+searchString + " fromdate: " + fromDate + " enddate " + endDate);
+				System.out.println("searchString: "+searchString + " from: " + fromDate + " end: " + endDate);
 				status = engine.searchTask(searchString, fromDate, endDate);
 
 			} 
