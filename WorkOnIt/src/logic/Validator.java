@@ -1196,8 +1196,7 @@ public class Validator {
 				doneList.add(doneTask);
 			}
 
-			// status = Engine.markAsDone(doneList);
-			status = new Success(true, "dummy done");
+			status = engine.markAsDone(doneList);
 
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DONE_IS_NAN);
@@ -1229,8 +1228,7 @@ public class Validator {
 				undoneList.add(undoneTask);
 			}
 
-			// status = Engine.markAsUndone(undoneList);
-			status = new Success(true, "dummy undone");
+			status = engine.markAsUndone(undoneList);
 
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_UNDONE_IS_NAN);

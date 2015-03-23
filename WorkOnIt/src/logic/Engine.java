@@ -204,11 +204,10 @@ public class Engine {
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.searchFromFileBetweenDate(keyword, startDate,
 				endDate);
-		
-	
+
 		return successObj;
 	}
 
@@ -239,6 +238,80 @@ public class Engine {
 		return successObj;
 	}
 
+	public Success markAsDone(List<Task> doneList) {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+		boolean isMarkAllDone = true;
+
+		for (int i = 0; i < doneList.size(); i++) {
+
+			Task currentTask = doneList.get(i);
+
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDone = false;
+			}
+
+			currentTask.setCompleted(true);
+			successObj = dataStorage.saveIntoFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDone = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_DONE, doneList);
+		undoStack.push(taskHistoryObj);
+
+		if (isMarkAllDone) {
+			status = new Success(true, Message.SUCCESS_MARK_DONE);
+		} else {
+			status = new Success(false, Message.FAIL_MARK_DONE);
+		}
+
+		return status;
+	}
+
+	public Success markAsUndone(List<Task> undoneList) {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+		boolean isMarkAllUndone = true;
+
+		for (int i = 0; i < undoneList.size(); i++) {
+
+			Task currentTask = undoneList.get(i);
+
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllUndone = false;
+			}
+
+			currentTask.setCompleted(false);
+			successObj = dataStorage.saveIntoFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllUndone = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_UNDONE, undoneList);
+		undoStack.push(taskHistoryObj);
+
+		if (isMarkAllUndone) {
+			status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+		} else {
+			status = new Success(false, Message.FAIL_MARK_UNDONE);
+		}
+
+		return status;
+	}
+
 	public Success undoTask() {
 
 		Success status = null;
@@ -247,34 +320,98 @@ public class Engine {
 		if (undoStack.size() > 0) {
 			TaskHistory undoTask = undoStack.pop();
 			String undoOperation = undoTask.getOperation();
-			Task taskObj = undoTask.getTask();
 
 			// delete the task obj.
 			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+				Task taskObj = undoTask.getTask();
 				status = dataStorage.deleteFromFile(taskObj);
 			}
 			// add the taskObj.
 			else if (undoOperation
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+				Task taskObj = undoTask.getTask();
 				status = dataStorage.saveIntoFile(taskObj);
 			}
 			// revert the taskObj to previous version.
 			else if (undoOperation
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+				Task taskObj = undoTask.getTask();
 				Task taskToRevert = undoTask.getAuxTask();
 				status = dataStorage.updateFromFile(taskToRevert, taskObj);
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+
+				boolean isMarkAllUndone = true;
+				List<Task> taskListToRevert = undoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+
+					currentTask.setCompleted(false);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+				}
+
+				if (isMarkAllUndone) {
+					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+				} else {
+					status = new Success(false, Message.FAIL_MARK_UNDONE);
+				}
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+
+				boolean isMarkAllDone = true;
+				List<Task> taskListToRevert = undoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+
+					currentTask.setCompleted(true);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+				}
+
+				if (isMarkAllDone) {
+					status = new Success(true, Message.SUCCESS_MARK_DONE);
+				} else {
+					status = new Success(false, Message.FAIL_MARK_DONE);
+				}
 			}
-			
+
 			redoStack.push(undoTask);
-			
+
 		} else {
 			status = new Success(false, Message.FAIL_UNDO);
 		}
 		return status;
 	}
-	
-	public Success redoTask(){
-		
+
+	public Success redoTask() {
+
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 
@@ -297,19 +434,76 @@ public class Engine {
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
 				Task taskToRevert = redoTask.getAuxTask();
 				status = dataStorage.updateFromFile(taskObj, taskToRevert);
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+
+				boolean isMarkAllUndone = true;
+				List<Task> taskListToRevert = redoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+
+					currentTask.setCompleted(false);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+				}
+
+				if (isMarkAllUndone) {
+					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+				} else {
+					status = new Success(false, Message.FAIL_MARK_UNDONE);
+				}
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+
+				boolean isMarkAllDone = true;
+				List<Task> taskListToRevert = redoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+
+					currentTask.setCompleted(true);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+				}
+
+				if (isMarkAllDone) {
+					status = new Success(true, Message.SUCCESS_MARK_DONE);
+				} else {
+					status = new Success(false, Message.FAIL_MARK_DONE);
+				}
 			}
-			
+
 			undoStack.push(redoTask);
-			
+
 		} else {
 			status = new Success(false, Message.FAIL_REDO);
 		}
 		return status;
-		
-		
-		
-		
-		
+
 	}
 
 }

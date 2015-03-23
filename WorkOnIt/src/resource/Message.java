@@ -10,6 +10,8 @@ public class Message {
 	public static final String SUCCESS_DELETE = "Successfully deleted.";
 	public static final String SUCCESS_UPDATE = "Successfully updated.";
 	public static final String SUCCESS_FILES_EXIST = "All required files exist.";
+	public static final String SUCCESS_MARK_DONE = "Selected task(s) marked as done.";
+	public static final String SUCCESS_MARK_UNDONE = "Selected task(s) marked as un-done.";
 
 	public static final String FAIL_GENERAL = "Operation failed.";
 	public static final String FAIL_RETRIEVE_LIST = "List fail to retrieved.";
@@ -18,6 +20,8 @@ public class Message {
 	public static final String FAIL_PARSE_COMMAND = "Unrecognized command.";
 	public static final String FAIL_PARSE_PRIORITY = "Cannot parse priority.";
 	public static final String FAIL_FILES_EXIST = "One or more file(s) does not exist.";
+	public static final String FAIL_MARK_DONE = "Selected task(s) fail to mark as done.";
+	public static final String FAIL_MARK_UNDONE = "Selected task(s) fail to mark as un-done.";
 
 	public static final String FILE_CREATED = "New file(s) created.";
 	public static final String FILE_NOT_FOUND = "File(s) not found.";

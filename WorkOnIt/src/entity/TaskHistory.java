@@ -1,8 +1,11 @@
 package entity;
 
+import java.util.List;
+
 public class TaskHistory {
 
 	private Task task, auxTask;
+	private List<Task> taskList;
 	private String operation;
 
 	public TaskHistory(String operation, Task task) {
@@ -13,6 +16,11 @@ public class TaskHistory {
 		this.setOperation(operation);
 		this.setTask(task);
 		this.setAuxTask(auxTask);
+	}
+
+	public TaskHistory(String operation, List<Task> taskList) {
+		this.setOperation(operation);
+		this.setTaskList(taskList);
 	}
 
 	public Task getTask() {
@@ -39,6 +47,14 @@ public class TaskHistory {
 		this.operation = operation;
 	}
 
+	public List<Task> getTaskList() {
+		return taskList;
+	}
+
+	private void setTaskList(List<Task> taskList) {
+		this.taskList = taskList;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,6 +63,8 @@ public class TaskHistory {
 		result = prime * result
 				+ ((operation == null) ? 0 : operation.hashCode());
 		result = prime * result + ((task == null) ? 0 : task.hashCode());
+		result = prime * result
+				+ ((taskList == null) ? 0 : taskList.hashCode());
 		return result;
 	}
 
@@ -74,13 +92,11 @@ public class TaskHistory {
 				return false;
 		} else if (!task.equals(other.task))
 			return false;
+		if (taskList == null) {
+			if (other.taskList != null)
+				return false;
+		} else if (!taskList.equals(other.taskList))
+			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "TaskHistory [task=" + task.toString() + ", auxTask="
-				+ auxTask.toString() + ", operation=" + operation + "]";
-	}
-
 }
