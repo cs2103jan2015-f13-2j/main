@@ -65,6 +65,12 @@ public class Main extends Application {
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setLayoutY(50);
+			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					// addDataToListView();
+					listHandler(event, primaryStage, txtF,  listView);
+				}
+			});
 
 			// UI - TEXT FIELD
 			txtF.setId("textField");
@@ -80,6 +86,7 @@ public class Main extends Application {
 					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText());
 					addTaskToListView(listView, successObj);
+					switchListView(listView, txtF);
 
 				}
 			});
@@ -87,9 +94,10 @@ public class Main extends Application {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					switchListView(listView, txtF);
 					// addDataToListView();
-					commandHandler(event, txtF.getText(), primaryStage, txtF);
+					commandHandler(event, txtF.getText(), primaryStage, txtF,
+							listView);
+					switchListView(listView, txtF);
 				}
 			});
 			// UI - TEXT FIELD
@@ -139,15 +147,32 @@ public class Main extends Application {
 	}
 
 	public static void commandHandler(KeyEvent event, String textFieldText,
-			final Stage stage, TextField txtF) {
+			final Stage stage, TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		}
+
+		if (event.getCode().equals(KeyCode.UP)
+				|| event.getCode().equals(KeyCode.DOWN)) {
+			listView.requestFocus();
+		}
+
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
 			wordHandler(txtF, textFieldText);
 		}
+	}
 
+	public static void listHandler(KeyEvent event, final Stage stage,
+			TextField txtF, ListView listView) {
+		if (event.getCode().equals(KeyCode.ESCAPE)) {
+			hide(stage);
+		}
+
+		if (event.getCode().equals(KeyCode.LEFT)
+				|| event.getCode().equals(KeyCode.RIGHT)) {
+			txtF.requestFocus();
+		}
 	}
 
 	private static void wordHandler(TextField txtF, String textFieldText) {
@@ -205,7 +230,7 @@ public class Main extends Application {
 	}
 
 	private static void switchListView(ListView listView, TextField textField) {
-		if (textField.getText().length() != 0) {
+		if (listView.getItems().size() != 0) {
 			listView.setOpacity(1);
 		} else {
 			listView.setOpacity(0);
