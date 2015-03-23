@@ -687,7 +687,7 @@ public class Validator {
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 				}
-				System.out.println("single date only");
+	
 				status = engine.searchTask(searchString, fromDate);
 
 			} else if (isSingleDate == true && isDoubleDate == true) {
@@ -704,7 +704,7 @@ public class Validator {
 				if (!dateList.isEmpty()) {
 					maxDate = dateList.remove(0);
 				}
-				System.out.println("date to max date");
+			
 				System.out.println("searchString: "+searchString + " from: " + fromDate + " end: " + maxDate);
 				status = engine.searchTask(searchString, fromDate, maxDate);
 				
@@ -723,7 +723,7 @@ public class Validator {
 				if (!dateList.isEmpty()) {
 					endDate = dateList.remove(0);
 				}
-				System.out.println("date to date");
+				
 				System.out.println("searchString: "+searchString + " from: " + fromDate + " end: " + endDate);
 				status = engine.searchTask(searchString, fromDate, endDate);
 
