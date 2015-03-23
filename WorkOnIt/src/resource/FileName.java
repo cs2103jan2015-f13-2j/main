@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 public class FileName {
 
@@ -127,7 +130,7 @@ public class FileName {
 			createFile(FileName.getFilenameFloating());
 			createFile(FileName.getFilenameNormal());
 			createFile(FileName.getFilenameRecur());
-			// createFile(FileName.getFilenameCfg());
+			createFile(FileName.getFilenameCfg());
 		} catch (IOException e) {
 			System.err.println(Message.ERROR_GENERAL);
 			System.exit(1);
@@ -138,8 +141,31 @@ public class FileName {
 		File file = new File(canonicalFileName);
 
 		if (!file.exists()) {
-			file.createNewFile();
+			if (canonicalFileName.equals(FileName.getFilenameCfg())) {
+				file.delete();
+				file.createNewFile();
+
+				Map<String, String> basicCommandMap = KeywordConstant
+						.createBasicMap();
+				String serializedBasicCommand = serializeToJson(basicCommandMap);
+
+				PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+						new FileWriter(canonicalFileName, true)));
+				filewrite.println(serializedBasicCommand);
+				filewrite.close();
+			} else {
+				file.createNewFile();
+			}
 		}
 	}
 
+	private static String serializeToJson(Object object) {
+
+		String json;
+
+		Gson gson = new Gson();
+		json = gson.toJson(object);
+
+		return json;
+	}
 }

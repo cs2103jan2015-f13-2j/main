@@ -1,24 +1,12 @@
 package data;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import com.google.gson.Gson;
 
 import application.ChooseFolder;
-import application.Main;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import resource.FileName;
-import resource.Message;
-import entity.Success;
 
 public class InitFileIO {
 
@@ -69,5 +57,4 @@ public class InitFileIO {
 		return isExist;
 	}
 
-	
 }
