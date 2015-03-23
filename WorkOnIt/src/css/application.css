@@ -1,15 +1,14 @@
 #textField
 {
 	-fx-font-size: 20pt;
-	
-	
-	
 }
 
 #listView
 {
 	-fx-font-size: 15pt;
-	
-	
-	
+}
+
+.list-cell:filled:hover { 
+    -fx-background-color: #00f; /* 2 */
+    -fx-text-fill: white; /* 5 */
 }

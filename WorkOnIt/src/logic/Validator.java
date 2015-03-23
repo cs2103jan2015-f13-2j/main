@@ -1113,7 +1113,7 @@ public class Validator {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
 			String taskDisplay = KeywordConstant.KEYWORD_UPDATE;
-			taskDisplay += taskToRemove.toDisplay();
+			taskDisplay += " " + taskToRemove.toDisplay();
 
 			status = new Success(taskDisplay, true, null);
 			System.out.println("found : " + taskDisplay);

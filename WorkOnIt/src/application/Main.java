@@ -36,40 +36,36 @@ public class Main extends Application {
 
 	@Override
 	public void start(final Stage primaryStage) {
-		
+
 		try {
-			
+
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
-			
-			
+
 			Scene scene = new Scene(root, 600, 550);
 			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
-			
-		
+
 			scene.getStylesheets().add(
 					Main.class.getResource("../css/application.css")
 							.toExternalForm());
 			scene.setFill(null);
-			
+
 			// UI DECLARE
 			final TextField txtF = new TextField();
 			final TextFieldListCell cellText = new TextFieldListCell();
 			final ListView listView = new ListView();
-			
+
 			initializeGlobals();
-			
-			// UI 
-			
-			
-			// UI - LIST VIEW    
-		    listView.setId("listView");
-	        listView.setPrefSize(600, 250);
-	        listView.setOpacity(0);
-	        listView.setEditable(true);
-			listView.setLayoutY(50);       
-		
-			
+
+			// UI
+
+			// UI - LIST VIEW
+			listView.setId("listView");
+			listView.setPrefSize(600, 250);
+			listView.setOpacity(0);
+			listView.setEditable(true);
+			listView.setLayoutY(50);
+
 			// UI - TEXT FIELD
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -83,7 +79,7 @@ public class Main extends Application {
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText());
-					addTaskToListView(listView,successObj);
+					addTaskToListView(listView, successObj);
 
 				}
 			});
@@ -91,15 +87,13 @@ public class Main extends Application {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					switchListView(listView , txtF);
-					//addDataToListView();
+					switchListView(listView, txtF);
+					// addDataToListView();
 					commandHandler(event, txtF.getText(), primaryStage, txtF);
 				}
-			});			
+			});
 			// UI - TEXT FIELD
-			
-			
-			
+
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 
@@ -110,7 +104,6 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-
 
 	public void initializeGlobals() {
 		elementList = new ArrayList<String>();
@@ -149,7 +142,7 @@ public class Main extends Application {
 			final Stage stage, TextField txtF) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
-		} 
+		}
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
 			wordHandler(txtF, textFieldText);
@@ -163,7 +156,7 @@ public class Main extends Application {
 
 		elementList.clear();
 		secondaryList.clear();
-		
+
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
@@ -204,41 +197,38 @@ public class Main extends Application {
 		});
 	}
 
-	//for running via Main, bypassing hotkey
+	// for running via Main, bypassing hotkey
 	public static void main(String[] args) {
 		InitFileIO initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
 		launch();
 	}
-	
-	private static void switchListView(ListView listView , TextField textField) {
-		if (textField.getText().length() != 0 )
-		{			
+
+	private static void switchListView(ListView listView, TextField textField) {
+		if (textField.getText().length() != 0) {
 			listView.setOpacity(1);
-		}
-		else
-		{
+		} else {
 			listView.setOpacity(0);
 		}
 	}
-	
-	private static void addTaskToListView(ListView listView ,  Success successObj) {
-		 if(successObj.getObj() == null)
-		 {
-			 listView.getItems().clear();
-		 }
-		 else
-		 {
-			 ObservableList task =  FXCollections.observableArrayList();
-			 ArrayList<Task> allTask = (ArrayList<Task>)successObj.getObj();
-			 for(int i = 0 ;  i < allTask.size() ; i ++)
-		 	{
-			 	task.addAll( (i+1) + ") " + allTask.get(i).getTaskName());
-		 	}
-		 
-		 	listView.setItems(task);
-		 }
+
+	private static void addTaskToListView(ListView listView, Success successObj) {
+		if (successObj.getObj() == null) {
+			listView.getItems().clear();
+		} else {
+			ObservableList task = FXCollections.observableArrayList();
+			Object obj = successObj.getObj();
+			if (obj instanceof ArrayList<?>) {
+				ArrayList<Task> allTask = (ArrayList<Task>) obj;
+				for (int i = 0; i < allTask.size(); i++) {
+					task.addAll((i + 1) + ") " + allTask.get(i).getTaskName());
+				}
+
+				listView.setItems(task);
+			} else if (obj instanceof String) {
+				listView.getItems().clear();
+			}
+		}
 	}
-	
-	
+
 }
