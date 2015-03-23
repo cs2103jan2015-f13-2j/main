@@ -13,7 +13,7 @@ public class FileName {
 	private static String filenameCfg = "command.cfg";
 	
 	public static String getFilenameDeadline() {
-		return getCanonicalPath() + "\\" + filenameDeadline;
+		return getCanonicalPath() + File.separator + filenameDeadline;
 	}
 
 	public static void setFilenameDeadline(String filenameDeadline) {
@@ -21,7 +21,7 @@ public class FileName {
 	}
 
 	public static String getFilenameFloating() {
-		return getCanonicalPath() + "\\" + filenameFloating;
+		return getCanonicalPath() + File.separator + filenameFloating;
 	}
 
 	public static void setFilenameFloating(String filenameFloating) {
@@ -29,7 +29,7 @@ public class FileName {
 	}
 
 	public static String getFilenameNormal() {
-		return getCanonicalPath() + "\\" + filenameNormal;
+		return getCanonicalPath() + File.separator + filenameNormal;
 	}
 
 	public static void setFilenameNormal(String filenameNormal) {
@@ -37,7 +37,7 @@ public class FileName {
 	}
 
 	public static String getFilenameRecur() {
-		return getCanonicalPath() + "\\" + filenameRecur;
+		return getCanonicalPath() + File.separator + filenameRecur;
 	}
 
 	public static void setFilenameRecur(String filenameRecur) {
@@ -45,7 +45,7 @@ public class FileName {
 	}
 
 	public static String getFilenameCfg() {
-		return getCanonicalPath() + "\\" + filenameCfg;
+		return getCanonicalPath() + File.separator + filenameCfg;
 	}
 
 	public static void setFilenameCfg(String filenameCfg) {
