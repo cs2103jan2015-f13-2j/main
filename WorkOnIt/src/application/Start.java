@@ -15,5 +15,4 @@ public class Start {
 		listener.registerHook();
 		GlobalScreen.addNativeKeyListener(listener);
 	}
-
 }
