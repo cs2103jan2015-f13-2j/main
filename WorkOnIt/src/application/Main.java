@@ -8,14 +8,19 @@ import data.InitFileIO;
 import resource.FileName;
 import resource.Message;
 import entity.Success;
+import entity.Task;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -27,6 +32,7 @@ public class Main extends Application {
 	private static List<String> elementList = null;
 	private static List<String> secondaryList = null;
 	private static Validator commandValidator = null;
+	private static Success successObj = null;
 
 	@Override
 	public void start(final Stage primaryStage) {
@@ -35,18 +41,41 @@ public class Main extends Application {
 			
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
-			Scene scene = new Scene(root, 300, 100);
+			
+			
+			Scene scene = new Scene(root, 600, 550);
+			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
+			
+		
 			scene.getStylesheets().add(
 					Main.class.getResource("../css/application.css")
 							.toExternalForm());
 			scene.setFill(null);
+			
+			// UI DECLARE
 			final TextField txtF = new TextField();
+			final TextFieldListCell cellText = new TextFieldListCell();
+			final ListView listView = new ListView();
+			
 			initializeGlobals();
-
+			
+			// UI 
+			
+			
+			// UI - LIST VIEW    
+		    listView.setId("listView");
+	        listView.setPrefSize(600, 250);
+	        listView.setOpacity(0);
+	        listView.setEditable(true);
+			listView.setLayoutY(50);       
+		
+			
+			// UI - TEXT FIELD
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
 			txtF.setLayoutY(0);
-			txtF.setPrefWidth(300);
+			txtF.setPrefHeight(50);
+			txtF.setPrefWidth(600);
 			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
@@ -54,6 +83,7 @@ public class Main extends Application {
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText());
+					addTaskToListView(listView,successObj);
 
 				}
 			});
@@ -61,11 +91,17 @@ public class Main extends Application {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
+					switchListView(listView , txtF);
+					//addDataToListView();
 					commandHandler(event, txtF.getText(), primaryStage, txtF);
 				}
-			});
-
+			});			
+			// UI - TEXT FIELD
+			
+			
+			
 			root.getChildren().add(txtF);
+			root.getChildren().add(listView);
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -104,6 +140,7 @@ public class Main extends Application {
 			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
 
+		successObj = status;
 		// System.out.println(obj.getTaskName()
 
 	}
@@ -173,4 +210,29 @@ public class Main extends Application {
 		initFile.checkAndProcessFile();
 		launch();
 	}
+	
+	private static void switchListView(ListView listView , TextField textField) {
+		if (textField.getText().length() != 0 )
+		{			
+			listView.setOpacity(1);
+		}
+		else
+		{
+			listView.setOpacity(0);
+		}
+	}
+	
+	private static void addTaskToListView(ListView listView ,  Success successObj) {
+		 ObservableList task =  FXCollections.observableArrayList();
+		 ArrayList<Task> allTask = (ArrayList<Task>)successObj.getObj();
+		 for(int i = 0 ;  i < allTask.size() ; i ++)
+		 {
+			 task.addAll( (i+1) + " ." + allTask.get(i).getTaskName());
+			 
+		 }
+		 
+		 listView.setItems(task);
+	}
+	
+	
 }

@@ -1,6 +1,15 @@
 #textField
 {
-	-fx-max-width: 300;
+	-fx-font-size: 20pt;
+	
+	
+	
+}
+
+#listView
+{
+	-fx-font-size: 15pt;
+	
 	
 	
 }
