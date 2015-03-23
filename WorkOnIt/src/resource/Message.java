@@ -33,4 +33,12 @@ public class Message {
 	public static final String ERROR_DELETE_INVALID_INDEX = "Invalid index to delete. Please enter a valid range.";
 	public static final String ERROR_DELETE_NO_TASK_LIST = "No task to delete. Please retrieve task first.";
 	public static final String ERROR_DELETE = "Unknown error occured while parsing delete command.";
+	public static final String ERROR_DONE_IS_NAN = "Index is not a number. Please enter a numerical value.";
+	public static final String ERROR_DONE_INVALID_INDEX = "Invalid index(es) to mark as done. Please enter a valid range.";
+	public static final String ERROR_DONE_NO_TASK_LIST = "No task to mark as done. Please retrieve task first.";
+	public static final String ERROR_DONE = "Unknown error occured while parsing done command.";
+	public static final String ERROR_UNDONE_IS_NAN = "Index is not a number. Please enter a numerical value.";
+	public static final String ERROR_UNDONE_INVALID_INDEX = "Invalid index(es) to mark as undone. Please enter a valid range.";
+	public static final String ERROR_UNDONE_NO_TASK_LIST = "No task to mark as undone. Please retrieve task first.";
+	public static final String ERROR_UNDONE = "Unknown error occured while parsing undone command.";
 }

@@ -25,8 +25,9 @@ public class KeywordStructure {
 		initRetrieveKeyword();
 		initUpdateKeyword();
 		initDeleteKeyword();
-		
 		// initExportKeyword();
+		initDoneKeyword();
+		initUndoneKeyword();
 		initRedoKeyword();
 		initUndoKeyword();
 		initClearKeyword();
@@ -262,6 +263,18 @@ public class KeywordStructure {
 		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
 
 		mainKeywordList.add(keyRedo);
+	}
+	
+	private void initDoneKeyword() {
+		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
+
+		mainKeywordList.add(keyDone);
+	}
+	
+	private void initUndoneKeyword() {
+		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
+
+		mainKeywordList.add(keyUndone);
 	}
 
 	private void initClearKeyword() {

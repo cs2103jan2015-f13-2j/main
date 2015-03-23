@@ -13,6 +13,7 @@ public abstract class Task {
 	private long taskId;
 	private int priority;
 	private Date sortDate;
+	private boolean isCompleted;
 
 	public Task(String taskName, int priority) {
 
@@ -21,6 +22,7 @@ public abstract class Task {
 		this.setTaskId(generatedTaskId);
 		this.setTaskName(taskName);
 		this.setPriority(priority);
+		this.setCompleted(false);
 
 		long epochOffset = 0L;
 		this.setSortDate(new Date(epochOffset));
@@ -48,6 +50,14 @@ public abstract class Task {
 
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+
+	public boolean isCompleted() {
+		return isCompleted;
+	}
+
+	public void setCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
 	}
 
 	public Date getSortDate() {
