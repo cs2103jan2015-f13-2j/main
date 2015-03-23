@@ -203,81 +203,89 @@ public class Validator {
 	private Success parseAddCommand(String remainingCommand) {
 
 		Success status = null;
-		Scanner sc = new Scanner(remainingCommand);
-
-		boolean isNormalTask = false;
-		boolean isDeadlineTask = false;
-		boolean isRecurrenceTask = false;
-		boolean isFloatingTask = false;
-
-		String taskDesc = "";
-
-		while (sc.hasNext()) {
-
-			String currentWord = sc.next();
-			String resolvedWord = keywordFullMap.get(currentWord);
-
-			if (resolvedWord != null) {
-				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
-						|| resolvedWord
-								.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
-
-					isNormalTask = true;
-
-					String remainingDate = sc.nextLine();
-					status = createNormalTask(taskDesc, remainingDate);
-
-					break;
-
-				} else if (resolvedWord
-						.equalsIgnoreCase(KeywordConstant.KEYWORD_BY)) {
-
-					isDeadlineTask = true;
-
-					String remainingDate = sc.nextLine();
-					status = createDeadlineTask(taskDesc, remainingDate);
-
-					break;
-
-				} else if (resolvedWord
-						.equalsIgnoreCase(KeywordConstant.KEYWORD_EVERY)) {
-
-					isRecurrenceTask = true;
-
-					String remainingDate = sc.nextLine();
-					status = createRecurrenceTask(taskDesc, remainingDate);
-
-					break;
-
-				} else if (resolvedWord
-						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
-
-					isFloatingTask = true;
-					break;
-
+		
+		try {
+			Scanner sc = new Scanner(remainingCommand);
+	
+			boolean isNormalTask = false;
+			boolean isDeadlineTask = false;
+			boolean isRecurrenceTask = false;
+			boolean isFloatingTask = false;
+	
+			String taskDesc = "";
+	
+			while (sc.hasNext()) {
+	
+				String currentWord = sc.next();
+				String resolvedWord = keywordFullMap.get(currentWord);
+	
+				if (resolvedWord != null) {
+					if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
+	
+						isNormalTask = true;
+	
+						String remainingDate = sc.nextLine();
+						status = createNormalTask(taskDesc, remainingDate);
+	
+						break;
+	
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_BY)) {
+	
+						isDeadlineTask = true;
+	
+						String remainingDate = sc.nextLine();
+						status = createDeadlineTask(taskDesc, remainingDate);
+	
+						break;
+	
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_EVERY)) {
+	
+						isRecurrenceTask = true;
+	
+						String remainingDate = sc.nextLine();
+						status = createRecurrenceTask(taskDesc, remainingDate);
+	
+						break;
+	
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+	
+						isFloatingTask = true;
+						break;
+	
+					} else {
+						taskDesc += " " + currentWord;
+					}
+	
 				} else {
 					taskDesc += " " + currentWord;
 				}
-
-			} else {
-				taskDesc += " " + currentWord;
 			}
-		}
-
-		if (isFloatingTask
-				|| (!isNormalTask && !isDeadlineTask && !isRecurrenceTask)) {
-
-			String remainingPriority = null;
-			try {
-				remainingPriority = sc.nextLine();
-			} catch (NoSuchElementException e) {
-				System.err.println(Message.ERROR_NO_PRIORITY_FOUND);
+	
+			if (isFloatingTask
+					|| (!isNormalTask && !isDeadlineTask && !isRecurrenceTask)) {
+	
+				String remainingPriority = null;
+				try {
+					remainingPriority = sc.nextLine();
+				} catch (NoSuchElementException e) {
+					System.err.println(Message.ERROR_NO_PRIORITY_FOUND);
+				}
+	
+				status = createFloatingTask(taskDesc, remainingPriority);
 			}
-
-			status = createFloatingTask(taskDesc, remainingPriority);
+	
+			sc.close();
+			
+		} catch(NullPointerException e) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} catch(Exception e) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-
-		sc.close();
 
 		return status;
 	}
