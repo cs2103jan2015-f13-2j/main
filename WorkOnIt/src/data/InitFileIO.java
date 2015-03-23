@@ -24,7 +24,7 @@ public class InitFileIO {
 
 	public void checkAndProcessFile() {
 
-		readCanonicalPathFromFile();
+		FileName.readCanonicalPathFromFile();
 
 		if (!isFilesExist()) {
 			showChooseFolderUi();
@@ -69,37 +69,5 @@ public class InitFileIO {
 		return isExist;
 	}
 
-	private void readCanonicalPathFromFile() {
-
-		File file = new File(FileName.FILENAME_PATH);
-
-		if (file.exists()) {
-
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(
-						FileName.FILENAME_PATH));
-
-				String retrievedCanonicalPath = reader.readLine();
-				FileName.setCanonicalPath(retrievedCanonicalPath);
-				System.out.println("READ : " + FileName.getCanonicalPath());
-
-				reader.close();
-
-			} catch (IOException e) {
-				System.err.println(Message.ERROR_SAVE_INTO_FILE);
-			}
-
-		} else {
-			try {
-				PrintWriter filewrite = new PrintWriter(new BufferedWriter(
-						new FileWriter(FileName.FILENAME_PATH, true)));
-				FileName.setDefaultCanonicalPath();
-				filewrite.println(FileName.getCanonicalPath());
-				filewrite.close();
-
-			} catch (IOException e) {
-				System.err.println(Message.ERROR_SAVE_INTO_FILE);
-			}
-		}
-	}
+	
 }

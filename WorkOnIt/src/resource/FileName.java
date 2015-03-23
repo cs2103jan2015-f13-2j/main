@@ -1,11 +1,16 @@
 package resource;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FileName {
-	
-	public static final String FILENAME_PATH = "filenamePath.cfg";
+
+	public static final String FILENAME_PATH = "saved_path.cfg";
 
 	private static String canonicalPath = "";
 	private static String filenameDeadline = "datafile_deadLine.txt";
@@ -13,7 +18,7 @@ public class FileName {
 	private static String filenameNormal = "datafile_normal.txt";
 	private static String filenameRecur = "datafile_recur.txt";
 	private static String filenameCfg = "command.cfg";
-	
+
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
 	}
@@ -61,12 +66,79 @@ public class FileName {
 	public static void setCanonicalPath(String canonicalPath) {
 		FileName.canonicalPath = canonicalPath;
 	}
-	
+
 	public static void setDefaultCanonicalPath() {
 		try {
-			canonicalPath = new File( "." ).getCanonicalPath();
-		} catch(IOException e) {
+			canonicalPath = new File(".").getCanonicalPath();
+		} catch (IOException e) {
 			System.err.println(Message.ERROR_GENERAL);
+		}
+	}
+
+	public static void writeCanonicalToFile() {
+		try {
+			File file = new File(FILENAME_PATH);
+			file.delete();
+			file.createNewFile();
+
+			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+					new FileWriter(FILENAME_PATH, true)));
+			filewrite.println(getCanonicalPath());
+			filewrite.close();
+
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_SAVE_INTO_FILE);
+		}
+	}
+
+	public static String readCanonicalPathFromFile() {
+
+		File file = new File(FileName.FILENAME_PATH);
+		String retrievedCanonicalPath = null;
+
+		if (file.exists()) {
+
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FileName.FILENAME_PATH));
+
+				retrievedCanonicalPath = reader.readLine();
+				FileName.setCanonicalPath(retrievedCanonicalPath);
+				System.out.println("READ : " + getCanonicalPath());
+
+				reader.close();
+
+			} catch (IOException e) {
+				System.err.println(Message.ERROR_SAVE_INTO_FILE);
+			}
+
+		} else {
+			setDefaultCanonicalPath();
+			writeCanonicalToFile();
+		}
+
+		return retrievedCanonicalPath;
+	}
+
+	public static void createFileIfNotExist() {
+
+		try {
+			createFile(FileName.getFilenameDeadline());
+			createFile(FileName.getFilenameFloating());
+			createFile(FileName.getFilenameNormal());
+			createFile(FileName.getFilenameRecur());
+			// createFile(FileName.getFilenameCfg());
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_GENERAL);
+			System.exit(1);
+		}
+	}
+
+	private static void createFile(String canonicalFileName) throws IOException {
+		File file = new File(canonicalFileName);
+
+		if (!file.exists()) {
+			file.createNewFile();
 		}
 	}
 

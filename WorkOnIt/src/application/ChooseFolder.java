@@ -25,8 +25,9 @@ public class ChooseFolder extends Application {
 			try {
 				String directoryPath = selectedDirectory.getCanonicalPath();
 				FileName.setCanonicalPath(directoryPath);
+				FileName.writeCanonicalToFile();
 				
-				createFileIfNotExist();
+				FileName.createFileIfNotExist();
 				
 			} catch (IOException e) {
 				System.err.println(Message.FAIL_FILES_EXIST);
@@ -38,25 +39,5 @@ public class ChooseFolder extends Application {
 		}
 	}
 	
-	private void createFileIfNotExist() {
-		
-		try {
-			createFile(FileName.getFilenameDeadline());
-			createFile(FileName.getFilenameFloating());
-			createFile(FileName.getFilenameNormal());
-			createFile(FileName.getFilenameRecur());
-//			createFile(FileName.getFilenameCfg());
-		} catch(IOException e) {
-			System.err.println(Message.ERROR_GENERAL);
-			System.exit(1);
-		}
-	}
 	
-	private void createFile(String canonicalFileName) throws IOException {
-		File file = new File(canonicalFileName);
-		
-		if(!file.exists()) {
-			file.createNewFile();
-		}
-	}
 }
