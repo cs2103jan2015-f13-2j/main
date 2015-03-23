@@ -3,6 +3,7 @@ package application;
 import java.io.File;
 import java.io.IOException;
 
+import data.InitFileIO;
 import resource.FileName;
 import resource.Message;
 import javafx.application.Application;
@@ -24,7 +25,7 @@ public class ChooseFolder extends Application {
 			try {
 				String directoryPath = selectedDirectory.getCanonicalPath();
 				FileName.setCanonicalPath(directoryPath);
-
+				
 				createFileIfNotExist();
 				
 			} catch (IOException e) {

@@ -4,6 +4,7 @@ import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.InitFileIO;
 import resource.FileName;
 import resource.Message;
 import entity.Success;
@@ -168,7 +169,8 @@ public class Main extends Application {
 
 	//for running via Main, bypassing hotkey
 	public static void main(String[] args) {
-		FileName.setDefaultCanonicalPath();
+		InitFileIO initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
 		launch();
 	}
 }

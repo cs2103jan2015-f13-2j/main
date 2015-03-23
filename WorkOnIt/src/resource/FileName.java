@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileName {
+	
+	public static final String FILENAME_PATH = "filenamePath.cfg";
 
 	private static String canonicalPath = "";
 	private static String filenameDeadline = "datafile_deadLine.txt";
