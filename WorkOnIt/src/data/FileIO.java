@@ -584,6 +584,9 @@ public class FileIO {
 	public Success searchFromFile(String keyword) {
 		Success successObj;
 		BufferedReader reader = null;
+		
+		keyword = keyword.trim();
+				
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
@@ -619,7 +622,9 @@ public class FileIO {
 			while ((printLine = reader.readLine()) != null) {
 				FloatingTask task = (FloatingTask) deserializeFromJson(
 						printLine, FloatingTask.class);
+				
 				if (task.getTaskName().toLowerCase().contains(keyword)) {
+				
 					taskList.add(task);
 				}
 			}
@@ -641,6 +646,9 @@ public class FileIO {
 	public Success searchFromFileWithDate(String keyword, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
+		
+		keyword = keyword.trim();
+		
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
@@ -697,6 +705,9 @@ public class FileIO {
 			Date endDate) {
 		Success successObj;
 		BufferedReader reader = null;
+		
+		keyword = keyword.trim();
+		
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;

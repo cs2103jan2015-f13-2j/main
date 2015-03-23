@@ -223,15 +223,21 @@ public class Main extends Application {
 	}
 	
 	private static void addTaskToListView(ListView listView ,  Success successObj) {
-		 ObservableList task =  FXCollections.observableArrayList();
-		 ArrayList<Task> allTask = (ArrayList<Task>)successObj.getObj();
-		 for(int i = 0 ;  i < allTask.size() ; i ++)
+		 if(successObj.getObj() == null)
 		 {
-			 task.addAll( (i+1) + " ." + allTask.get(i).getTaskName());
-			 
+			 listView.getItems().clear();
 		 }
+		 else
+		 {
+			 ObservableList task =  FXCollections.observableArrayList();
+			 ArrayList<Task> allTask = (ArrayList<Task>)successObj.getObj();
+			 for(int i = 0 ;  i < allTask.size() ; i ++)
+		 	{
+			 	task.addAll( (i+1) + ") " + allTask.get(i).getTaskName());
+		 	}
 		 
-		 listView.setItems(task);
+		 	listView.setItems(task);
+		 }
 	}
 	
 	
