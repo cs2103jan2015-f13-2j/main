@@ -60,6 +60,8 @@ public class KeywordConstant {
 		basicCommand.put(KEYWORD_TO, KEYWORD_TO);
 		basicCommand.put(KEYWORD_EVERY, KEYWORD_EVERY);
 		basicCommand.put(KEYWORD_PRIORITY, KEYWORD_PRIORITY);
+		basicCommand.put(KEYWORD_REDO, KEYWORD_REDO);
+		basicCommand.put(KEYWORD_UNDO, KEYWORD_UNDO);
 		basicCommand.put(KEYWORD_COMPLETE, KEYWORD_COMPLETE);
 		basicCommand.put(KEYWORD_INCOMPLETE, KEYWORD_INCOMPLETE);
 		basicCommand.put(KEYWORD_CLEAR, KEYWORD_CLEAR);
@@ -72,6 +74,7 @@ public class KeywordConstant {
 		basicCommand.put("high", Integer.toString(PRIORITY_HIGH));
 		basicCommand.put("medium", Integer.toString(PRIORITY_MEDIUM));
 		basicCommand.put("low", Integer.toString(PRIORITY_LOW));
+		
 
 		return basicCommand;
 	}

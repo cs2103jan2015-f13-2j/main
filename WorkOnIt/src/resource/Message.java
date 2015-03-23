@@ -14,6 +14,7 @@ public class Message {
 	public static final String FAIL_GENERAL = "Operation failed.";
 	public static final String FAIL_RETRIEVE_LIST = "List fail to retrieved.";
 	public static final String FAIL_UNDO = "Unable to perform Undo operation.";
+	public static final String FAIL_REDO = "Unable to perform Redo operation.";
 	public static final String FAIL_PARSE_COMMAND = "Unrecognized command.";
 	public static final String FAIL_PARSE_PRIORITY = "Cannot parse priority.";
 	public static final String FAIL_FILES_EXIST = "One or more file(s) does not exist.";

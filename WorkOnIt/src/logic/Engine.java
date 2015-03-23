@@ -20,6 +20,7 @@ import entity.TaskHistory;
 public class Engine {
 
 	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
+	private Stack<TaskHistory> redoStack = new Stack<TaskHistory>();
 
 	// save task into database
 	public Success addTask(Task task) {
@@ -203,10 +204,11 @@ public class Engine {
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-
+		
 		successObj = dataStorage.searchFromFileBetweenDate(keyword, startDate,
 				endDate);
-
+		
+	
 		return successObj;
 	}
 
@@ -262,10 +264,52 @@ public class Engine {
 				Task taskToRevert = undoTask.getAuxTask();
 				status = dataStorage.updateFromFile(taskToRevert, taskObj);
 			}
+			
+			redoStack.push(undoTask);
+			
 		} else {
 			status = new Success(false, Message.FAIL_UNDO);
 		}
 		return status;
+	}
+	
+	public Success redoTask(){
+		
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		if (redoStack.size() > 0) {
+			TaskHistory redoTask = redoStack.pop();
+			String undoOperation = redoTask.getOperation();
+			Task taskObj = redoTask.getTask();
+
+			// add the task obj.
+			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+				status = dataStorage.saveIntoFile(taskObj);
+			}
+			// delete the taskObj.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+				status = dataStorage.deleteFromFile(taskObj);
+			}
+			// revert the taskObj to previous version.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+				Task taskToRevert = redoTask.getAuxTask();
+				status = dataStorage.updateFromFile(taskObj, taskToRevert);
+			}
+			
+			undoStack.push(redoTask);
+			
+		} else {
+			status = new Success(false, Message.FAIL_REDO);
+		}
+		return status;
+		
+		
+		
+		
+		
 	}
 
 }

@@ -62,7 +62,7 @@ public class Validator {
 		Scanner sc = new Scanner(fullCommand);
 		String commandInput = sc.next();
 		String commandResolved = keywordFullMap.get(commandInput);
-
+		
 		if (commandResolved != null) {
 
 			if (commandResolved.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
@@ -112,6 +112,8 @@ public class Validator {
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
 				status = redoCommand();
+			} else {
+				System.out.println("here2");
 			}
 
 		} else {
