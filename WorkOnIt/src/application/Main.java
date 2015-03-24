@@ -62,7 +62,7 @@ public class Main extends Application {
 					Main.class.getResource("../css/application.css")
 							.toExternalForm());
 			scene.setFill(null);
-			
+
 			// POP UP
 			final Popup popup = new Popup();
 			popup.setAutoFix(true);
@@ -103,8 +103,17 @@ public class Main extends Application {
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText(), primaryStage, popup);
-					addTaskToListView(listView, successObj);
-					switchListView(listView, txtF);
+					if (successObj != null) {
+						if (successObj.isSuccess()) {
+							addTaskToListView(listView, successObj);
+							switchListView(listView, txtF);
+						} else {
+							showPopUp(successObj.getMessage(),
+									successObj.isSuccess(), primaryStage, popup);
+						}
+					} else {
+						showPopUp(null, false, primaryStage, popup);
+					}
 
 				}
 			});
@@ -138,7 +147,8 @@ public class Main extends Application {
 		commandValidator = new Validator();
 	}
 
-	protected void executeCommand(TextField txtF, String commandString, Stage primaryStage, Popup popup) {
+	protected void executeCommand(TextField txtF, String commandString,
+			Stage primaryStage, Popup popup) {
 
 		Success status = null;
 
@@ -146,6 +156,7 @@ public class Main extends Application {
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
+
 				System.out.println(status.getMessage());
 			} else {
 				if (status.getObj() instanceof String) {
@@ -154,12 +165,16 @@ public class Main extends Application {
 				} else {
 					txtF.clear();
 				}
-				// show pop up
-				if(status.getMessage() != null) {
-					showPopUp(status.getMessage(), primaryStage, popup);
-				}
+
 				System.out.println(Message.SUCCESS_COMMAND);
 			}
+
+			// show pop up
+			if (status.getMessage() != null) {
+				showPopUp(status.getMessage(), status.isSuccess(),
+						primaryStage, popup);
+			}
+
 		} else {
 			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
@@ -396,24 +411,36 @@ public class Main extends Application {
 		return displayText;
 	}
 
-	private void showPopUp(String message, final Stage primaryStage, final Popup popup) {
-		
+	private void showPopUp(String message, boolean isSuccess,
+			final Stage primaryStage, final Popup popup) {
+
 		Label label = new Label(message);
 
 		label.getStylesheets().add("/css/application.css");
 		label.getStyleClass().add("popup");
-		
-		Image img = new Image(Graphic.UI_TICK_PATH);
-		ImageView imgView = new ImageView(img);
+
+		Image img = null;
+		ImageView imgView = null;
+
+		if (isSuccess) {
+			img = new Image(Graphic.UI_TICK_PATH);
+			imgView = new ImageView(img);
+		} else {
+			img = new Image(Graphic.UI_CROSS_PATH);
+			imgView = new ImageView(img);
+		}
 
 		popup.getContent().clear();
 		popup.getContent().add(imgView);
 		popup.setOnShown(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
-//				popup.setX(primaryStage.getX() + primaryStage.getWidth() / 2);
-//				popup.setY(primaryStage.getY() + primaryStage.getHeight() / 2);
-				popup.setX(primaryStage.getX() + primaryStage.getWidth() - popup.getWidth() - 5);
+				// popup.setX(primaryStage.getX() + primaryStage.getWidth() /
+				// 2);
+				// popup.setY(primaryStage.getY() + primaryStage.getHeight() /
+				// 2);
+				popup.setX(primaryStage.getX() + primaryStage.getWidth()
+						- popup.getWidth() - 5);
 				popup.setY(primaryStage.getY() + 5);
 			}
 		});
