@@ -1,11 +1,14 @@
 package application;
 
 import java.awt.SystemTray;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import data.InitFileIO;
 import resource.FileName;
+import resource.KeywordConstant;
 import resource.Message;
 import entity.DeadlineTask;
 import entity.FloatingTask;
@@ -76,11 +79,10 @@ public class Main extends Application {
 			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
-					listHandler(event, primaryStage, txtF,  listView);
+					listHandler(event, primaryStage, txtF, listView);
 				}
 			});
 
-			
 			// UI - TEXT FIELD
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -254,26 +256,26 @@ public class Main extends Application {
 			Object obj = successObj.getObj();
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
-				for (int i = 0; i < allTask.size(); i++)
-				{
+				for (int i = 0; i < allTask.size(); i++) {
 					String displayDate = getDateFromTask(allTask.get(i));
-					
+
 					Pane pane = new Pane();
 					Label taskName = new Label();
 					Label taskDate = new Label();
 					pane.setMinWidth(600);
-					
-					taskName.setText((i + 1) + ") " + allTask.get(i).getTaskName());
+
+					taskName.setText((i + 1) + ") "
+							+ allTask.get(i).getTaskName());
 					taskName.setAlignment(Pos.CENTER_RIGHT);
 					taskName.setLayoutX(0);
-					
+
 					taskDate.setText(displayDate);
 					taskDate.setAlignment(Pos.CENTER_RIGHT);
 					taskDate.setLayoutX(300);
-					
+
 					pane.getChildren().add(taskName);
 					pane.getChildren().add(taskDate);
-					
+
 					task.add(pane);
 				}
 
@@ -283,66 +285,150 @@ public class Main extends Application {
 			}
 		}
 	}
-	
-	public static String getDateFromTask(Task taskObj)
-	{
+
+	public static String getDateFromTask(Task taskObj) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM h:mm a");
+		SimpleDateFormat sdfEnd = new SimpleDateFormat("dd MMM h:mm a");
 		String displayText = null;
-		if(taskObj instanceof NormalTask)
-		{
-			String startDate = Integer.toString(((NormalTask) taskObj).getStartDateTime().getDate());
-			String startMonth = intToMonth(((NormalTask) taskObj).getStartDateTime().getMonth());
-			
-			String endDate = Integer.toString(((NormalTask) taskObj).getEndDateTime().getDate());
-			String endMonth = intToMonth(((NormalTask) taskObj).getEndDateTime().getMonth());
-			
-			displayText = startMonth + " " + startDate + " to " + endMonth + " " + endDate ;		
+		if (taskObj instanceof NormalTask) {
+
+			Date startDate = ((NormalTask) taskObj).getStartDateTime();
+			Date endDate = ((NormalTask) taskObj).getEndDateTime();
+			String startDateString = sdf.format(startDate);
+			String endDateString = sdf.format(endDate);
+
+			if (startDate.equals(endDate)) {
+				displayText = startDateString;
+			} else {
+				displayText = startDateString + " to " + endDateString;
+			}
 		}
-		
-		if(taskObj instanceof FloatingTask)
-		{
+
+		if (taskObj instanceof FloatingTask) {
 			displayText = "-";
 		}
-		
-		if(taskObj instanceof RecurrenceTask)
-		{
-			
+
+		if (taskObj instanceof RecurrenceTask) {
+
+			Date startDate = ((RecurrenceTask) taskObj)
+					.getStartRecurrenceDate();
+			Date endDate = ((RecurrenceTask) taskObj).getEndRecurrenceDate();
+			String occurenceType = ((RecurrenceTask) taskObj)
+					.getOccurenceType();
+			String startDateString = null;
+			String endDateString = null;
+
+			if (occurenceType.equals(KeywordConstant.KEYWORD_DAILY)) {
+				sdf = new SimpleDateFormat("h:mm a");
+				sdfEnd = new SimpleDateFormat("h:mm a");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_WEEKLY)) {
+				sdf = new SimpleDateFormat("EEEE h:mm a");
+				sdfEnd = new SimpleDateFormat("h:mm a");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+				sdf = new SimpleDateFormat("d");
+				sdfEnd = new SimpleDateFormat("d");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_YEARLY)) {
+				sdf = new SimpleDateFormat("d MMM");
+				sdfEnd = new SimpleDateFormat("d MMM");
+			}
+
+			String[] ordinals = { "th", "st", "nd", "rd", "th", "th", "th",
+					"th", "th", "th", "th", "th", "th", "th", "th", "th", "th",
+					"th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th",
+					"th", "th", "th", "th", "st" };
+
+			if (startDate.equals(endDate)) {
+
+				startDateString = sdf.format(startDate);
+
+				if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+					displayText = startDateString
+							+ ordinals[startDate.getDate()];
+				} else {
+					displayText = startDateString;
+				}
+			} else {
+				startDateString = sdf.format(startDate);
+				endDateString = sdfEnd.format(endDate);
+
+				if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+					displayText = startDateString
+							+ ordinals[startDate.getDate()];
+					displayText += " to ";
+					displayText += endDateString + ordinals[endDate.getDate()];
+				} else {
+					displayText = startDateString + " to " + endDateString;
+				}
+			}
+
+			if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+				displayText += " " + Message.UI_OF_THE_MONTH;
+			} else {
+				displayText += " " + occurenceType;
+			}
 		}
-		
-		if(taskObj instanceof DeadlineTask)
-		{
-			String dueDate = Integer.toString(((DeadlineTask) taskObj).getDeadline().getDate());
-			String dueMonth = intToMonth(((DeadlineTask) taskObj).getDeadline().getMonth());
-			String dueHour =  Integer.toString(((DeadlineTask) taskObj).getDeadline().getHours());
-			String dueMinute =  Integer.toString(((DeadlineTask) taskObj).getDeadline().getMinutes());
-			
-			displayText = "Due on " + dueMonth + " " + dueDate + " " + dueHour + dueMinute;
-			
+
+		if (taskObj instanceof DeadlineTask) {
+
+			Date deadlineDate = ((DeadlineTask) taskObj).getDeadline();
+			String deadlineDateString = sdf.format(deadlineDate);
+
+			displayText = Message.UI_DUE_BY + " " + deadlineDateString;
+
 		}
-		
+
 		return displayText;
 	}
-	
-	public static String intToMonth(int month)
-	{
+
+	public static String intToMonth(int month) {
 		String monthString;
-        switch (month) {
-            case 0:  monthString = "January";       break;
-            case 1:  monthString = "February";      break;
-            case 2:  monthString = "March";         break;
-            case 3:  monthString = "April";         break;
-            case 4:  monthString = "May";           break;
-            case 5:  monthString = "June";          break;
-            case 6:  monthString = "July";          break;
-            case 7:  monthString = "August";        break;
-            case 8:  monthString = "September";     break;
-            case 9: monthString = "October";       break;
-            case 10: monthString = "November";      break;
-            case 11: monthString = "December";      break;
-            default: monthString = "Invalid month"; break;
-        }
-        return monthString;
-		
+		switch (month) {
+		case 0:
+			monthString = "January";
+			break;
+		case 1:
+			monthString = "February";
+			break;
+		case 2:
+			monthString = "March";
+			break;
+		case 3:
+			monthString = "April";
+			break;
+		case 4:
+			monthString = "May";
+			break;
+		case 5:
+			monthString = "June";
+			break;
+		case 6:
+			monthString = "July";
+			break;
+		case 7:
+			monthString = "August";
+			break;
+		case 8:
+			monthString = "September";
+			break;
+		case 9:
+			monthString = "October";
+			break;
+		case 10:
+			monthString = "November";
+			break;
+		case 11:
+			monthString = "December";
+			break;
+		default:
+			monthString = "Invalid month";
+			break;
+		}
+		return monthString;
+
 	}
-	
 
 }

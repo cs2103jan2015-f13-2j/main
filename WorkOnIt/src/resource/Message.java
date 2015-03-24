@@ -7,7 +7,9 @@ public class Message {
 	public static final String UI_WELCOME_INFO = "Welcome to Work On It.";
 	public static final String UI_WELCOME_INFO_NO_FILE_FOUND = UI_WELCOME_INFO
 			+ " We need to create required file(s). Please choose your save directory. Continue with it?";
-
+	public static final String UI_OF_THE_MONTH = "of the month";
+	public static final String UI_DUE_BY = "due by";
+	
 	public static final String BUTTON_YES = "Yes";
 	public static final String BUTTON_CANCEL = "Cancel";
 
