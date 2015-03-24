@@ -7,6 +7,10 @@ import java.util.List;
 import data.InitFileIO;
 import resource.FileName;
 import resource.Message;
+import entity.DeadlineTask;
+import entity.FloatingTask;
+import entity.NormalTask;
+import entity.RecurrenceTask;
 import entity.Success;
 import entity.Task;
 import javafx.application.Application;
@@ -15,15 +19,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Callback;
 import logic.Validator;
 
 public class Main extends Application {
@@ -57,8 +67,6 @@ public class Main extends Application {
 
 			initializeGlobals();
 
-			// UI
-
 			// UI - LIST VIEW
 			listView.setId("listView");
 			listView.setPrefSize(600, 250);
@@ -72,6 +80,7 @@ public class Main extends Application {
 				}
 			});
 
+			
 			// UI - TEXT FIELD
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -245,8 +254,27 @@ public class Main extends Application {
 			Object obj = successObj.getObj();
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
-				for (int i = 0; i < allTask.size(); i++) {
-					task.addAll((i + 1) + ") " + allTask.get(i).getTaskName());
+				for (int i = 0; i < allTask.size(); i++)
+				{
+					String displayDate = getDateFromTask(allTask.get(i));
+					
+					Pane pane = new Pane();
+					Label taskName = new Label();
+					Label taskDate = new Label();
+					pane.setMinWidth(600);
+					
+					taskName.setText((i + 1) + ") " + allTask.get(i).getTaskName());
+					taskName.setAlignment(Pos.CENTER_RIGHT);
+					taskName.setLayoutX(0);
+					
+					taskDate.setText(displayDate);
+					taskDate.setAlignment(Pos.CENTER_RIGHT);
+					taskDate.setLayoutX(300);
+					
+					pane.getChildren().add(taskName);
+					pane.getChildren().add(taskDate);
+					
+					task.add(pane);
 				}
 
 				listView.setItems(task);
@@ -255,5 +283,66 @@ public class Main extends Application {
 			}
 		}
 	}
+	
+	public static String getDateFromTask(Task taskObj)
+	{
+		String displayText = null;
+		if(taskObj instanceof NormalTask)
+		{
+			String startDate = Integer.toString(((NormalTask) taskObj).getStartDateTime().getDate());
+			String startMonth = intToMonth(((NormalTask) taskObj).getStartDateTime().getMonth());
+			
+			String endDate = Integer.toString(((NormalTask) taskObj).getEndDateTime().getDate());
+			String endMonth = intToMonth(((NormalTask) taskObj).getEndDateTime().getMonth());
+			
+			displayText = startMonth + " " + startDate + " to " + endMonth + " " + endDate ;		
+		}
+		
+		if(taskObj instanceof FloatingTask)
+		{
+			displayText = "-";
+		}
+		
+		if(taskObj instanceof RecurrenceTask)
+		{
+			
+		}
+		
+		if(taskObj instanceof DeadlineTask)
+		{
+			String dueDate = Integer.toString(((DeadlineTask) taskObj).getDeadline().getDate());
+			String dueMonth = intToMonth(((DeadlineTask) taskObj).getDeadline().getMonth());
+			String dueHour =  Integer.toString(((DeadlineTask) taskObj).getDeadline().getHours());
+			String dueMinute =  Integer.toString(((DeadlineTask) taskObj).getDeadline().getMinutes());
+			
+			displayText = "Due on " + dueMonth + " " + dueDate + " " + dueHour + dueMinute;
+			
+		}
+		
+		return displayText;
+	}
+	
+	public static String intToMonth(int month)
+	{
+		String monthString;
+        switch (month) {
+            case 0:  monthString = "January";       break;
+            case 1:  monthString = "February";      break;
+            case 2:  monthString = "March";         break;
+            case 3:  monthString = "April";         break;
+            case 4:  monthString = "May";           break;
+            case 5:  monthString = "June";          break;
+            case 6:  monthString = "July";          break;
+            case 7:  monthString = "August";        break;
+            case 8:  monthString = "September";     break;
+            case 9: monthString = "October";       break;
+            case 10: monthString = "November";      break;
+            case 11: monthString = "December";      break;
+            default: monthString = "Invalid month"; break;
+        }
+        return monthString;
+		
+	}
+	
 
 }
