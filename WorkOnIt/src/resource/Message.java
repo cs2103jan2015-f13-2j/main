@@ -3,6 +3,13 @@ package resource;
 public class Message {
 
 	public static final String UI_INPUT_HERE = "input here";
+	public static final String UI_WELCOME_TITLE = "Welcome";
+	public static final String UI_WELCOME_INFO = "Welcome to Work On It.";
+	public static final String UI_WELCOME_INFO_NO_FILE_FOUND = UI_WELCOME_INFO
+			+ " We need to create required file(s). Please choose your save directory. Continue with it?";
+
+	public static final String BUTTON_YES = "Yes";
+	public static final String BUTTON_CANCEL = "Cancel";
 
 	public static final String SUCCESS_GENERAL = "Operation successful.";
 	public static final String SUCCESS_COMMAND = "Command executed successfully";

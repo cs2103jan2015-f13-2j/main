@@ -88,7 +88,10 @@ public class KeyListener implements NativeKeyListener {
 			GlobalScreen.registerNativeHook();
 		} catch (NativeHookException e) {
 			System.out.println("hook registration fail");
-
+			System.exit(1);
+		} catch (Exception e) {
+			System.out.println("hook registration fail");
+			System.exit(1);
 		}
 	}
 
