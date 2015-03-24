@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import data.InitFileIO;
+import resource.Graphic;
 import resource.KeywordConstant;
 import resource.Message;
 import entity.DeadlineTask;
@@ -402,19 +403,18 @@ public class Main extends Application {
 		label.getStylesheets().add("/css/application.css");
 		label.getStyleClass().add("popup");
 		
-//		Image img = new Image("/graphic/tick.jpg");
-//		ImageView imgView = new ImageView(img);
+		Image img = new Image(Graphic.UI_TICK_PATH);
+		ImageView imgView = new ImageView(img);
 
-		
 		popup.getContent().clear();
-		popup.getContent().add(label);
+		popup.getContent().add(imgView);
 		popup.setOnShown(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
 //				popup.setX(primaryStage.getX() + primaryStage.getWidth() / 2);
 //				popup.setY(primaryStage.getY() + primaryStage.getHeight() / 2);
-				popup.setX(primaryStage.getX() + primaryStage.getWidth());
-				popup.setY(primaryStage.getY());
+				popup.setX(primaryStage.getX() + primaryStage.getWidth() - popup.getWidth() - 5);
+				popup.setY(primaryStage.getY() + 5);
 			}
 		});
 		popup.show(primaryStage);
