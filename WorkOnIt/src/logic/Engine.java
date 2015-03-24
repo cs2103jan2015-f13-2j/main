@@ -215,7 +215,8 @@ public class Engine {
 		FileIO dataStorage = new FileIO();
 		RecurrenceTask recurParent = (RecurrenceTask) task;
 		List <Date> excludedDates = recurParent.getExcludedDatesList();
-		
+		//dummy date
+		excludedDates.add(new Date(1,1,1));
 		recurParent.setExcludedDatesList(excludedDates);
 		
 		successObj = updateTask(recurParent,task);
