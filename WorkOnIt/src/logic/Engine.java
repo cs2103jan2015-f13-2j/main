@@ -210,18 +210,28 @@ public class Engine {
 
 		return successObj;
 	}
-
+	public Success deleteRecurTask(Task task){
+		Success successObj = null;
+		FileIO dataStorage = new FileIO();
+		RecurrenceTask recurParent = (RecurrenceTask) task;
+		List <Date> excludedDates = recurParent.getExcludedDatesList();
+		
+		recurParent.setExcludedDatesList(excludedDates);
+		
+		successObj = updateTask(recurParent,task);
+		return successObj;
+	}
 	// delete task with specific ID
 	public Success deleteTask(Task task) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-
+		
 		successObj = dataStorage.deleteFromFile(task);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DELETE, task);
 		undoStack.push(taskHistoryObj);
-
+		
 		return successObj;
 	}
 

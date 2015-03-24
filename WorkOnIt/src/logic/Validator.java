@@ -1151,11 +1151,15 @@ public class Validator {
 		try {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
-			status = engine.deleteTask(taskToRemove);
-
-			System.out.println("Deleted : \"" + taskToRemove.getTaskName()
-					+ "\"");
-
+			
+			if(taskToRemove instanceof RecurrenceTask){
+				status = engine.deleteRecurTask(taskToRemove);
+			} else {
+				status = engine.deleteTask(taskToRemove);
+	
+				System.out.println("Deleted : \"" + taskToRemove.getTaskName()
+						+ "\"");
+			}
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
