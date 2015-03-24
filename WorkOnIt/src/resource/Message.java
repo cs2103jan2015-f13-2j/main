@@ -14,7 +14,8 @@ public class Message {
 	public static final String BUTTON_CANCEL = "Cancel";
 
 	public static final String SUCCESS_GENERAL = "Operation successful.";
-	public static final String SUCCESS_COMMAND = "Command executed successfully";
+	public static final String SUCCESS_COMMAND = "Command executed successfully.";
+	public static final String SUCCESS_ADDED = "Task added successfully.";
 	public static final String SUCCESS_RETRIEVE_LIST = "List successfully retrieved.";
 	public static final String SUCCESS_DELETE = "Successfully deleted.";
 	public static final String SUCCESS_UPDATE = "Successfully updated.";

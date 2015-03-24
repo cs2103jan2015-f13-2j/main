@@ -57,7 +57,7 @@ public class FileIO {
 					file_type, true)));
 			filewrite.println(gsonSerial);
 
-			status = new Success(true, null);
+			status = new Success(true, Message.SUCCESS_ADDED);
 			filewrite.close();
 
 		} catch (IOException e) {

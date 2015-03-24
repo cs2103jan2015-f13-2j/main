@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import data.InitFileIO;
-import resource.FileName;
 import resource.KeywordConstant;
 import resource.Message;
 import entity.DeadlineTask;
@@ -23,20 +22,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.TextAlignment;
-import javafx.util.Callback;
 import logic.Validator;
 
 public class Main extends Application {
@@ -62,6 +61,12 @@ public class Main extends Application {
 					Main.class.getResource("../css/application.css")
 							.toExternalForm());
 			scene.setFill(null);
+			
+			// POP UP
+			final Popup popup = new Popup();
+			popup.setAutoFix(true);
+			popup.setAutoHide(true);
+			popup.setHideOnEscape(true);
 
 			// UI DECLARE
 			final TextField txtF = new TextField();
@@ -80,6 +85,7 @@ public class Main extends Application {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
 					listHandler(event, primaryStage, txtF, listView);
+					popup.hide();
 				}
 			});
 
@@ -95,7 +101,7 @@ public class Main extends Application {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF, txtF.getText());
-					executeCommand(txtF, txtF.getText());
+					executeCommand(txtF, txtF.getText(), primaryStage, popup);
 					addTaskToListView(listView, successObj);
 					switchListView(listView, txtF);
 
@@ -109,6 +115,7 @@ public class Main extends Application {
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
 							listView);
 					switchListView(listView, txtF);
+					popup.hide();
 				}
 			});
 			// UI - TEXT FIELD
@@ -130,7 +137,7 @@ public class Main extends Application {
 		commandValidator = new Validator();
 	}
 
-	protected void executeCommand(TextField txtF, String commandString) {
+	protected void executeCommand(TextField txtF, String commandString, Stage primaryStage, Popup popup) {
 
 		Success status = null;
 
@@ -145,6 +152,10 @@ public class Main extends Application {
 					txtF.setText(updateCommand);
 				} else {
 					txtF.clear();
+				}
+				// show pop up
+				if(status.getMessage() != null) {
+					showPopUp(status.getMessage(), primaryStage, popup);
 				}
 				System.out.println(Message.SUCCESS_COMMAND);
 			}
@@ -384,51 +395,28 @@ public class Main extends Application {
 		return displayText;
 	}
 
-	public static String intToMonth(int month) {
-		String monthString;
-		switch (month) {
-		case 0:
-			monthString = "January";
-			break;
-		case 1:
-			monthString = "February";
-			break;
-		case 2:
-			monthString = "March";
-			break;
-		case 3:
-			monthString = "April";
-			break;
-		case 4:
-			monthString = "May";
-			break;
-		case 5:
-			monthString = "June";
-			break;
-		case 6:
-			monthString = "July";
-			break;
-		case 7:
-			monthString = "August";
-			break;
-		case 8:
-			monthString = "September";
-			break;
-		case 9:
-			monthString = "October";
-			break;
-		case 10:
-			monthString = "November";
-			break;
-		case 11:
-			monthString = "December";
-			break;
-		default:
-			monthString = "Invalid month";
-			break;
-		}
-		return monthString;
+	private void showPopUp(String message, final Stage primaryStage, final Popup popup) {
+		
+		Label label = new Label(message);
 
+		label.getStylesheets().add("/css/application.css");
+		label.getStyleClass().add("popup");
+		
+//		Image img = new Image("/graphic/tick.jpg");
+//		ImageView imgView = new ImageView(img);
+
+		
+		popup.getContent().clear();
+		popup.getContent().add(label);
+		popup.setOnShown(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent e) {
+//				popup.setX(primaryStage.getX() + primaryStage.getWidth() / 2);
+//				popup.setY(primaryStage.getY() + primaryStage.getHeight() / 2);
+				popup.setX(primaryStage.getX() + primaryStage.getWidth());
+				popup.setY(primaryStage.getY());
+			}
+		});
+		popup.show(primaryStage);
 	}
-
 }
