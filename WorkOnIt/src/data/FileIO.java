@@ -1022,7 +1022,7 @@ public class FileIO {
 				}
 
 				filewriteIntoFile.close();
-				taskList.add(taskUpdate);
+				saveIntoFile(taskUpdate);
 			}
 
 			reader.close();
