@@ -706,14 +706,14 @@ public class Validator {
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
-			status = retrievePriority(remainingText);
+			status = retrievePriority(remainingText.trim());
 		} else if (isDesc == true) {
-			status = retrieveTaskDesc(combinedSearch);
+			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
 			if (isSingleDate == true && isDoubleDate == false) {
-				status = retrieveSingleDate(remainingText);
+				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
-				status = retrieveInBetween(remainingText);
+				status = retrieveInBetween(remainingText.trim());
 			}
 		}
 		sc.close();
@@ -770,16 +770,15 @@ public class Validator {
 
 		}
 
-		System.out.println("SingleDate = " + isSingleDate);
-		System.out.println("DoubleDate = " + isDoubleDate);
+
 		try {
 			if (isSingleDate == false && isDoubleDate == false) {
 				System.out.println("Description only");
-				status = engine.searchTask(searchString);
+				status = engine.searchTask(searchString.trim());
 			} else if (isSingleDate == true && isDoubleDate == false) {
 				Date fromDate = null;
 
-				List<Date> dateList = parseStringToDate(startDateString);
+				List<Date> dateList = parseStringToDate(startDateString.trim());
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
@@ -791,7 +790,7 @@ public class Validator {
 				Date fromDate = null;
 				Date maxDate = null;
 
-				List<Date> dateList = parseStringToDate(startDateString);
+				List<Date> dateList = parseStringToDate(startDateString.trim());
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
@@ -802,28 +801,28 @@ public class Validator {
 					maxDate = dateList.remove(0);
 				}
 
-				System.out.println("searchString: " + searchString + " from: "
-						+ fromDate + " end: " + maxDate);
-				status = engine.searchTask(searchString, fromDate, maxDate);
+				//System.out.println("searchString: " + searchString + " from: "
+				//		+ fromDate + " end: " + maxDate);
+				status = engine.searchTask(searchString.trim(), fromDate, maxDate);
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
 				Date fromDate = null;
 				Date endDate = null;
 				System.out.println(startDateString);
-				List<Date> dateList = parseStringToDate(startDateString);
+				List<Date> dateList = parseStringToDate(startDateString.trim());
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 				}
 
-				dateList = parseStringToDate(endDateString);
+				dateList = parseStringToDate(endDateString.trim());
 				if (!dateList.isEmpty()) {
 					endDate = dateList.remove(0);
 				}
 
-				System.out.println("searchString: " + searchString + " from: "
-						+ fromDate + " end: " + endDate);
-				status = engine.searchTask(searchString, fromDate, endDate);
+				//System.out.println("searchString: " + searchString + " from: "
+				//		+ fromDate + " end: " + endDate);
+				status = engine.searchTask(searchString.trim(), fromDate, endDate);
 
 			}
 
@@ -913,7 +912,7 @@ public class Validator {
 				} else if (isSingleDate == true && isDoubleDate == false) {
 					Date fromDate = null;
 
-					List<Date> dateList = parseStringToDate(startDateString);
+					List<Date> dateList = parseStringToDate(startDateString.trim());
 
 					if (!dateList.isEmpty()) {
 						fromDate = dateList.remove(0);
@@ -923,8 +922,7 @@ public class Validator {
 
 				} else if (isSingleDate == true && isDoubleDate == true) {
 
-					List<Date> dateList = parseStringToDate(startDateString
-							.trim());
+					List<Date> dateList = parseStringToDate(startDateString.trim());
 
 					Date fromDate = null;
 
@@ -945,7 +943,7 @@ public class Validator {
 					String combinedDate = startDateString + " to "
 							+ endDateString;
 
-					List<Date> dateList = parseStringToDate(combinedDate);
+					List<Date> dateList = parseStringToDate(combinedDate.trim());
 
 					Date fromDate = null;
 					Date toDate = null;
@@ -1014,7 +1012,7 @@ public class Validator {
 			} else {
 				Date onDate = null;
 				// System.out.println("dateString: "+dateString);
-				List<Date> dateList = parseStringToDate(dateString);
+				List<Date> dateList = parseStringToDate(dateString.trim());
 
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
@@ -1062,7 +1060,7 @@ public class Validator {
 			Date fromDate = null;
 			Date toDate = null;
 
-			List<Date> dateListFrom = parseStringToDate(startDateString);
+			List<Date> dateListFrom = parseStringToDate(startDateString.trim());
 
 			if (!dateListFrom.isEmpty()) {
 				fromDate = dateListFrom.remove(0);
@@ -1072,7 +1070,7 @@ public class Validator {
 
 				String combinedDate = startDateString + " to" + endDateString;
 				// System.out.println("startdatestring "+combinedDate);
-				List<Date> dateList = parseStringToDate(combinedDate);
+				List<Date> dateList = parseStringToDate(combinedDate.trim());
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
