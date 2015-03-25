@@ -177,6 +177,8 @@ public class Main extends Application {
 					txtF.setText(updateCommand);
 				} else {
 					txtF.clear();
+					listView.getItems().clear();
+					listView.setOpacity(0);
 				}
 
 				System.out.println(Message.SUCCESS_COMMAND);

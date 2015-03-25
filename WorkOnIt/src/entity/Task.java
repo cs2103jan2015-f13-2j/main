@@ -24,8 +24,8 @@ public abstract class Task {
 		this.setPriority(priority);
 		this.setCompleted(false);
 
-		long epochOffset = 0L;
-		this.setSortDate(new Date(epochOffset));
+		long maxDateOffset = Long.MAX_VALUE;
+		this.setSortDate(new Date(maxDateOffset));
 	}
 
 	public long getTaskId() {
