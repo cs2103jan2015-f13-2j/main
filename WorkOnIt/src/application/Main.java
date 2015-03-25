@@ -106,14 +106,24 @@ public class Main extends Application {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					wordHandler(txtF, txtF.getText());
-					executeCommand(txtF, txtF.getText(), primaryStage, popup);
+					executeCommand(txtF, txtF.getText(), primaryStage, popup,
+							listView);
 					if (successObj != null) {
 						if (successObj.isSuccess()) {
-							addTaskToListView(listView, successObj);
-							switchListView(listView, txtF);
-						} else {
-							showPopUp(successObj.getMessage(),
-									successObj.isSuccess(), primaryStage, popup);
+							Object returnObj = successObj.getObj();
+							if (returnObj instanceof ArrayList<?>) {
+								List<Task> taskList = (ArrayList<Task>) successObj
+										.getObj();
+								if (taskList.isEmpty()) {
+									listView.getItems().clear();
+									listView.setOpacity(0);
+									txtF.setText(Message.UI_NO_TASK_FOUND);
+									txtF.selectAll();
+								} else {
+									addTaskToListView(listView, successObj);
+									switchListView(listView, txtF);
+								}
+							}
 						}
 					} else {
 						showPopUp(null, false, primaryStage, popup);
@@ -152,7 +162,7 @@ public class Main extends Application {
 	}
 
 	protected void executeCommand(TextField txtF, String commandString,
-			Stage primaryStage, Popup popup) {
+			Stage primaryStage, Popup popup, ListView listView) {
 
 		Success status = null;
 
@@ -160,7 +170,6 @@ public class Main extends Application {
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
-
 				System.out.println(status.getMessage());
 			} else {
 				if (status.getObj() instanceof String) {
@@ -173,19 +182,15 @@ public class Main extends Application {
 				System.out.println(Message.SUCCESS_COMMAND);
 			}
 
-			// show pop up
-			if (status.getMessage() != null) {
-				showPopUp(status.getMessage(), status.isSuccess(),
-						primaryStage, popup);
-			}
+			showPopUp(status.getMessage(), status.isSuccess(), primaryStage,
+					popup);
 
 		} else {
+			showPopUp(null, false, primaryStage, popup);
 			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
 
 		successObj = status;
-		// System.out.println(obj.getTaskName()
-
 	}
 
 	public static void commandHandler(KeyEvent event, String textFieldText,
@@ -292,11 +297,11 @@ public class Main extends Application {
 					String displayDate = getDateFromTask(allTask.get(i));
 
 					Pane pane = new Pane();
-					
+
 					Label taskName = new Label();
 					Label taskDate = new Label();
 					pane.setMinWidth(600);
-					
+
 					taskName.setText((i + 1) + ") "
 							+ allTask.get(i).getTaskName());
 					taskName.setAlignment(Pos.CENTER_RIGHT);
@@ -304,17 +309,17 @@ public class Main extends Application {
 					taskName.setMaxHeight(200);
 					taskName.setWrapText(true);
 					taskName.setLayoutX(30);
-					
+
 					taskDate.setText(displayDate);
 					taskDate.setAlignment(Pos.CENTER_RIGHT);
 					taskDate.setLayoutX(300);
 
-					if(allTask.get(i).isCompleted() == true){
+					if (allTask.get(i).isCompleted() == true) {
 						pane.getChildren().add(new ImageView(green_tick_img));
 					}
 					pane.getChildren().add(taskName);
 					pane.getChildren().add(taskDate);
-					
+
 					task.add(pane);
 				}
 
