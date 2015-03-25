@@ -38,6 +38,30 @@ public class Engine {
 	}
 
 	// retrieve all task from database
+	public Success retrieveTask(String keyword) {
+
+		Success successObj;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			FileIO dataStorage = new FileIO();
+
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(keyword).getObj());
+
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+		} catch (Exception e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+	
+	//retrieve task based on keyword
 	public Success retrieveTask() {
 
 		Success successObj;
@@ -66,6 +90,7 @@ public class Engine {
 		return successObj;
 
 	}
+
 
 	// retrieve selected task entity from database.
 	public Success retrieveTask(Task task) throws IOException {
