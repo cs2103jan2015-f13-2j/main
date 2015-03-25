@@ -10,7 +10,7 @@ public class Message {
 	public static final String UI_OF_THE_MONTH = "of the month";
 	public static final String UI_DUE_BY = "due by";
 	public static final String UI_NO_TASK_FOUND = "no task found";
-	
+
 	public static final String BUTTON_YES = "Yes";
 	public static final String BUTTON_CANCEL = "Cancel";
 
