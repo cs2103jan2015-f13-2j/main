@@ -787,7 +787,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_DELETE);
 					}
 				}
@@ -815,7 +815,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_DELETE);
 					}
 				}
@@ -843,7 +843,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_DELETE);
 					}
 				}
@@ -870,7 +870,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_DELETE);
 					}
 				}
@@ -925,7 +925,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_UPDATE);
 					}
 				}
@@ -952,7 +952,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_UPDATE);
 					}
 				}
@@ -980,7 +980,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_UPDATE);
 					}
 				}
@@ -1007,7 +1007,7 @@ public class FileIO {
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
-						successObj = new Success(taskList, true,
+						successObj = new Success(null, true,
 								Message.SUCCESS_UPDATE);
 					}
 				}

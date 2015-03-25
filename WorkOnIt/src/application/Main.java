@@ -3,6 +3,8 @@ package application;
 import java.awt.SystemTray;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +48,8 @@ public class Main extends Application {
 	private static List<String> secondaryList = null;
 	private static Validator commandValidator = null;
 	private static Success successObj = null;
+	private static Image green_tick_img = new Image(Graphic.UI_GREEN_TICK_PATH);
+	private static ImageView green_tick = new ImageView(green_tick_img);
 
 	@Override
 	public void start(final Stage primaryStage) {
@@ -283,26 +287,34 @@ public class Main extends Application {
 			Object obj = successObj.getObj();
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
+				Collections.sort(allTask, Task.taskComparator);
 				for (int i = 0; i < allTask.size(); i++) {
 					String displayDate = getDateFromTask(allTask.get(i));
 
 					Pane pane = new Pane();
+					
 					Label taskName = new Label();
 					Label taskDate = new Label();
 					pane.setMinWidth(600);
-
+					
 					taskName.setText((i + 1) + ") "
 							+ allTask.get(i).getTaskName());
 					taskName.setAlignment(Pos.CENTER_RIGHT);
-					taskName.setLayoutX(0);
-
+					taskName.setMaxWidth(300);
+					taskName.setMaxHeight(200);
+					taskName.setWrapText(true);
+					taskName.setLayoutX(30);
+					
 					taskDate.setText(displayDate);
 					taskDate.setAlignment(Pos.CENTER_RIGHT);
 					taskDate.setLayoutX(300);
 
+					if(allTask.get(i).isCompleted() == true){
+						pane.getChildren().add(new ImageView(green_tick_img));
+					}
 					pane.getChildren().add(taskName);
 					pane.getChildren().add(taskDate);
-
+					
 					task.add(pane);
 				}
 
