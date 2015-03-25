@@ -416,7 +416,6 @@ public class Main extends Application {
 
 		Label label = new Label(message);
 
-		label.getStylesheets().add("/css/application.css");
 		label.getStyleClass().add("popup");
 
 		Image img = null;
