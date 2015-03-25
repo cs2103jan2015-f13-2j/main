@@ -66,17 +66,17 @@ public class Validator {
 		if (commandResolved != null) {
 
 			if (commandResolved.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-					
+
 					status = parseAddCommand(remainingCommand);
 					Task task;
 					if (status.isSuccess()) {
 						task = (Task) status.getObj();
 						status = engine.addTask(task);
-						
+
 						if (status.isSuccess()) {
 							retrievedTaskList = null;
 						}
@@ -87,26 +87,26 @@ public class Validator {
 
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-					
+
 					status = parseUpdateCommand(remainingCommand);
-					
+
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
 
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-	
+
 					status = parseDeleteCommand(remainingCommand);
-					
+
 					if (status.isSuccess()) {
 						retrievedTaskList = null;
 					}
@@ -116,73 +116,93 @@ public class Validator {
 
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_RETRIEVE)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-	
+
 					status = parseRetrieveCommand(remainingCommand);
-	
+
 					retrievedTaskList = null;
-	
-					retrievedTaskList = (ArrayList<Task>) status.getObj();
-	
-					System.out.println("No. of records: "
-							+ retrievedTaskList.size());
+
+					if (status.getObj() != null) {
+						retrievedTaskList = (ArrayList<Task>) status.getObj();
+					}
+
+					// System.out.println("No. of records: "
+					// + retrievedTaskList.size());
 					// temporary to show the retrieved list
-					for (int i = 0; i < retrievedTaskList.size(); i++) {
-						Task t = retrievedTaskList.get(i);
-						System.out.println((i + 1) + ") Task Desc: "
-								+ t.getTaskName() + "\t ; Task Type: "
-								+ t.getClass());
+					// for (int i = 0; i < retrievedTaskList.size(); i++) {
+					// Task t = retrievedTaskList.get(i);
+					// System.out.println((i + 1) + ") Task Desc: "
+					// + t.getTaskName() + "\t ; Task Type: "
+					// + t.getClass());
+					// }
+				} else {
+					status = new Success(false, Message.FAIL_PARSE_COMMAND);
+				}
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)) {
+
+				if (sc.hasNext()) {
+					String remainingCommand = sc.nextLine();
+					remainingCommand = remainingCommand.trim();
+
+					status = parseDisplayCommand(remainingCommand);
+
+					retrievedTaskList = null;
+
+					if (status.getObj() != null) {
+						retrievedTaskList = (ArrayList<Task>) status.getObj();
 					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
-				
+
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-	
+
 					status = doneCommand(remainingCommand);
-					
+
 					if (status.isSuccess()) {
 						retrievedTaskList = null;
 					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
-				
+
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-				
-				if(sc.hasNext()) {
+
+				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-	
+
 					status = undoneCommand(remainingCommand);
-				
+
 					if (status.isSuccess()) {
 						retrievedTaskList = null;
 					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
-				
+
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDO)) {
 				status = undoCommand();
-				
+
 				if (status.isSuccess()) {
 					retrievedTaskList = null;
 				}
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
 				status = redoCommand();
-				
+
 				if (status.isSuccess()) {
 					retrievedTaskList = null;
 				}
@@ -203,75 +223,76 @@ public class Validator {
 	private Success parseAddCommand(String remainingCommand) {
 
 		Success status = null;
-		
+
 		try {
 			Scanner sc = new Scanner(remainingCommand);
-	
+
 			boolean isNormalTask = false;
 			boolean isDeadlineTask = false;
 			boolean isRecurrenceTask = false;
 			boolean isFloatingTask = false;
-	
+
 			String taskDesc = "";
-	
+
 			while (sc.hasNext()) {
-	
+
 				String currentWord = sc.next();
 				String resolvedWord = keywordFullMap.get(currentWord);
-	
+
 				if (resolvedWord != null) {
-					if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
 							|| resolvedWord
 									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
-	
+
 						isNormalTask = true;
-	
+
 						String remainingDate = sc.nextLine();
 						taskDesc = taskDesc.trim();
 						status = createNormalTask(taskDesc, remainingDate);
-	
+
 						break;
-	
+
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_BY)) {
-	
+
 						isDeadlineTask = true;
-	
+
 						String remainingDate = sc.nextLine();
 						taskDesc = taskDesc.trim();
 						status = createDeadlineTask(taskDesc, remainingDate);
-	
+
 						break;
-	
+
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_EVERY)) {
-	
+
 						isRecurrenceTask = true;
-	
+
 						String remainingDate = sc.nextLine();
 						taskDesc = taskDesc.trim();
 						status = createRecurrenceTask(taskDesc, remainingDate);
-	
+
 						break;
-	
+
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
-	
+
 						isFloatingTask = true;
 						break;
-	
+
 					} else {
 						taskDesc += " " + currentWord;
 					}
-	
+
 				} else {
 					taskDesc += " " + currentWord;
 				}
 			}
-	
+
 			if (isFloatingTask
 					|| (!isNormalTask && !isDeadlineTask && !isRecurrenceTask)) {
-	
+
 				String remainingPriority = null;
 				try {
 					remainingPriority = sc.nextLine();
@@ -281,12 +302,12 @@ public class Validator {
 				taskDesc = taskDesc.trim();
 				status = createFloatingTask(taskDesc, remainingPriority);
 			}
-	
+
 			sc.close();
-			
-		} catch(NullPointerException e) {
+
+		} catch (NullPointerException e) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
@@ -294,9 +315,9 @@ public class Validator {
 	}
 
 	private Success createNormalTask(String taskDesc, String remainingDate) {
-		
+
 		taskDesc = taskDesc.trim();
-		
+
 		NormalTask task = null;
 		Success status = null;
 		Scanner sc = new Scanner(remainingDate);
@@ -389,7 +410,7 @@ public class Validator {
 
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
-		
+
 		Success status = null;
 		DeadlineTask task = null;
 		Scanner sc = new Scanner(remainingDate);
@@ -450,7 +471,7 @@ public class Validator {
 
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
-		
+
 		Success status = null;
 		RecurrenceTask task = null;
 		Scanner sc = new Scanner(remainingDate);
@@ -569,7 +590,7 @@ public class Validator {
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
 		taskDesc = taskDesc.trim();
-		
+
 		Success status = null;
 		FloatingTask task = null;
 
@@ -579,25 +600,25 @@ public class Validator {
 
 			remainingPriority = remainingPriority.trim();
 			Scanner sc = new Scanner(remainingPriority);
-			
-			if(sc.hasNext()) {
-				
+
+			if (sc.hasNext()) {
+
 				String currentWord = sc.next();
 				String resolvedWord = keywordFullMap.get(currentWord);
-	
+
 				try {
 					if (resolvedWord != null) {
 						priority = Integer.parseInt(resolvedWord);
 					} else {
 						priority = Integer.parseInt(currentWord);
 					}
-	
+
 				} catch (NumberFormatException e) {
 					System.err.println(Message.FAIL_PARSE_PRIORITY);
 				}
-		} else {
-			System.err.println(Message.FAIL_PARSE_PRIORITY);
-		}
+			} else {
+				System.err.println(Message.FAIL_PARSE_PRIORITY);
+			}
 
 			sc.close();
 		}
@@ -682,7 +703,6 @@ public class Validator {
 			}
 		}
 
-	
 		String combinedSearch = searchString + " " + remainingText;
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
@@ -788,7 +808,7 @@ public class Validator {
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 				}
-				
+
 				status = engine.searchTask(searchString, fromDate);
 
 			} else if (isSingleDate == true && isDoubleDate == true) {
@@ -806,14 +826,15 @@ public class Validator {
 					maxDate = dateList.remove(0);
 				}
 
-				//System.out.println("searchString: " + searchString + " from: "
-				//		+ fromDate + " end: " + maxDate);
+				// System.out.println("searchString: " + searchString +
+				// " from: "
+				// + fromDate + " end: " + maxDate);
 				status = engine.searchTask(searchString, fromDate, maxDate);
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
 				Date fromDate = null;
 				Date endDate = null;
-			
+
 				List<Date> dateList = parseStringToDate(startDateString);
 
 				if (!dateList.isEmpty()) {
@@ -825,8 +846,9 @@ public class Validator {
 					endDate = dateList.remove(0);
 				}
 
-				//System.out.println("searchString: " + searchString + " from: "
-				//		+ fromDate + " end: " + endDate);
+				// System.out.println("searchString: " + searchString +
+				// " from: "
+				// + fromDate + " end: " + endDate);
 				status = engine.searchTask(searchString, fromDate, endDate);
 
 			}
@@ -887,7 +909,7 @@ public class Validator {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
 						isSingleDate = true;
-						
+
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
 						isSingleDate = true;
@@ -942,7 +964,7 @@ public class Validator {
 					if (!dateMaxList.isEmpty()) {
 						maxDate = dateMaxList.remove(0);
 					}
-					
+
 					status = engine.retrieveTask(priority, fromDate, maxDate);
 
 				} else if (isSingleDate == false && isDoubleDate == true) {
@@ -1075,7 +1097,7 @@ public class Validator {
 			if (!endDateString.trim().equals("")) {
 
 				String combinedDate = startDateString + " to" + endDateString;
-			
+
 				combinedDate = combinedDate.trim();
 				List<Date> dateList = parseStringToDate(combinedDate);
 
@@ -1108,6 +1130,77 @@ public class Validator {
 		return status;
 	}
 
+	private Success parseDisplayCommand(String remainingCommand) {
+
+		Success status = null;
+		Scanner sc = new Scanner(remainingCommand);
+		String displayType = KeywordConstant.KEYWORD_DATE;
+		Date startDate = null;
+		Date endDate = null;
+
+		List<Date> dateList = parseStringToDate(remainingCommand);
+
+		if (!dateList.isEmpty()) {
+
+			while (sc.hasNext()) {
+
+				String currWord = sc.next();
+
+				if (currWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_DAYS)) {
+
+					displayType = KeywordConstant.KEYWORD_DAY;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEKS)) {
+
+					displayType = KeywordConstant.KEYWORD_WEEK;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTHS)) {
+
+					displayType = KeywordConstant.KEYWORD_MONTH;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_YEARS)) {
+
+					displayType = KeywordConstant.KEYWORD_YEAR;
+					break;
+				}
+			}
+
+			Date unfixedStartDate = dateList.remove(0);
+			startDate = fixStartDateDisplay(unfixedStartDate, displayType);
+			if (!dateList.isEmpty()) {
+				Date unfixedEndDate = dateList.remove(0);
+				endDate = fixEndDateDisplay(unfixedEndDate, displayType);
+			} else {
+				endDate = fixEndDateDisplay(unfixedStartDate, displayType);
+			}
+
+			try {
+				status = engine.retrieveDisplay(startDate, endDate);
+			} catch (IOException e) {
+				status = new Success(false, Message.ERROR_GENERAL);
+			}
+
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
+		
+		return status;
+	}
+
 	private Success parseUpdateCommand(String remainingCommand) {
 
 		Success status = null;
@@ -1120,10 +1213,9 @@ public class Validator {
 			taskDisplay += " " + taskToRemove.toDisplay();
 
 			status = new Success(taskDisplay, true, null);
-			
 
 		} catch (NumberFormatException e) {
-			if(taskToRemove != null) {
+			if (taskToRemove != null) {
 				Success statusTask = parseAddCommand(remainingCommand);
 				if (statusTask.isSuccess()) {
 					Task updatedTask = (Task) statusTask.getObj();
@@ -1155,8 +1247,8 @@ public class Validator {
 		try {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
-			
-			if(taskToRemove instanceof RecurrenceTask){
+
+			if (taskToRemove instanceof RecurrenceTask) {
 				status = engine.deleteRecurTask(taskToRemove);
 			} else {
 				status = engine.deleteTask(taskToRemove);
@@ -1267,8 +1359,6 @@ public class Validator {
 
 		int timeDifference = new Long(timeDifferenceLong).intValue();
 
-		// System.out.println("TimeDiff start : " + timeDifference);
-
 		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
 			inCalendar.set(Calendar.HOUR_OF_DAY, 0);
 			inCalendar.set(Calendar.MINUTE, 0);
@@ -1297,12 +1387,165 @@ public class Validator {
 
 		int timeDifference = new Long(timeDifferenceLong).intValue();
 
-		// System.out.println("TimeDiff end : " + timeDifference);
-
 		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
 			inCalendar.set(Calendar.HOUR_OF_DAY, 23);
 			inCalendar.set(Calendar.MINUTE, 59);
 			inCalendar.set(Calendar.SECOND, 59);
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	private Date fixStartDateDisplay(Date inDate, String displayType) {
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		int minDateInMonth = inCalendar.getActualMinimum(Calendar.DATE);
+		int minMonthInYear = inCalendar.getActualMinimum(Calendar.MONTH);
+		int minHour = inCalendar.getActualMinimum(Calendar.HOUR);
+		int minMinute = inCalendar.getActualMinimum(Calendar.MINUTE);
+		int minSec = inCalendar.getActualMinimum(Calendar.SECOND);
+
+		if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+				|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
+
+			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.add(
+					Calendar.DAY_OF_WEEK,
+					firstDateOfWeek.getFirstDayOfWeek()
+							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+				inCalendar.set(Calendar.DATE,
+						firstDateOfWeek.get(Calendar.DATE));
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, minDateInMonth);
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, minDateInMonth);
+				inCalendar.set(Calendar.MONTH, minMonthInYear);
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	private Date fixEndDateDisplay(Date inDate, String displayType) {
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		int maxDateInMonth = inCalendar.getActualMaximum(Calendar.DATE);
+		int maxMonthInYear = inCalendar.getActualMaximum(Calendar.MONTH);
+		int maxHour = inCalendar.getActualMaximum(Calendar.HOUR);
+		int maxMinute = inCalendar.getActualMaximum(Calendar.MINUTE);
+		int maxSec = inCalendar.getActualMaximum(Calendar.SECOND);
+
+		if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+				|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
+
+			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.add(
+					Calendar.DAY_OF_WEEK,
+					firstDateOfWeek.getFirstDayOfWeek()
+							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
+
+			Calendar lastDateOfWeek = (Calendar) firstDateOfWeek.clone();
+			lastDateOfWeek.add(Calendar.DAY_OF_WEEK, 6);
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+				inCalendar
+						.set(Calendar.DATE, lastDateOfWeek.get(Calendar.DATE));
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, maxDateInMonth);
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, maxDateInMonth);
+				inCalendar.set(Calendar.MONTH, maxMonthInYear);
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
 		}
 
 		Date processedDate = inCalendar.getTime();

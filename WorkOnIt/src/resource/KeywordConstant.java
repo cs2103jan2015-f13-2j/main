@@ -31,6 +31,17 @@ public class KeywordConstant {
 	public static final String KEYWORD_MONTHLY = "monthly";
 	public static final String KEYWORD_YEARLY = "yearly";
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
+	
+	public static final String KEYWORD_DISPLAY = "display";
+	public static final String KEYWORD_DAY = "day";
+	public static final String KEYWORD_DAYS = "days";
+	public static final String KEYWORD_WEEK = "week";
+	public static final String KEYWORD_WEEKS = "weeks";
+	public static final String KEYWORD_MONTH = "month";
+	public static final String KEYWORD_MONTHS = "months";
+	public static final String KEYWORD_YEAR = "year";
+	public static final String KEYWORD_YEARS = "years";
+	public static final String KEYWORD_DATE = "date";
 
 	public static final String DATE_MAX = "31 DECEMBER 9999";
 	public static final String DATE_MIN = "1 JANUARY 1970";

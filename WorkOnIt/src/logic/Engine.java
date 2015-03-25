@@ -182,6 +182,33 @@ public class Engine {
 
 		return succesObj;
 	}
+	
+	public Success retrieveDisplay(Date startDate, Date endDate) throws IOException {
+
+		Success successObj = null;
+		
+		FileIO dataStorage = new FileIO();
+		
+		successObj = retrieveTask(startDate, endDate);
+//		
+//		if(successObj.isSuccess()) {
+//			
+//			List<Task> taskList = (ArrayList<Task>) successObj.getObj();
+//			
+//			successObj = dataStorage.loadFloatingTask();
+//			if(successObj.isSuccess()) {
+//				List<Task> floatingTaskList = (ArrayList<Task>) successObj.getObj();
+//				taskList.addAll(floatingTaskList);
+//				//sort
+//				successObj = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
+//			}
+//			
+//		} else {
+//			successObj = new Success(false, Message.ERROR_RETRIEVE);
+//		}
+
+		return successObj;
+	}
 
 	public Success searchTask(String keyword) {
 		Success successObj = null;
