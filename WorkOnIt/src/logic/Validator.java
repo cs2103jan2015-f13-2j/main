@@ -227,6 +227,7 @@ public class Validator {
 						isNormalTask = true;
 	
 						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
 						status = createNormalTask(taskDesc, remainingDate);
 	
 						break;
@@ -237,6 +238,7 @@ public class Validator {
 						isDeadlineTask = true;
 	
 						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
 						status = createDeadlineTask(taskDesc, remainingDate);
 	
 						break;
@@ -247,6 +249,7 @@ public class Validator {
 						isRecurrenceTask = true;
 	
 						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
 						status = createRecurrenceTask(taskDesc, remainingDate);
 	
 						break;
@@ -275,7 +278,7 @@ public class Validator {
 				} catch (NoSuchElementException e) {
 					System.err.println(Message.ERROR_NO_PRIORITY_FOUND);
 				}
-	
+				taskDesc = taskDesc.trim();
 				status = createFloatingTask(taskDesc, remainingPriority);
 			}
 	
@@ -358,6 +361,7 @@ public class Validator {
 		}
 
 		String combinedDate = startDateString + " to " + endDateString;
+		combinedDate = combinedDate.trim();
 		List<Date> dateList = parseStringToDate(combinedDate);
 
 		Date fromDate = null;
@@ -373,7 +377,7 @@ public class Validator {
 			}
 		}
 		// System.out.println(combinedDate);
-		task = new NormalTask(taskDesc, priority, fromDate, toDate);
+		task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
 		status = new Success(task, true, null);
 
 		sc.close();
@@ -425,7 +429,7 @@ public class Validator {
 				}
 			}
 		}
-
+		deadlineDateString = deadlineDateString.trim();
 		List<Date> dateList = parseStringToDate(deadlineDateString);
 		Date deadlineDate = null;
 
@@ -532,6 +536,7 @@ public class Validator {
 
 		String combinedDate = startRecurrenceDateString + " to "
 				+ endRecurrenceDateString;
+		combinedDate = combinedDate.trim();
 		List<Date> dateList = parseStringToDate(combinedDate);
 
 		Date startRecurrenceDate = null;
@@ -617,7 +622,7 @@ public class Validator {
 
 			Parser parser = new Parser();
 
-			List<DateGroup> groups = parser.parse(dateInfo);
+			List<DateGroup> groups = parser.parse(dateInfo.trim());
 
 			if (!groups.isEmpty()) {
 				DateGroup firstDate = groups.get(0);
@@ -677,8 +682,7 @@ public class Validator {
 			}
 		}
 
-		System.out.println("ss: " + searchString);
-		System.out.println("remaining: " + remainingText);
+	
 		String combinedSearch = searchString + " " + remainingText;
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
@@ -769,28 +773,29 @@ public class Validator {
 			}
 
 		}
-
-
+		searchString = searchString.trim();
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
 		try {
 			if (isSingleDate == false && isDoubleDate == false) {
 				System.out.println("Description only");
-				status = engine.searchTask(searchString.trim());
+				status = engine.searchTask(searchString);
 			} else if (isSingleDate == true && isDoubleDate == false) {
 				Date fromDate = null;
 
-				List<Date> dateList = parseStringToDate(startDateString.trim());
+				List<Date> dateList = parseStringToDate(startDateString);
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 				}
-
+				
 				status = engine.searchTask(searchString, fromDate);
 
 			} else if (isSingleDate == true && isDoubleDate == true) {
 				Date fromDate = null;
 				Date maxDate = null;
 
-				List<Date> dateList = parseStringToDate(startDateString.trim());
+				List<Date> dateList = parseStringToDate(startDateString);
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
@@ -803,26 +808,26 @@ public class Validator {
 
 				//System.out.println("searchString: " + searchString + " from: "
 				//		+ fromDate + " end: " + maxDate);
-				status = engine.searchTask(searchString.trim(), fromDate, maxDate);
+				status = engine.searchTask(searchString, fromDate, maxDate);
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
 				Date fromDate = null;
 				Date endDate = null;
-				System.out.println(startDateString);
-				List<Date> dateList = parseStringToDate(startDateString.trim());
+			
+				List<Date> dateList = parseStringToDate(startDateString);
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 				}
 
-				dateList = parseStringToDate(endDateString.trim());
+				dateList = parseStringToDate(endDateString);
 				if (!dateList.isEmpty()) {
 					endDate = dateList.remove(0);
 				}
 
 				//System.out.println("searchString: " + searchString + " from: "
 				//		+ fromDate + " end: " + endDate);
-				status = engine.searchTask(searchString.trim(), fromDate, endDate);
+				status = engine.searchTask(searchString, fromDate, endDate);
 
 			}
 
@@ -881,8 +886,8 @@ public class Validator {
 				if (resolvedWord != null) {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
-
 						isSingleDate = true;
+						
 					} else if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
 						isSingleDate = true;
@@ -903,7 +908,8 @@ public class Validator {
 			}
 
 		}
-
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
 		try {
 			if (priority >= KeywordConstant.PRIORITY_MIN
 					&& priority <= KeywordConstant.PRIORITY_MAX) {
@@ -912,7 +918,7 @@ public class Validator {
 				} else if (isSingleDate == true && isDoubleDate == false) {
 					Date fromDate = null;
 
-					List<Date> dateList = parseStringToDate(startDateString.trim());
+					List<Date> dateList = parseStringToDate(startDateString);
 
 					if (!dateList.isEmpty()) {
 						fromDate = dateList.remove(0);
@@ -922,7 +928,7 @@ public class Validator {
 
 				} else if (isSingleDate == true && isDoubleDate == true) {
 
-					List<Date> dateList = parseStringToDate(startDateString.trim());
+					List<Date> dateList = parseStringToDate(startDateString);
 
 					Date fromDate = null;
 
@@ -936,14 +942,14 @@ public class Validator {
 					if (!dateMaxList.isEmpty()) {
 						maxDate = dateMaxList.remove(0);
 					}
-					System.out.println(fromDate + " " + maxDate);
+					
 					status = engine.retrieveTask(priority, fromDate, maxDate);
 
 				} else if (isSingleDate == false && isDoubleDate == true) {
 					String combinedDate = startDateString + " to "
 							+ endDateString;
-
-					List<Date> dateList = parseStringToDate(combinedDate.trim());
+					combinedDate = combinedDate.trim();
+					List<Date> dateList = parseStringToDate(combinedDate);
 
 					Date fromDate = null;
 					Date toDate = null;
@@ -1001,7 +1007,7 @@ public class Validator {
 			}
 
 		}
-
+		dateString = dateString.trim();
 		try {
 			if (isInBetweenTime == true) {
 				String preparedStatement = KeywordConstant.KEYWORD_FROM
@@ -1012,12 +1018,11 @@ public class Validator {
 			} else {
 				Date onDate = null;
 				// System.out.println("dateString: "+dateString);
-				List<Date> dateList = parseStringToDate(dateString.trim());
+				List<Date> dateList = parseStringToDate(dateString);
 
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
 				}
-				System.out.println(onDate);
 				status = engine.retrieveTask(onDate);
 			}
 
@@ -1055,12 +1060,13 @@ public class Validator {
 				endDateString += " " + currentWord;
 			}
 		}
-
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
 		try {
 			Date fromDate = null;
 			Date toDate = null;
 
-			List<Date> dateListFrom = parseStringToDate(startDateString.trim());
+			List<Date> dateListFrom = parseStringToDate(startDateString);
 
 			if (!dateListFrom.isEmpty()) {
 				fromDate = dateListFrom.remove(0);
@@ -1069,8 +1075,9 @@ public class Validator {
 			if (!endDateString.trim().equals("")) {
 
 				String combinedDate = startDateString + " to" + endDateString;
-				// System.out.println("startdatestring "+combinedDate);
-				List<Date> dateList = parseStringToDate(combinedDate.trim());
+			
+				combinedDate = combinedDate.trim();
+				List<Date> dateList = parseStringToDate(combinedDate);
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
@@ -1083,7 +1090,6 @@ public class Validator {
 				status = engine.retrieveTask(fromDate, toDate);
 
 			} else {
-				// System.out.println("no end date");
 
 				List<Date> dateListTo = parseStringToDate(KeywordConstant.DATE_MAX);
 
@@ -1114,7 +1120,7 @@ public class Validator {
 			taskDisplay += " " + taskToRemove.toDisplay();
 
 			status = new Success(taskDisplay, true, null);
-			System.out.println("found : " + taskDisplay);
+			
 
 		} catch (NumberFormatException e) {
 			if(taskToRemove != null) {
@@ -1154,9 +1160,6 @@ public class Validator {
 				status = engine.deleteRecurTask(taskToRemove);
 			} else {
 				status = engine.deleteTask(taskToRemove);
-	
-				System.out.println("Deleted : \"" + taskToRemove.getTaskName()
-						+ "\"");
 			}
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
@@ -1185,7 +1188,7 @@ public class Validator {
 
 	private Success doneCommand(String remainingCommand) {
 		Success status = null;
-
+		remainingCommand = remainingCommand.trim();
 		Scanner sc = new Scanner(remainingCommand);
 		List<Task> doneList = new ArrayList<Task>();
 
@@ -1217,7 +1220,7 @@ public class Validator {
 
 	private Success undoneCommand(String remainingCommand) {
 		Success status = null;
-
+		remainingCommand = remainingCommand.trim();
 		Scanner sc = new Scanner(remainingCommand);
 		List<Task> undoneList = new ArrayList<Task>();
 
