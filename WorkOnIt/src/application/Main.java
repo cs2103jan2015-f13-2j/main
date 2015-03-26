@@ -51,6 +51,8 @@ public class Main extends Application {
 	private static Success successObj = null;
 	private static Image green_tick_img = new Image(Graphic.UI_GREEN_TICK_PATH);
 	private static ImageView green_tick = new ImageView(green_tick_img);
+	private static Image exclaimation_img = new Image(Graphic.UI_URGENT_PATH);
+	private static ImageView exclaimation = new ImageView(exclaimation_img);
 
 	@Override
 	public void start(final Stage primaryStage) {
@@ -320,6 +322,9 @@ public class Main extends Application {
 
 					if (allTask.get(i).isCompleted() == true) {
 						pane.getChildren().add(new ImageView(green_tick_img));
+					}else if ( allTask.get(i).getPriority() == 2)
+					{
+						pane.getChildren().add(new ImageView(exclaimation_img));
 					}
 					pane.getChildren().add(taskName);
 					pane.getChildren().add(taskDate);
