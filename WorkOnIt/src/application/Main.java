@@ -39,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import logic.Validator;
 
 public class Main extends Application {
@@ -303,6 +304,7 @@ public class Main extends Application {
 					Label taskName = new Label();
 					Label taskDate = new Label();
 					pane.setMinWidth(600);
+					
 
 					taskName.setText((i + 1) + ") "
 							+ allTask.get(i).getTaskName());
