@@ -19,6 +19,7 @@ import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
 import entity.RecurrenceTask;
+import entity.SuccessDisplay;
 import entity.Task;
 import entity.Success;
 
@@ -1130,9 +1131,9 @@ public class Validator {
 		return status;
 	}
 
-	private Success parseDisplayCommand(String remainingCommand) {
+	private SuccessDisplay parseDisplayCommand(String remainingCommand) {
 
-		Success status = null;
+		SuccessDisplay status = null;
 		Scanner sc = new Scanner(remainingCommand);
 		String displayType = KeywordConstant.KEYWORD_DATE;
 		Date startDate = null;
@@ -1189,15 +1190,16 @@ public class Validator {
 			}
 
 			try {
-				status = engine.retrieveDisplay(startDate, endDate);
+				status = engine
+						.retrieveDisplay(startDate, endDate, displayType);
 			} catch (IOException e) {
-				status = new Success(false, Message.ERROR_GENERAL);
+				status = new SuccessDisplay(false, Message.ERROR_GENERAL);
 			}
 
 		} else {
-			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+			status = new SuccessDisplay(false, Message.FAIL_PARSE_COMMAND);
 		}
-		
+
 		return status;
 	}
 
