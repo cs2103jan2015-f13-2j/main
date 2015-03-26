@@ -87,6 +87,7 @@ public class KeywordConstant {
 		basicCommand.put(KEYWORD_WEEKLY, KEYWORD_WEEKLY);
 		basicCommand.put(KEYWORD_MONTHLY, KEYWORD_MONTHLY);
 		basicCommand.put(KEYWORD_YEARLY, KEYWORD_YEARLY);
+		basicCommand.put(KEYWORD_DISPLAY, KEYWORD_DISPLAY);
 		basicCommand.put("high", Integer.toString(PRIORITY_HIGH));
 		basicCommand.put("medium", Integer.toString(PRIORITY_MEDIUM));
 		basicCommand.put("low", Integer.toString(PRIORITY_LOW));
