@@ -49,10 +49,14 @@ public class Main extends Application {
 	private static List<String> secondaryList = null;
 	private static Validator commandValidator = null;
 	private static Success successObj = null;
+	
 	private static Image green_tick_img = new Image(Graphic.UI_GREEN_TICK_PATH);
 	private static ImageView green_tick = new ImageView(green_tick_img);
 	private static Image exclaimation_img = new Image(Graphic.UI_URGENT_PATH);
 	private static ImageView exclaimation = new ImageView(exclaimation_img);
+	
+	//SCALE
+	final static int TEXT_BOX_WIDTH = 700;
 
 	@Override
 	public void start(final Stage primaryStage) {
@@ -62,7 +66,7 @@ public class Main extends Application {
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-			Scene scene = new Scene(root, 600, 550);
+			Scene scene = new Scene(root, TEXT_BOX_WIDTH, 550);
 			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
 
 			scene.getStylesheets().add(
@@ -85,7 +89,7 @@ public class Main extends Application {
 
 			// UI - LIST VIEW
 			listView.setId("listView");
-			listView.setPrefSize(600, 250);
+			listView.setPrefSize(TEXT_BOX_WIDTH, 250);
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setLayoutY(50);
@@ -102,7 +106,7 @@ public class Main extends Application {
 			txtF.setLayoutX(0);
 			txtF.setLayoutY(0);
 			txtF.setPrefHeight(50);
-			txtF.setPrefWidth(600);
+			txtF.setPrefWidth(TEXT_BOX_WIDTH);
 			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
@@ -295,6 +299,19 @@ public class Main extends Application {
 		} else {
 			ObservableList task = FXCollections.observableArrayList();
 			Object obj = successObj.getObj();
+			
+			String displayTitle = getAgendaTitle();
+			
+			if(!displayTitle.equalsIgnoreCase(KeywordConstant.KEYWORD_DEFAULT))
+			{
+				Pane pane = new Pane();
+				Label agendaTitle = new Label();
+				agendaTitle.setText(displayTitle);
+				agendaTitle.setLayoutX(40);
+				pane.getChildren().add(agendaTitle);
+				task.add(pane);
+			}
+			
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
 				Collections.sort(allTask, Task.taskComparator);
@@ -305,20 +322,20 @@ public class Main extends Application {
 
 					Label taskName = new Label();
 					Label taskDate = new Label();
-					pane.setMinWidth(600);
+					pane.setMinWidth(TEXT_BOX_WIDTH);
 					
 
 					taskName.setText((i + 1) + ") "
 							+ allTask.get(i).getTaskName());
 					taskName.setAlignment(Pos.CENTER_RIGHT);
-					taskName.setMaxWidth(300);
+					taskName.setMaxWidth(TEXT_BOX_WIDTH/2);
 					taskName.setMaxHeight(200);
 					taskName.setWrapText(true);
-					taskName.setLayoutX(30);
+					taskName.setLayoutX(40);
 
 					taskDate.setText(displayDate);
 					taskDate.setAlignment(Pos.CENTER_RIGHT);
-					taskDate.setLayoutX(300);
+					taskDate.setLayoutX(TEXT_BOX_WIDTH/2);
 
 					if (allTask.get(i).isCompleted() == true) {
 						pane.getChildren().add(new ImageView(green_tick_img));
@@ -337,6 +354,12 @@ public class Main extends Application {
 				listView.getItems().clear();
 			}
 		}
+	}
+
+	private static String getAgendaTitle() {
+		String title = KeywordConstant.KEYWORD_DEFAULT;
+		// TODO Auto-generated method stub
+		return title;
 	}
 
 	public static String getDateFromTask(Task taskObj) {

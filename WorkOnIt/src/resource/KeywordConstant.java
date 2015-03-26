@@ -30,6 +30,7 @@ public class KeywordConstant {
 	public static final String KEYWORD_WEEKLY = "weekly";
 	public static final String KEYWORD_MONTHLY = "monthly";
 	public static final String KEYWORD_YEARLY = "yearly";
+	public static final String KEYWORD_DEFAULT = "default";
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
 	
 	public static final String KEYWORD_DISPLAY = "display";
