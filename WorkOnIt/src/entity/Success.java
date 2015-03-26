@@ -47,4 +47,20 @@ public class Success {
 		return "Success [obj=" + obj + ", isSuccess=" + isSuccess
 				+ ", message=" + message + "]";
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		boolean isSame = false;
+		
+		System.out.println("here");
+		Success otherSuccess = (Success) other;
+		if(otherSuccess.toString().equals(this.toString()) &&
+				otherSuccess.getObj().equals(this.getObj())){
+			isSame = true;
+			System.out.println("here");
+		}
+		System.out.println("there");
+		return isSame;
+		
+	}
 }

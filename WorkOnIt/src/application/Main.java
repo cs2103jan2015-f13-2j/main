@@ -175,6 +175,7 @@ public class Main extends Application {
 		Success status = null;
 
 		if (commandValidator.validateKeywordSequence(secondaryList) == true) {
+			System.out.println(commandString);
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
