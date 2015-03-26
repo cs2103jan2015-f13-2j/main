@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 public class Success {
 
 	private Object obj;
@@ -51,15 +53,28 @@ public class Success {
 	@Override
 	public boolean equals(Object other){
 		boolean isSame = false;
-		
-		System.out.println("here");
+	
 		Success otherSuccess = (Success) other;
-		if(otherSuccess.toString().equals(this.toString()) &&
-				otherSuccess.getObj().equals(this.getObj())){
-			isSame = true;
-			System.out.println("here");
+		System.out.println(this);
+		System.out.println(otherSuccess);
+		if(otherSuccess.getMessage().equals(this.getMessage())){
+			if(otherSuccess.getObj()!=null && this.getObj()!=null){
+				Object returnObj = otherSuccess.getObj();
+				Object thisObj = this.getObj();
+				
+				if (returnObj instanceof ArrayList<?>){
+					ArrayList<?> otherList = (ArrayList<?>)returnObj;
+					ArrayList<?> thisList = (ArrayList<?>)thisObj;
+					//System.out.println(otherList.size() + " " + thisList.size());
+					if(otherList.size() == thisList.size()){
+						isSame = true;
+					}
+				}
+			} else {
+				isSame = true;
+			}
 		}
-		System.out.println("there");
+		
 		return isSame;
 		
 	}

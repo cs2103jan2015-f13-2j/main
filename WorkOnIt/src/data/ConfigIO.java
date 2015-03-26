@@ -35,9 +35,9 @@ public class ConfigIO {
 		try {
 
 			if (configFile.exists()) {
-				System.out.println(configFile);
+				
 				Scanner fileScanner = new Scanner(configFile);
-				System.out.println(fileScanner.hasNext());
+				
 				loadedContents = fileScanner.nextLine();
 				fileScanner.close();
 

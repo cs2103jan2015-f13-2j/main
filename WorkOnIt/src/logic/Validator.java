@@ -36,6 +36,9 @@ public class Validator {
 		loadConfigFile();
 	}
 
+	public void setRetrievedTaskList(ArrayList<Task> list){
+		retrievedTaskList = list;
+	}
 	public boolean validateKeyword(String keyword) {
 
 		boolean isKeyword = false;
@@ -105,9 +108,9 @@ public class Validator {
 				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-
+				
 					status = parseDeleteCommand(remainingCommand);
-
+					
 					if (status.isSuccess()) {
 						retrievedTaskList = null;
 					}
