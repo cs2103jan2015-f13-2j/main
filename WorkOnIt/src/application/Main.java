@@ -17,6 +17,7 @@ import entity.FloatingTask;
 import entity.NormalTask;
 import entity.RecurrenceTask;
 import entity.Success;
+import entity.SuccessDisplay;
 import entity.Task;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -300,7 +301,7 @@ public class Main extends Application {
 			ObservableList task = FXCollections.observableArrayList();
 			Object obj = successObj.getObj();
 			
-			String displayTitle = getAgendaTitle();
+			String displayTitle = getAgendaTitle(successObj);
 			
 			if(!displayTitle.equalsIgnoreCase(KeywordConstant.KEYWORD_DEFAULT))
 			{
@@ -356,9 +357,14 @@ public class Main extends Application {
 		}
 	}
 
-	private static String getAgendaTitle() {
+	private static String getAgendaTitle(Success successObj) {
 		String title = KeywordConstant.KEYWORD_DEFAULT;
-		// TODO Auto-generated method stub
+		
+		if(successObj instanceof SuccessDisplay)
+		{
+			title = ((SuccessDisplay) successObj).getDisplayType();
+		}
+		
 		return title;
 	}
 
