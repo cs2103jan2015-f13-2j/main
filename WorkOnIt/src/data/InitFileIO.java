@@ -11,7 +11,7 @@ import resource.FileName;
 public class InitFileIO {
 
 	public void checkAndProcessFile() {
-
+		System.out.println("checkfilepath");
 		FileName.readCanonicalPathFromFile();
 
 		if (!isFilesExist()) {

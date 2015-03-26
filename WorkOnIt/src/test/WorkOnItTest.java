@@ -2,22 +2,31 @@ package test;
 
 import static org.junit.Assert.*;
 import logic.Validator;
-
+import data.InitFileIO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 import resource.Message;
 import entity.Success;
 
 public class WorkOnItTest {
-	Validator testValidator = new Validator();
+
 	
+	 
+
 	private void executeTestEquals(String testInput, Success expectedSuccess) {
-		Success testSuccess = testValidator.parseCommand(testInput);
+		
+		Validator testValidator = new Validator();
 		System.out.println(testInput);
+		InitFileIO initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		
+		Success testSuccess = testValidator.parseCommand(testInput);
+		
 		assertEquals(testSuccess, expectedSuccess);
 	}
 
@@ -25,6 +34,7 @@ public class WorkOnItTest {
 	@Test
 	public void testAdd() {
 		String testInput = "add do homework";
+		
 		Success expectedSuccess = new Success(true, Message.SUCCESS_ADDED);
 		
 		executeTestEquals(testInput, expectedSuccess);

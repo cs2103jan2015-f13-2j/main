@@ -95,7 +95,7 @@ public class FileName {
 	}
 
 	public static String readCanonicalPathFromFile() {
-
+		
 		File file = new File(FileName.FILENAME_PATH);
 		String retrievedCanonicalPath = null;
 
