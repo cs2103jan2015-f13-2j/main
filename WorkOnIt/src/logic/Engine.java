@@ -13,6 +13,7 @@ import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
 import entity.RecurrenceTask;
+import entity.SuccessDisplay;
 import entity.Task;
 import entity.Success;
 import entity.TaskHistory;
@@ -47,8 +48,8 @@ public class Engine {
 
 			FileIO dataStorage = new FileIO();
 
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(keyword).getObj());
-
+			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(keyword)
+					.getObj());
 
 			successObj = new Success(taskList, true,
 					Message.SUCCESS_RETRIEVE_LIST);
@@ -60,8 +61,8 @@ public class Engine {
 		return successObj;
 
 	}
-	
-	//retrieve task based on keyword
+
+	// retrieve task based on keyword
 	public Success retrieveTask() {
 
 		Success successObj;
@@ -90,7 +91,6 @@ public class Engine {
 		return successObj;
 
 	}
-
 
 	// retrieve selected task entity from database.
 	public Success retrieveTask(Task task) throws IOException {
@@ -207,33 +207,37 @@ public class Engine {
 
 		return succesObj;
 	}
-	
-	public Success retrieveDisplay(Date startDate, Date endDate) throws IOException {
 
-		Success successObj = null;
-		
-		successObj = retrieveTask(startDate, endDate);
-		
-		if(successObj.isSuccess()) {
-			
+	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
+			String displayType) throws IOException {
+
+		SuccessDisplay successDispObj = null;
+
+		Success successObj = retrieveTask(startDate, endDate);
+
+		if (successObj.isSuccess()) {
+
 			List<Task> taskList = (ArrayList<Task>) successObj.getObj();
-			
+
 			successObj = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
-			
-			if(successObj.isSuccess()) {
-				List<Task> floatingTaskList = (ArrayList<Task>) successObj.getObj();
+
+			if (successObj.isSuccess()) {
+				List<Task> floatingTaskList = (ArrayList<Task>) successObj
+						.getObj();
 				taskList.addAll(floatingTaskList);
-				
-				successObj = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
+
+				successDispObj = new SuccessDisplay(displayType, taskList,
+						true, Message.SUCCESS_RETRIEVE_LIST);
 			} else {
-				successObj = new Success(false, Message.ERROR_RETRIEVE);
+				successDispObj = new SuccessDisplay(false,
+						Message.ERROR_RETRIEVE);
 			}
-			
+
 		} else {
-			successObj = new Success(false, Message.ERROR_RETRIEVE);
+			successDispObj = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
 		}
 
-		return successObj;
+		return successDispObj;
 	}
 
 	public Success searchTask(String keyword) {
@@ -263,29 +267,31 @@ public class Engine {
 
 		return successObj;
 	}
-	public Success deleteRecurTask(Task task){
+
+	public Success deleteRecurTask(Task task) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
 		RecurrenceTask recurParent = (RecurrenceTask) task;
-		List <Date> excludedDates = recurParent.getExcludedDatesList();
-		//dummy date
-		excludedDates.add(new Date(1,1,1));
+		List<Date> excludedDates = recurParent.getExcludedDatesList();
+		// dummy date
+		excludedDates.add(new Date(1, 1, 1));
 		recurParent.setExcludedDatesList(excludedDates);
-		
-		successObj = updateTask(recurParent,task);
+
+		successObj = updateTask(recurParent, task);
 		return successObj;
 	}
+
 	// delete task with specific ID
 	public Success deleteTask(Task task) {
 		Success successObj = null;
 		FileIO dataStorage = new FileIO();
-		
+
 		successObj = dataStorage.deleteFromFile(task);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DELETE, task);
 		undoStack.push(taskHistoryObj);
-		
+
 		return successObj;
 	}
 
