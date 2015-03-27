@@ -1,6 +1,8 @@
 package application;
 
 import java.awt.SystemTray;
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +36,7 @@ import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
@@ -42,6 +45,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import logic.Validator;
 
 public class Main extends Application {
@@ -147,10 +152,24 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
+
+			final WebView webview = new WebView();
+			URL url = getClass().getResource("/web/calendar.html");
+			webview.setVisible(true);
+			WebEngine webengine = webview.getEngine();
+			webengine.setJavaScriptEnabled(true);
+			webengine.load(url.toString());
+			ScrollPane scrollPane = new ScrollPane();
+			scrollPane.setFitToWidth(true);
+			scrollPane.setContent(webview);
+			scrollPane.setPrefSize(TEXT_BOX_WIDTH, 400);
+			scrollPane.setLayoutY(60);
+
 			// UI - TEXT FIELD
 
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
+			root.getChildren().add(scrollPane);
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -337,6 +356,16 @@ public class Main extends Application {
 				pane.getChildren().add(agendaTitle);
 				task.add(pane);
 			}
+
+			// if (successObj instanceof SuccessDisplay) {
+			// if (((SuccessDisplay) successObj).getDisplayType().equals(
+			// KeywordConstant.KEYWORD_MONTH)) {
+			// System.out.println("web view");
+			// WebView browser = new WebView();
+			// WebEngine webEngine = browser.getEngine();
+			// webEngine.load("http://www.google.com");
+			// }
+			// }
 
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
