@@ -365,12 +365,32 @@ public class Main extends Application {
 	}
 
 	private static String getAgendaTitle(Success successObj) {
-		String title = KeywordConstant.KEYWORD_DEFAULT;
+		
+		String title = null;
+		String displayType = KeywordConstant.KEYWORD_DEFAULT;
 
-		if (successObj instanceof SuccessDisplay) {
-			title = ((SuccessDisplay) successObj).getDisplayType();
+		if (successObj instanceof SuccessDisplay) 
+		{
+			Object obj = successObj.getObj();
+			ArrayList<Task> allTask = (ArrayList<Task>) obj;
+			
+			displayType = ((SuccessDisplay) successObj).getDisplayType();
+			
+			if(displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY) 
+					|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE))
+			{
+				
+				//TODO
+			}
+			
+		
+			
+		}else
+		{
+			title = displayType;
 		}
-
+		
+		
 		return title;
 	}
 
