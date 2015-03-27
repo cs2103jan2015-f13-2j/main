@@ -52,9 +52,7 @@ public class Main extends Application {
 	private static Success successObj = null;
 	
 	private static Image green_tick_img = new Image(Graphic.UI_GREEN_TICK_PATH);
-	private static ImageView green_tick = new ImageView(green_tick_img);
 	private static Image exclaimation_img = new Image(Graphic.UI_URGENT_PATH);
-	private static ImageView exclaimation = new ImageView(exclaimation_img);
 	
 	//SCALE
 	final static int TEXT_BOX_WIDTH = 700;

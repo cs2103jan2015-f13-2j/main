@@ -29,7 +29,7 @@ public class Validator {
 	private Map<String, String> keywordFullMap = null;
 	private ArrayList<Task> retrievedTaskList = null;
 	private Task taskToRemove = null;
-	private int delayInMillisec = 3000; // 3 sec optimal delay time for process
+	private int delayInMillisec = 4000; // 4 sec optimal delay time for process
 
 	public Validator() {
 		engine = new Engine();
@@ -1422,7 +1422,7 @@ public class Validator {
 
 		int minDateInMonth = inCalendar.getActualMinimum(Calendar.DATE);
 		int minMonthInYear = inCalendar.getActualMinimum(Calendar.MONTH);
-		int minHour = inCalendar.getActualMinimum(Calendar.HOUR);
+		int minHour = inCalendar.getActualMinimum(Calendar.HOUR_OF_DAY);
 		int minMinute = inCalendar.getActualMinimum(Calendar.MINUTE);
 		int minSec = inCalendar.getActualMinimum(Calendar.SECOND);
 
@@ -1498,7 +1498,7 @@ public class Validator {
 
 		int maxDateInMonth = inCalendar.getActualMaximum(Calendar.DATE);
 		int maxMonthInYear = inCalendar.getActualMaximum(Calendar.MONTH);
-		int maxHour = inCalendar.getActualMaximum(Calendar.HOUR);
+		int maxHour = inCalendar.getActualMaximum(Calendar.HOUR_OF_DAY);
 		int maxMinute = inCalendar.getActualMaximum(Calendar.MINUTE);
 		int maxSec = inCalendar.getActualMaximum(Calendar.SECOND);
 

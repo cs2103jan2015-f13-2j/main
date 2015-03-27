@@ -18,12 +18,9 @@ public class KeyListener implements NativeKeyListener {
 
 	private static boolean ctrl = false;
 	private static boolean space = false;
-	private Main mainApp;
 	private Logger logger;
-	private Thread thread;
 
 	public KeyListener() {
-		mainApp = new Main();
 		// disable jnativehook logging
 		logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 		logger.setLevel(Level.OFF);
