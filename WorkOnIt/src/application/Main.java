@@ -61,8 +61,22 @@ public class Main extends Application {
 
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
-			Image imgProgramIcon = new Image(Graphic.UI_PROGRAM_ICON);
-			primaryStage.getIcons().add(imgProgramIcon);
+			Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
+			Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
+			Image imgProgramIcon32 = new Image(Graphic.UI_PROGRAM_ICON_32);
+			Image imgProgramIcon64 = new Image(Graphic.UI_PROGRAM_ICON_64);
+			Image imgProgramIcon128 = new Image(Graphic.UI_PROGRAM_ICON_128);
+			Image imgProgramIcon256 = new Image(Graphic.UI_PROGRAM_ICON_256);
+			Image imgProgramIcon512 = new Image(Graphic.UI_PROGRAM_ICON_512);
+			
+			primaryStage.getIcons().add(imgProgramIcon16);
+			primaryStage.getIcons().add(imgProgramIcon24);
+			primaryStage.getIcons().add(imgProgramIcon32);
+			primaryStage.getIcons().add(imgProgramIcon64);
+			primaryStage.getIcons().add(imgProgramIcon128);
+			primaryStage.getIcons().add(imgProgramIcon256);
+			primaryStage.getIcons().add(imgProgramIcon512);
+			
 			primaryStage.setTitle("Work On It");
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, 550);
 			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
