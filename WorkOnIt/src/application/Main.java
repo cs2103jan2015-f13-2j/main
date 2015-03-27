@@ -50,11 +50,8 @@ public class Main extends Application {
 	private static List<String> secondaryList = null;
 	private static Validator commandValidator = null;
 	private static Success successObj = null;
-	
-	private static Image green_tick_img = new Image(Graphic.UI_GREEN_TICK_PATH);
-	private static Image exclaimation_img = new Image(Graphic.UI_URGENT_PATH);
-	
-	//SCALE
+
+	// SCALE
 	final static int TEXT_BOX_WIDTH = 700;
 
 	@Override
@@ -266,18 +263,18 @@ public class Main extends Application {
 	private static void hide(final Stage stage) {
 		Platform.setImplicitExit(false);
 		stage.hide();
-//		Platform.runLater(new Runnable() {
-//			@Override
-//			public void run() {
-//				if (SystemTray.isSupported()) {
-//					//stage.setOnHiding(null);
-//					stage.hide();
-//					System.out.println("hide");
-//				} else {
-//					System.exit(0);
-//				}
-//			}
-//		});
+		// Platform.runLater(new Runnable() {
+		// @Override
+		// public void run() {
+		// if (SystemTray.isSupported()) {
+		// //stage.setOnHiding(null);
+		// stage.hide();
+		// System.out.println("hide");
+		// } else {
+		// System.exit(0);
+		// }
+		// }
+		// });
 	}
 
 	// for running via Main, bypassing hotkey
@@ -296,16 +293,21 @@ public class Main extends Application {
 	}
 
 	private static void addTaskToListView(ListView listView, Success successObj) {
+
+		Image imgDoneTask = new Image(Graphic.UI_GREEN_TICK_PATH);
+		Image imgHighPriority = new Image(Graphic.UI_URGENT_PATH);
+		Image imgNormalPriority = new Image(Graphic.UI_NORMAL_PATH);
+		Image imgLowPriority = new Image(Graphic.UI_LOW_PATH);
+
 		if (successObj.getObj() == null) {
 			listView.getItems().clear();
 		} else {
 			ObservableList task = FXCollections.observableArrayList();
 			Object obj = successObj.getObj();
-			
+
 			String displayTitle = getAgendaTitle(successObj);
-			
-			if(!displayTitle.equalsIgnoreCase(KeywordConstant.KEYWORD_DEFAULT))
-			{
+
+			if (!displayTitle.equalsIgnoreCase(KeywordConstant.KEYWORD_DEFAULT)) {
 				Pane pane = new Pane();
 				Label agendaTitle = new Label();
 				agendaTitle.setText(displayTitle);
@@ -313,7 +315,7 @@ public class Main extends Application {
 				pane.getChildren().add(agendaTitle);
 				task.add(pane);
 			}
-			
+
 			if (obj instanceof ArrayList<?>) {
 				ArrayList<Task> allTask = (ArrayList<Task>) obj;
 				Collections.sort(allTask, Task.taskComparator);
@@ -325,26 +327,30 @@ public class Main extends Application {
 					Label taskName = new Label();
 					Label taskDate = new Label();
 					pane.setMinWidth(TEXT_BOX_WIDTH);
-					
 
 					taskName.setText((i + 1) + ") "
 							+ allTask.get(i).getTaskName());
 					taskName.setAlignment(Pos.CENTER_RIGHT);
-					taskName.setMaxWidth(TEXT_BOX_WIDTH/2);
+					taskName.setMaxWidth(TEXT_BOX_WIDTH / 2);
 					taskName.setMaxHeight(200);
 					taskName.setWrapText(true);
 					taskName.setLayoutX(40);
 
 					taskDate.setText(displayDate);
 					taskDate.setAlignment(Pos.CENTER_RIGHT);
-					taskDate.setLayoutX(TEXT_BOX_WIDTH/2);
+					taskDate.setLayoutX(TEXT_BOX_WIDTH / 2);
 
 					if (allTask.get(i).isCompleted() == true) {
-						pane.getChildren().add(new ImageView(green_tick_img));
-					}else if ( allTask.get(i).getPriority() == 2)
-					{
-						pane.getChildren().add(new ImageView(exclaimation_img));
+						pane.getChildren().add(new ImageView(imgDoneTask));
+					} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_HIGH) {
+						pane.getChildren().add(new ImageView(imgHighPriority));
+					} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+						pane.getChildren()
+								.add(new ImageView(imgNormalPriority));
+					} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_LOW) {
+						pane.getChildren().add(new ImageView(imgLowPriority));
 					}
+
 					pane.getChildren().add(taskName);
 					pane.getChildren().add(taskDate);
 
@@ -360,12 +366,11 @@ public class Main extends Application {
 
 	private static String getAgendaTitle(Success successObj) {
 		String title = KeywordConstant.KEYWORD_DEFAULT;
-		
-		if(successObj instanceof SuccessDisplay)
-		{
+
+		if (successObj instanceof SuccessDisplay) {
 			title = ((SuccessDisplay) successObj).getDisplayType();
 		}
-		
+
 		return title;
 	}
 
