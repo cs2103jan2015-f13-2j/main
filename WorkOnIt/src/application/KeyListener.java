@@ -16,8 +16,11 @@ import com.sun.javafx.application.PlatformImpl;
 
 public class KeyListener implements NativeKeyListener {
 
-	private static boolean ctrl = false;
-	private static boolean space = false;
+	private static boolean isHotkeyFirst = false;
+	private static boolean isHotkeySecond = false;
+	private static String hotkeyValueFirst = "Space";
+	private static String hotkeyValueSecond = "Left Control";
+	private static String hotkeyValueClose = "Escape";
 	private Logger logger;
 
 	public KeyListener() {
@@ -30,25 +33,23 @@ public class KeyListener implements NativeKeyListener {
 
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
 
-		if (keyPressed.equals("Space")) {
-			space = true;
-			if (ctrl == true) {
-				System.out.println(space + " " +ctrl);
+		if (keyPressed.equals(hotkeyValueSecond)) {
+			isHotkeySecond = true;
+			if (isHotkeyFirst == true) {
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
 
-						System.out.println(space + " " +ctrl);
 						new Main().start(new Stage());
 					}
 				});
 			}
 		}
-		if (keyPressed.equals("Left Control")) {
-			ctrl = true;
-			if (space == true) {
-				System.out.println(space + " " +ctrl);
+		if (keyPressed.equals(hotkeyValueFirst)) {
+			isHotkeyFirst = true;
+			if (isHotkeySecond == true) {
+				
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
@@ -58,7 +59,7 @@ public class KeyListener implements NativeKeyListener {
 				});
 			}
 		}
-		if (keyPressed.equals("Escape")) {
+		if (keyPressed.equals(hotkeyValueClose)) {
 			try {
 //				 Platform.exit();
 
@@ -69,11 +70,11 @@ public class KeyListener implements NativeKeyListener {
 	}
 
 	public void nativeKeyReleased(NativeKeyEvent e) {
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Space")) {
-			space = false;
+		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueSecond)) {
+			isHotkeySecond = false;
 		}
-		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Left Control")) {
-			ctrl = false;
+		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueFirst)) {
+			isHotkeyFirst = false;
 		}
 	}
 
@@ -93,14 +94,4 @@ public class KeyListener implements NativeKeyListener {
 			System.exit(1);
 		}
 	}
-
-	// @Override
-	// public void update(Observable o, Object arg) {
-	// Platform.runLater(new Runnable() {
-	// public void run() {
-	// new Main().start(new Stage());
-	// }
-	// });
-	// }
-
 }
