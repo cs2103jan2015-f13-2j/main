@@ -61,7 +61,9 @@ public class Main extends Application {
 
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
-
+			Image imgProgramIcon = new Image(Graphic.UI_PROGRAM_ICON);
+			primaryStage.getIcons().add(imgProgramIcon);
+			primaryStage.setTitle("Work On It");
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, 550);
 			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
 
