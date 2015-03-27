@@ -268,18 +268,7 @@ public class Engine {
 		return successObj;
 	}
 
-	public Success deleteRecurTask(Task task) {
-		Success successObj = null;
-		FileIO dataStorage = new FileIO();
-		RecurrenceTask recurParent = (RecurrenceTask) task;
-		List<Date> excludedDates = recurParent.getExcludedDatesList();
-		// dummy date
-		excludedDates.add(new Date(1, 1, 1));
-		recurParent.setExcludedDatesList(excludedDates);
 
-		successObj = updateTask(recurParent, task);
-		return successObj;
-	}
 
 	// delete task with specific ID
 	public Success deleteTask(Task task) {

@@ -11,7 +11,7 @@ public class RecurrenceTask extends Task {
 	private long tagId;
 	private Date startRecurrenceDate, endRecurrenceDate;
 	private String occurenceType;
-	private List<Date> excludedDatesList;
+	
 
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate) {
@@ -23,7 +23,7 @@ public class RecurrenceTask extends Task {
 		this.setStartRecurrenceDate(startRecurrenceDate);
 		this.setEndRecurrenceDate(endRecurrenceDate);
 		this.setOccurenceType(KeywordConstant.KEYWORD_DEFAULT_OCCURENCE);
-		this.setExcludedDatesList(new ArrayList<Date>());
+	
 	}
 
 	public RecurrenceTask(String taskName, int priority,
@@ -37,15 +37,7 @@ public class RecurrenceTask extends Task {
 		this.setStartRecurrenceDate(startRecurrenceDate);
 		this.setEndRecurrenceDate(endRecurrenceDate);
 		this.setOccurenceType(occurenceType);
-		this.setExcludedDatesList(new ArrayList<Date>());
-	}
-
-	public List<Date> getExcludedDatesList() {
-		return excludedDatesList;
-	}
-
-	public void setExcludedDatesList(List<Date> excludedDatesList) {
-		this.excludedDatesList = excludedDatesList;
+		
 	}
 
 	public long getTagId() {
