@@ -264,18 +264,20 @@ public class Main extends Application {
 	}
 
 	private static void hide(final Stage stage) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				if (SystemTray.isSupported()) {
-					stage.setOnHiding(null);
-					stage.hide();
-					System.out.println("hide");
-				} else {
-					System.exit(0);
-				}
-			}
-		});
+		Platform.setImplicitExit(false);
+		stage.hide();
+//		Platform.runLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				if (SystemTray.isSupported()) {
+//					//stage.setOnHiding(null);
+//					stage.hide();
+//					System.out.println("hide");
+//				} else {
+//					System.exit(0);
+//				}
+//			}
+//		});
 	}
 
 	// for running via Main, bypassing hotkey

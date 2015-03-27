@@ -33,11 +33,13 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals("Space")) {
 			space = true;
 			if (ctrl == true) {
-
+				System.out.println(space + " " +ctrl);
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
+
+						System.out.println(space + " " +ctrl);
 						new Main().start(new Stage());
 					}
 				});
@@ -46,7 +48,7 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals("Left Control")) {
 			ctrl = true;
 			if (space == true) {
-
+				System.out.println(space + " " +ctrl);
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
