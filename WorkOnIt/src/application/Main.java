@@ -3,6 +3,7 @@ package application;
 import java.awt.SystemTray;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class Main extends Application {
 			Pane root = new Pane();
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			setProgramIconDesc(primaryStage);
-			
+
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, 550);
 			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
 
@@ -167,7 +168,7 @@ public class Main extends Application {
 		Image imgProgramIcon128 = new Image(Graphic.UI_PROGRAM_ICON_128);
 		Image imgProgramIcon256 = new Image(Graphic.UI_PROGRAM_ICON_256);
 		Image imgProgramIcon512 = new Image(Graphic.UI_PROGRAM_ICON_512);
-		
+
 		primaryStage.getIcons().add(imgProgramIcon16);
 		primaryStage.getIcons().add(imgProgramIcon24);
 		primaryStage.getIcons().add(imgProgramIcon32);
@@ -175,7 +176,7 @@ public class Main extends Application {
 		primaryStage.getIcons().add(imgProgramIcon128);
 		primaryStage.getIcons().add(imgProgramIcon256);
 		primaryStage.getIcons().add(imgProgramIcon512);
-		
+
 		primaryStage.setTitle("Work On It");
 	}
 
@@ -386,32 +387,63 @@ public class Main extends Application {
 	}
 
 	private static String getAgendaTitle(Success successObj) {
-		
-		String title = null;
+
+		String title = Message.UI_DISPLAY_TASK_FOR;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
 		String displayType = KeywordConstant.KEYWORD_DEFAULT;
 
-		if (successObj instanceof SuccessDisplay) 
-		{
+		if (successObj instanceof SuccessDisplay) {
 			Object obj = successObj.getObj();
 			ArrayList<Task> allTask = (ArrayList<Task>) obj;
-			
+
 			displayType = ((SuccessDisplay) successObj).getDisplayType();
-			
-			if(displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY) 
-					|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE))
-			{
-				
-				//TODO
+
+			if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+					|| displayType
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+				// TODO
+				Calendar currCalendar = Calendar.getInstance();
+
+				int currDay = currCalendar.get(Calendar.DAY_OF_MONTH);
+				int currMonth = currCalendar.get(Calendar.MONTH);
+				int currYear = currCalendar.get(Calendar.YEAR);
+
+				Calendar displayCalendar = ((SuccessDisplay) successObj)
+						.getCalendar();
+
+				int dispDay = displayCalendar.get(Calendar.DAY_OF_MONTH);
+				int dispMonth = displayCalendar.get(Calendar.MONTH);
+				int dispYear = displayCalendar.get(Calendar.YEAR);
+
+				if (currDay == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_TODAY;
+				} else if (currDay + 1 == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_TOMORROW;
+				} else if (currDay - 1 == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_YESTERDAY;
+				}
+
+				title += sdf.format(displayCalendar.getTime());
+
+			} else if (displayType
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
+				// TO DO
+			} else if (displayType
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)) {
+				// TO DO
+			} else if (displayType
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)) {
+				// TO DO
 			}
-			
-		
-			
-		}else
-		{
+
+		} else {
 			title = displayType;
 		}
-		
-		
+
 		return title;
 	}
 

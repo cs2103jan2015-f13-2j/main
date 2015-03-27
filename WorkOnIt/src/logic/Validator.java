@@ -36,9 +36,10 @@ public class Validator {
 		loadConfigFile();
 	}
 
-	public void setRetrievedTaskList(ArrayList<Task> list){
+	public void setRetrievedTaskList(ArrayList<Task> list) {
 		retrievedTaskList = list;
 	}
+
 	public boolean validateKeyword(String keyword) {
 
 		boolean isKeyword = false;
@@ -108,9 +109,9 @@ public class Validator {
 				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
-				
+
 					status = parseDeleteCommand(remainingCommand);
-					
+
 					if (status.isSuccess()) {
 						retrievedTaskList = null;
 					}
@@ -1195,6 +1196,9 @@ public class Validator {
 			try {
 				status = engine
 						.retrieveDisplay(startDate, endDate, displayType);
+
+				status.setCalendar(startDate);
+
 			} catch (IOException e) {
 				status = new SuccessDisplay(false, Message.ERROR_GENERAL);
 			}
