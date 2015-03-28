@@ -1039,8 +1039,6 @@ public class FileIO {
 	{
 		boolean matchDate = false;
 		
-		System.out.println("oajspd") ;
-		
 		if((task.getEndDateTime().compareTo(endDate) >= 0 && task
 				.getStartDateTime().compareTo(endDate) <= 0)
 				|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
