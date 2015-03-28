@@ -153,11 +153,7 @@ public class FileIO {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
 
-				if (task.getStartDateTime().getDate() == date.getDate()
-						&& task.getStartDateTime().getMonth() == date
-								.getMonth()
-						&& task.getStartDateTime().getYear() == date.getYear()) {
-
+				if (checkNormalTaskDate(task,date)){
 					taskList.add(task);
 				}
 			}
@@ -216,10 +212,7 @@ public class FileIO {
 			while ((printLine = normalReader.readLine()) != null) {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
-				if ((task.getStartDateTime().compareTo(startDate) >= 0 && task
-						.getStartDateTime().compareTo(endDate) <= 0)
-						|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
-								.getEndDateTime().compareTo(endDate) <= 0)) {
+				if (checkNormalTaskBetweenDate(task, startDate, endDate)){
 					taskList.add(task);
 				}
 			}
@@ -228,7 +221,7 @@ public class FileIO {
 				DeadlineTask task = (DeadlineTask) deserializeFromJson(
 						printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
-				if (task.getDeadline().compareTo(endDate) < 0) {
+				if (task.getDeadline().compareTo(endDate) > 0) {
 					taskList.add(task);
 				}
 			}
@@ -343,10 +336,7 @@ public class FileIO {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
 				if (task.getPriority() == priority
-						&& task.getStartDateTime().getDate() == date.getDate()
-						&& task.getStartDateTime().getMonth() == date
-								.getMonth()
-						&& task.getStartDateTime().getYear() == date.getYear()) {
+						 && checkNormalTaskDate(task, date)) {
 
 					taskList.add(task);
 				}
@@ -411,10 +401,8 @@ public class FileIO {
 			while ((printLine = normalReader.readLine()) != null) {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
-				if ((task.getStartDateTime().compareTo(startDate) >= 0 && task
-						.getStartDateTime().compareTo(endDate) <= 0)
-						|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
-								.getEndDateTime().compareTo(endDate) <= 0)) {
+				if (task.getPriority() == priority
+						 && checkNormalTaskBetweenDate(task, startDate, endDate)) {
 
 					taskList.add(task);
 				}
@@ -469,11 +457,7 @@ public class FileIO {
 					NormalTask task = (NormalTask) deserializeFromJson(
 							printLine, NormalTask.class);
 
-					if (task.getStartDateTime().getDate() == date.getDate()
-							&& task.getStartDateTime().getMonth() == date
-									.getMonth()
-							&& task.getStartDateTime().getYear() == date
-									.getYear()) {
+					if (checkNormalTaskDate(task, date)) {
 
 						taskList.add(task);
 					}
@@ -535,10 +519,7 @@ public class FileIO {
 				while ((printLine = reader.readLine()) != null) {
 					NormalTask task = (NormalTask) deserializeFromJson(
 							printLine, NormalTask.class);
-					if ((task.getStartDateTime().compareTo(startDate) >= 0 && task
-							.getStartDateTime().compareTo(endDate) <= 0)
-							|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
-									.getEndDateTime().compareTo(endDate) <= 0)) {
+					if (checkNormalTaskBetweenDate(task, startDate,endDate)) {
 						taskList.add(task);
 					}
 				}
@@ -658,10 +639,7 @@ public class FileIO {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-						&& task.getStartDateTime().getDate() == date.getDate()
-						&& task.getStartDateTime().getMonth() == date
-								.getMonth()
-						&& task.getStartDateTime().getYear() == date.getYear()) {
+						 && checkNormalTaskDate(task, date)) {
 					taskList.add(task);
 				}
 			}
@@ -717,10 +695,7 @@ public class FileIO {
 				NormalTask task = (NormalTask) deserializeFromJson(printLine,
 						NormalTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-						&& ((task.getStartDateTime().compareTo(startDate) >= 0 && task
-								.getStartDateTime().compareTo(endDate) <= 0) || (task
-								.getEndDateTime().compareTo(startDate) >= 0 && task
-								.getEndDateTime().compareTo(endDate) <= 0))) {
+								 && checkNormalTaskBetweenDate(task, startDate , endDate)) {
 					taskList.add(task);
 				}
 			}
@@ -1034,6 +1009,55 @@ public class FileIO {
 
 		return successObj;
 	}
+	
+	public static boolean checkNormalTaskDate(NormalTask task , Date date)
+	{
+		boolean matchDate = false;
+		
+		if(task.getStartDateTime().equals(task.getEndDateTime()))
+		{
+			if(task.getStartDateTime().getDate() == date.getDate()
+					&& task.getStartDateTime().getMonth() == date.getMonth()
+					&& task.getStartDateTime().getYear() == date.getYear())
+					{
+						matchDate = true;
+					}
+		}
+		else
+		{
+			if(task.getStartDateTime().compareTo(date) <= 0 &&
+					task.getEndDateTime().compareTo(date) >= 0)
+			{
+				matchDate = true;
+			}
+		
+		}
+		return matchDate;
+	}
+	
+	public static boolean checkNormalTaskBetweenDate(NormalTask task , Date startDate , Date endDate)
+	{
+		boolean matchDate = false;
+		
+		System.out.println("oajspd") ;
+		
+		if((task.getEndDateTime().compareTo(endDate) >= 0 && task
+				.getStartDateTime().compareTo(endDate) <= 0)
+				|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
+						.getStartDateTime().compareTo(startDate) <= 0)
+						|| (task.getEndDateTime().compareTo(endDate) <= 0 && task
+								.getStartDateTime().compareTo(startDate) >= 0)
+								)
+		{
+			matchDate = true;
+		}
+	
+		return matchDate;
+	}
+	
+	
+	
+	
 
 	/*
 	 * Sample Usage of GSON:
