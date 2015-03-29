@@ -22,6 +22,11 @@ public class FileName {
 	private static String filenameRecur = "datafile_recur.txt";
 	private static String filenameCfg = "command.cfg";
 
+	private static String localUrl = "file:\\\\\\";
+	private static String relativeWebUiPath = "webUI";
+	private static String filenameMonthUi = KeywordConstant.KEYWORD_MONTH
+			+ ".html";
+
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
 	}
@@ -95,7 +100,7 @@ public class FileName {
 	}
 
 	public static String readCanonicalPathFromFile() {
-		
+
 		File file = new File(FileName.FILENAME_PATH);
 		String retrievedCanonicalPath = null;
 
@@ -121,6 +126,37 @@ public class FileName {
 		}
 
 		return retrievedCanonicalPath;
+	}
+
+	public static String getLocalUrl() {
+		return localUrl;
+	}
+
+	public static void setLocalUrl(String localUrl) {
+		FileName.localUrl = localUrl;
+	}
+
+	public static String getRelativeWebUiPath() {
+		return relativeWebUiPath;
+	}
+
+	public static void setRelativeWebUiPath(String relativeWebUiPath) {
+		FileName.relativeWebUiPath = relativeWebUiPath;
+	}
+
+	public static String getFilenameMonthUi() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + FileName.filenameMonthUi;
+	}
+
+	public static String getFilenameMonthUiUrl() {
+		return getLocalUrl() + getCanonicalPath() + File.separator
+				+ getRelativeWebUiPath() + File.separator
+				+ FileName.filenameMonthUi;
+	}
+
+	public static void setFilenameMonthUi(String filenameMonthUi) {
+		FileName.filenameMonthUi = filenameMonthUi;
 	}
 
 	public static void createFileIfNotExist() {

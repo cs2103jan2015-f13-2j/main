@@ -107,17 +107,14 @@ public class Main extends Application {
 			});
 
 			// UI - CALENDAR
-			HtmlBuilder htmlBuilder = new HtmlBuilder();
 			final WebView webview = new WebView();
 			webview.setVisible(true);
-			WebEngine webengine = webview.getEngine();
-			webengine.setJavaScriptEnabled(true);
-			webengine.load("file:///" + FileName.getCanonicalPath()
-					+ File.separator + "month.html");
+			final WebEngine webengine = webview.getEngine();
+
 			final ScrollPane scrollPane = new ScrollPane();
-			scrollPane.setFitToWidth(true);
 			scrollPane.setContent(webview);
-			scrollPane.setPrefSize(TEXT_BOX_WIDTH, 400);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setPrefSize(TEXT_BOX_WIDTH, 800);
 			scrollPane.setLayoutY(60);
 			scrollPane.setVisible(false);
 
@@ -138,17 +135,32 @@ public class Main extends Application {
 							listView);
 
 					if (successObj != null) {
+
 						if (successObj.isSuccess()) {
 							Object returnObj = successObj.getObj();
+
 							if (successObj instanceof SuccessDisplay) {
 								SuccessDisplay sdObj = (SuccessDisplay) successObj;
+
 								if (sdObj.getDisplayType().equals(
 										KeywordConstant.KEYWORD_MONTH)) {
+									@SuppressWarnings("unchecked")
+									List<Task> taskList = (ArrayList<Task>) returnObj;
+
+									HtmlBuilder htmlBuilder = new HtmlBuilder(
+											KeywordConstant.KEYWORD_MONTH,
+											taskList);
+									webengine.setJavaScriptEnabled(true);
+									webengine.load(FileName
+											.getFilenameMonthUiUrl());
+									
 									scrollPane.setVisible(true);
+
 								} else if (sdObj.getDisplayType().equals(
 										KeywordConstant.KEYWORD_WEEK)) {
 									// show weekly view
 									// scrollPane.setVisible(true);
+
 								} else if (sdObj.getDisplayType().equals(
 										KeywordConstant.KEYWORD_DAY)
 										|| sdObj.getDisplayType().equals(
