@@ -12,9 +12,11 @@ import java.util.Date;
 import java.util.List;
 
 import data.InitFileIO;
+import resource.FileName;
 import resource.Graphic;
 import resource.KeywordConstant;
 import resource.Message;
+import web.HtmlBuilder;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -105,12 +107,13 @@ public class Main extends Application {
 			});
 
 			// UI - CALENDAR
+			HtmlBuilder htmlBuilder = new HtmlBuilder();
 			final WebView webview = new WebView();
-			URL url = getClass().getResource("/web/calendar.html");
 			webview.setVisible(true);
 			WebEngine webengine = webview.getEngine();
 			webengine.setJavaScriptEnabled(true);
-			webengine.load(url.toString());
+			webengine.load("file:///" + FileName.getCanonicalPath()
+					+ File.separator + "month.html");
 			final ScrollPane scrollPane = new ScrollPane();
 			scrollPane.setFitToWidth(true);
 			scrollPane.setContent(webview);
