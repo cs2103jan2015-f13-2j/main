@@ -139,8 +139,27 @@ public class Main extends Application {
 							if (successObj.isSuccess()) {
 								Object returnObj = successObj.getObj();
 								if(successObj instanceof SuccessDisplay){
+									SuccessDisplay sdObj = (SuccessDisplay) successObj;
+									if(sdObj.getDisplayType().equals("monthly")) {
+										scrollPane.setVisible(true);
+									} else if (sdObj.getDisplayType().equals("weekly")) {
+										//show weekly view
+										scrollPane.setVisible(true);
+									} else {
+										//daily view
+										List<Task> taskList = (ArrayList<Task>) sdObj
+												.getObj();
+										if (taskList.isEmpty()) {
+											listView.getItems().clear();
+											listView.setOpacity(0);
+											txtF.setText(Message.UI_NO_TASK_FOUND);
+											txtF.selectAll();
+										} else {
+											addTaskToListView(listView, successObj);
+											switchListView(listView, txtF);
+										}
+									}
 									
-									scrollPane.setVisible(true);
 								} else {
 									if (returnObj instanceof ArrayList<?>) {
 										List<Task> taskList = (ArrayList<Task>) successObj
