@@ -103,7 +103,7 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
-			
+
 			// UI - CALENDAR
 			final WebView webview = new WebView();
 			URL url = getClass().getResource("/web/calendar.html");
@@ -116,9 +116,8 @@ public class Main extends Application {
 			scrollPane.setContent(webview);
 			scrollPane.setPrefSize(TEXT_BOX_WIDTH, 400);
 			scrollPane.setLayoutY(60);
-		    scrollPane.setVisible(false);
-			
-			
+			scrollPane.setVisible(false);
+
 			// UI - TEXT FIELD
 			txtF.setId("textField");
 			txtF.setLayoutX(0);
@@ -128,63 +127,68 @@ public class Main extends Application {
 			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					
+
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
 					wordHandler(txtF, txtF.getText());
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
-					
-						if (successObj != null) {
-							if (successObj.isSuccess()) {
-								Object returnObj = successObj.getObj();
-								if(successObj instanceof SuccessDisplay){
-									SuccessDisplay sdObj = (SuccessDisplay) successObj;
-									if(sdObj.getDisplayType().equals("monthly")) {
-										scrollPane.setVisible(true);
-									} else if (sdObj.getDisplayType().equals("weekly")) {
-										//show weekly view
-										scrollPane.setVisible(true);
+
+					if (successObj != null) {
+						if (successObj.isSuccess()) {
+							Object returnObj = successObj.getObj();
+							if (successObj instanceof SuccessDisplay) {
+								SuccessDisplay sdObj = (SuccessDisplay) successObj;
+								if (sdObj.getDisplayType().equals(
+										KeywordConstant.KEYWORD_MONTH)) {
+									scrollPane.setVisible(true);
+								} else if (sdObj.getDisplayType().equals(
+										KeywordConstant.KEYWORD_WEEK)) {
+									// show weekly view
+									// scrollPane.setVisible(true);
+								} else if (sdObj.getDisplayType().equals(
+										KeywordConstant.KEYWORD_DAY)
+										|| sdObj.getDisplayType().equals(
+												KeywordConstant.KEYWORD_DATE)) {
+									// daily view
+									List<Task> taskList = (ArrayList<Task>) sdObj
+											.getObj();
+									if (taskList.isEmpty()) {
+										listView.getItems().clear();
+										listView.setOpacity(0);
+										txtF.setText(Message.UI_NO_TASK_FOUND);
+										txtF.selectAll();
 									} else {
-										//daily view
-										List<Task> taskList = (ArrayList<Task>) sdObj
-												.getObj();
-										if (taskList.isEmpty()) {
-											listView.getItems().clear();
-											listView.setOpacity(0);
-											txtF.setText(Message.UI_NO_TASK_FOUND);
-											txtF.selectAll();
-										} else {
-											addTaskToListView(listView, successObj);
-											switchListView(listView, txtF);
-										}
+										addTaskToListView(listView, successObj);
+										switchListView(listView, txtF);
 									}
-									
-								} else {
-									if (returnObj instanceof ArrayList<?>) {
-										List<Task> taskList = (ArrayList<Task>) successObj
-												.getObj();
-										if (taskList.isEmpty()) {
-											listView.getItems().clear();
-											listView.setOpacity(0);
-											txtF.setText(Message.UI_NO_TASK_FOUND);
-											txtF.selectAll();
-										} else {
-											addTaskToListView(listView, successObj);
-											switchListView(listView, txtF);
-										}
+								}
+
+							} else {
+								if (returnObj instanceof ArrayList<?>) {
+									List<Task> taskList = (ArrayList<Task>) successObj
+											.getObj();
+									if (taskList.isEmpty()) {
+										listView.getItems().clear();
+										listView.setOpacity(0);
+										txtF.setText(Message.UI_NO_TASK_FOUND);
+										txtF.selectAll();
+									} else {
+										addTaskToListView(listView, successObj);
+										switchListView(listView, txtF);
 									}
 								}
 							}
-						} else {
-							showPopUp(null, false, primaryStage, popup);
 						}
-					
+					} else {
+						showPopUp(null, false, primaryStage, popup);
+					}
+
 				}
 			});
 
 			// onKeyPressed for each char entered
-			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() { 
+			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
@@ -193,8 +197,6 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
-
-
 
 			// UI - TEXT FIELD
 
@@ -240,8 +242,7 @@ public class Main extends Application {
 			Stage primaryStage, Popup popup, ListView listView) {
 
 		Success status = null;
-		
-		
+
 		if (commandValidator.validateKeywordSequence(secondaryList) == true) {
 			System.out.println(commandString);
 			status = commandValidator.parseCommand(commandString);
@@ -336,18 +337,6 @@ public class Main extends Application {
 	private static void hide(final Stage stage) {
 		Platform.setImplicitExit(false);
 		stage.hide();
-		// Platform.runLater(new Runnable() {
-		// @Override
-		// public void run() {
-		// if (SystemTray.isSupported()) {
-		// //stage.setOnHiding(null);
-		// stage.hide();
-		// System.out.println("hide");
-		// } else {
-		// System.exit(0);
-		// }
-		// }
-		// });
 	}
 
 	// for running via Main, bypassing hotkey
