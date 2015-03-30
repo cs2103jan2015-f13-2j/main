@@ -4,3 +4,4 @@
 {"taskName":"homework","taskId":1427359650838,"priority":2,"sortDate":"Aug 17, 292278994 3:12:55 PM","isCompleted":true}
 {"taskName":"repair computer","taskId":1427193528417,"priority":1,"sortDate":"Jan 1, 1970 7:30:00 AM","isCompleted":true}
 {"taskName":"play game","taskId":1427271137575,"priority":1,"sortDate":"Jan 1, 1970 7:30:00 AM","isCompleted":true}
+{"taskName":"play computer game","taskId":1427691122847,"priority":1,"sortDate":"Aug 17, 292278994 3:12:55 PM","isCompleted":false}

@@ -1446,8 +1446,7 @@ public class Validator {
 							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
 
 			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
-				inCalendar.set(Calendar.DATE,
-						firstDateOfWeek.get(Calendar.DATE));
+				inCalendar = (Calendar) firstDateOfWeek.clone();
 				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
 				inCalendar.set(Calendar.MINUTE, minMinute);
 				inCalendar.set(Calendar.SECOND, minSec);
@@ -1522,11 +1521,10 @@ public class Validator {
 							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
 
 			Calendar lastDateOfWeek = (Calendar) firstDateOfWeek.clone();
-			lastDateOfWeek.add(Calendar.DAY_OF_WEEK, 6);
+			lastDateOfWeek.add(Calendar.DATE, 6);
 
 			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
-				inCalendar
-						.set(Calendar.DATE, lastDateOfWeek.get(Calendar.DATE));
+				inCalendar = (Calendar) lastDateOfWeek.clone();
 				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
 				inCalendar.set(Calendar.MINUTE, maxMinute);
 				inCalendar.set(Calendar.SECOND, maxSec);
