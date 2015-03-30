@@ -142,24 +142,22 @@ public class Main extends Application {
 							if (successObj instanceof SuccessDisplay) {
 								SuccessDisplay sdObj = (SuccessDisplay) successObj;
 
-								if (sdObj.getDisplayType().equals(
-										KeywordConstant.KEYWORD_MONTH)) {
+								String displayType = sdObj.getDisplayType();
+								if (displayType
+										.equals(KeywordConstant.KEYWORD_MONTH)
+										|| displayType
+												.equals(KeywordConstant.KEYWORD_WEEK)) {
 									@SuppressWarnings("unchecked")
 									List<Task> taskList = (ArrayList<Task>) returnObj;
+									Calendar displayCal = sdObj.getCalendar();
 
 									HtmlBuilder htmlBuilder = new HtmlBuilder(
-											KeywordConstant.KEYWORD_MONTH,
-											taskList);
+											displayType, displayCal, taskList);
 									webengine.setJavaScriptEnabled(true);
 									webengine.load(FileName
-											.getFilenameMonthUiUrl());
-									
-									scrollPane.setVisible(true);
+											.getFilenameCalendarUiUrl());
 
-								} else if (sdObj.getDisplayType().equals(
-										KeywordConstant.KEYWORD_WEEK)) {
-									// show weekly view
-									// scrollPane.setVisible(true);
+									scrollPane.setVisible(true);
 
 								} else if (sdObj.getDisplayType().equals(
 										KeywordConstant.KEYWORD_DAY)

@@ -24,8 +24,7 @@ public class FileName {
 
 	private static String localUrl = "file:\\\\\\";
 	private static String relativeWebUiPath = "webUI";
-	private static String filenameMonthUi = KeywordConstant.KEYWORD_MONTH
-			+ ".html";
+	private static String filenameCalendarUi = "calendarView.html";
 
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
@@ -144,19 +143,19 @@ public class FileName {
 		FileName.relativeWebUiPath = relativeWebUiPath;
 	}
 
-	public static String getFilenameMonthUi() {
+	public static String getFilenameCalendarUi() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
-				+ File.separator + FileName.filenameMonthUi;
+				+ File.separator + FileName.filenameCalendarUi;
 	}
 
-	public static String getFilenameMonthUiUrl() {
+	public static String getFilenameCalendarUiUrl() {
 		return getLocalUrl() + getCanonicalPath() + File.separator
 				+ getRelativeWebUiPath() + File.separator
-				+ FileName.filenameMonthUi;
+				+ FileName.filenameCalendarUi;
 	}
 
 	public static void setFilenameMonthUi(String filenameMonthUi) {
-		FileName.filenameMonthUi = filenameMonthUi;
+		FileName.filenameCalendarUi = filenameMonthUi;
 	}
 
 	public static void createFileIfNotExist() {
