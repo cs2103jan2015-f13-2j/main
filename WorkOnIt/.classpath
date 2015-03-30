@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_40"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/gson-2.3.1.jar"/>
@@ -7,7 +8,6 @@
 	<classpathentry kind="lib" path="lib/ical4j-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/natty-0.10.jar"/>
 	<classpathentry kind="lib" path="lib/JNativeHook.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/richtextfx-0.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/javafx-dialogs-0.0.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>

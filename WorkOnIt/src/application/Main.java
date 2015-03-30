@@ -235,6 +235,7 @@ public class Main extends Application {
 			root.getChildren().add(tFlow);
 			
 			primaryStage.setScene(scene);
+			primaryStage.setAlwaysOnTop(true);
 			primaryStage.show();
 
 		} catch (Exception e) {
