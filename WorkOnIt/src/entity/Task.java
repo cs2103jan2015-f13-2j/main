@@ -120,33 +120,44 @@ public abstract class Task {
 
 		@Override
 		public int compare(Task task1, Task task2) {
-
 			int returnVal;
-
+			
 			// sort task date in ascending order
 			Date task1Date = task1.getSortDate();
 			Date task2Date = task2.getSortDate();
-
+			
+			if(task1.isCompleted == task2.isCompleted)
+			{
 			if (task1Date.equals(task2Date)) {
 				// sort priority in descending order
 				// (high > medium > low)
 				int task1Priority = task1.getPriority();
 				int task2Priority = task2.getPriority();
-
 				if (task1Priority == task2Priority) {
 					// sort task by name
 					String task1Desc = task1.getTaskName();
 					String task2Desc = task2.getTaskName();
-
 					returnVal = task1Desc.compareTo(task2Desc);
 				} else {
 					returnVal = task2Priority - task1Priority;
 				}
-
-			} else {
-				returnVal = task1Date.compareTo(task2Date);
+				} else {
+					returnVal = task1Date.compareTo(task2Date);
+				}
+			
 			}
-
+			else
+			{
+				if(task1.isCompleted)
+				{
+					returnVal = 1;
+				}
+				else
+				{
+					returnVal = -1;
+				}
+				
+			}
 			return returnVal;
 		}
 	};
