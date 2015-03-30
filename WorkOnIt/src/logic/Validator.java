@@ -1045,10 +1045,11 @@ public class Validator {
 				Date onDate = null;
 				// System.out.println("dateString: "+dateString);
 				List<Date> dateList = parseStringToDate(dateString);
-
+				
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
 				}
+				
 				status = engine.retrieveTask(onDate);
 			}
 
@@ -1213,7 +1214,7 @@ public class Validator {
 
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
-
+		Success retrievalStatus = null;
 		try {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
@@ -1229,8 +1230,12 @@ public class Validator {
 					Task updatedTask = (Task) statusTask.getObj();
 					status = engine.updateTask(updatedTask, taskToRemove);
 					if (status.isSuccess()) {
+						retrievalStatus = parseCommand(lastRetrieve);
+						status.setObj(retrievalStatus.getObj());
+						setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
+						
 						taskToRemove = null;
-						retrievedTaskList = null;
+					
 					}
 				}
 			} else {
@@ -1258,7 +1263,7 @@ public class Validator {
 
 			status = engine.deleteTask(taskToRemove);
 			if(status.isSuccess()==true){
-				System.out.println(lastRetrieve);
+				
 				retrievalStatus = parseCommand(lastRetrieve);
 				if(retrievalStatus.isSuccess()== true){
 					status.setObj(retrievalStatus.getObj());
