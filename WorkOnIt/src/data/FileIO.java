@@ -141,6 +141,7 @@ public class FileIO {
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
 		BufferedReader normalReader = null;
+		
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
@@ -161,8 +162,8 @@ public class FileIO {
 			while ((printLine = deadlineReader.readLine()) != null) {
 				DeadlineTask task = (DeadlineTask) deserializeFromJson(
 						printLine, DeadlineTask.class);
-				// if haven't reach deadline yet.
-				if (task.getDeadline().compareTo(date) > 0) {
+				// if haven't reach deadline yet.			
+				if (task.getDeadline().compareTo(date) >= 0) {
 					taskList.add(task);
 				}
 			}
@@ -221,7 +222,8 @@ public class FileIO {
 				DeadlineTask task = (DeadlineTask) deserializeFromJson(
 						printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
-				if (task.getDeadline().compareTo(endDate) > 0) {
+
+				if ( task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
@@ -413,7 +415,7 @@ public class FileIO {
 						printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
 				if (task.getPriority() == priority
-						&& task.getDeadline().compareTo(endDate) <= 0) {
+						&&  task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
@@ -531,7 +533,7 @@ public class FileIO {
 					DeadlineTask task = (DeadlineTask) deserializeFromJson(
 							printLine, DeadlineTask.class);
 					// if haven't reach deadline yet.
-					if (task.getDeadline().compareTo(endDate) <= 0) {
+					if ( task.getDeadline().compareTo(startDate) >= 0) {
 						taskList.add(task);
 					}
 				}
@@ -705,7 +707,7 @@ public class FileIO {
 				DeadlineTask task = (DeadlineTask) deserializeFromJson(
 						printLine, DeadlineTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-						&& task.getDeadline().compareTo(endDate) <= 0) {
+						&&  task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
@@ -1009,6 +1011,30 @@ public class FileIO {
 
 		return successObj;
 	}
+	
+	/*
+	public static boolean checkDeadlineTaskDate(DeadlineTask task, Date date)
+	{
+		boolean matchDate = false;
+		
+		if(task.getDeadline().getDate() == date.getDate()
+			&& task.getDeadline().getMonth() == date.getMonth()
+			&& task.getDeadline().getHours() == date.getHours()
+			&& task.getDeadline().getYear() == date.getYear()
+			&& task.getDeadline().getHours() == date.getHours()
+			&& task.getDeadline().getMinutes() == date.getMinutes())
+		{
+			matchDate = true;
+		}
+		else if(task.getDeadline().compareTo(date) >= 0)
+		{
+			matchDate = true;
+		}
+		
+		return matchDate;
+	}
+	*/
+	
 	
 	public static boolean checkNormalTaskDate(NormalTask task , Date date)
 	{
