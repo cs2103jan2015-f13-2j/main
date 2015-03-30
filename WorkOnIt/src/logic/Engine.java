@@ -219,9 +219,6 @@ public class Engine {
 
 			List<Task> taskList = (ArrayList<Task>) successObj.getObj();
 			
-			System.out.println(startDate);
-			System.out.println(endDate);
-			
 			for(int i = 0; i < taskList.size(); i++) {
 				String name = taskList.get(i).getTaskName();
 				System.out.println(name);
