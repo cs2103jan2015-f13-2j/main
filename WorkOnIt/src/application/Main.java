@@ -47,6 +47,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import logic.Validator;
@@ -125,12 +128,17 @@ public class Main extends Application {
 			txtF.setPrefHeight(50);
 			txtF.setPrefWidth(TEXT_BOX_WIDTH);
 			txtF.setText(Message.UI_INPUT_HERE);
+			txtF.setFont(Font.font("Arial",28));
+			final TextFlow tFlow = new TextFlow();
+			tFlow.setLayoutX(10);
+			tFlow.setLayoutY(10);
+			
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
-					wordHandler(txtF, txtF.getText());
+					wordHandler(txtF, txtF.getText(),tFlow);
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
 
@@ -199,13 +207,21 @@ public class Main extends Application {
 
 				}
 			});
-
+			txtF.setOnKeyReleased(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					// addDataToListView();
+					commandHandler(event, txtF.getText(), primaryStage, txtF,
+							listView, tFlow);
+					switchListView(listView, txtF);
+					popup.hide();
+				}
+			});
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
-							listView);
+							listView,tFlow);
 					switchListView(listView, txtF);
 					popup.hide();
 				}
@@ -216,7 +232,8 @@ public class Main extends Application {
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 			root.getChildren().add(scrollPane);
-
+			root.getChildren().add(tFlow);
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
@@ -287,7 +304,7 @@ public class Main extends Application {
 	}
 
 	public static void commandHandler(KeyEvent event, String textFieldText,
-			final Stage stage, TextField txtF, ListView listView) {
+			final Stage stage, TextField txtF, ListView listView, TextFlow tFlow) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		}
@@ -296,13 +313,30 @@ public class Main extends Application {
 				|| event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
-
+		handleEachKey(txtF, tFlow);
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
-			wordHandler(txtF, textFieldText);
+			wordHandler(txtF, textFieldText, tFlow);
 		}
 	}
-
+	public static void handleEachKey(TextField txtF, TextFlow tf) {
+		String[] stringArr = txtF.getText().trim().split(" ");
+		tf.getChildren().clear();
+		for (int i = 0; i < stringArr.length; i++) {
+			Text currText;
+			
+			currText = new Text(" "+stringArr[i]);
+			
+			currText.setFont(Font.font("Arial",28));
+			if (commandValidator.validateKeyword(stringArr[i])) {
+				currText.setFill(Color.RED);
+				
+			} else {
+				currText.setVisible(false);
+			}
+			tf.getChildren().add(currText);
+		}
+	}
 	public static void listHandler(KeyEvent event, final Stage stage,
 			TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -315,30 +349,37 @@ public class Main extends Application {
 		}
 	}
 
-	private static void wordHandler(TextField txtF, String textFieldText) {
+	private static void wordHandler(TextField txtF, String textFieldText, TextFlow tf) {
 
 		String[] stringArr = textFieldText.trim().split(" ");
 
 		elementList.clear();
 		secondaryList.clear();
-
+		tf.getChildren().clear();
 		// iterate thru the input
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-
+			Text currText;
+			
+			currText = new Text(" "+stringArr[i]);
+			
+			
+			currText.setFont(Font.font("Arial",28));
+			
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
-				txtF.setStyle("-fx-text-fill: red;");
+				//txtF.setStyle("-fx-text-fill: red;");
 				String currentKeyword = stringArr[i];
-
+				currText.setFill(Color.RED);
 				secondaryList.add(currentKeyword);
+				
 				// this method is for fencing the keyword (will implement later)
 				// handleMethod("Handling: " + stringArr[i]);
 
 			} else {
-				txtF.setStyle("-fx-text-fill: black;");
+				currText.setVisible(false);
 			}
-
+			tf.getChildren().add(currText);
 		}
 	}
 
