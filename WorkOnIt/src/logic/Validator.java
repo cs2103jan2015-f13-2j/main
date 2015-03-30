@@ -30,7 +30,7 @@ public class Validator {
 	private ArrayList<Task> retrievedTaskList = null;
 	private Task taskToRemove = null;
 	private int delayInMillisec = 4000; // 4 sec optimal delay time for process
-
+	private String lastRetrieve = null;
 	public Validator() {
 		engine = new Engine();
 		loadConfigFile();
@@ -112,9 +112,6 @@ public class Validator {
 
 					status = parseDeleteCommand(remainingCommand);
 
-					if (status.isSuccess()) {
-						retrievedTaskList = null;
-					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
@@ -123,17 +120,19 @@ public class Validator {
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_RETRIEVE)) {
 
 				if (sc.hasNext()) {
+					lastRetrieve = KeywordConstant.KEYWORD_RETRIEVE;
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
 
 					status = parseRetrieveCommand(remainingCommand);
 
 					retrievedTaskList = null;
-
-					if (status.getObj() != null) {
-						retrievedTaskList = (ArrayList<Task>) status.getObj();
+					if(status.isSuccess() == true){
+						lastRetrieve += " " + remainingCommand;
+						if (status.getObj() != null) {
+							retrievedTaskList = (ArrayList<Task>) status.getObj();
+						}
 					}
-
 					// System.out.println("No. of records: "
 					// + retrievedTaskList.size());
 					// temporary to show the retrieved list
@@ -1252,12 +1251,20 @@ public class Validator {
 
 		Success status = null;
 		index = index.trim();
-
+		Success retrievalStatus = null;
 		try {
 			int indexOffset = Integer.parseInt(index) - 1;
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 
 			status = engine.deleteTask(taskToRemove);
+			if(status.isSuccess()==true){
+				System.out.println(lastRetrieve);
+				retrievalStatus = parseCommand(lastRetrieve);
+				if(retrievalStatus.isSuccess()== true){
+					status.setObj(retrievalStatus.getObj());
+					setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
+				}
+			}
 
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);

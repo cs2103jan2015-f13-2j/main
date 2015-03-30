@@ -213,7 +213,7 @@ public class Main extends Application {
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
 							listView, tFlow);
 					switchListView(listView, txtF);
-					popup.hide();
+					//popup.hide();
 				}
 			});
 			// onKeyPressed for each char entered
