@@ -231,6 +231,11 @@ public class KeywordStructure {
 		keyOn.addSubsequentKeywords(keyPriority);
 		keyOn.addSubsequentKeywords(keyFromOn);
 		keyOn.addSubsequentKeywords(keyToOn);
+		
+		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyPriority);
+		keyAt.addSubsequentKeywords(keyFromOn);
+		keyAt.addSubsequentKeywords(keyToOn);
 
 		KeywordNode keyOnFrom = new KeywordNode(KeywordConstant.KEYWORD_ON);
 		keyOnFrom.addSubsequentKeywords(keyPriority);
@@ -249,6 +254,7 @@ public class KeywordStructure {
 		keyUpdate.addSubsequentKeywords(keyBy);
 		keyUpdate.addSubsequentKeywords(keyOn);
 		keyUpdate.addSubsequentKeywords(keyFrom);
+		keyUpdate.addSubsequentKeywords(keyAt);
 
 		mainKeywordList.add(keyUpdate);
 	}
