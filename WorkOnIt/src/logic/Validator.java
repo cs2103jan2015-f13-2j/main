@@ -706,19 +706,20 @@ public class Validator {
 
 			}
 		}
-
+		
 		String combinedSearch = searchString + " " + remainingText;
+		
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
 		if (remainingText.trim().equals("")
 				&& parseStringToDate(combinedSearch).size() > 0) {
-
+			
 			isSingleDate = true;
 			isDoubleDate = false;
 			remainingText = searchString;
 
 		} else {
-
+		
 			// retrieve using description
 			if (isOn == true) {
 				combinedSearch = searchString.trim() + " on "
@@ -739,6 +740,7 @@ public class Validator {
 			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
 			if (isSingleDate == true && isDoubleDate == false) {
+				
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
 				status = retrieveInBetween(remainingText.trim());
@@ -1039,18 +1041,23 @@ public class Validator {
 				String preparedStatement = KeywordConstant.KEYWORD_FROM
 						+ dateString;
 				// System.out.println("prep stmt: "+preparedStatement);
+				
+				// fixStartDate(unprocessedStartDate)
 				status = retrieveInBetween(preparedStatement);
 
 			} else {
 				Date onDate = null;
-				// System.out.println("dateString: "+dateString);
+				Date fixedStartDate = null;
+				Date fixedEndDate = null;
 				List<Date> dateList = parseStringToDate(dateString);
 				
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
+					fixedStartDate = fixStartDate(onDate);
+					fixedEndDate = fixEndDate(onDate);
 				}
-				
-				status = engine.retrieveTask(onDate);
+			
+				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
 			}
 
 		} catch (IOException e) {
@@ -1092,11 +1099,13 @@ public class Validator {
 		try {
 			Date fromDate = null;
 			Date toDate = null;
-
+			Date fixedFromDate = null;
+			Date fixedToDate = null;
 			List<Date> dateListFrom = parseStringToDate(startDateString);
 
 			if (!dateListFrom.isEmpty()) {
 				fromDate = dateListFrom.remove(0);
+				fixedFromDate = fixStartDate(fromDate);
 			}
 
 			if (!endDateString.trim().equals("")) {
@@ -1108,13 +1117,15 @@ public class Validator {
 
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
+					fixedFromDate = fixStartDate(fromDate);
 
 					if (!dateList.isEmpty()) {
 						toDate = dateList.remove(0);
+						fixedToDate = fixEndDate(toDate);
 					}
 				}
 
-				status = engine.retrieveTask(fromDate, toDate);
+				status = engine.retrieveTask(fixedFromDate, fixedToDate);
 
 			} else {
 
