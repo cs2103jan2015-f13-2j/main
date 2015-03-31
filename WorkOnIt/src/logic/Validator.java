@@ -1268,18 +1268,41 @@ public class Validator {
 		return status;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Success parseDeleteCommand(String index) {
 
 		Success status = null;
-		index = index.trim();
 		Success retrievalStatus = null;
+		index = index.trim();
+		Scanner sc = new Scanner(index);
+
 		try {
-			int indexOffset = Integer.parseInt(index) - 1;
-			Task taskToRemove = retrievedTaskList.get(indexOffset);
 
-			status = engine.deleteTask(taskToRemove);
+			List<Integer> indexList = new ArrayList<Integer>();
+
+			while (sc.hasNext()) {
+				int currIndex = Integer.parseInt(sc.next());
+				if (currIndex <= 0 || currIndex > retrievedTaskList.size()) {
+					throw new IndexOutOfBoundsException(
+							Message.ERROR_DELETE_INVALID_INDEX);
+				}
+				indexList.add(currIndex);
+			}
+
+			for (int i = 0; i < indexList.size(); i++) {
+
+				int unfixedIndex = indexList.get(i);
+				int indexOffset = unfixedIndex - 1;
+				Task taskToRemove = retrievedTaskList.get(indexOffset);
+
+				status = engine.deleteTask(taskToRemove);
+
+				if (!status.isSuccess()) {
+					break;
+				}
+			}
+
 			if (status.isSuccess() == true) {
-
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
