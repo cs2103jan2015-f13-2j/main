@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import resource.FileName;
+import resource.Graphic;
 import resource.KeywordConstant;
 import entity.DeadlineTask;
 import entity.FloatingTask;
@@ -209,6 +210,16 @@ public class HtmlBuilder {
 
 					writer.println("start: '"
 							+ sdfNormal.format(createdCal.getTime()) + "'");
+				}
+				
+				if(currTask.isCompleted()) {
+					writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
+				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
+					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
+				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL + "'");
+				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
+					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
 				}
 
 				writer.println("}");
