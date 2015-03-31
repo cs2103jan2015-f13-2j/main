@@ -78,6 +78,11 @@ public class KeywordStructure {
 		keyOn.addSubsequentKeywords(keyFromOn);
 		keyOn.addSubsequentKeywords(keyToOn);
 
+		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyPriority);
+		keyAt.addSubsequentKeywords(keyFromOn);
+		keyAt.addSubsequentKeywords(keyToOn);
+
 		KeywordNode keyOnFrom = new KeywordNode(KeywordConstant.KEYWORD_ON);
 		keyOnFrom.addSubsequentKeywords(keyPriority);
 
@@ -95,6 +100,7 @@ public class KeywordStructure {
 		keyAdd.addSubsequentKeywords(keyBy);
 		keyAdd.addSubsequentKeywords(keyOn);
 		keyAdd.addSubsequentKeywords(keyFrom);
+		keyAdd.addSubsequentKeywords(keyAt);
 
 		mainKeywordList.add(keyAdd);
 	}
@@ -259,19 +265,19 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyUndo);
 	}
-	
+
 	private void initRedoKeyword() {
 		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
 
 		mainKeywordList.add(keyRedo);
 	}
-	
+
 	private void initDoneKeyword() {
 		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
 
 		mainKeywordList.add(keyDone);
 	}
-	
+
 	private void initUndoneKeyword() {
 		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
 
@@ -283,9 +289,10 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyClear);
 	}
-	
+
 	private void initDisplayKeyword() {
-		KeywordNode keyDisplay = new KeywordNode(KeywordConstant.KEYWORD_DISPLAY);
+		KeywordNode keyDisplay = new KeywordNode(
+				KeywordConstant.KEYWORD_DISPLAY);
 
 		mainKeywordList.add(keyDisplay);
 	}
