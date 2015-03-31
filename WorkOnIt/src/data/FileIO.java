@@ -48,7 +48,7 @@ public class FileIO {
 		}
 
 		// body
-		String gsonSerial = serializeToJson(task);
+		String gsonSerial = Serializer.serializeToJson(task);
 		// System.out.println(gsonSerial);
 		PrintWriter filewrite = null;
 
@@ -96,29 +96,30 @@ public class FileIO {
 			if (file_keyword
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
-					Task task = (FloatingTask) deserializeFromJson(printLine,
-							FloatingTask.class);
+					Task task = (FloatingTask) Serializer.deserializeFromJson(
+							printLine, FloatingTask.class);
 					taskList.add(task);
 				}
 			} else if (file_keyword
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
-					Task task = (NormalTask) deserializeFromJson(printLine,
-							NormalTask.class);
+					Task task = (NormalTask) Serializer.deserializeFromJson(
+							printLine, NormalTask.class);
 					taskList.add(task);
 				}
 			} else if (file_keyword
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
-					Task task = (DeadlineTask) deserializeFromJson(printLine,
-							DeadlineTask.class);
+					Task task = (DeadlineTask) Serializer.deserializeFromJson(
+							printLine, DeadlineTask.class);
 					taskList.add(task);
 				}
 			} else if (file_keyword
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
 				while ((printLine = reader.readLine()) != null) {
-					Task task = (RecurrenceTask) deserializeFromJson(printLine,
-							RecurrenceTask.class);
+					Task task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
 					taskList.add(task);
 				}
 			}
@@ -141,7 +142,7 @@ public class FileIO {
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
 		BufferedReader normalReader = null;
-		
+
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
@@ -151,26 +152,26 @@ public class FileIO {
 			normalReader = new BufferedReader(new FileReader(filename_normal));
 
 			while ((printLine = normalReader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 
-				if (checkNormalTaskDate(task,date)){
+				if (checkNormalTaskDate(task, date)) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = deadlineReader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
-				// if haven't reach deadline yet.			
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
+				// if haven't reach deadline yet.
 				if (task.getDeadline().compareTo(date) >= 0) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = recurReader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getStartRecurrenceDate().getDate() == date.getDate()
 						&& task.getStartRecurrenceDate().getMonth() == date
 								.getMonth()
@@ -211,26 +212,26 @@ public class FileIO {
 			String printLine;
 
 			while ((printLine = normalReader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
-				if (checkNormalTaskBetweenDate(task, startDate, endDate)){
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
+				if (checkNormalTaskBetweenDate(task, startDate, endDate)) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = deadlineReader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
 
-				if ( task.getDeadline().compareTo(startDate) >= 0) {
+				if (task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = recurReader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getStartRecurrenceDate().compareTo(startDate) > 0
 						&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
 					taskList.add(task);
@@ -270,16 +271,16 @@ public class FileIO {
 			String printLine;
 
 			while ((printLine = normalReader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getPriority() == priority) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = deadlineReader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
 				if (task.getPriority() == priority) {
 					taskList.add(task);
@@ -287,16 +288,16 @@ public class FileIO {
 			}
 
 			while ((printLine = recurReader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getPriority() == priority) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = floatReader.readLine()) != null) {
-				FloatingTask task = (FloatingTask) deserializeFromJson(
-						printLine, FloatingTask.class);
+				FloatingTask task = (FloatingTask) Serializer
+						.deserializeFromJson(printLine, FloatingTask.class);
 				if (task.getPriority() == priority) {
 					taskList.add(task);
 				}
@@ -335,18 +336,18 @@ public class FileIO {
 			String printLine;
 
 			while ((printLine = normalReader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getPriority() == priority
-						 && checkNormalTaskDate(task, date)) {
+						&& checkNormalTaskDate(task, date)) {
 
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = deadlineReader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
 				if (task.getPriority() == priority
 						&& task.getDeadline().compareTo(date) > 0) {
@@ -355,8 +356,8 @@ public class FileIO {
 			}
 
 			while ((printLine = recurReader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getPriority() == priority
 						&& task.getStartRecurrenceDate().getDate() == date
 								.getDate()
@@ -401,28 +402,28 @@ public class FileIO {
 			String printLine;
 
 			while ((printLine = normalReader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getPriority() == priority
-						 && checkNormalTaskBetweenDate(task, startDate, endDate)) {
+						&& checkNormalTaskBetweenDate(task, startDate, endDate)) {
 
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = deadlineReader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				// if haven't reach deadline yet.
 				if (task.getPriority() == priority
-						&&  task.getDeadline().compareTo(startDate) >= 0) {
+						&& task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
 
 			while ((printLine = recurReader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getPriority() == priority
 						&& task.getStartRecurrenceDate().compareTo(startDate) > 0
 						&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
@@ -456,8 +457,8 @@ public class FileIO {
 			if (taskObj instanceof NormalTask) {
 				reader = new BufferedReader(new FileReader(filename_normal));
 				while ((printLine = reader.readLine()) != null) {
-					NormalTask task = (NormalTask) deserializeFromJson(
-							printLine, NormalTask.class);
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
 
 					if (checkNormalTaskDate(task, date)) {
 
@@ -469,8 +470,8 @@ public class FileIO {
 			if (taskObj instanceof DeadlineTask) {
 				reader = new BufferedReader(new FileReader(filename_deadline));
 				while ((printLine = reader.readLine()) != null) {
-					DeadlineTask task = (DeadlineTask) deserializeFromJson(
-							printLine, DeadlineTask.class);
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
 					// if haven't reach deadline yet.
 					if (task.getDeadline().compareTo(date) > 0) {
 						taskList.add(task);
@@ -481,8 +482,9 @@ public class FileIO {
 			if (taskObj instanceof RecurrenceTask) {
 				reader = new BufferedReader(new FileReader(filename_recur));
 				while ((printLine = reader.readLine()) != null) {
-					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-							printLine, RecurrenceTask.class);
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
 					if (task.getStartRecurrenceDate().getDate() == date
 							.getDate()
 							&& task.getStartRecurrenceDate().getMonth() == date
@@ -519,9 +521,9 @@ public class FileIO {
 			if (taskObj instanceof NormalTask) {
 				reader = new BufferedReader(new FileReader(filename_normal));
 				while ((printLine = reader.readLine()) != null) {
-					NormalTask task = (NormalTask) deserializeFromJson(
-							printLine, NormalTask.class);
-					if (checkNormalTaskBetweenDate(task, startDate,endDate)) {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (checkNormalTaskBetweenDate(task, startDate, endDate)) {
 						taskList.add(task);
 					}
 				}
@@ -530,10 +532,10 @@ public class FileIO {
 			if (taskObj instanceof DeadlineTask) {
 				reader = new BufferedReader(new FileReader(filename_deadline));
 				while ((printLine = reader.readLine()) != null) {
-					DeadlineTask task = (DeadlineTask) deserializeFromJson(
-							printLine, DeadlineTask.class);
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
 					// if haven't reach deadline yet.
-					if ( task.getDeadline().compareTo(startDate) >= 0) {
+					if (task.getDeadline().compareTo(startDate) >= 0) {
 						taskList.add(task);
 					}
 				}
@@ -542,8 +544,9 @@ public class FileIO {
 			if (taskObj instanceof RecurrenceTask) {
 				reader = new BufferedReader(new FileReader(filename_recur));
 				while ((printLine = reader.readLine()) != null) {
-					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-							printLine, RecurrenceTask.class);
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
 					if (task.getStartRecurrenceDate().compareTo(startDate) > 0
 							&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
 						taskList.add(task);
@@ -567,17 +570,17 @@ public class FileIO {
 	public Success searchFromFile(String keyword) {
 		Success successObj;
 		BufferedReader reader = null;
-		
+
 		keyword = keyword.trim();
-				
+
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
 
 			reader = new BufferedReader(new FileReader(filename_normal));
 			while ((printLine = reader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)) {
 					taskList.add(task);
 				}
@@ -585,8 +588,8 @@ public class FileIO {
 
 			reader = new BufferedReader(new FileReader(filename_deadline));
 			while ((printLine = reader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)) {
 					taskList.add(task);
 				}
@@ -594,8 +597,8 @@ public class FileIO {
 
 			reader = new BufferedReader(new FileReader(filename_recur));
 			while ((printLine = reader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)) {
 					taskList.add(task);
 				}
@@ -603,11 +606,11 @@ public class FileIO {
 
 			reader = new BufferedReader(new FileReader(filename_floating));
 			while ((printLine = reader.readLine()) != null) {
-				FloatingTask task = (FloatingTask) deserializeFromJson(
-						printLine, FloatingTask.class);
-				
+				FloatingTask task = (FloatingTask) Serializer
+						.deserializeFromJson(printLine, FloatingTask.class);
+
 				if (task.getTaskName().toLowerCase().contains(keyword)) {
-				
+
 					taskList.add(task);
 				}
 			}
@@ -629,27 +632,27 @@ public class FileIO {
 	public Success searchFromFileWithDate(String keyword, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
-		
+
 		keyword = keyword.trim();
-		
+
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
 
 			reader = new BufferedReader(new FileReader(filename_normal));
 			while ((printLine = reader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-						 && checkNormalTaskDate(task, date)) {
+						&& checkNormalTaskDate(task, date)) {
 					taskList.add(task);
 				}
 			}
 
 			reader = new BufferedReader(new FileReader(filename_deadline));
 			while ((printLine = reader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
 						&& task.getDeadline().compareTo(date) > 0) {
 					taskList.add(task);
@@ -658,8 +661,8 @@ public class FileIO {
 
 			reader = new BufferedReader(new FileReader(filename_recur));
 			while ((printLine = reader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
 						&& task.getStartRecurrenceDate().getDate() == date
 								.getDate()
@@ -685,37 +688,37 @@ public class FileIO {
 			Date endDate) {
 		Success successObj;
 		BufferedReader reader = null;
-		
+
 		keyword = keyword.trim();
-		
+
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
 
 			reader = new BufferedReader(new FileReader(filename_normal));
 			while ((printLine = reader.readLine()) != null) {
-				NormalTask task = (NormalTask) deserializeFromJson(printLine,
-						NormalTask.class);
+				NormalTask task = (NormalTask) Serializer.deserializeFromJson(
+						printLine, NormalTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-								 && checkNormalTaskBetweenDate(task, startDate , endDate)) {
+						&& checkNormalTaskBetweenDate(task, startDate, endDate)) {
 					taskList.add(task);
 				}
 			}
 
 			reader = new BufferedReader(new FileReader(filename_deadline));
 			while ((printLine = reader.readLine()) != null) {
-				DeadlineTask task = (DeadlineTask) deserializeFromJson(
-						printLine, DeadlineTask.class);
+				DeadlineTask task = (DeadlineTask) Serializer
+						.deserializeFromJson(printLine, DeadlineTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
-						&&  task.getDeadline().compareTo(startDate) >= 0) {
+						&& task.getDeadline().compareTo(startDate) >= 0) {
 					taskList.add(task);
 				}
 			}
 
 			reader = new BufferedReader(new FileReader(filename_recur));
 			while ((printLine = reader.readLine()) != null) {
-				RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-						printLine, RecurrenceTask.class);
+				RecurrenceTask task = (RecurrenceTask) Serializer
+						.deserializeFromJson(printLine, RecurrenceTask.class);
 				if (task.getTaskName().toLowerCase().contains(keyword)
 						&& task.getStartRecurrenceDate().compareTo(startDate) > 0
 						&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
@@ -759,8 +762,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_normal));
 				while ((printLine = reader.readLine()) != null) {
-					NormalTask task = (NormalTask) deserializeFromJson(
-							printLine, NormalTask.class);
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -774,7 +777,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
@@ -787,8 +791,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_floating));
 				while ((printLine = reader.readLine()) != null) {
-					FloatingTask task = (FloatingTask) deserializeFromJson(
-							printLine, FloatingTask.class);
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -802,7 +806,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 
 					filewriteIntoFile.println(gsonSerial);
 
@@ -815,8 +820,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_deadline));
 				while ((printLine = reader.readLine()) != null) {
-					DeadlineTask task = (DeadlineTask) deserializeFromJson(
-							printLine, DeadlineTask.class);
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -830,7 +835,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
@@ -842,8 +848,9 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_recur));
 				while ((printLine = reader.readLine()) != null) {
-					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-							printLine, RecurrenceTask.class);
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -857,7 +864,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
 
@@ -897,8 +905,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_normal));
 				while ((printLine = reader.readLine()) != null) {
-					NormalTask task = (NormalTask) deserializeFromJson(
-							printLine, NormalTask.class);
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -912,7 +920,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
@@ -924,8 +933,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_floating));
 				while ((printLine = reader.readLine()) != null) {
-					FloatingTask task = (FloatingTask) deserializeFromJson(
-							printLine, FloatingTask.class);
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -939,7 +948,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 
 				}
@@ -952,8 +962,8 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_deadline));
 				while ((printLine = reader.readLine()) != null) {
-					DeadlineTask task = (DeadlineTask) deserializeFromJson(
-							printLine, DeadlineTask.class);
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -967,7 +977,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
 
@@ -979,8 +990,9 @@ public class FileIO {
 
 				reader = new BufferedReader(new FileReader(filename_recur));
 				while ((printLine = reader.readLine()) != null) {
-					RecurrenceTask task = (RecurrenceTask) deserializeFromJson(
-							printLine, RecurrenceTask.class);
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
 					if (task.getTaskId() != taskObj.getTaskId()) {
 						taskList.add(task);
 					} else {
@@ -994,7 +1006,8 @@ public class FileIO {
 
 				for (int i = 0; i < taskList.size(); i++) {
 					// System.out.println(taskList.size());
-					String gsonSerial = serializeToJson(taskList.get(i));
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
 					filewriteIntoFile.println(gsonSerial);
 				}
 
@@ -1011,104 +1024,54 @@ public class FileIO {
 
 		return successObj;
 	}
-	
+
 	/*
-	public static boolean checkDeadlineTaskDate(DeadlineTask task, Date date)
-	{
+	 * public static boolean checkDeadlineTaskDate(DeadlineTask task, Date date)
+	 * { boolean matchDate = false;
+	 * 
+	 * if(task.getDeadline().getDate() == date.getDate() &&
+	 * task.getDeadline().getMonth() == date.getMonth() &&
+	 * task.getDeadline().getHours() == date.getHours() &&
+	 * task.getDeadline().getYear() == date.getYear() &&
+	 * task.getDeadline().getHours() == date.getHours() &&
+	 * task.getDeadline().getMinutes() == date.getMinutes()) { matchDate = true;
+	 * } else if(task.getDeadline().compareTo(date) >= 0) { matchDate = true; }
+	 * 
+	 * return matchDate; }
+	 */
+
+	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
-		
-		if(task.getDeadline().getDate() == date.getDate()
-			&& task.getDeadline().getMonth() == date.getMonth()
-			&& task.getDeadline().getHours() == date.getHours()
-			&& task.getDeadline().getYear() == date.getYear()
-			&& task.getDeadline().getHours() == date.getHours()
-			&& task.getDeadline().getMinutes() == date.getMinutes())
-		{
-			matchDate = true;
-		}
-		else if(task.getDeadline().compareTo(date) >= 0)
-		{
-			matchDate = true;
-		}
-		
-		return matchDate;
-	}
-	*/
-	
-	
-	public static boolean checkNormalTaskDate(NormalTask task , Date date)
-	{
-		boolean matchDate = false;
-		
-		if(task.getStartDateTime().equals(task.getEndDateTime()))
-		{
-			if(task.getStartDateTime().getDate() == date.getDate()
+
+		if (task.getStartDateTime().equals(task.getEndDateTime())) {
+			if (task.getStartDateTime().getDate() == date.getDate()
 					&& task.getStartDateTime().getMonth() == date.getMonth()
-					&& task.getStartDateTime().getYear() == date.getYear())
-					{
-						matchDate = true;
-					}
-		}
-		else
-		{
-			if(task.getStartDateTime().compareTo(date) <= 0 &&
-					task.getEndDateTime().compareTo(date) >= 0)
-			{
+					&& task.getStartDateTime().getYear() == date.getYear()) {
 				matchDate = true;
 			}
-		
+		} else {
+			if (task.getStartDateTime().compareTo(date) <= 0
+					&& task.getEndDateTime().compareTo(date) >= 0) {
+				matchDate = true;
+			}
+
 		}
 		return matchDate;
 	}
-	
-	public static boolean checkNormalTaskBetweenDate(NormalTask task , Date startDate , Date endDate)
-	{
+
+	public static boolean checkNormalTaskBetweenDate(NormalTask task,
+			Date startDate, Date endDate) {
 		boolean matchDate = false;
-		
-		if((task.getEndDateTime().compareTo(endDate) >= 0 && task
+
+		if ((task.getEndDateTime().compareTo(endDate) >= 0 && task
 				.getStartDateTime().compareTo(endDate) <= 0)
 				|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
 						.getStartDateTime().compareTo(startDate) <= 0)
-						|| (task.getEndDateTime().compareTo(endDate) <= 0 && task
-								.getStartDateTime().compareTo(startDate) >= 0)
-								)
-		{
+				|| (task.getEndDateTime().compareTo(endDate) <= 0 && task
+						.getStartDateTime().compareTo(startDate) >= 0)) {
 			matchDate = true;
 		}
-	
+
 		return matchDate;
 	}
-	
-	
-	
-	
-
-	/*
-	 * Sample Usage of GSON:
-	 * 
-	 * Serializing : Error e1 = new Error(true, "first message.."); String json
-	 * = serializeToJson(e1); System.out.println(json);
-	 * 
-	 * Deserializing : Error e2 = (Error) deserializeFromJson(json,
-	 * e1.getClass()); System.out.println(e2.toString());
-	 */
-
-	private static String serializeToJson(Object object) {
-
-		String json;
-
-		Gson gson = new Gson();
-		json = gson.toJson(object);
-
-		return json;
-	}
-
-	private static <T> Object deserializeFromJson(String json, Class<T> type) {
-
-		Gson gson = new Gson();
-		Object object = gson.fromJson(json, type);
-
-		return object;
-	}
-
 }

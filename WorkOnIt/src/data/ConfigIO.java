@@ -10,8 +10,6 @@ import java.util.Scanner;
 import resource.FileName;
 import resource.Message;
 
-import com.google.gson.Gson;
-
 public class ConfigIO {
 
 	public Map<String, String> getFullKeywordMap() {
@@ -19,8 +17,8 @@ public class ConfigIO {
 		String loadedContents = loadFromFile();
 
 		@SuppressWarnings("unchecked")
-		Map<String, String> KEYWORD_MAP = (Map<String, String>) deserializeFromJson(
-				loadedContents, HashMap.class);
+		Map<String, String> KEYWORD_MAP = (Map<String, String>) Serializer
+				.deserializeFromJson(loadedContents, HashMap.class);
 
 		return KEYWORD_MAP;
 	}
@@ -35,9 +33,9 @@ public class ConfigIO {
 		try {
 
 			if (configFile.exists()) {
-				
+
 				Scanner fileScanner = new Scanner(configFile);
-				
+
 				loadedContents = fileScanner.nextLine();
 				fileScanner.close();
 
@@ -60,23 +58,5 @@ public class ConfigIO {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-	}
-
-	private static String serializeToJson(Object object) {
-
-		String json;
-
-		Gson gson = new Gson();
-		json = gson.toJson(object);
-
-		return json;
-	}
-
-	private static <T> Object deserializeFromJson(String json, Class<T> type) {
-
-		Gson gson = new Gson();
-		Object object = gson.fromJson(json, type);
-
-		return object;
 	}
 }
