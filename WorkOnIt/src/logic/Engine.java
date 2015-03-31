@@ -39,6 +39,7 @@ public class Engine {
 	}
 
 	// retrieve all task from database
+	@SuppressWarnings("unchecked")
 	public Success retrieveTask(String keyword) {
 
 		Success successObj;
@@ -48,8 +49,8 @@ public class Engine {
 
 			FileIO dataStorage = new FileIO();
 
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(keyword)
-					.getObj());
+			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
+					keyword).getObj());
 
 			successObj = new Success(taskList, true,
 					Message.SUCCESS_RETRIEVE_LIST);
@@ -63,6 +64,7 @@ public class Engine {
 	}
 
 	// retrieve task based on keyword
+	@SuppressWarnings("unchecked")
 	public Success retrieveTask() {
 
 		Success successObj;
@@ -72,13 +74,13 @@ public class Engine {
 
 			FileIO dataStorage = new FileIO();
 
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_FLOATING_TASK).getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_NORMAL_TASK).getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_DEADLINE_TASK).getObj());
-			taskList.addAll((ArrayList) dataStorage.loadFromFileTask(
+			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_RECUR_TASK).getObj());
 
 			successObj = new Success(taskList, true,
@@ -208,6 +210,7 @@ public class Engine {
 		return succesObj;
 	}
 
+	@SuppressWarnings("unchecked")
 	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
 			String displayType) throws IOException {
 
@@ -218,8 +221,8 @@ public class Engine {
 		if (successObj.isSuccess()) {
 
 			List<Task> taskList = (ArrayList<Task>) successObj.getObj();
-			
-			for(int i = 0; i < taskList.size(); i++) {
+
+			for (int i = 0; i < taskList.size(); i++) {
 				String name = taskList.get(i).getTaskName();
 				System.out.println(name);
 			}
@@ -272,8 +275,6 @@ public class Engine {
 
 		return successObj;
 	}
-
-
 
 	// delete task with specific ID
 	public Success deleteTask(Task task) {
