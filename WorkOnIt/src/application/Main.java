@@ -410,11 +410,11 @@ public class Main extends Application {
 	}
 
 	// for running via Main, bypassing hotkey
-	public static void main(String[] args) {
-		InitFileIO initFile = new InitFileIO();
-		initFile.checkAndProcessFile();
-		launch();
-	}
+//	public static void main(String[] args) {
+//		InitFileIO initFile = new InitFileIO();
+//		initFile.checkAndProcessFile();
+//		launch();
+//	}
 
 	private static void switchListView(ListView listView, TextField textField, KeyEvent event) {
 		if (listView.getItems().size() != 0) {
