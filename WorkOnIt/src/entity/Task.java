@@ -7,7 +7,7 @@ import java.util.Date;
 public abstract class Task {
 
 	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
-			"dd MMM yyyy,  h:mm a");
+			"dd MMM yyyy,  h:mm:ss a");
 
 	private String taskName;
 	private long taskId;
