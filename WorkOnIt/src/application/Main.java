@@ -212,7 +212,7 @@ public class Main extends Application {
 					// addDataToListView();
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
 							listView, tFlow);
-					switchListView(listView, txtF);
+					switchListView(listView, txtF ,event);
 					//popup.hide();
 				}
 			});
@@ -220,9 +220,10 @@ public class Main extends Application {
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
+					displayDefault(event,listView);
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
 							listView,tFlow);
-					switchListView(listView, txtF);
+					switchListView(listView, txtF, event);
 					popup.hide();
 				}
 			});
@@ -310,8 +311,7 @@ public class Main extends Application {
 			hide(stage);
 		}
 
-		if (event.getCode().equals(KeyCode.UP)
-				|| event.getCode().equals(KeyCode.DOWN)) {
+		if (event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
 		handleEachKey(txtF, tFlow);
@@ -320,6 +320,21 @@ public class Main extends Application {
 			wordHandler(txtF, textFieldText, tFlow);
 		}
 	}
+	
+	public static void displayDefault(KeyEvent event ,ListView listView)
+	{
+		
+		if (event.getCode().equals(KeyCode.DOWN) && listView.getOpacity() == 0) 
+		{
+			Success successObj = null;
+			successObj = commandValidator.parseCommand("display today");
+			addTaskToListView(listView,successObj);
+		}
+		
+		//TODO
+	}
+	
+	
 	public static void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
 		tf.getChildren().clear();
@@ -401,6 +416,15 @@ public class Main extends Application {
 		launch();
 	}
 
+	private static void switchListView(ListView listView, TextField textField, KeyEvent event) {
+		if (listView.getItems().size() != 0) {
+			listView.setOpacity(1);
+		} 
+		if(event.getCode().equals(KeyCode.UP) || listView.getItems().size() == 0) {
+			listView.setOpacity(0);
+		}
+	}
+	
 	private static void switchListView(ListView listView, TextField textField) {
 		if (listView.getItems().size() != 0) {
 			listView.setOpacity(1);
@@ -408,6 +432,7 @@ public class Main extends Application {
 			listView.setOpacity(0);
 		}
 	}
+
 
 	private static void addTaskToListView(ListView listView, Success successObj) {
 
