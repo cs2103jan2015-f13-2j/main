@@ -428,7 +428,9 @@ public class Main extends Application {
 				Pane pane = new Pane();
 				Label agendaTitle = new Label();
 				agendaTitle.setText(displayTitle);
-				agendaTitle.setLayoutX(40);
+				agendaTitle.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
+				agendaTitle.setLayoutX(100);
+				
 				pane.getChildren().add(agendaTitle);
 				task.add(pane);
 			}
