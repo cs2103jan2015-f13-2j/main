@@ -42,7 +42,7 @@ public class Engine {
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask(String keyword) {
 
-		Success successObj;
+		Success status;
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
@@ -52,14 +52,13 @@ public class Engine {
 			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					keyword).getObj());
 
-			successObj = new Success(taskList, true,
-					Message.SUCCESS_RETRIEVE_LIST);
+			status = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
 
 		} catch (Exception e) {
-			successObj = new Success(false, e.getMessage());
+			status = new Success(false, e.getMessage());
 		}
 
-		return successObj;
+		return status;
 
 	}
 
@@ -67,7 +66,7 @@ public class Engine {
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask() {
 
-		Success successObj;
+		Success status;
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
@@ -83,21 +82,20 @@ public class Engine {
 			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_RECUR_TASK).getObj());
 
-			successObj = new Success(taskList, true,
-					Message.SUCCESS_RETRIEVE_LIST);
+			status = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
 
 		} catch (Exception e) {
-			successObj = new Success(false, e.getMessage());
+			status = new Success(false, e.getMessage());
 		}
 
-		return successObj;
+		return status;
 
 	}
 
 	// retrieve selected task entity from database.
 	public Success retrieveTask(Task task) throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		String file_type = null;
 
 		FileIO dataStorage = new FileIO();
@@ -118,22 +116,22 @@ public class Engine {
 			file_type = KeywordConstant.KEYWORD_DEADLINE_TASK;
 		}
 
-		succesObj = dataStorage.loadFromFileTask(file_type);
+		status = dataStorage.loadFromFileTask(file_type);
 
-		return succesObj;
+		return status;
 	}
 
 	// retrieve task with specific START DATE
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Date date) throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		// i check the date.
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromStartDate(date);
+		status = dataStorage.loadFromStartDate(date);
 
-		return succesObj;
+		return status;
 	}
 
 	// retrieve task with specific INBETWEEN DATE
@@ -141,59 +139,59 @@ public class Engine {
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromBetweenDate(startDate, endDate);
+		status = dataStorage.loadFromBetweenDate(startDate, endDate);
 
-		return succesObj;
+		return status;
 	}
 
 	// retrieve task with specific priority (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(int priority) throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromPriority(priority);
+		status = dataStorage.loadFromPriority(priority);
 
-		return succesObj;
+		return status;
 	}
 
 	public Success retrieveTask(int priority, Date date) throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromPriorityAndDate(priority, date);
+		status = dataStorage.loadFromPriorityAndDate(priority, date);
 
-		return succesObj;
+		return status;
 	}
 
 	public Success retrieveTask(int priority, Date startDate, Date endDate)
 			throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromPriorityBetweenDate(priority,
-				startDate, endDate);
+		status = dataStorage.loadFromPriorityBetweenDate(priority, startDate,
+				endDate);
 
-		return succesObj;
+		return status;
 	}
 
 	// retrieve task with specific task and date (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Task task, Date date) throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromStartDateWithTask(task, date);
+		status = dataStorage.loadFromStartDateWithTask(task, date);
 
-		return succesObj;
+		return status;
 	}
 
 	// retrieve task with specific priority (EG. URGENT)
@@ -201,106 +199,109 @@ public class Engine {
 	public Success retrieveTask(Task task, Date startDate, Date endDate)
 			throws IOException {
 
-		Success succesObj = null;
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		succesObj = dataStorage.loadFromBetweenDateWithTask(task, startDate,
+		status = dataStorage.loadFromBetweenDateWithTask(task, startDate,
 				endDate);
 
-		return succesObj;
+		return status;
 	}
 
 	@SuppressWarnings("unchecked")
 	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
 			String displayType) throws IOException {
 
-		SuccessDisplay successDispObj = null;
+		SuccessDisplay statusDisp = null;
 
-		Success successObj = retrieveTask(startDate, endDate);
+		Success status = retrieveTask(startDate, endDate);
 
-		if (successObj.isSuccess()) {
+		if (status.isSuccess()) {
 
-			List<Task> taskList = (ArrayList<Task>) successObj.getObj();
+			List<Task> taskList = (ArrayList<Task>) status.getObj();
 
 			for (int i = 0; i < taskList.size(); i++) {
 				String name = taskList.get(i).getTaskName();
 				System.out.println(name);
 			}
 
-			successObj = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
+			status = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
 
-			if (successObj.isSuccess()) {
-				List<Task> floatingTaskList = (ArrayList<Task>) successObj
-						.getObj();
+			if (status.isSuccess()) {
+				List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
 				taskList.addAll(floatingTaskList);
 
-				successDispObj = new SuccessDisplay(displayType, taskList,
-						true, Message.SUCCESS_RETRIEVE_LIST);
+				statusDisp = new SuccessDisplay(displayType, taskList, true,
+						Message.SUCCESS_RETRIEVE_LIST);
 			} else {
-				successDispObj = new SuccessDisplay(false,
-						Message.ERROR_RETRIEVE);
+				statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
 			}
 
 		} else {
-			successDispObj = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
+			statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
 		}
 
-		return successDispObj;
+		return statusDisp;
 	}
 
 	public Success searchTask(String keyword) {
-		Success successObj = null;
+
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		successObj = dataStorage.searchFromFile(keyword);
+		status = dataStorage.searchFromFile(keyword);
 
-		return successObj;
+		return status;
 	}
 
 	public Success searchTask(String keyword, Date date) {
-		Success successObj = null;
+
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		successObj = dataStorage.searchFromFileWithDate(keyword, date);
+		status = dataStorage.searchFromFileWithDate(keyword, date);
 
-		return successObj;
+		return status;
 	}
 
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
-		Success successObj = null;
+
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		successObj = dataStorage.searchFromFileBetweenDate(keyword, startDate,
+		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
 				endDate);
 
-		return successObj;
+		return status;
 	}
 
 	// delete task with specific ID
 	public Success deleteTask(Task task) {
-		Success successObj = null;
+
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		successObj = dataStorage.deleteFromFile(task);
+		status = dataStorage.deleteFromFile(task);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DELETE, task);
 		undoStack.push(taskHistoryObj);
 
-		return successObj;
+		return status;
 	}
 
 	public Success updateTask(Task taskUpdate, Task taskOld) {
-		Success successObj = null;
+
+		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		successObj = dataStorage.updateFromFile(taskUpdate, taskOld);
+		status = dataStorage.updateFromFile(taskUpdate, taskOld);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
 		undoStack.push(taskHistoryObj);
 
-		return successObj;
+		return status;
 	}
 
 	public Success markAsDone(List<Task> doneList) {
@@ -567,8 +568,8 @@ public class Engine {
 		} else {
 			status = new Success(false, Message.FAIL_REDO);
 		}
-		return status;
 
+		return status;
 	}
 
 }
