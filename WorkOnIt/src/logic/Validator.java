@@ -695,16 +695,48 @@ public class Validator {
 		}
 
 		String combinedSearch = searchString + " " + remainingText;
-
+		
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
 		if (remainingText.trim().equals("")
 				&& parseStringToDate(combinedSearch).size() > 0) {
 
-			isSingleDate = true;
-			isDoubleDate = false;
-			remainingText = searchString;
+			Scanner dateScanner = new Scanner(combinedSearch);
+			boolean isDay = false;
+			boolean isMonth = false;
+			while(dateScanner.hasNext()){
+				String currWord = dateScanner.next();
+				boolean isCurrNumber = !isNaN(currWord);
+				// if there's number, it's a single day, else it's just month 
+				if(isCurrNumber == true){
+					isSingleDate = true;
+					isDoubleDate = false;
+					isDay = true;
+				} else {
+					isMonth = true;
+					isDoubleDate = true;
+				}
+			}
+			
+			if(isDay == false &&
+					isMonth == true){
+				Date unfixedMonth = null;
+				Date startOfMonth = null;
+				Date endOfMonth = null;
+				List<Date> dateList = parseStringToDate(searchString);
 
+				if (!dateList.isEmpty()) {
+					unfixedMonth = dateList.remove(0);
+				}
+				
+				startOfMonth = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+				endOfMonth = fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+				remainingText = startOfMonth + " to " + endOfMonth;
+				
+			} else {
+				remainingText = searchString;
+			}
+			
 		} else {
 
 			// retrieve using description
@@ -718,7 +750,7 @@ public class Validator {
 
 			isDesc = true;
 		}
-
+		System.out.println(""+isAll+isPriority+isDesc+isSingleDate+isDoubleDate);
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -727,9 +759,12 @@ public class Validator {
 			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
 			if (isSingleDate == true && isDoubleDate == false) {
-
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
+				
+				status = retrieveInBetween(remainingText.trim());
+			} else {
+				remainingText = "from "+remainingText;
 				status = retrieveInBetween(remainingText.trim());
 			}
 		}
@@ -866,12 +901,12 @@ public class Validator {
 
 			if (isPriorityResolved == false) {
 				if (resolvedWord != null) {
-					if (isANumber(resolvedWord) == true) {
+					if (isNaN(resolvedWord) == false) {
 						priority = Integer.parseInt(resolvedWord);
 						isPriorityResolved = true;
 					}
 				} else {
-					if (isANumber(currentWord) == true) {
+					if (isNaN(currentWord) == false) {
 						priority = Integer.parseInt(currentWord);
 						isPriorityResolved = true;
 					}
@@ -948,8 +983,9 @@ public class Validator {
 					String combinedDate = startDateString + " to "
 							+ endDateString;
 					combinedDate = combinedDate.trim();
+					
 					List<Date> dateList = parseStringToDate(combinedDate);
-
+					
 					Date fromDate = null;
 					Date toDate = null;
 
@@ -1068,7 +1104,7 @@ public class Validator {
 
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
-
+		
 		try {
 			Date fromDate = null;
 			Date toDate = null;
@@ -1081,25 +1117,24 @@ public class Validator {
 				fixedFromDate = fixStartDate(fromDate);
 			}
 
-			endDateString = endDateString.trim();
-
 			if (!endDateString.equals("")) {
 
-				String combinedDate = startDateString + " to" + endDateString;
-
+				String combinedDate = startDateString + " to " + endDateString;
+				
 				combinedDate = combinedDate.trim();
+				System.out.println(combinedDate);
 				List<Date> dateList = parseStringToDate(combinedDate);
-
+				System.out.println(dateList.size());
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 					fixedFromDate = fixStartDate(fromDate);
-
 					if (!dateList.isEmpty()) {
 						toDate = dateList.remove(0);
 						fixedToDate = fixEndDate(toDate);
+						
 					}
 				}
-
+	
 				status = engine.retrieveTask(fixedFromDate, fixedToDate);
 
 			} else {
@@ -1610,7 +1645,7 @@ public class Validator {
 		return processedDate;
 	}
 
-	private boolean isANumber(String text) {
+	private boolean isNaN(String text) {
 		boolean isNumber;
 
 		try {
@@ -1620,6 +1655,6 @@ public class Validator {
 			isNumber = false;
 		}
 
-		return isNumber;
+		return !isNumber;
 	}
 }
