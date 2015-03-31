@@ -657,6 +657,7 @@ public class Validator {
 		boolean isOn = false;
 		boolean isDesc = false;
 		boolean isMonth = false;
+		boolean isResolved = false;
 		Date startDate = null;
 		Date endDate = null;
 		while (sc.hasNext()) {
@@ -670,6 +671,7 @@ public class Validator {
 					isSingleDate = true;
 					isDoubleDate = true;
 					isFrom = true;
+					isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
@@ -678,16 +680,19 @@ public class Validator {
 					isSingleDate = true;
 					isDoubleDate = false;
 					isOn = true;
+					isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
 					isAll = true;
+					isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
 
 					remainingText = sc.nextLine();
 					isPriority = true;
+					isResolved = true;
 
 				}
 			} else {
@@ -700,60 +705,66 @@ public class Validator {
 		
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
-		if (remainingText.trim().equals("")
-				&& parseStringToDate(combinedSearch).size() > 0) {
-
-			Scanner dateScanner = new Scanner(combinedSearch);
-			boolean isDay = false;
-			
-			while(dateScanner.hasNext()){
-				String currWord = dateScanner.next();
-				boolean isCurrNumber = !isNaN(currWord);
-				// if there's number, it's a single day, else it's just month 
-				if(isCurrNumber == true){
+		if(isResolved == false){
+			if (remainingText.trim().equals("")
+					&& parseStringToDate(combinedSearch).size() > 0) {
+	
+				Scanner dateScanner = new Scanner(combinedSearch);
+				boolean isDay = false;
+				
+				while(dateScanner.hasNext()){
+					String currWord = dateScanner.next();
+					boolean isCurrNumber = !isNaN(currWord);
+					// if there's number, it's a single day, else it's just month 
+					if(isCurrNumber == true){
+						isDoubleDate = false;
+						isDay = true;
+					} else {
+						isMonth = true;
+						isDoubleDate = true;
+					}
+				}
+				
+				if(isDay == false &&
+						isMonth == true){
+					Date unfixedMonth = null;
+					Date startOfMonth = null;
+					Date endOfMonth = null;
+					List<Date> dateList = parseStringToDate(searchString);
+	
+					if (!dateList.isEmpty()) {
+						unfixedMonth = dateList.remove(0);
+					}
+					
+					startDate = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+					endDate= fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+					
+					remainingText = startOfMonth + " to " + endOfMonth;
+					
+				} else if(isDay == true &&
+						isMonth == true){
 					isSingleDate = true;
 					isDoubleDate = false;
-					isDay = true;
+					remainingText = searchString;
 				} else {
-					isMonth = true;
-					isDoubleDate = true;
+					remainingText = searchString;
 				}
-			}
-			
-			if(isDay == false &&
-					isMonth == true){
-				Date unfixedMonth = null;
-				Date startOfMonth = null;
-				Date endOfMonth = null;
-				List<Date> dateList = parseStringToDate(searchString);
-
-				if (!dateList.isEmpty()) {
-					unfixedMonth = dateList.remove(0);
-				}
-				
-				startDate = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
-				endDate= fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
-				
-				remainingText = startOfMonth + " to " + endOfMonth;
 				
 			} else {
-				remainingText = searchString;
-			}
-			
-		} else {
-
-			// retrieve using description
-			if (isOn == true) {
-				combinedSearch = searchString.trim() + " on "
-						+ remainingText.trim();
-			} else if (isFrom == true) {
-				combinedSearch = searchString.trim() + " from "
-						+ remainingText.trim();
-			}
-
-			isDesc = true;
-		}
 	
+				// retrieve using description
+				if (isOn == true) {
+					combinedSearch = searchString.trim() + " on "
+							+ remainingText.trim();
+				} else if (isFrom == true) {
+					combinedSearch = searchString.trim() + " from "
+							+ remainingText.trim();
+				}
+	
+				isDesc = true;
+			}
+		}
+		System.out.println(""+isDesc+isAll+isPriority+isSingleDate+isDoubleDate+isMonth);
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -761,9 +772,12 @@ public class Validator {
 		} else if (isDesc == true) {
 			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
+			
 			if (isSingleDate == true && isDoubleDate == false) {
+				
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
+				
 				status = retrieveInBetween(remainingText.trim());
 			} else if (isSingleDate == false && isDoubleDate == true){
 				if(isMonth == true){
@@ -771,6 +785,8 @@ public class Validator {
 				} else {
 					status = retrieveInBetween(remainingText.trim());
 				}
+			} else {
+				
 			}
 		}
 		sc.close();
@@ -1078,7 +1094,7 @@ public class Validator {
 					fixedStartDate = fixStartDate(onDate);
 					fixedEndDate = fixEndDate(onDate);
 				}
-
+				System.out.println(""+fixedStartDate + fixedEndDate);
 				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
 			}
 
@@ -1132,7 +1148,7 @@ public class Validator {
 				fromDate = dateListFrom.remove(0);
 				fixedFromDate = fixStartDate(fromDate);
 			}
-
+			System.out.println(""+startDateString + endDateString);
 			if (!endDateString.equals("")) {
 
 				String combinedDate = startDateString + " to " + endDateString;
@@ -1150,7 +1166,7 @@ public class Validator {
 						
 					}
 				}
-	
+				System.out.println(""+fixedFromDate + fixedToDate);
 				status = engine.retrieveTask(fixedFromDate, fixedToDate);
 
 			} else {
