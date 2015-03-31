@@ -31,6 +31,7 @@ public class Validator {
 	private Task taskToRemove = null;
 	private int delayInMillisec = 4000; // 4 sec optimal delay time for process
 	private String lastRetrieve = null;
+
 	public Validator() {
 		engine = new Engine();
 		loadConfigFile();
@@ -127,10 +128,11 @@ public class Validator {
 					status = parseRetrieveCommand(remainingCommand);
 
 					retrievedTaskList = null;
-					if(status.isSuccess() == true){
+					if (status.isSuccess() == true) {
 						lastRetrieve += " " + remainingCommand;
 						if (status.getObj() != null) {
-							retrievedTaskList = (ArrayList<Task>) status.getObj();
+							retrievedTaskList = (ArrayList<Task>) status
+									.getObj();
 						}
 					}
 					// System.out.println("No. of records: "
@@ -247,7 +249,9 @@ public class Validator {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
 							|| resolvedWord
-									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
 
 						isNormalTask = true;
 
@@ -706,20 +710,20 @@ public class Validator {
 
 			}
 		}
-		
+
 		String combinedSearch = searchString + " " + remainingText;
-		
+
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
 		if (remainingText.trim().equals("")
 				&& parseStringToDate(combinedSearch).size() > 0) {
-			
+
 			isSingleDate = true;
 			isDoubleDate = false;
 			remainingText = searchString;
 
 		} else {
-		
+
 			// retrieve using description
 			if (isOn == true) {
 				combinedSearch = searchString.trim() + " on "
@@ -740,7 +744,7 @@ public class Validator {
 			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
 			if (isSingleDate == true && isDoubleDate == false) {
-				
+
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
 				status = retrieveInBetween(remainingText.trim());
@@ -1041,7 +1045,7 @@ public class Validator {
 				String preparedStatement = KeywordConstant.KEYWORD_FROM
 						+ dateString;
 				// System.out.println("prep stmt: "+preparedStatement);
-				
+
 				// fixStartDate(unprocessedStartDate)
 				status = retrieveInBetween(preparedStatement);
 
@@ -1050,13 +1054,13 @@ public class Validator {
 				Date fixedStartDate = null;
 				Date fixedEndDate = null;
 				List<Date> dateList = parseStringToDate(dateString);
-				
+
 				if (!dateList.isEmpty()) {
 					onDate = dateList.remove(0);
 					fixedStartDate = fixStartDate(onDate);
 					fixedEndDate = fixEndDate(onDate);
 				}
-			
+
 				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
 			}
 
@@ -1243,10 +1247,11 @@ public class Validator {
 					if (status.isSuccess()) {
 						retrievalStatus = parseCommand(lastRetrieve);
 						status.setObj(retrievalStatus.getObj());
-						setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
-						
+						setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+								.getObj());
+
 						taskToRemove = null;
-					
+
 					}
 				}
 			} else {
@@ -1273,12 +1278,13 @@ public class Validator {
 			Task taskToRemove = retrievedTaskList.get(indexOffset);
 
 			status = engine.deleteTask(taskToRemove);
-			if(status.isSuccess()==true){
-				
+			if (status.isSuccess() == true) {
+
 				retrievalStatus = parseCommand(lastRetrieve);
-				if(retrievalStatus.isSuccess()== true){
+				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
-					setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
+					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+							.getObj());
 				}
 			}
 
