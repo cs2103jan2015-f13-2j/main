@@ -7,6 +7,10 @@ public class Message {
 	public static final String UI_WELCOME_INFO = "Welcome to Work On It.";
 	public static final String UI_WELCOME_INFO_NO_FILE_FOUND = UI_WELCOME_INFO
 			+ " We need to create required file(s). Please choose your save directory. Continue with it?";
+
+	public static final String UI_SUCCESS_ALERT_TITLE = "Files Created Successfully";
+	public static final String UI_SUCCESS_ALERT_INFO = "This application will minimize to background. Press CTRL + SPACE to open the main application.";
+
 	public static final String UI_OF_THE_MONTH = "of the month";
 	public static final String UI_DUE_BY = "due by";
 	public static final String UI_NO_TASK_FOUND = "no task found";

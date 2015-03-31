@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="lib/natty-0.10.jar"/>
 	<classpathentry kind="lib" path="lib/JNativeHook.jar"/>
 	<classpathentry kind="lib" path="lib/richtextfx-0.6.3.jar"/>
-	<classpathentry kind="lib" path="lib/javafx-dialogs-0.0.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
