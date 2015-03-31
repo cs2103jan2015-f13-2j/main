@@ -75,18 +75,7 @@ public class Validator {
 
 				if (sc.hasNext()) {
 					String remainingCommand = sc.nextLine();
-					remainingCommand = remainingCommand.trim();
-
-					status = parseAddCommand(remainingCommand);
-					Task task;
-					if (status.isSuccess()) {
-						task = (Task) status.getObj();
-						status = engine.addTask(task);
-
-						if (status.isSuccess()) {
-							retrievedTaskList = null;
-						}
-					}
+					status = processAddCommand(remainingCommand);
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
@@ -223,6 +212,23 @@ public class Validator {
 
 		sc.close();
 
+		return status;
+	}
+
+	private Success processAddCommand(String remainingCommand) {
+		Success status = null;
+		remainingCommand = remainingCommand.trim();
+
+		status = parseAddCommand(remainingCommand);
+		Task task = null;
+		if (status.isSuccess()) {
+			task = (Task) status.getObj();
+			status = engine.addTask(task);
+
+			if (status.isSuccess()) {
+				retrievedTaskList = null;
+			}
+		}
 		return status;
 	}
 
@@ -637,30 +643,6 @@ public class Validator {
 		return status;
 	}
 
-	private void loadConfigFile() {
-
-		ConfigIO config = new ConfigIO();
-		keywordFullMap = config.getFullKeywordMap();
-	}
-
-	private static List<Date> parseStringToDate(String dateInfo) {
-
-		List<Date> dates = new ArrayList<Date>();
-
-		if (dateInfo != null) {
-
-			Parser parser = new Parser();
-
-			List<DateGroup> groups = parser.parse(dateInfo.trim());
-
-			if (!groups.isEmpty()) {
-				DateGroup firstDate = groups.get(0);
-				dates = firstDate.getDates();
-			}
-		}
-		return dates;
-	}
-
 	private Success parseRetrieveCommand(String remainingCommand) {
 
 		Success status = null;
@@ -674,6 +656,7 @@ public class Validator {
 		boolean isFrom = false;
 		boolean isOn = false;
 		boolean isDesc = false;
+
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -732,8 +715,8 @@ public class Validator {
 				combinedSearch = searchString.trim() + " from "
 						+ remainingText.trim();
 			}
-			isDesc = true;
 
+			isDesc = true;
 		}
 
 		if (isAll == true) {
@@ -803,9 +786,11 @@ public class Validator {
 			}
 
 		}
+
 		searchString = searchString.trim();
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
+
 		try {
 			if (isSingleDate == false && isDoubleDate == false) {
 				System.out.println("Description only");
@@ -836,9 +821,6 @@ public class Validator {
 					maxDate = dateList.remove(0);
 				}
 
-				// System.out.println("searchString: " + searchString +
-				// " from: "
-				// + fromDate + " end: " + maxDate);
 				status = engine.searchTask(searchString, fromDate, maxDate);
 
 			} else if (isSingleDate == false && isDoubleDate == true) {
@@ -856,9 +838,6 @@ public class Validator {
 					endDate = dateList.remove(0);
 				}
 
-				// System.out.println("searchString: " + searchString +
-				// " from: "
-				// + fromDate + " end: " + endDate);
 				status = engine.searchTask(searchString, fromDate, endDate);
 
 			}
@@ -868,20 +847,6 @@ public class Validator {
 		}
 		sc.close();
 		return status;
-	}
-
-	private boolean isANumber(String text) {
-		boolean isNumber;
-
-		try {
-			Integer.parseInt(text);
-			isNumber = true;
-		} catch (NumberFormatException e) {
-			isNumber = false;
-		}
-
-		return isNumber;
-
 	}
 
 	private Success retrievePriority(String remainingPriority) {
@@ -899,7 +864,6 @@ public class Validator {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
 
-			System.out.println("curr: " + currentWord);
 			if (isPriorityResolved == false) {
 				if (resolvedWord != null) {
 					if (isANumber(resolvedWord) == true) {
@@ -945,8 +909,10 @@ public class Validator {
 		try {
 			if (priority >= KeywordConstant.PRIORITY_MIN
 					&& priority <= KeywordConstant.PRIORITY_MAX) {
+
 				if (isSingleDate == false && isDoubleDate == false) {
 					status = engine.retrieveTask(priority);
+
 				} else if (isSingleDate == true && isDoubleDate == false) {
 					Date fromDate = null;
 
@@ -978,6 +944,7 @@ public class Validator {
 					status = engine.retrieveTask(priority, fromDate, maxDate);
 
 				} else if (isSingleDate == false && isDoubleDate == true) {
+
 					String combinedDate = startDateString + " to "
 							+ endDateString;
 					combinedDate = combinedDate.trim();
@@ -1015,6 +982,7 @@ public class Validator {
 	}
 
 	private Success retrieveSingleDate(String remainingDate) {
+
 		Scanner sc = new Scanner(remainingDate);
 		String dateString = "";
 		Success status = null;
@@ -1044,9 +1012,7 @@ public class Validator {
 			if (isInBetweenTime == true) {
 				String preparedStatement = KeywordConstant.KEYWORD_FROM
 						+ dateString;
-				// System.out.println("prep stmt: "+preparedStatement);
 
-				// fixStartDate(unprocessedStartDate)
 				status = retrieveInBetween(preparedStatement);
 
 			} else {
@@ -1072,6 +1038,7 @@ public class Validator {
 	}
 
 	private Success retrieveInBetween(String remainingDate) {
+
 		Scanner sc = new Scanner(remainingDate);
 		String startDateString = "";
 		String endDateString = "";
@@ -1098,8 +1065,10 @@ public class Validator {
 				endDateString += " " + currentWord;
 			}
 		}
+
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
+
 		try {
 			Date fromDate = null;
 			Date toDate = null;
@@ -1112,7 +1081,9 @@ public class Validator {
 				fixedFromDate = fixStartDate(fromDate);
 			}
 
-			if (!endDateString.trim().equals("")) {
+			endDateString = endDateString.trim();
+
+			if (!endDateString.equals("")) {
 
 				String combinedDate = startDateString + " to" + endDateString;
 
@@ -1143,7 +1114,7 @@ public class Validator {
 			}
 
 		} catch (IOException e) {
-			System.err.println("retrieveInBetween: Retrieval fail.");
+			status = new Success(false, Message.FAIL_RETRIEVE_LIST);
 		}
 
 		sc.close();
@@ -1221,15 +1192,17 @@ public class Validator {
 		} else {
 			status = new SuccessDisplay(false, Message.FAIL_PARSE_COMMAND);
 		}
-
+		sc.close();
 		return status;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Success parseUpdateCommand(String remainingCommand) {
 
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
 		Success retrievalStatus = null;
+
 		try {
 			int indexOffset = Integer.parseInt(remainingCommand) - 1;
 			taskToRemove = retrievedTaskList.get(indexOffset);
@@ -1239,11 +1212,15 @@ public class Validator {
 			status = new Success(taskDisplay, true, null);
 
 		} catch (NumberFormatException e) {
+
 			if (taskToRemove != null) {
+
 				Success statusTask = parseAddCommand(remainingCommand);
+
 				if (statusTask.isSuccess()) {
 					Task updatedTask = (Task) statusTask.getObj();
 					status = engine.updateTask(updatedTask, taskToRemove);
+
 					if (status.isSuccess()) {
 						retrievalStatus = parseCommand(lastRetrieve);
 						status.setObj(retrievalStatus.getObj());
@@ -1456,6 +1433,30 @@ public class Validator {
 		return processedDate;
 	}
 
+	private void loadConfigFile() {
+
+		ConfigIO config = new ConfigIO();
+		keywordFullMap = config.getFullKeywordMap();
+	}
+
+	private static List<Date> parseStringToDate(String dateInfo) {
+
+		List<Date> dates = new ArrayList<Date>();
+
+		if (dateInfo != null) {
+
+			Parser parser = new Parser();
+
+			List<DateGroup> groups = parser.parse(dateInfo.trim());
+
+			if (!groups.isEmpty()) {
+				DateGroup firstDate = groups.get(0);
+				dates = firstDate.getDates();
+			}
+		}
+		return dates;
+	}
+
 	private Date fixStartDateDisplay(Date inDate, String displayType) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -1607,5 +1608,18 @@ public class Validator {
 		Date processedDate = inCalendar.getTime();
 
 		return processedDate;
+	}
+
+	private boolean isANumber(String text) {
+		boolean isNumber;
+
+		try {
+			Integer.parseInt(text);
+			isNumber = true;
+		} catch (NumberFormatException e) {
+			isNumber = false;
+		}
+
+		return isNumber;
 	}
 }
