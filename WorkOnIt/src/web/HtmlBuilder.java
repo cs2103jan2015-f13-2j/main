@@ -95,7 +95,7 @@ public class HtmlBuilder {
 
 				writer.println("{");
 				int indexOffset = i + 1;
-				String fixedTitle = title.replaceAll("[^\\p{L}\\p{Nd}]+", "");
+				String fixedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "");
 				writer.println("title: '" + indexOffset + ". " + fixedTitle + "',");
 
 				if (currTask instanceof NormalTask) {
