@@ -656,7 +656,9 @@ public class Validator {
 		boolean isFrom = false;
 		boolean isOn = false;
 		boolean isDesc = false;
-
+		boolean isMonth = false;
+		Date startDate = null;
+		Date endDate = null;
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -703,7 +705,7 @@ public class Validator {
 
 			Scanner dateScanner = new Scanner(combinedSearch);
 			boolean isDay = false;
-			boolean isMonth = false;
+			
 			while(dateScanner.hasNext()){
 				String currWord = dateScanner.next();
 				boolean isCurrNumber = !isNaN(currWord);
@@ -729,8 +731,9 @@ public class Validator {
 					unfixedMonth = dateList.remove(0);
 				}
 				
-				startOfMonth = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
-				endOfMonth = fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+				startDate = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+				endDate= fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
+				
 				remainingText = startOfMonth + " to " + endOfMonth;
 				
 			} else {
@@ -750,7 +753,7 @@ public class Validator {
 
 			isDesc = true;
 		}
-		System.out.println(""+isAll+isPriority+isDesc+isSingleDate+isDoubleDate);
+	
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -761,14 +764,27 @@ public class Validator {
 			if (isSingleDate == true && isDoubleDate == false) {
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
-				
 				status = retrieveInBetween(remainingText.trim());
-			} else {
-				remainingText = "from "+remainingText;
-				status = retrieveInBetween(remainingText.trim());
+			} else if (isSingleDate == false && isDoubleDate == true){
+				if(isMonth == true){
+					status = retrieveMonth(startDate, endDate);
+				} else {
+					status = retrieveInBetween(remainingText.trim());
+				}
 			}
 		}
 		sc.close();
+		return status;
+	}
+
+	private Success retrieveMonth(Date start, Date end) {
+		// TODO Auto-generated method stub
+		Success status = null;
+		try {
+			status = engine.retrieveTask(start, end);
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_RETRIEVE);
+		}
 		return status;
 	}
 
