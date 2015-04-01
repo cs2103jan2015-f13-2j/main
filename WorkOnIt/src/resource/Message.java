@@ -31,6 +31,8 @@ public class Message {
 	public static final String SUCCESS_FILES_EXIST = "All required files exist.";
 	public static final String SUCCESS_MARK_DONE = "Selected task(s) marked as done.";
 	public static final String SUCCESS_MARK_UNDONE = "Selected task(s) marked as un-done.";
+	public static final String SUCCESS_GET_HISTORY = "History successfully retrieved.";
+	public static final String SUCCESS_ADD_HISTORY = "History successfully added.";
 
 	public static final String FAIL_GENERAL = "Operation failed.";
 	public static final String FAIL_RETRIEVE_LIST = "List fail to retrieved.";
@@ -41,6 +43,8 @@ public class Message {
 	public static final String FAIL_FILES_EXIST = "One or more file(s) does not exist.";
 	public static final String FAIL_MARK_DONE = "Selected task(s) fail to mark as done.";
 	public static final String FAIL_MARK_UNDONE = "Selected task(s) fail to mark as un-done.";
+	public static final String FAIL_GET_HISTORY = "Unable to retrieve history from file.";
+	public static final String FAIL_ADD_HISTORY = "Unable to add history into file.";
 
 	public static final String FILE_CREATED = "New file(s) created.";
 	public static final String FILE_NOT_FOUND = "File(s) not found.";

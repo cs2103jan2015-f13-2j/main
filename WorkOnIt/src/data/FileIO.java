@@ -3,6 +3,7 @@ package data;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,12 +31,15 @@ public class FileIO {
 	private String filename_normal = FileName.getFilenameNormal();
 	private String filename_recur = FileName.getFilenameRecur();
 	private String filename_deadline = FileName.getFilenameDeadline();
+	private String filename_history = FileName.getFilenameHistory();
 
 	private static String file_type;
 
 	public Success saveIntoFile(Task task) {
 
 		Success status = null;
+
+		addHistory(task.getTaskName());
 
 		if (task instanceof FloatingTask) {
 			file_type = filename_floating;
@@ -47,9 +51,7 @@ public class FileIO {
 			file_type = filename_deadline;
 		}
 
-		// body
 		String gsonSerial = Serializer.serializeToJson(task);
-		// System.out.println(gsonSerial);
 		PrintWriter filewrite = null;
 
 		try {
@@ -1023,6 +1025,69 @@ public class FileIO {
 		}
 
 		return successObj;
+	}
+
+	public Success addHistory(String toAdd) {
+
+		Success status = null;
+		PrintWriter filewrite = null;
+
+		File file = new File(filename_history);
+
+		try {
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			filewrite = new PrintWriter(new BufferedWriter(new FileWriter(
+					filename_history, true)));
+			filewrite.println(toAdd);
+
+			status = new Success(true, Message.SUCCESS_ADD_HISTORY);
+			filewrite.close();
+
+		} catch (IOException e) {
+			status = new Success(false, Message.FAIL_ADD_HISTORY);
+		} catch (Exception e) {
+			status = new Success(false, Message.FAIL_ADD_HISTORY);
+		}
+
+		return status;
+	}
+
+	public Success getHistory() {
+
+		Success status = null;
+
+		File file = new File(filename_history);
+
+		if (file.exists()) {
+
+			ArrayList<String> historyList = new ArrayList<String>();
+
+			try {
+				BufferedReader historyReader = new BufferedReader(
+						new FileReader(filename_history));
+
+				String printLine;
+
+				while ((printLine = historyReader.readLine()) != null) {
+					historyList.add(printLine);
+				}
+
+				status = new Success(historyList, true,
+						Message.SUCCESS_GET_HISTORY);
+
+			} catch (FileNotFoundException e) {
+				status = new Success(false, Message.FAIL_GET_HISTORY);
+			} catch (Exception e) {
+				status = new Success(false, Message.FAIL_GET_HISTORY);
+			}
+		} else {
+			status = new Success(false, Message.FAIL_GET_HISTORY);
+		}
+
+		return status;
 	}
 
 	/*

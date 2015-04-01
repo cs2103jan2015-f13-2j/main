@@ -60,6 +60,15 @@ public class Validator {
 		return isValidSequence;
 	}
 
+	public Success getHistory() {
+
+		Success status = null;
+
+		status = engine.getHistory();
+
+		return status;
+	}
+
 	public Success parseCommand(String fullCommand) {
 
 		Success status = null;
@@ -124,15 +133,7 @@ public class Validator {
 									.getObj();
 						}
 					}
-					// System.out.println("No. of records: "
-					// + retrievedTaskList.size());
-					// temporary to show the retrieved list
-					// for (int i = 0; i < retrievedTaskList.size(); i++) {
-					// Task t = retrievedTaskList.get(i);
-					// System.out.println((i + 1) + ") Task Desc: "
-					// + t.getTaskName() + "\t ; Task Type: "
-					// + t.getClass());
-					// }
+
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
@@ -662,6 +663,7 @@ public class Validator {
 		boolean isResolved = false;
 		Date startDate = null;
 		Date endDate = null;
+
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
@@ -704,82 +706,85 @@ public class Validator {
 		}
 
 		String combinedSearch = searchString + " " + remainingText;
-		
+
 		// if captured by searchString and not remainingText, means the user
 		// only typed a single date
-		if(isResolved == false){
+		if (isResolved == false) {
 			if (remainingText.trim().equals("")
 					&& parseStringToDate(combinedSearch).size() > 0) {
-				String[] mthArray = {"january","february","march","april","may","june",
-						"july","august","september","october","november","december"};
-				
+				String[] mthArray = { "january", "february", "march", "april",
+						"may", "june", "july", "august", "september",
+						"october", "november", "december" };
+
 				Scanner dateScanner = new Scanner(combinedSearch);
-				
-				while(dateScanner.hasNext()){
+
+				while (dateScanner.hasNext()) {
 					String currWord = dateScanner.next();
-					
+
 					boolean isCurrNumber = !isNaN(currWord);
-					// if there's number, it's a single day, else it's just month 
-					if(isCurrNumber == true){
+					// if there's number, it's a single day, else it's just
+					// month
+					if (isCurrNumber == true) {
 						isDoubleDate = false;
 						isDay = true;
 					} else {
-						for(int i=0;i<mthArray.length;i++){
+						for (int i = 0; i < mthArray.length; i++) {
 							String currMonth = mthArray[i];
-							if(currMonth.contains(currWord)||
-									currWord.equals(KeywordConstant.KEYWORD_MONTH)||
-									currWord.equals(KeywordConstant.KEYWORD_MONTHS)){
+							if (currMonth.contains(currWord)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_MONTH)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_MONTHS)) {
 								isMonth = true;
 								isDoubleDate = true;
-							} else if (currWord.equals(KeywordConstant.KEYWORD_WEEK)||
-									currWord.equals(KeywordConstant.KEYWORD_WEEKS)){
+							} else if (currWord
+									.equals(KeywordConstant.KEYWORD_WEEK)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_WEEKS)) {
 								isWeek = true;
 								isDoubleDate = true;
 							}
 						}
 					}
 				}
-				
-				if(isDay == false &&
-						isWeek == false &&
-						isMonth == true){
+
+				if (isDay == false && isWeek == false && isMonth == true) {
 					Date unfixedMonth = null;
-					
+
 					List<Date> dateList = parseStringToDate(searchString);
-	
+
 					if (!dateList.isEmpty()) {
 						unfixedMonth = dateList.remove(0);
 					}
-					
-					startDate = fixStartDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
-					endDate= fixEndDateDisplay(unfixedMonth, KeywordConstant.KEYWORD_MONTH);
-				
-					
-				} else if(isDay == true &&
-						isWeek == false &&
-						isMonth == true){
+
+					startDate = fixStartDateDisplay(unfixedMonth,
+							KeywordConstant.KEYWORD_MONTH);
+					endDate = fixEndDateDisplay(unfixedMonth,
+							KeywordConstant.KEYWORD_MONTH);
+
+				} else if (isDay == true && isWeek == false && isMonth == true) {
 					isSingleDate = true;
 					isDoubleDate = false;
 					remainingText = searchString;
-				} else if (isDay == false &&
-						isWeek == true &&
-						isMonth == false) {
+				} else if (isDay == false && isWeek == true && isMonth == false) {
 					Date unfixedWeek = null;
-					
+
 					List<Date> dateList = parseStringToDate(searchString);
-					if(!dateList.isEmpty()){
+					if (!dateList.isEmpty()) {
 						unfixedWeek = dateList.remove(0);
 					}
-					
-					startDate = fixStartDateDisplay(unfixedWeek, KeywordConstant.KEYWORD_WEEK);
-					endDate = fixEndDateDisplay(unfixedWeek, KeywordConstant.KEYWORD_WEEK);
+
+					startDate = fixStartDateDisplay(unfixedWeek,
+							KeywordConstant.KEYWORD_WEEK);
+					endDate = fixEndDateDisplay(unfixedWeek,
+							KeywordConstant.KEYWORD_WEEK);
 				} else {
 					isSingleDate = true;
 					remainingText = searchString;
 				}
-				
+
 			} else {
-	
+
 				// retrieve using description
 				if (isOn == true) {
 					combinedSearch = searchString.trim() + " on "
@@ -788,11 +793,12 @@ public class Validator {
 					combinedSearch = searchString.trim() + " from "
 							+ remainingText.trim();
 				}
-	
+
 				isDesc = true;
 			}
 		}
-		System.out.println(""+isDesc+isAll+isPriority+isSingleDate+isDoubleDate+isMonth+isWeek+isDay);
+		System.out.println("" + isDesc + isAll + isPriority + isSingleDate
+				+ isDoubleDate + isMonth + isWeek + isDay);
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -800,22 +806,22 @@ public class Validator {
 		} else if (isDesc == true) {
 			status = retrieveTaskDesc(combinedSearch.trim());
 		} else {
-			
+
 			if (isSingleDate == true && isDoubleDate == false) {
-				
+
 				status = retrieveSingleDate(remainingText.trim());
 			} else if (isSingleDate == true && isDoubleDate == true) {
-				
+
 				status = retrieveInBetween(remainingText.trim());
-			} else if (isSingleDate == false && isDoubleDate == true){
-				if(isMonth == true || isWeek == true){
-					System.out.println(""+startDate+endDate);
+			} else if (isSingleDate == false && isDoubleDate == true) {
+				if (isMonth == true || isWeek == true) {
+					System.out.println("" + startDate + endDate);
 					status = retrieveInBetween(startDate, endDate);
 				} else {
 					status = retrieveInBetween(remainingText.trim());
 				}
 			} else {
-				
+
 			}
 		}
 		sc.close();
@@ -823,7 +829,7 @@ public class Validator {
 	}
 
 	private Success retrieveInBetween(Date start, Date end) {
-		
+
 		Success status = null;
 		try {
 			status = engine.retrieveTask(start, end);
@@ -937,8 +943,6 @@ public class Validator {
 
 		}
 
-	
-		
 		sc.close();
 		return status;
 	}
@@ -1042,9 +1046,9 @@ public class Validator {
 					String combinedDate = startDateString + " to "
 							+ endDateString;
 					combinedDate = combinedDate.trim();
-					
+
 					List<Date> dateList = parseStringToDate(combinedDate);
-					
+
 					Date fromDate = null;
 					Date toDate = null;
 
@@ -1121,7 +1125,7 @@ public class Validator {
 					fixedStartDate = fixStartDate(onDate);
 					fixedEndDate = fixEndDate(onDate);
 				}
-				System.out.println(""+fixedStartDate + fixedEndDate);
+				System.out.println("" + fixedStartDate + fixedEndDate);
 				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
 			}
 
@@ -1163,7 +1167,7 @@ public class Validator {
 
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
-		
+
 		try {
 			Date fromDate = null;
 			Date toDate = null;
@@ -1175,11 +1179,11 @@ public class Validator {
 				fromDate = dateListFrom.remove(0);
 				fixedFromDate = fixStartDate(fromDate);
 			}
-			System.out.println(""+startDateString + endDateString);
+			System.out.println("" + startDateString + endDateString);
 			if (!endDateString.equals("")) {
 
 				String combinedDate = startDateString + " to " + endDateString;
-				
+
 				combinedDate = combinedDate.trim();
 				System.out.println(combinedDate);
 				List<Date> dateList = parseStringToDate(combinedDate);
@@ -1190,10 +1194,10 @@ public class Validator {
 					if (!dateList.isEmpty()) {
 						toDate = dateList.remove(0);
 						fixedToDate = fixEndDate(toDate);
-						
+
 					}
 				}
-				System.out.println(""+fixedFromDate + fixedToDate);
+				System.out.println("" + fixedFromDate + fixedToDate);
 				status = engine.retrieveTask(fixedFromDate, fixedToDate);
 
 			} else {
@@ -1542,7 +1546,7 @@ public class Validator {
 			Parser parser = new Parser();
 
 			List<DateGroup> groups = parser.parse(dateInfo.trim());
-			
+
 			if (!groups.isEmpty()) {
 				DateGroup firstDate = groups.get(0);
 				dates = firstDate.getDates();

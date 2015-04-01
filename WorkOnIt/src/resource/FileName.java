@@ -21,6 +21,7 @@ public class FileName {
 	private static String filenameNormal = "datafile_normal.txt";
 	private static String filenameRecur = "datafile_recur.txt";
 	private static String filenameCfg = "command.cfg";
+	private static String filenameHistory = "history.txt";
 
 	private static String localUrl = "file:\\\\\\";
 	private static String relativeWebUiPath = "webUI";
@@ -64,6 +65,14 @@ public class FileName {
 
 	public static void setFilenameCfg(String filenameCfg) {
 		FileName.filenameCfg = filenameCfg;
+	}
+
+	public static String getFilenameHistory() {
+		return getCanonicalPath() + File.separator + filenameHistory;
+	}
+
+	public static void setFilenameHistory(String filenameHistory) {
+		FileName.filenameHistory = filenameHistory;
 	}
 
 	public static String getCanonicalPath() {

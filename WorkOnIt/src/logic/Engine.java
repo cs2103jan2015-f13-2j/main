@@ -572,4 +572,14 @@ public class Engine {
 		return status;
 	}
 
+	public Success getHistory() {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		status = dataStorage.getHistory();
+
+		return status;
+	}
+
 }
