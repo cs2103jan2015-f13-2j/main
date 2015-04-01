@@ -61,7 +61,8 @@ public class Main extends Application {
 	private List<String> secondaryList = null;
 	private Validator commandValidator = null;
 	private Success successObj = null;
-
+	private ArrayList<Integer> indexArray = null;
+	private int indexCounter = 0;
 	// SCALE
 	final static int TEXT_BOX_WIDTH = 700;
 
@@ -101,6 +102,7 @@ public class Main extends Application {
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setLayoutY(50);
+			listView.setFocusTraversable(false);
 			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
@@ -207,14 +209,6 @@ public class Main extends Application {
 
 				}
 			});
-			txtF.setOnKeyReleased(new EventHandler<KeyEvent>() {
-				public void handle(KeyEvent event) {
-					// addDataToListView();
-					commandHandler(event, txtF.getText(), primaryStage, txtF,
-							listView, tFlow);
-					switchListView(listView, txtF, event);
-				}
-			});
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
@@ -266,6 +260,7 @@ public class Main extends Application {
 		elementList = new ArrayList<String>();
 		secondaryList = new ArrayList<String>();
 		commandValidator = new Validator();
+		indexArray = new ArrayList<Integer>();
 	}
 
 	private void history(ListView listView) {
@@ -316,9 +311,26 @@ public class Main extends Application {
 			final Stage stage, TextField txtF, ListView listView, TextFlow tFlow) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
-		}
-
-		if (event.getCode().equals(KeyCode.DOWN)) {
+		} else if (event.getCode().equals(KeyCode.TAB)){
+			//if(indexCounter==indexArray.size()){
+			//	
+			//}
+			int startPosition= indexArray.get(indexCounter);
+			int endPosition = 0;
+			if(indexCounter==indexArray.size()-1){
+				endPosition = txtF.getLength();
+			} else {
+				endPosition = indexArray.get(indexCounter+1);
+				endPosition -= secondaryList.get(indexCounter+1).length();
+			}
+			
+			//txtF.positionCaret(indexArray.get(indexCounter));
+			txtF.selectRange(startPosition, endPosition);
+			indexCounter++;
+			if(indexCounter>=indexArray.size()){
+				indexCounter = 0;
+			}
+		} else if (event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
 		handleEachKey(txtF, tFlow);
@@ -379,6 +391,8 @@ public class Main extends Application {
 		secondaryList.clear();
 		tf.getChildren().clear();
 		// iterate thru the input
+		indexArray.clear();
+		int startIndex = 0;
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
 			Text currText;
@@ -386,11 +400,17 @@ public class Main extends Application {
 			currText = new Text(" " + stringArr[i]);
 
 			currText.setFont(Font.font("Arial", 28));
-
+			int length = startIndex + stringArr[i].length();
+			if(i>0){
+				length++;
+			}
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
 				// txtF.setStyle("-fx-text-fill: red;");
+				
 				String currentKeyword = stringArr[i];
+	
+				indexArray.add(length);
 				currText.setFill(Color.RED);
 				secondaryList.add(currentKeyword);
 
@@ -405,6 +425,7 @@ public class Main extends Application {
 			} else {
 				currText.setVisible(false);
 			}
+			startIndex = length;
 			tf.getChildren().add(currText);
 		}
 	}
