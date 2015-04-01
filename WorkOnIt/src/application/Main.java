@@ -376,6 +376,13 @@ public class Main extends Application {
 			hide(stage);
 		}
 
+		if(listView.getFocusModel().getFocusedIndex() -1 == -1
+				&& event.getCode().equals(KeyCode.UP))
+		{
+			txtF.requestFocus();
+			listView.setOpacity(0);
+		}
+		
 		if (event.getCode().equals(KeyCode.LEFT)
 				|| event.getCode().equals(KeyCode.RIGHT)) {
 			txtF.requestFocus();
@@ -480,8 +487,8 @@ public class Main extends Application {
 				Pane pane = new Pane();
 				Label agendaTitle = new Label();
 				agendaTitle.setText(displayTitle);
-				agendaTitle
-						.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
+				agendaTitle.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
+				agendaTitle.getStyleClass().add("title");
 				agendaTitle.setLayoutX(100);
 
 				pane.getChildren().add(agendaTitle);
@@ -537,7 +544,8 @@ public class Main extends Application {
 
 							pane.getChildren().add(taskName);
 							pane.getChildren().add(taskDate);
-
+							pane.getStyleClass().add("title");
+							
 							task.add(pane);
 						}
 
