@@ -206,7 +206,7 @@ public class Main extends Application {
 					} else {
 						showPopUp(null, false, primaryStage, popup);
 					}
-
+					wordHandler(txtF, txtF.getText(), tFlow, listView);
 				}
 			});
 			// onKeyPressed for each char entered
@@ -224,7 +224,7 @@ public class Main extends Application {
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 			root.getChildren().add(scrollPane);
-			root.getChildren().add(tFlow);
+			//root.getChildren().add(tFlow);
 
 			primaryStage.setScene(scene);
 			primaryStage.setAlwaysOnTop(true);
