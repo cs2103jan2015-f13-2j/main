@@ -2,3 +2,4 @@ play mahjong
 sleeping
 sleep
 bathing
+x
