@@ -78,6 +78,7 @@ public class Main extends Application {
 	final static int POSITION_TEXT_BOX_X = 0;
 	final static int POSITION_TEXT_BOX_Y = 0;
 	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
+	
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -99,7 +100,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, SCENE_HEIGHT);
 			
 			// TEXTFLOW
-			final TextFlow tFlow = new TextFlow();
+		//	final TextFlow tFlow = new TextFlow();
 						
 			initializeGlobals();
 			
@@ -145,7 +146,6 @@ public class Main extends Application {
 			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
 			listView.setOpacity(0);
 			listView.setEditable(true);
-			
 			listView.setFocusTraversable(false);
 			
 			// UI - CALENDAR SETTINGS
@@ -153,20 +153,18 @@ public class Main extends Application {
 			scrollPane.setContent(webview);
 			scrollPane.setFitToWidth(true);
 			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
-			
 			scrollPane.setVisible(false);
 			
 			// UI - TEXT FIELD SETTINGS
 			txtF.setId("textField");
-
 			txtF.setPrefHeight(TEXT_BOX_HEIGHT);
 			txtF.setPrefWidth(TEXT_BOX_WIDTH);
 			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setFont(Font.font("Arial", 28));
 			
 			// UI - TEXT FLOW SETTINGS
-			tFlow.setLayoutX(10);
-			tFlow.setLayoutY(10);
+			//tFlow.setLayoutX(10);
+			//tFlow.setLayoutY(10);
 			
 			/***********************
 			 *	UI ACTIONS
@@ -190,18 +188,17 @@ public class Main extends Application {
 				
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
-
 					handleCommandResponse(primaryStage, txtF, listView,
 							scrollPane, popup, webengine);
-					wordHandler(txtF, txtF.getText(), tFlow, listView);
+					wordHandler(txtF, txtF.getText(), listView);
 				}
 
 			});
 			
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					commandHandler(event, txtF.getText(), primaryStage, txtF,
-							listView, tFlow);
+					keypressHandler(event, txtF.getText(), primaryStage, txtF,
+							listView);
 					switchListView(listView, txtF, event);
 					popup.hide();
 				}
@@ -364,34 +361,37 @@ public class Main extends Application {
 		successObj = status;
 	}
 
-	public void commandHandler(KeyEvent event, String textFieldText,
-			final Stage stage, TextField txtF, ListView listView, TextFlow tFlow) {
+	public void keypressHandler(KeyEvent event, String textFieldText,
+			final Stage stage, TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB)){
 
 			int startPosition= indexArray.get(indexCounter);
 			int endPosition = 0;
-			if(indexCounter==indexArray.size()-1){
+			int arrayOffset = 1;
+			if(indexCounter==indexArray.size()-arrayOffset){
 				endPosition = txtF.getLength();
 			} else {
-				endPosition = indexArray.get(indexCounter+1);
+				endPosition = indexArray.get(indexCounter+arrayOffset);
 				endPosition -= secondaryList.get(indexCounter+1).length();
 			}
-			
-			//txtF.positionCaret(indexArray.get(indexCounter));
+			// selecting in reverse
 			txtF.selectRange(endPosition, startPosition);
+			
+			// increment tab counter
 			indexCounter++;
+			
 			if(indexCounter>=indexArray.size()){
 				indexCounter = 0;
 			}
 		} else if (event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
-		handleEachKey(txtF, tFlow);
+		//handleEachKey(txtF, tFlow);
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
-			wordHandler(txtF, textFieldText, tFlow, listView);
+			wordHandler(txtF, textFieldText, listView);
 		}
 	}
 
@@ -434,24 +434,24 @@ public class Main extends Application {
 		}
 	}
 
-	private void wordHandler(TextField txtF, String textFieldText, TextFlow tf,
+	private void wordHandler(TextField txtF, String textFieldText,
 			ListView listView) {
 
 		String[] stringArr = textFieldText.trim().split(" ");
 
-		elementList.clear();
-		secondaryList.clear();
-		tf.getChildren().clear();
-		// iterate thru the input
-		indexArray.clear();
+		resetDependentLists();
 		int startIndex = 0;
+		startIndex = loopTextNodes(listView, stringArr, startIndex);
+	}
+	private int loopTextNodes(ListView listView, String[] stringArr,
+			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-			Text currText;
+			//Text currText;
 
-			currText = new Text(" " + stringArr[i]);
+			//currText = new Text(" " + stringArr[i]);
 
-			currText.setFont(Font.font("Arial", 28));
+			//currText.setFont(Font.font("Arial", 28));
 			int length = startIndex + stringArr[i].length();
 			if(i>0){
 				length++;
@@ -463,7 +463,7 @@ public class Main extends Application {
 				String currentKeyword = stringArr[i];
 	
 				indexArray.add(length);
-				currText.setFill(Color.RED);
+				//currText.setFill(Color.RED);
 				secondaryList.add(currentKeyword);
 
 				if (stringArr[i].equals(KeywordConstant.KEYWORD_ADD)) {
@@ -475,11 +475,19 @@ public class Main extends Application {
 				}
 
 			} else {
-				currText.setVisible(false);
+				//currText.setVisible(false);
 			}
 			startIndex = length;
-			tf.getChildren().add(currText);
+			//tf.getChildren().add(currText);
 		}
+		return startIndex;
+	}
+	
+	private void resetDependentLists() {
+		elementList.clear();
+		secondaryList.clear();
+		//tf.getChildren().clear();
+		indexArray.clear();
 	}
 
 	private static void hide(final Stage stage) {
