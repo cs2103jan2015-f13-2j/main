@@ -3,3 +3,6 @@ sleeping
 sleep
 bathing
 x
+sleeping
+bathing
+sleeping
