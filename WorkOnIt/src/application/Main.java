@@ -65,26 +65,27 @@ public class Main extends Application {
 	private Success successObj = null;
 	private ArrayList<Integer> indexArray = null;
 	private int indexCounter = 0;
-	
+	private boolean isHistory = false;
+
 	// SCALE
 	final static int TEXT_BOX_HEIGHT = 50;
 	final static int TEXT_BOX_WIDTH = 700;
 	final static int SCENE_HEIGHT = 550;
 	final static int LIST_VIEW_HEIGHT = 250;
 	final static int SCROLL_PANE_HEIGHT = 800;
-	
+
 	// POSITION ADJUSTMENTS
 	final static int POSITION_LIST_VIEW_Y = 50;
 	final static int POSITION_TEXT_BOX_X = 0;
 	final static int POSITION_TEXT_BOX_Y = 0;
 	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
-	
+
 	@Override
 	public void start(final Stage primaryStage) {
 
 		try {
 			/***********************
-			 *	UI DECLARATION 
+			 * UI DECLARATION
 			 ***********************/
 
 			// UI DECLARE
@@ -95,37 +96,37 @@ public class Main extends Application {
 			final ScrollPane scrollPane = new ScrollPane();
 			final Popup popup = new Popup();
 			final WebEngine webengine = webview.getEngine();
-			
+
 			Pane root = new Pane();
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, SCENE_HEIGHT);
-			
+
 			// TEXTFLOW
-		//	final TextFlow tFlow = new TextFlow();
-						
+			// final TextFlow tFlow = new TextFlow();
+
 			initializeGlobals();
-			
+
 			/***********************
-			 *	UI POSITIONING
+			 * UI POSITIONING
 			 ***********************/
-			
+
 			// UI - LIST VIEW POSITION
 			listView.setLayoutY(POSITION_LIST_VIEW_Y);
-			
+
 			// UI - CALENDAR POSITION
 			scrollPane.setLayoutY(POSITION_CALENDAR_SCROLLPANE_Y);
-			
+
 			// UI - TEXT FIELD POSITION
 			txtF.setLayoutX(POSITION_TEXT_BOX_X);
 			txtF.setLayoutY(POSITION_TEXT_BOX_Y);
-			
+
 			/***********************
-			 *	UI SETTINGS
+			 * UI SETTINGS
 			 ***********************/
-			
+
 			// UI - ROOT SETTINGS
-			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0);" +
-					"-fx-background-radius: 10;");
-			
+			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0);"
+					+ "-fx-background-radius: 10;");
+
 			// UI - PRIMARY STAGE SETTINGS
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			setProgramIconDesc(primaryStage);
@@ -140,36 +141,36 @@ public class Main extends Application {
 			popup.setAutoFix(true);
 			popup.setAutoHide(true);
 			popup.setHideOnEscape(true);
-			
+
 			// UI - LIST VIEW SETTINGS
 			listView.setId("listView");
 			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setFocusTraversable(false);
-			
+
 			// UI - CALENDAR SETTINGS
 			webview.setVisible(true);
 			scrollPane.setContent(webview);
 			scrollPane.setFitToWidth(true);
 			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
 			scrollPane.setVisible(false);
-			
+
 			// UI - TEXT FIELD SETTINGS
 			txtF.setId("textField");
 			txtF.setPrefHeight(TEXT_BOX_HEIGHT);
 			txtF.setPrefWidth(TEXT_BOX_WIDTH);
 			txtF.setText(Message.UI_INPUT_HERE);
 			txtF.setFont(Font.font("Arial", 28));
-			
+
 			// UI - TEXT FLOW SETTINGS
-			//tFlow.setLayoutX(10);
-			//tFlow.setLayoutY(10);
-			
+			// tFlow.setLayoutX(10);
+			// tFlow.setLayoutY(10);
+
 			/***********************
-			 *	UI ACTIONS
+			 * UI ACTIONS
 			 ***********************/
-			
+
 			// UI - LIST VIEW ACTIONS
 			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
@@ -178,14 +179,14 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
-			
+
 			// UI - TEXT FIELD ACTIONS
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
-				
+
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
 					handleCommandResponse(primaryStage, txtF, listView,
@@ -194,7 +195,7 @@ public class Main extends Application {
 				}
 
 			});
-			
+
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					keypressHandler(event, txtF.getText(), primaryStage, txtF,
@@ -203,16 +204,15 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
-			
 
 			/***********************
-			 *	UI DISPLAY OPTIONS
+			 * UI DISPLAY OPTIONS
 			 ***********************/
-			
+
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 			root.getChildren().add(scrollPane);
-			//root.getChildren().add(tFlow);
+			// root.getChildren().add(tFlow);
 
 			primaryStage.setScene(scene);
 			primaryStage.setAlwaysOnTop(true);
@@ -222,23 +222,24 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+
 	private void handleCommandResponse(final Stage primaryStage,
 			final TextField txtF, final ListView listView,
 			final ScrollPane scrollPane, final Popup popup,
 			final WebEngine webengine) {
-		
+
 		if (successObj != null) {
 			if (successObj.isSuccess()) {
 				Object returnObj = successObj.getObj();
-			
-				handleDisplayCommand(txtF, listView, scrollPane,
-						webengine, returnObj);
+
+				handleDisplayCommand(txtF, listView, scrollPane, webengine,
+						returnObj);
 			}
 		} else {
 			showPopUp(null, false, primaryStage, popup);
 		}
 	}
-	
+
 	private void handleDisplayList(final TextField txtF,
 			final ListView listView, List<Task> taskList) {
 		if (taskList.isEmpty()) {
@@ -248,9 +249,10 @@ public class Main extends Application {
 			txtF.selectAll();
 		} else {
 			addTaskToListView(listView, successObj);
-			switchListView(listView, txtF);
+			switchListView(listView);
 		}
 	}
+
 	private void handleDisplayCommand(final TextField txtF,
 			final ListView listView, final ScrollPane scrollPane,
 			final WebEngine webengine, Object returnObj) {
@@ -258,19 +260,16 @@ public class Main extends Application {
 			SuccessDisplay sdObj = (SuccessDisplay) successObj;
 
 			String displayType = sdObj.getDisplayType();
-			if (displayType
-					.equals(KeywordConstant.KEYWORD_MONTH)
-					|| displayType
-							.equals(KeywordConstant.KEYWORD_WEEK)) {
+			if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
+					|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
 				@SuppressWarnings("unchecked")
 				List<Task> taskList = (ArrayList<Task>) returnObj;
 				Calendar displayCal = sdObj.getCalendar();
 
-				HtmlBuilder htmlBuilder = new HtmlBuilder(
-						displayType, displayCal, taskList);
+				HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
+						displayCal, taskList);
 				webengine.setJavaScriptEnabled(true);
-				webengine.load(FileName
-						.getFilenameCalendarUiUrl());
+				webengine.load(FileName.getFilenameCalendarUiUrl());
 
 				scrollPane.setVisible(true);
 
@@ -290,6 +289,7 @@ public class Main extends Application {
 			}
 		}
 	}
+
 	private void setProgramIconDesc(final Stage primaryStage) {
 		Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
 		Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
@@ -323,6 +323,8 @@ public class Main extends Application {
 
 		if (listView.getItems().isEmpty() && status.isSuccess()) {
 			addTaskToListView(listView, status);
+			switchListView(listView);
+			isHistory = true;
 		}
 	}
 
@@ -365,36 +367,35 @@ public class Main extends Application {
 			final Stage stage, TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
-		} else if (event.getCode().equals(KeyCode.TAB)){
+		} else if (event.getCode().equals(KeyCode.TAB)) {
 
-			int startPosition= indexArray.get(indexCounter);
+			int startPosition = indexArray.get(indexCounter);
 			int endPosition = 0;
 			int arrayOffset = 1;
-			if(indexCounter==indexArray.size()-arrayOffset){
+			if (indexCounter == indexArray.size() - arrayOffset) {
 				endPosition = txtF.getLength();
 			} else {
-				endPosition = indexArray.get(indexCounter+arrayOffset);
-				endPosition -= secondaryList.get(indexCounter+1).length();
+				endPosition = indexArray.get(indexCounter + arrayOffset);
+				endPosition -= secondaryList.get(indexCounter + 1).length();
 			}
 			// selecting in reverse
 			txtF.selectRange(endPosition, startPosition);
-			
+
 			// increment tab counter
 			indexCounter++;
-			
-			if(indexCounter>=indexArray.size()){
+
+			if (indexCounter >= indexArray.size()) {
 				indexCounter = 0;
 			}
 		} else if (event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
-		//handleEachKey(txtF, tFlow);
+		// handleEachKey(txtF, tFlow);
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
 			wordHandler(txtF, textFieldText, listView);
 		}
 	}
-
 
 	public void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
@@ -421,13 +422,12 @@ public class Main extends Application {
 			hide(stage);
 		}
 
-		if(listView.getFocusModel().getFocusedIndex() -1 == -1
-				&& event.getCode().equals(KeyCode.UP))
-		{
+		if (listView.getFocusModel().getFocusedIndex() - 1 == -1
+				&& event.getCode().equals(KeyCode.UP)) {
 			txtF.requestFocus();
-			//listView.setOpacity(0);
+			// listView.setOpacity(0);
 		}
-		
+
 		if (event.getCode().equals(KeyCode.LEFT)
 				|| event.getCode().equals(KeyCode.RIGHT)) {
 			txtF.requestFocus();
@@ -443,50 +443,52 @@ public class Main extends Application {
 		int startIndex = 0;
 		startIndex = loopTextNodes(listView, stringArr, startIndex);
 	}
+
 	private int loopTextNodes(ListView listView, String[] stringArr,
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-			//Text currText;
+			// Text currText;
 
-			//currText = new Text(" " + stringArr[i]);
+			// currText = new Text(" " + stringArr[i]);
 
-			//currText.setFont(Font.font("Arial", 28));
+			// currText.setFont(Font.font("Arial", 28));
 			int length = startIndex + stringArr[i].length();
-			if(i>0){
+			if (i > 0) {
 				length++;
 			}
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
 				// txtF.setStyle("-fx-text-fill: red;");
-				
+
 				String currentKeyword = stringArr[i];
-	
+
 				indexArray.add(length);
-				//currText.setFill(Color.RED);
+				// currText.setFill(Color.RED);
 				secondaryList.add(currentKeyword);
 
 				if (stringArr[i].equals(KeywordConstant.KEYWORD_ADD)) {
 					history(listView);
-					
-				} else {
-					//listView.getItems().clear();
-					//listView.setOpacity(0);
+
+				} else if (isHistory) {
+					listView.getItems().clear();
+					listView.setOpacity(0);
+					isHistory = false;
 				}
 
 			} else {
-				//currText.setVisible(false);
+				// currText.setVisible(false);
 			}
 			startIndex = length;
-			//tf.getChildren().add(currText);
+			// tf.getChildren().add(currText);
 		}
 		return startIndex;
 	}
-	
+
 	private void resetDependentLists() {
 		elementList.clear();
 		secondaryList.clear();
-		//tf.getChildren().clear();
+		// tf.getChildren().clear();
 		indexArray.clear();
 	}
 
@@ -505,24 +507,23 @@ public class Main extends Application {
 	// FOR KEY PRESS
 	private static void switchListView(ListView listView, TextField textField,
 			KeyEvent event) {
-		
-		
+
 		if (event.getCode().equals(KeyCode.DOWN) && listView.getOpacity() == 0) {
 			Success successObj = null;
 			successObj = commandValidator.parseCommand("display today");
-			
+
 			addTaskToListView(listView, successObj);
 			if (listView.getItems().size() != 0) {
 				listView.setOpacity(1);
 			}
-		}			
+		}
 		if (event.getCode().equals(KeyCode.UP)) {
 			listView.setOpacity(0);
 		}
 	}
 
 	// FOR KEY ON ACTION
-	private static void switchListView(ListView listView, TextField textField) {
+	private static void switchListView(ListView listView) {
 		if (listView.getItems().size() != 0) {
 			listView.setOpacity(1);
 		} else {
@@ -549,7 +550,8 @@ public class Main extends Application {
 				Pane pane = new Pane();
 				Label agendaTitle = new Label();
 				agendaTitle.setText(displayTitle);
-				agendaTitle.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
+				agendaTitle
+						.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
 				agendaTitle.getStyleClass().add("title");
 				agendaTitle.setLayoutX(100);
 
@@ -607,7 +609,7 @@ public class Main extends Application {
 							pane.getChildren().add(taskName);
 							pane.getChildren().add(taskDate);
 							pane.getStyleClass().add("title");
-							
+
 							task.add(pane);
 						}
 
