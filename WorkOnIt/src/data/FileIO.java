@@ -568,6 +568,63 @@ public class FileIO {
 
 		return successObj;
 	}
+	
+	public Success getCompletedTask(boolean isCompleted)
+	{
+		Success successObj;
+		BufferedReader reader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+	
+				reader = new BufferedReader(new FileReader(filename_normal));
+				while ((printLine = reader.readLine()) != null) {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				}
+
+			
+	
+				reader = new BufferedReader(new FileReader(filename_deadline));
+				while ((printLine = reader.readLine()) != null) {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				
+
+			}
+		
+				reader = new BufferedReader(new FileReader(filename_floating));
+				while ((printLine = reader.readLine()) != null) {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	
+	}
+	
 
 	public Success searchFromFile(String keyword) {
 		Success successObj;

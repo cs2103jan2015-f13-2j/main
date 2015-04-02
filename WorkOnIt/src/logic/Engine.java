@@ -303,6 +303,17 @@ public class Engine {
 
 		return status;
 	}
+	
+	public Success getCompleteTask(boolean isComplete) {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		status = dataStorage.getCompletedTask(isComplete);
+
+		return status;
+	}
+
 
 	public Success markAsDone(List<Task> doneList) {
 
