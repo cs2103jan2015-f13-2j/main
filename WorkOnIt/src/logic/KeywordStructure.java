@@ -32,6 +32,7 @@ public class KeywordStructure {
 		initUndoKeyword();
 		initClearKeyword();
 		initDisplayKeyword();
+		initExitKeyword();
 	}
 
 	private void initAddKeyword() {
@@ -301,6 +302,12 @@ public class KeywordStructure {
 				KeywordConstant.KEYWORD_DISPLAY);
 
 		mainKeywordList.add(keyDisplay);
+	}
+	
+	private void initExitKeyword() {
+		KeywordNode keyExit = new KeywordNode(KeywordConstant.KEYWORD_EXIT);
+
+		mainKeywordList.add(keyExit);
 	}
 
 	public boolean checkKeyword(List<String> keywords) {

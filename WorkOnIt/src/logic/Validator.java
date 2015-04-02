@@ -202,6 +202,9 @@ public class Validator {
 				if (status.isSuccess()) {
 					retrievedTaskList = null;
 				}
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_EXIT)) {
+				System.exit(0);
 			} else {
 				status = new Success(false, Message.FAIL_PARSE_COMMAND);
 			}

@@ -26,6 +26,8 @@ public class KeywordConstant {
 	public static final String KEYWORD_CLEAR = "clear";
 	public static final String KEYWORD_EXPORT = "export";
 	public static final String KEYWORD_ALL = "all";
+	public static final String KEYWORD_EXIT = "exit";
+	
 	public static final String KEYWORD_DAILY = "daily";
 	public static final String KEYWORD_WEEKLY = "weekly";
 	public static final String KEYWORD_MONTHLY = "monthly";
@@ -83,6 +85,7 @@ public class KeywordConstant {
 		basicCommand.put(KEYWORD_CLEAR, KEYWORD_CLEAR);
 		basicCommand.put(KEYWORD_EXPORT, KEYWORD_EXPORT);
 		basicCommand.put(KEYWORD_ALL, KEYWORD_ALL);
+		basicCommand.put(KEYWORD_EXIT, KEYWORD_EXIT);
 		basicCommand.put(KEYWORD_DAILY, KEYWORD_DAILY);
 		basicCommand.put(KEYWORD_WEEKLY, KEYWORD_WEEKLY);
 		basicCommand.put(KEYWORD_MONTHLY, KEYWORD_MONTHLY);
