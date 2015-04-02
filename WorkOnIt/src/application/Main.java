@@ -59,7 +59,7 @@ public class Main extends Application {
 	// need a global variable for the input
 	private List<String> elementList = null;
 	private List<String> secondaryList = null;
-	private Validator commandValidator = null;
+	private static Validator commandValidator = null;
 	private Success successObj = null;
 	private ArrayList<Integer> indexArray = null;
 	private int indexCounter = 0;
@@ -212,7 +212,6 @@ public class Main extends Application {
 			// onKeyPressed for each char entered
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
-					displayDefault(event, listView);
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
 							listView, tFlow);
 					switchListView(listView, txtF, event);
@@ -340,16 +339,6 @@ public class Main extends Application {
 		}
 	}
 
-	public void displayDefault(KeyEvent event, ListView listView) {
-
-		if (event.getCode().equals(KeyCode.DOWN) && listView.getOpacity() == 0) {
-			Success successObj = null;
-			successObj = commandValidator.parseCommand("display today");
-			addTaskToListView(listView, successObj);
-		}
-
-		// TODO
-	}
 
 	public void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
@@ -380,7 +369,7 @@ public class Main extends Application {
 				&& event.getCode().equals(KeyCode.UP))
 		{
 			txtF.requestFocus();
-			listView.setOpacity(0);
+			//listView.setOpacity(0);
 		}
 		
 		if (event.getCode().equals(KeyCode.LEFT)
@@ -425,8 +414,8 @@ public class Main extends Application {
 					history(listView);
 					
 				} else {
-					listView.getItems().clear();
-					listView.setOpacity(0);
+					//listView.getItems().clear();
+					//listView.setOpacity(0);
 				}
 
 			} else {
@@ -449,17 +438,26 @@ public class Main extends Application {
 	// launch();
 	// }
 
+	// FOR KEY PRESS
 	private static void switchListView(ListView listView, TextField textField,
 			KeyEvent event) {
-		if (listView.getItems().size() != 0) {
-			listView.setOpacity(1);
-		}
-		if (event.getCode().equals(KeyCode.UP)
-				|| listView.getItems().size() == 0) {
+		
+		
+		if (event.getCode().equals(KeyCode.DOWN) && listView.getOpacity() == 0) {
+			Success successObj = null;
+			successObj = commandValidator.parseCommand("display today");
+			
+			addTaskToListView(listView, successObj);
+			if (listView.getItems().size() != 0) {
+				listView.setOpacity(1);
+			}
+		}			
+		if (event.getCode().equals(KeyCode.UP)) {
 			listView.setOpacity(0);
 		}
 	}
 
+	// FOR KEY ON ACTION
 	private static void switchListView(ListView listView, TextField textField) {
 		if (listView.getItems().size() != 0) {
 			listView.setOpacity(1);
