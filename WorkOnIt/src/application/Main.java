@@ -35,6 +35,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -50,6 +51,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import logic.Validator;
@@ -63,46 +65,114 @@ public class Main extends Application {
 	private Success successObj = null;
 	private ArrayList<Integer> indexArray = null;
 	private int indexCounter = 0;
+	
 	// SCALE
+	final static int TEXT_BOX_HEIGHT = 50;
 	final static int TEXT_BOX_WIDTH = 700;
-
+	final static int SCENE_HEIGHT = 550;
+	final static int LIST_VIEW_HEIGHT = 250;
+	final static int SCROLL_PANE_HEIGHT = 800;
+	
+	// POSITION ADJUSTMENTS
+	final static int POSITION_LIST_VIEW_Y = 50;
+	final static int POSITION_TEXT_BOX_X = 0;
+	final static int POSITION_TEXT_BOX_Y = 0;
+	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
 	@Override
 	public void start(final Stage primaryStage) {
 
 		try {
-
-			Pane root = new Pane();
-			primaryStage.initStyle(StageStyle.TRANSPARENT);
-			setProgramIconDesc(primaryStage);
-
-			Scene scene = new Scene(root, TEXT_BOX_WIDTH, 550);
-			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;");
-
-			scene.getStylesheets().add(
-					Main.class.getResource("../css/application.css")
-							.toExternalForm());
-			scene.setFill(null);
-
-			// POP UP
-			final Popup popup = new Popup();
-			popup.setAutoFix(true);
-			popup.setAutoHide(true);
-			popup.setHideOnEscape(true);
+			/***********************
+			 *	UI DECLARATION 
+			 ***********************/
 
 			// UI DECLARE
 			final TextField txtF = new TextField();
 			final TextFieldListCell cellText = new TextFieldListCell();
 			final ListView listView = new ListView();
-
+			final WebView webview = new WebView();
+			final ScrollPane scrollPane = new ScrollPane();
+			final Popup popup = new Popup();
+			final WebEngine webengine = webview.getEngine();
+			
+			Pane root = new Pane();
+			Scene scene = new Scene(root, TEXT_BOX_WIDTH, SCENE_HEIGHT);
+			
+			// TEXTFLOW
+			final TextFlow tFlow = new TextFlow();
+						
 			initializeGlobals();
+			
+			/***********************
+			 *	UI POSITIONING
+			 ***********************/
+			
+			// UI - LIST VIEW POSITION
+			listView.setLayoutY(POSITION_LIST_VIEW_Y);
+			
+			// UI - CALENDAR POSITION
+			scrollPane.setLayoutY(POSITION_CALENDAR_SCROLLPANE_Y);
+			
+			// UI - TEXT FIELD POSITION
+			txtF.setLayoutX(POSITION_TEXT_BOX_X);
+			txtF.setLayoutY(POSITION_TEXT_BOX_Y);
+			
+			/***********************
+			 *	UI SETTINGS
+			 ***********************/
+			
+			// UI - ROOT SETTINGS
+			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0);" +
+					"-fx-background-radius: 10;");
+			
+			// UI - PRIMARY STAGE SETTINGS
+			primaryStage.initStyle(StageStyle.TRANSPARENT);
+			setProgramIconDesc(primaryStage);
 
-			// UI - LIST VIEW
+			// UI - SCENE SETTINGS
+			scene.getStylesheets().add(
+					Main.class.getResource("../css/application.css")
+							.toExternalForm());
+			scene.setFill(null);
+
+			// UI - POP UP SETTINGS
+			popup.setAutoFix(true);
+			popup.setAutoHide(true);
+			popup.setHideOnEscape(true);
+			
+			// UI - LIST VIEW SETTINGS
 			listView.setId("listView");
-			listView.setPrefSize(TEXT_BOX_WIDTH, 250);
+			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
 			listView.setOpacity(0);
 			listView.setEditable(true);
-			listView.setLayoutY(50);
+			
 			listView.setFocusTraversable(false);
+			
+			// UI - CALENDAR SETTINGS
+			webview.setVisible(true);
+			scrollPane.setContent(webview);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
+			
+			scrollPane.setVisible(false);
+			
+			// UI - TEXT FIELD SETTINGS
+			txtF.setId("textField");
+
+			txtF.setPrefHeight(TEXT_BOX_HEIGHT);
+			txtF.setPrefWidth(TEXT_BOX_WIDTH);
+			txtF.setText(Message.UI_INPUT_HERE);
+			txtF.setFont(Font.font("Arial", 28));
+			
+			// UI - TEXT FLOW SETTINGS
+			tFlow.setLayoutX(10);
+			tFlow.setLayoutY(10);
+			
+			/***********************
+			 *	UI ACTIONS
+			 ***********************/
+			
+			// UI - LIST VIEW ACTIONS
 			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					// addDataToListView();
@@ -110,106 +180,24 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
-
-			// UI - CALENDAR
-			final WebView webview = new WebView();
-			webview.setVisible(true);
-			final WebEngine webengine = webview.getEngine();
-
-			final ScrollPane scrollPane = new ScrollPane();
-			scrollPane.setContent(webview);
-			scrollPane.setFitToWidth(true);
-			scrollPane.setPrefSize(TEXT_BOX_WIDTH, 800);
-			scrollPane.setLayoutY(60);
-			scrollPane.setVisible(false);
-
-			// UI - TEXT FIELD
-			txtF.setId("textField");
-			txtF.setLayoutX(0);
-			txtF.setLayoutY(0);
-			txtF.setPrefHeight(50);
-			txtF.setPrefWidth(TEXT_BOX_WIDTH);
-			txtF.setText(Message.UI_INPUT_HERE);
-			txtF.setFont(Font.font("Arial", 28));
-			final TextFlow tFlow = new TextFlow();
-			tFlow.setLayoutX(10);
-			tFlow.setLayoutY(10);
-
+			
+			// UI - TEXT FIELD ACTIONS
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
-					wordHandler(txtF, txtF.getText(), tFlow, listView);
+				
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
 
-					if (successObj != null) {
-
-						if (successObj.isSuccess()) {
-							Object returnObj = successObj.getObj();
-
-							if (successObj instanceof SuccessDisplay) {
-								SuccessDisplay sdObj = (SuccessDisplay) successObj;
-
-								String displayType = sdObj.getDisplayType();
-								if (displayType
-										.equals(KeywordConstant.KEYWORD_MONTH)
-										|| displayType
-												.equals(KeywordConstant.KEYWORD_WEEK)) {
-									@SuppressWarnings("unchecked")
-									List<Task> taskList = (ArrayList<Task>) returnObj;
-									Calendar displayCal = sdObj.getCalendar();
-
-									HtmlBuilder htmlBuilder = new HtmlBuilder(
-											displayType, displayCal, taskList);
-									webengine.setJavaScriptEnabled(true);
-									webengine.load(FileName
-											.getFilenameCalendarUiUrl());
-
-									scrollPane.setVisible(true);
-
-								} else if (sdObj.getDisplayType().equals(
-										KeywordConstant.KEYWORD_DAY)
-										|| sdObj.getDisplayType().equals(
-												KeywordConstant.KEYWORD_DATE)) {
-									// daily view
-									List<Task> taskList = (ArrayList<Task>) sdObj
-											.getObj();
-									if (taskList.isEmpty()) {
-										listView.getItems().clear();
-										listView.setOpacity(0);
-										txtF.setText(Message.UI_NO_TASK_FOUND);
-										txtF.selectAll();
-									} else {
-										addTaskToListView(listView, successObj);
-										switchListView(listView, txtF);
-									}
-								}
-
-							} else {
-								if (returnObj instanceof ArrayList<?>) {
-									List<Task> taskList = (ArrayList<Task>) successObj
-											.getObj();
-									if (taskList.isEmpty()) {
-										listView.getItems().clear();
-										listView.setOpacity(0);
-										txtF.setText(Message.UI_NO_TASK_FOUND);
-										txtF.selectAll();
-									} else {
-										addTaskToListView(listView, successObj);
-										switchListView(listView, txtF);
-									}
-								}
-							}
-						}
-					} else {
-						showPopUp(null, false, primaryStage, popup);
-					}
+					handleCommandResponse(primaryStage, txtF, listView,
+							scrollPane, popup, webengine);
 					wordHandler(txtF, txtF.getText(), tFlow, listView);
 				}
+
 			});
-			// onKeyPressed for each char entered
+			
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					commandHandler(event, txtF.getText(), primaryStage, txtF,
@@ -218,9 +206,12 @@ public class Main extends Application {
 					popup.hide();
 				}
 			});
+			
 
-			// UI - TEXT FIELD
-
+			/***********************
+			 *	UI DISPLAY OPTIONS
+			 ***********************/
+			
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 			root.getChildren().add(scrollPane);
@@ -234,7 +225,74 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	private void handleCommandResponse(final Stage primaryStage,
+			final TextField txtF, final ListView listView,
+			final ScrollPane scrollPane, final Popup popup,
+			final WebEngine webengine) {
+		
+		if (successObj != null) {
+			if (successObj.isSuccess()) {
+				Object returnObj = successObj.getObj();
+			
+				handleDisplayCommand(txtF, listView, scrollPane,
+						webengine, returnObj);
+			}
+		} else {
+			showPopUp(null, false, primaryStage, popup);
+		}
+	}
+	
+	private void handleDisplayList(final TextField txtF,
+			final ListView listView, List<Task> taskList) {
+		if (taskList.isEmpty()) {
+			listView.getItems().clear();
+			listView.setOpacity(0);
+			txtF.setText(Message.UI_NO_TASK_FOUND);
+			txtF.selectAll();
+		} else {
+			addTaskToListView(listView, successObj);
+			switchListView(listView, txtF);
+		}
+	}
+	private void handleDisplayCommand(final TextField txtF,
+			final ListView listView, final ScrollPane scrollPane,
+			final WebEngine webengine, Object returnObj) {
+		if (successObj instanceof SuccessDisplay) {
+			SuccessDisplay sdObj = (SuccessDisplay) successObj;
 
+			String displayType = sdObj.getDisplayType();
+			if (displayType
+					.equals(KeywordConstant.KEYWORD_MONTH)
+					|| displayType
+							.equals(KeywordConstant.KEYWORD_WEEK)) {
+				@SuppressWarnings("unchecked")
+				List<Task> taskList = (ArrayList<Task>) returnObj;
+				Calendar displayCal = sdObj.getCalendar();
+
+				HtmlBuilder htmlBuilder = new HtmlBuilder(
+						displayType, displayCal, taskList);
+				webengine.setJavaScriptEnabled(true);
+				webengine.load(FileName
+						.getFilenameCalendarUiUrl());
+
+				scrollPane.setVisible(true);
+
+			} else if (sdObj.getDisplayType().equals(
+					KeywordConstant.KEYWORD_DAY)
+					|| sdObj.getDisplayType().equals(
+							KeywordConstant.KEYWORD_DATE)) {
+				// daily view
+				List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+				handleDisplayList(txtF, listView, taskList);
+			}
+
+		} else {
+			if (returnObj instanceof ArrayList<?>) {
+				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
+				handleDisplayList(txtF, listView, taskList);
+			}
+		}
+	}
 	private void setProgramIconDesc(final Stage primaryStage) {
 		Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
 		Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
@@ -311,9 +369,7 @@ public class Main extends Application {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB)){
-			//if(indexCounter==indexArray.size()){
-			//	
-			//}
+
 			int startPosition= indexArray.get(indexCounter);
 			int endPosition = 0;
 			if(indexCounter==indexArray.size()-1){
@@ -324,7 +380,7 @@ public class Main extends Application {
 			}
 			
 			//txtF.positionCaret(indexArray.get(indexCounter));
-			txtF.selectRange(startPosition, endPosition);
+			txtF.selectRange(endPosition, startPosition);
 			indexCounter++;
 			if(indexCounter>=indexArray.size()){
 				indexCounter = 0;
