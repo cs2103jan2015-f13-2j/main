@@ -21,8 +21,6 @@ public class KeywordConstant {
 	public static final String KEYWORD_REDO = "redo";
 	public static final String KEYWORD_DONE = "done";
 	public static final String KEYWORD_UNDONE = "undone";
-	public static final String KEYWORD_COMPLETE = "complete";
-	public static final String KEYWORD_INCOMPLETE = "incomplete";
 	public static final String KEYWORD_CLEAR = "clear";
 	public static final String KEYWORD_EXPORT = "export";
 	public static final String KEYWORD_ALL = "all";
@@ -80,8 +78,6 @@ public class KeywordConstant {
 		basicCommand.put(KEYWORD_UNDO, KEYWORD_UNDO);
 		basicCommand.put(KEYWORD_DONE, KEYWORD_DONE);
 		basicCommand.put(KEYWORD_UNDONE, KEYWORD_UNDONE);
-		basicCommand.put(KEYWORD_COMPLETE, KEYWORD_COMPLETE);
-		basicCommand.put(KEYWORD_INCOMPLETE, KEYWORD_INCOMPLETE);
 		basicCommand.put(KEYWORD_CLEAR, KEYWORD_CLEAR);
 		basicCommand.put(KEYWORD_EXPORT, KEYWORD_EXPORT);
 		basicCommand.put(KEYWORD_ALL, KEYWORD_ALL);

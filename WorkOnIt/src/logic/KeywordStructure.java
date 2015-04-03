@@ -108,72 +108,72 @@ public class KeywordStructure {
 
 	private void initRetrieveKeyword() {
 
-		KeywordNode keyComplete = new KeywordNode(
-				KeywordConstant.KEYWORD_COMPLETE);
-		KeywordNode keyIncomplete = new KeywordNode(
-				KeywordConstant.KEYWORD_INCOMPLETE);
+		KeywordNode keyDone = new KeywordNode(
+				KeywordConstant.KEYWORD_DONE);
+		KeywordNode keyUndone = new KeywordNode(
+				KeywordConstant.KEYWORD_UNDONE);
 
 		KeywordNode keyAll = new KeywordNode(KeywordConstant.KEYWORD_ALL);
-		keyAll.addSubsequentKeywords(keyComplete);
-		keyAll.addSubsequentKeywords(keyIncomplete);
+		keyAll.addSubsequentKeywords(keyDone);
+		keyAll.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToBase = new KeywordNode(KeywordConstant.KEYWORD_TO);
-		keyToBase.addSubsequentKeywords(keyComplete);
-		keyToBase.addSubsequentKeywords(keyIncomplete);
+		keyToBase.addSubsequentKeywords(keyDone);
+		keyToBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyAtBase = new KeywordNode(KeywordConstant.KEYWORD_AT);
-		keyAtBase.addSubsequentKeywords(keyComplete);
-		keyAtBase.addSubsequentKeywords(keyIncomplete);
+		keyAtBase.addSubsequentKeywords(keyDone);
+		keyAtBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFromBase = new KeywordNode(KeywordConstant.KEYWORD_FROM);
 		keyFromBase.addSubsequentKeywords(keyToBase);
-		keyFromBase.addSubsequentKeywords(keyComplete);
-		keyFromBase.addSubsequentKeywords(keyIncomplete);
+		keyFromBase.addSubsequentKeywords(keyDone);
+		keyFromBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
 		keyAt.addSubsequentKeywords(keyFromBase);
-		keyAt.addSubsequentKeywords(keyComplete);
-		keyAt.addSubsequentKeywords(keyIncomplete);
+		keyAt.addSubsequentKeywords(keyDone);
+		keyAt.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyOn = new KeywordNode(KeywordConstant.KEYWORD_ON);
 		keyOn.addSubsequentKeywords(keyFromBase);
 		keyOn.addSubsequentKeywords(keyAtBase);
-		keyOn.addSubsequentKeywords(keyComplete);
-		keyOn.addSubsequentKeywords(keyIncomplete);
+		keyOn.addSubsequentKeywords(keyDone);
+		keyOn.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToFrom = new KeywordNode(KeywordConstant.KEYWORD_TO);
 		keyToFrom.addSubsequentKeywords(keyAtBase);
 		keyToFrom.addSubsequentKeywords(keyFromBase);
-		keyToFrom.addSubsequentKeywords(keyComplete);
-		keyToFrom.addSubsequentKeywords(keyIncomplete);
+		keyToFrom.addSubsequentKeywords(keyDone);
+		keyToFrom.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFrom = new KeywordNode(KeywordConstant.KEYWORD_FROM);
 		keyFrom.addSubsequentKeywords(keyAtBase);
 		keyFrom.addSubsequentKeywords(keyFromBase);
 		keyFrom.addSubsequentKeywords(keyToFrom);
-		keyFrom.addSubsequentKeywords(keyComplete);
-		keyFrom.addSubsequentKeywords(keyIncomplete);
+		keyFrom.addSubsequentKeywords(keyDone);
+		keyFrom.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToPriority = new KeywordNode(KeywordConstant.KEYWORD_TO);
 		keyToPriority.addSubsequentKeywords(keyAtBase);
 		keyToPriority.addSubsequentKeywords(keyFromBase);
-		keyToPriority.addSubsequentKeywords(keyComplete);
-		keyToPriority.addSubsequentKeywords(keyIncomplete);
+		keyToPriority.addSubsequentKeywords(keyDone);
+		keyToPriority.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFromPriority = new KeywordNode(
 				KeywordConstant.KEYWORD_FROM);
 		keyFromPriority.addSubsequentKeywords(keyAtBase);
 		keyFromPriority.addSubsequentKeywords(keyFromBase);
 		keyFromPriority.addSubsequentKeywords(keyToPriority);
-		keyFromPriority.addSubsequentKeywords(keyComplete);
-		keyFromPriority.addSubsequentKeywords(keyIncomplete);
+		keyFromPriority.addSubsequentKeywords(keyDone);
+		keyFromPriority.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyPriority = new KeywordNode(
 				KeywordConstant.KEYWORD_PRIORITY);
 		keyPriority.addSubsequentKeywords(keyFromPriority);
 		keyPriority.addSubsequentKeywords(keyAtBase);
-		keyPriority.addSubsequentKeywords(keyComplete);
-		keyPriority.addSubsequentKeywords(keyIncomplete);
+		keyPriority.addSubsequentKeywords(keyDone);
+		keyPriority.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyRetrieve = new KeywordNode(
 				KeywordConstant.KEYWORD_RETRIEVE);
@@ -183,8 +183,8 @@ public class KeywordStructure {
 		keyRetrieve.addSubsequentKeywords(keyFrom);
 		keyRetrieve.addSubsequentKeywords(keyPriority);
 		keyRetrieve.addSubsequentKeywords(keyToBase);
-		keyRetrieve.addSubsequentKeywords(keyComplete);
-		keyRetrieve.addSubsequentKeywords(keyIncomplete);
+		keyRetrieve.addSubsequentKeywords(keyDone);
+		keyRetrieve.addSubsequentKeywords(keyUndone);
 
 		mainKeywordList.add(keyRetrieve);
 	}
