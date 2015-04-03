@@ -165,9 +165,6 @@ public class Validator {
 
 					status = doneCommand(remainingCommand);
 
-					if (status.isSuccess()) {
-						retrievedTaskList = null;
-					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
@@ -181,9 +178,6 @@ public class Validator {
 
 					status = undoneCommand(remainingCommand);
 
-					if (status.isSuccess()) {
-						retrievedTaskList = null;
-					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
 				}
@@ -192,16 +186,11 @@ public class Validator {
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDO)) {
 				status = undoCommand();
 
-				if (status.isSuccess()) {
-					retrievedTaskList = null;
-				}
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
 				status = redoCommand();
 
-				if (status.isSuccess()) {
-					retrievedTaskList = null;
-				}
+			
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_EXIT)) {
 				System.exit(0);
@@ -229,8 +218,16 @@ public class Validator {
 			task = (Task) status.getObj();
 			status = engine.addTask(task);
 
-			if (status.isSuccess()) {
-				retrievedTaskList = null;
+
+			Success retrievalStatus = null;
+			if (status.isSuccess() == true &&
+					lastRetrieve != null) {
+				retrievalStatus = parseCommand(lastRetrieve);
+				if (retrievalStatus.isSuccess() == true) {
+					status.setObj(retrievalStatus.getObj());
+					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+							.getObj());
+				}
 			}
 		}
 		return status;
@@ -329,6 +326,8 @@ public class Validator {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
+		
+		
 		return status;
 	}
 
@@ -1362,7 +1361,8 @@ public class Validator {
 					Task updatedTask = (Task) statusTask.getObj();
 					status = engine.updateTask(updatedTask, taskToRemove);
 
-					if (status.isSuccess()) {
+					if (status.isSuccess() &&
+							lastRetrieve != null) {
 						retrievalStatus = parseCommand(lastRetrieve);
 						status.setObj(retrievalStatus.getObj());
 						setRetrievedTaskList((ArrayList<Task>) retrievalStatus
@@ -1420,7 +1420,8 @@ public class Validator {
 				}
 			}
 
-			if (status.isSuccess() == true) {
+			if (status.isSuccess() == true &&
+					lastRetrieve != null) {
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
@@ -1445,7 +1446,8 @@ public class Validator {
 	private Success undoCommand() {
 		Success status = engine.undoTask();
 		Success retrievalStatus = null;
-		if (status.isSuccess() == true) {
+		if (status.isSuccess() == true &&
+				lastRetrieve != null) {
 			retrievalStatus = parseCommand(lastRetrieve);
 			if (retrievalStatus.isSuccess() == true) {
 				status.setObj(retrievalStatus.getObj());
@@ -1459,7 +1461,8 @@ public class Validator {
 	private Success redoCommand() {
 		Success status = engine.redoTask();
 		Success retrievalStatus = null;
-		if (status.isSuccess() == true) {
+		if (status.isSuccess() == true &&
+				lastRetrieve != null) {
 			retrievalStatus = parseCommand(lastRetrieve);
 			if (retrievalStatus.isSuccess() == true) {
 				status.setObj(retrievalStatus.getObj());
@@ -1475,7 +1478,7 @@ public class Validator {
 		remainingCommand = remainingCommand.trim();
 		Scanner sc = new Scanner(remainingCommand);
 		List<Task> doneList = new ArrayList<Task>();
-
+		Success retrievalStatus = null;
 		try {
 			while (sc.hasNext()) {
 
@@ -1486,7 +1489,16 @@ public class Validator {
 			}
 
 			status = engine.markAsDone(doneList);
-
+			
+			if (status.isSuccess() == true &&
+					lastRetrieve != null) {
+				retrievalStatus = parseCommand(lastRetrieve);
+				if (retrievalStatus.isSuccess() == true) {
+					status.setObj(retrievalStatus.getObj());
+					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+							.getObj());
+				}
+			}
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
@@ -1507,7 +1519,7 @@ public class Validator {
 		remainingCommand = remainingCommand.trim();
 		Scanner sc = new Scanner(remainingCommand);
 		List<Task> undoneList = new ArrayList<Task>();
-
+		Success retrievalStatus = null;
 		try {
 			while (sc.hasNext()) {
 
@@ -1518,7 +1530,15 @@ public class Validator {
 			}
 
 			status = engine.markAsUndone(undoneList);
-
+			if (status.isSuccess() == true &&
+					lastRetrieve != null){
+				retrievalStatus = parseCommand(lastRetrieve);
+				if (retrievalStatus.isSuccess() == true) {
+					status.setObj(retrievalStatus.getObj());
+					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+							.getObj());
+				}
+			}
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_UNDONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {

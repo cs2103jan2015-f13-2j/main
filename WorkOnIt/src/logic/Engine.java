@@ -294,7 +294,11 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
-
+		
+		if(taskOld.isCompleted()){
+			taskUpdate.setCompleted(true);
+		}
+		
 		status = dataStorage.updateFromFile(taskUpdate, taskOld);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
