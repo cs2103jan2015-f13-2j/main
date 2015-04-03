@@ -1444,13 +1444,29 @@ public class Validator {
 
 	private Success undoCommand() {
 		Success status = engine.undoTask();
-
+		Success retrievalStatus = null;
+		if (status.isSuccess() == true) {
+			retrievalStatus = parseCommand(lastRetrieve);
+			if (retrievalStatus.isSuccess() == true) {
+				status.setObj(retrievalStatus.getObj());
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+						.getObj());
+			}
+		}
 		return status;
 	}
 
 	private Success redoCommand() {
 		Success status = engine.redoTask();
-
+		Success retrievalStatus = null;
+		if (status.isSuccess() == true) {
+			retrievalStatus = parseCommand(lastRetrieve);
+			if (retrievalStatus.isSuccess() == true) {
+				status.setObj(retrievalStatus.getObj());
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+						.getObj());
+			}
+		}
 		return status;
 	}
 
