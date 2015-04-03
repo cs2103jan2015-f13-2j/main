@@ -664,6 +664,8 @@ public class Validator {
 		boolean isWeek = false;
 		boolean isMonth = false;
 		boolean isResolved = false;
+		boolean isDoneUndone = false;
+		
 		Date startDate = null;
 		Date endDate = null;
 
@@ -699,6 +701,16 @@ public class Validator {
 
 					remainingText = sc.nextLine();
 					isPriority = true;
+					isResolved = true;
+
+				} else if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE) ||
+						resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+					if(sc.hasNextLine()){
+						remainingText = sc.nextLine();
+					} else {
+						remainingText = currentWord;
+					}
+					isDoneUndone = true;
 					isResolved = true;
 
 				}
@@ -801,13 +813,15 @@ public class Validator {
 			}
 		}
 		System.out.println("" + isDesc + isAll + isPriority + isSingleDate
-				+ isDoubleDate + isMonth + isWeek + isDay);
+				+ isDoubleDate + isMonth + isWeek + isDay +isDoneUndone);
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
 			status = retrievePriority(remainingText.trim());
 		} else if (isDesc == true) {
 			status = retrieveTaskDesc(combinedSearch.trim());
+		} else if (isDoneUndone == true) {
+			status = retrieveDoneUndone(remainingText.trim());
 		} else {
 
 			if (isSingleDate == true && isDoubleDate == false) {
@@ -828,6 +842,32 @@ public class Validator {
 			}
 		}
 		sc.close();
+		return status;
+	}
+
+	private Success retrieveDoneUndone(String remainingText) {
+		Success status = null;
+		Scanner sc = new Scanner(remainingText);
+		boolean isStatusResolved = false;
+		boolean isDone = false;
+		while(sc.hasNext()){
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+			
+			if(resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)){
+				isDone = true;
+				isStatusResolved = true;
+			} else if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)){
+				isDone = false;
+				isStatusResolved = true;
+			}
+		}
+		
+		if(isStatusResolved == true){
+			status = engine.getCompleteTask(isDone);
+		}
+		
+		
 		return status;
 	}
 
