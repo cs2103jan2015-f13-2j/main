@@ -193,6 +193,7 @@ public class Main extends Application {
 					handleCommandResponse(primaryStage, txtF, listView,
 							scrollPane, popup, webengine);
 					wordHandler(txtF, txtF.getText(), listView);
+					indexCounter = 0;
 				}
 
 			});
@@ -369,11 +370,13 @@ public class Main extends Application {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB)) {
-
-			int startPosition = indexArray.get(indexCounter);
+			int startPosition = 0;
+			if(indexArray.size()>0){
+				startPosition = indexArray.get(indexCounter);
+			}
 			int endPosition = 0;
 			int arrayOffset = 1;
-			if (indexCounter == indexArray.size() - arrayOffset) {
+			if (indexCounter >= indexArray.size() - arrayOffset) {
 				endPosition = txtF.getLength();
 			} else {
 				endPosition = indexArray.get(indexCounter + arrayOffset);
