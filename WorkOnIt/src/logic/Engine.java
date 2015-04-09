@@ -22,7 +22,12 @@ public class Engine {
 
 	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
 	private Stack<TaskHistory> redoStack = new Stack<TaskHistory>();
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// save task into database
 	public Success addTask(Task task) {
 
@@ -37,7 +42,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve all task from database
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask(String keyword) {
@@ -61,7 +71,12 @@ public class Engine {
 		return status;
 
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task based on keyword
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask() {
@@ -91,7 +106,12 @@ public class Engine {
 		return status;
 
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve selected task entity from database.
 	public Success retrieveTask(Task task) throws IOException {
 
@@ -120,7 +140,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task with specific START DATE
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Date date) throws IOException {
@@ -133,7 +158,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task with specific INBETWEEN DATE
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Date startDate, Date endDate)
@@ -147,7 +177,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task with specific priority (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(int priority) throws IOException {
@@ -159,7 +194,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success retrieveTask(int priority, Date date) throws IOException {
 
 		Success status = null;
@@ -169,7 +209,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success retrieveTask(int priority, Date startDate, Date endDate)
 			throws IOException {
 
@@ -181,7 +226,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task with specific task and date (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Task task, Date date) throws IOException {
@@ -193,7 +243,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// retrieve task with specific priority (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
 	public Success retrieveTask(Task task, Date startDate, Date endDate)
@@ -207,7 +262,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@SuppressWarnings("unchecked")
 	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
 			String displayType) throws IOException {
@@ -243,7 +303,12 @@ public class Engine {
 
 		return statusDisp;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success searchTask(String keyword) {
 
 		Success status = null;
@@ -253,7 +318,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success searchTask(String keyword, Date date) {
 
 		Success status = null;
@@ -263,7 +333,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
 
 		Success status = null;
@@ -274,7 +349,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	// delete task with specific ID
 	public Success deleteTask(List<Task> deleteList) {
 
@@ -304,7 +384,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success updateTask(Task taskUpdate, Task taskOld) {
 
 		Success status = null;
@@ -322,7 +407,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success getCompleteTask(boolean isComplete) {
 
 		Success status = null;
@@ -332,7 +422,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success markAsDone(List<Task> doneList) {
 
 		Success status = null;
@@ -369,7 +464,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success markAsUndone(List<Task> undoneList) {
 
 		Success status = null;
@@ -406,7 +506,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success undoTask() {
 
 		Success status = null;
@@ -520,7 +625,12 @@ public class Engine {
 		}
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success redoTask() {
 
 		Success status = null;
@@ -634,7 +744,12 @@ public class Engine {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success getHistory() {
 
 		Success status = null;

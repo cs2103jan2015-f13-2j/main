@@ -14,7 +14,12 @@ public abstract class Task {
 	private int priority;
 	private Date sortDate;
 	private boolean isCompleted;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Task(String taskName, int priority) {
 
 		long generatedTaskId = System.currentTimeMillis();
@@ -27,47 +32,102 @@ public abstract class Task {
 		long maxDateOffset = Long.MAX_VALUE;
 		this.setSortDate(new Date(maxDateOffset));
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public long getTaskId() {
 		return taskId;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void setTaskId(long taskId) {
 		this.taskId = taskId;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public String getTaskName() {
 		return taskName;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public int getPriority() {
 		return priority;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public boolean isCompleted() {
 		return isCompleted;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getSortDate() {
 		return sortDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setSortDate(Date sortDate) {
 		this.sortDate = sortDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getDateCreated() {
 
 		Date dateCreated = null;
@@ -76,7 +136,12 @@ public abstract class Task {
 
 		return dateCreated;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,7 +154,12 @@ public abstract class Task {
 				+ ((taskName == null) ? 0 : taskName.hashCode());
 		return result;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -115,7 +185,12 @@ public abstract class Task {
 			return false;
 		return true;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static Comparator<Task> taskComparator = new Comparator<Task>() {
 
 		@Override
@@ -155,8 +230,18 @@ public abstract class Task {
 			return returnVal;
 		}
 	};
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public abstract String toString();
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public abstract String toDisplay();
 }

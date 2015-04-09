@@ -9,7 +9,12 @@ import javafx.stage.Stage;
 import resource.FileName;
 
 public class InitFileIO {
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void checkAndProcessFile() {
 	
 		FileName.readCanonicalPathFromFile();
@@ -18,7 +23,12 @@ public class InitFileIO {
 			showChooseFolderUi();
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void showChooseFolderUi() {
 		new JFXPanel();
 		Platform.runLater(new Runnable() {
@@ -28,7 +38,12 @@ public class InitFileIO {
 			}
 		});
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private boolean isFilesExist() {
 
 		boolean isExist = true;

@@ -11,12 +11,22 @@ import entity.KeywordNode;
 public class KeywordStructure {
 
 	private List<KeywordNode> mainKeywordList;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public KeywordStructure() {
 
 		init();
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void init() {
 
 		mainKeywordList = new ArrayList<KeywordNode>();
@@ -34,7 +44,12 @@ public class KeywordStructure {
 		initDisplayKeyword();
 		initExitKeyword();
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initAddKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -105,7 +120,12 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyAdd);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initRetrieveKeyword() {
 
 		KeywordNode keyDone = new KeywordNode(
@@ -188,7 +208,12 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyRetrieve);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initUpdateKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -259,57 +284,102 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyUpdate);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initDeleteKeyword() {
 
 		KeywordNode keyDel = new KeywordNode(KeywordConstant.KEYWORD_DELETE);
 
 		mainKeywordList.add(keyDel);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initUndoKeyword() {
 		KeywordNode keyUndo = new KeywordNode(KeywordConstant.KEYWORD_UNDO);
 
 		mainKeywordList.add(keyUndo);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initRedoKeyword() {
 		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
 
 		mainKeywordList.add(keyRedo);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initDoneKeyword() {
 		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
 
 		mainKeywordList.add(keyDone);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initUndoneKeyword() {
 		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
 
 		mainKeywordList.add(keyUndone);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initClearKeyword() {
 		KeywordNode keyClear = new KeywordNode(KeywordConstant.KEYWORD_CLEAR);
 
 		mainKeywordList.add(keyClear);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initDisplayKeyword() {
 		KeywordNode keyDisplay = new KeywordNode(
 				KeywordConstant.KEYWORD_DISPLAY);
 
 		mainKeywordList.add(keyDisplay);
 	}
-	
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void initExitKeyword() {
 		KeywordNode keyExit = new KeywordNode(KeywordConstant.KEYWORD_EXIT);
 
 		mainKeywordList.add(keyExit);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public boolean checkKeyword(List<String> keywords) {
 
 		boolean isCorrectKeyword = false;
@@ -354,7 +424,12 @@ public class KeywordStructure {
 
 		return isCorrectKeyword;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Map<String, String> loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();

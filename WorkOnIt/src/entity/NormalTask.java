@@ -7,7 +7,12 @@ import resource.KeywordConstant;
 public class NormalTask extends Task {
 
 	private Date startDateTime, endDateTime;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public NormalTask(String taskName, int priority, Date startDateTime,
 			Date endDateTime) {
 
@@ -15,20 +20,40 @@ public class NormalTask extends Task {
 		this.setStartDateTime(startDateTime);
 		this.setEndDateTime(endDateTime);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getStartDateTime() {
 		return startDateTime;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 		super.setSortDate(startDateTime);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getEndDateTime() {
 		return endDateTime;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setEndDateTime(Date endDateTime) {
 		if (endDateTime == null) {
 			this.endDateTime = this.getStartDateTime();
@@ -36,7 +61,12 @@ public class NormalTask extends Task {
 			this.endDateTime = endDateTime;
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,7 +77,12 @@ public class NormalTask extends Task {
 				+ ((startDateTime == null) ? 0 : startDateTime.hashCode());
 		return result;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,7 +104,12 @@ public class NormalTask extends Task {
 			return false;
 		return true;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toString() {
 		return "NormalTask [startDateTime=" + startDateTime + ", endDateTime="
@@ -77,7 +117,12 @@ public class NormalTask extends Task {
 				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
 				+ getPriority() + "]";
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toDisplay() {
 		String userString = "";

@@ -26,7 +26,12 @@ import entity.Task;
 public class HtmlBuilder {
 
 	private PrintWriter writer;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public HtmlBuilder(String displayType, Calendar displayCal,
 			List<Task> taskList) {
 		try {
@@ -39,7 +44,12 @@ public class HtmlBuilder {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void init(String displayType) throws UnsupportedEncodingException,
 			FileNotFoundException {
 
@@ -48,7 +58,12 @@ public class HtmlBuilder {
 		writer = new PrintWriter(fileName, "UTF-8");
 
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void createHtml(List<Task> taskList, Calendar displayCal,
 			String displayType) {
 

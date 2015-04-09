@@ -15,7 +15,12 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class ChooseFolder extends Application {
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -30,7 +35,12 @@ public class ChooseFolder extends Application {
 			System.exit(0);
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private boolean showChooseFolderConfirmation(final Stage primaryStage) {
 
 		boolean isYes = false;
@@ -50,7 +60,12 @@ public class ChooseFolder extends Application {
 
 		return isYes;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void notifySuccess() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -60,7 +75,12 @@ public class ChooseFolder extends Application {
 
 		alert.show();
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose Save Directory");

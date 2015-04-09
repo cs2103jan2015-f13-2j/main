@@ -11,7 +11,12 @@ import resource.FileName;
 import resource.Message;
 
 public class ConfigIO {
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Map<String, String> getFullKeywordMap() {
 
 		String loadedContents = loadFromFile();
@@ -22,7 +27,12 @@ public class ConfigIO {
 
 		return KEYWORD_MAP;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private String loadFromFile() {
 
 		String loadedContents = null;
@@ -49,7 +59,12 @@ public class ConfigIO {
 
 		return loadedContents;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void createNewFile(File file) {
 
 		try {

@@ -7,22 +7,42 @@ import resource.KeywordConstant;
 public class DeadlineTask extends Task {
 
 	private Date deadline;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public DeadlineTask(String taskName, int priority, Date deadline) {
 
 		super(taskName, priority);
 		this.setDeadline(deadline);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getDeadline() {
 		return deadline;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 		super.setSortDate(deadline);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -31,7 +51,12 @@ public class DeadlineTask extends Task {
 				+ ((deadline == null) ? 0 : deadline.hashCode());
 		return result;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -48,14 +73,24 @@ public class DeadlineTask extends Task {
 			return false;
 		return true;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toString() {
 		return "DeadlineTask [deadline=" + deadline + ", getTaskId()="
 				+ getTaskId() + ", getTaskName()=" + getTaskName()
 				+ ", getPriority()=" + getPriority() + "]";
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toDisplay() {
 		String userString = "";

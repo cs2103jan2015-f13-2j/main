@@ -3,7 +3,12 @@ package data;
 import com.google.gson.Gson;
 
 public class Serializer {
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String serializeToJson(Object object) {
 
 		String json;
@@ -13,7 +18,12 @@ public class Serializer {
 
 		return json;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static <T> Object deserializeFromJson(String json, Class<T> type) {
 
 		Gson gson = new Gson();

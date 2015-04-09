@@ -10,7 +10,12 @@ public class RecurrenceTask extends Task {
 	private Date startRecurrenceDate, endRecurrenceDate;
 	private String occurenceType;
 	
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate) {
 
@@ -23,7 +28,12 @@ public class RecurrenceTask extends Task {
 		this.setOccurenceType(KeywordConstant.KEYWORD_DEFAULT_OCCURENCE);
 	
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate,
 			String occurenceType) {
@@ -37,28 +47,58 @@ public class RecurrenceTask extends Task {
 		this.setOccurenceType(occurenceType);
 		
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public long getTagId() {
 		return tagId;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void setTagId(long tagId) {
 		this.tagId = tagId;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getStartRecurrenceDate() {
 		return startRecurrenceDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setStartRecurrenceDate(Date startRecurrenceDate) {
 		this.startRecurrenceDate = startRecurrenceDate;
 		super.setSortDate(startRecurrenceDate);
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Date getEndRecurrenceDate() {
 		return endRecurrenceDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setEndRecurrenceDate(Date endRecurrenceDate) {
 		if (endRecurrenceDate == null) {
 			this.endRecurrenceDate = this.getStartRecurrenceDate();
@@ -66,15 +106,30 @@ public class RecurrenceTask extends Task {
 			this.endRecurrenceDate = endRecurrenceDate;
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public String getOccurenceType() {
 		return occurenceType;
-	}
+	}	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 
 	public void setOccurenceType(String occurenceType) {
 		this.occurenceType = occurenceType;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,7 +147,12 @@ public class RecurrenceTask extends Task {
 		result = prime * result + (int) (tagId ^ (tagId >>> 32));
 		return result;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -121,7 +181,12 @@ public class RecurrenceTask extends Task {
 			return false;
 		return true;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toString() {
 		return "RecurrenceTask [tagId=" + tagId + ", startRecurrenceDate="
@@ -132,7 +197,12 @@ public class RecurrenceTask extends Task {
 				+ ", getSortDate()=" + getSortDate() + ", getDateCreated()="
 				+ getDateCreated() + "]";
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@Override
 	public String toDisplay() {
 		String userString = "";

@@ -26,63 +26,138 @@ public class FileName {
 	private static String localUrl = "file:\\\\\\";
 	private static String relativeWebUiPath = "webUI";
 	private static String filenameCalendarUi = "calendarView.html";
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameDeadline(String filenameDeadline) {
 		FileName.filenameDeadline = filenameDeadline;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameFloating() {
 		return getCanonicalPath() + File.separator + filenameFloating;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameFloating(String filenameFloating) {
 		FileName.filenameFloating = filenameFloating;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameNormal() {
 		return getCanonicalPath() + File.separator + filenameNormal;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameNormal(String filenameNormal) {
 		FileName.filenameNormal = filenameNormal;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameRecur() {
 		return getCanonicalPath() + File.separator + filenameRecur;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameRecur(String filenameRecur) {
 		FileName.filenameRecur = filenameRecur;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameCfg() {
 		return getCanonicalPath() + File.separator + filenameCfg;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameCfg(String filenameCfg) {
 		FileName.filenameCfg = filenameCfg;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameHistory() {
 		return getCanonicalPath() + File.separator + filenameHistory;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameHistory(String filenameHistory) {
 		FileName.filenameHistory = filenameHistory;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getCanonicalPath() {
 		return canonicalPath;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setCanonicalPath(String canonicalPath) {
 		FileName.canonicalPath = canonicalPath;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setDefaultCanonicalPath() {
 		try {
 			canonicalPath = new File(".").getCanonicalPath();
@@ -90,7 +165,12 @@ public class FileName {
 			System.err.println(Message.ERROR_GENERAL);
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void writeCanonicalToFile() {
 		try {
 			File file = new File(FILENAME_PATH);
@@ -106,7 +186,12 @@ public class FileName {
 			System.err.println(Message.ERROR_SAVE_INTO_FILE);
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String readCanonicalPathFromFile() {
 
 		File file = new File(FileName.FILENAME_PATH);
@@ -135,38 +220,78 @@ public class FileName {
 
 		return retrievedCanonicalPath;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getLocalUrl() {
 		return localUrl;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setLocalUrl(String localUrl) {
 		FileName.localUrl = localUrl;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getRelativeWebUiPath() {
 		return relativeWebUiPath;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setRelativeWebUiPath(String relativeWebUiPath) {
 		FileName.relativeWebUiPath = relativeWebUiPath;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameCalendarUi() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + FileName.filenameCalendarUi;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static String getFilenameCalendarUiUrl() {
 		return getLocalUrl() + getCanonicalPath() + File.separator
 				+ getRelativeWebUiPath() + File.separator
 				+ FileName.filenameCalendarUi;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void setFilenameMonthUi(String filenameMonthUi) {
 		FileName.filenameCalendarUi = filenameMonthUi;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public static void createFileIfNotExist() {
 
 		try {
@@ -180,7 +305,12 @@ public class FileName {
 			System.exit(1);
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private static void createFile(String canonicalFileName) throws IOException {
 		File file = new File(canonicalFileName);
 
@@ -202,7 +332,12 @@ public class FileName {
 			}
 		}
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private static String serializeToJson(Object object) {
 
 		String json;

@@ -31,16 +31,31 @@ public class Validator {
 	private Task taskToRemove = null;
 	private int delayInMillisec = 4000; // 4 sec optimal delay time for process
 	private String lastRetrieve = null;
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Validator() {
 		engine = new Engine();
 		loadConfigFile();
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public void setRetrievedTaskList(ArrayList<Task> list) {
 		retrievedTaskList = list;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public boolean validateKeyword(String keyword) {
 
 		boolean isKeyword = false;
@@ -53,7 +68,12 @@ public class Validator {
 
 		return isKeyword;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public boolean validateKeywordSequence(List<String> keywordList) {
 		
 		fixKeywordInconsistency(keywordList);
@@ -63,7 +83,12 @@ public class Validator {
 
 		return isValidSequence;
 	}
-	
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private String fixKeywordInconsistency(String keyword) {
 
 		keyword = keyword.toLowerCase();
@@ -71,7 +96,12 @@ public class Validator {
 
 		return keyword;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private List<String> fixKeywordInconsistency(List<String> keywordList) {
 
 		for (int i = 0; i < keywordList.size(); i++) {
@@ -83,7 +113,12 @@ public class Validator {
 
 		return keywordList;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success getHistory() {
 
 		Success status = null;
@@ -92,7 +127,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	public Success parseCommand(String fullCommand) {
 
 		Success status = null;
@@ -230,7 +270,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success processAddCommand(String remainingCommand) {
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
@@ -253,7 +298,12 @@ public class Validator {
 		}
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success parseAddCommand(String remainingCommand) {
 
 		Success status = null;
@@ -349,7 +399,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success createNormalTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -441,7 +496,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success createDeadlineTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -502,7 +562,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -622,7 +687,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
 		taskDesc = taskDesc.trim();
@@ -873,7 +943,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveDoneUndone(String remainingText) {
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
@@ -899,7 +974,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveInBetween(Date start, Date end) {
 
 		Success status = null;
@@ -910,7 +990,12 @@ public class Validator {
 		}
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveTaskDesc(String remainingText) {
 		Success status = null;
 
@@ -1018,7 +1103,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrievePriority(String remainingPriority) {
 
 		Scanner sc = new Scanner(remainingPriority);
@@ -1143,7 +1233,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveAllDates() {
 
 		Success status = null;
@@ -1151,7 +1246,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveSingleDate(String remainingDate) {
 
 		Scanner sc = new Scanner(remainingDate);
@@ -1207,7 +1307,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success retrieveInBetween(String remainingDate) {
 
 		Scanner sc = new Scanner(remainingDate);
@@ -1290,7 +1395,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private SuccessDisplay parseDisplayCommand(String remainingCommand) {
 
 		SuccessDisplay status = null;
@@ -1365,7 +1475,12 @@ public class Validator {
 		sc.close();
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@SuppressWarnings("unchecked")
 	private Success parseUpdateCommand(String remainingCommand) {
 
@@ -1414,7 +1529,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	@SuppressWarnings("unchecked")
 	private Success parseDeleteCommand(String index) {
 
@@ -1469,7 +1589,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success undoCommand() {
 		Success status = engine.undoTask();
 		Success retrievalStatus = null;
@@ -1482,7 +1607,12 @@ public class Validator {
 		}
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success redoCommand() {
 		Success status = engine.redoTask();
 		Success retrievalStatus = null;
@@ -1495,7 +1625,12 @@ public class Validator {
 		}
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success doneCommand(String remainingCommand) {
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
@@ -1535,7 +1670,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Success undoneCommand(String remainingCommand) {
 		Success status = null;
 		remainingCommand = remainingCommand.trim();
@@ -1574,7 +1714,12 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Date fixStartDate(Date inDate) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -1602,7 +1747,12 @@ public class Validator {
 
 		return processedDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Date fixEndDate(Date inDate) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -1630,13 +1780,23 @@ public class Validator {
 
 		return processedDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private void loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();
 		keywordFullMap = config.getFullKeywordMap();
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private static List<Date> parseStringToDate(String dateInfo) {
 
 		List<Date> dates = new ArrayList<Date>();
@@ -1654,7 +1814,12 @@ public class Validator {
 		}
 		return dates;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Date fixStartDateDisplay(Date inDate, String displayType) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -1729,7 +1894,12 @@ public class Validator {
 
 		return processedDate;
 	}
-
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
 	private Date fixEndDateDisplay(Date inDate, String displayType) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -1807,7 +1977,14 @@ public class Validator {
 
 		return processedDate;
 	}
-
+	/**
+	 * Returns a boolean regarding whether the String parameter is 
+	 * a number or not. 
+	 *
+	 * @param  text	String to be determined whether it is a number
+	 * @return      boolean whether text is a number
+	 */
+	//@author A0111837J
 	private boolean isNaN(String text) {
 		boolean isNumber;
 
