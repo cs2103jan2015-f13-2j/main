@@ -664,7 +664,16 @@ public class Validator {
 
 		return status;
 	}
-
+	/**
+	 * Returns a Success object containing date retrieved from that 
+	 * will be passed to the UI tier of the program to handle.
+	 * This method will always return the Success object containing
+	 * relevant information regardless of successful retrieval or not. 
+	 *
+	 * @param  remainingCommand	command that is left after processing 
+	 * @return      			Success object
+	 */
+	//@author A0111837J
 	private Success parseRetrieveCommand(String remainingCommand) {
 
 		Success status = null;
