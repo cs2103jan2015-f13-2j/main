@@ -132,9 +132,7 @@ public class Main extends Application {
 			setProgramIconDesc(primaryStage);
 
 			// UI - SCENE SETTINGS
-			scene.getStylesheets().add(
-					Main.class.getResource("../css/application.css")
-							.toExternalForm());
+			//scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
 
 			// UI - POP UP SETTINGS
@@ -145,6 +143,8 @@ public class Main extends Application {
 			// UI - LIST VIEW SETTINGS
 			listView.setId("listView");
 			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
+			listView.setStyle("-fx-font-size: 15pt;");
+					
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setFocusTraversable(false);
