@@ -74,7 +74,6 @@ public class WorkOnItTest {
 		for (int i = 0; i < addCommandList.size(); i++) {
 			String currCommand = addCommandList.get(i);
 			testValidator.parseCommand(currCommand);
-
 		}
 	}
 
@@ -107,6 +106,145 @@ public class WorkOnItTest {
 		}
 	}
 
+	private void testEquals(String command, List<String> taskAddedList) {
+
+		Collections.sort(taskAddedList);
+
+		// execute retrieve all command
+		Success status = testValidator.parseCommand(command);
+		Object obj = status.getObj();
+
+		if (status.isSuccess() && obj instanceof ArrayList<?>) {
+
+			// process retrieved tasks
+			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
+
+			List<String> retrievedList = new ArrayList<String>();
+
+			for (int i = 0; i < retrievedTaskList.size(); i++) {
+
+				Task currTask = retrievedTaskList.get(i);
+				retrievedList.add(currTask.toDisplay());
+			}
+
+			Collections.sort(retrievedList);
+
+			assertEquals(retrievedList, taskAddedList);
+		}
+	}
+
+	/***********************************
+	 * TEST CASE FOR KEYWORD VALIDATOR
+	 ***********************************/
+
+	@Test
+	public void testKeyword() {
+
+		initTestEnvironment();
+		addTask();
+
+		String keyword = "add";
+
+		boolean isKeyword = testValidator.validateKeyword(keyword);
+
+		assertTrue(isKeyword);
+	}
+
+	@Test
+	public void testInvalidKeyword() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrievee";
+
+		boolean isKeyword = testValidator.validateKeyword(command);
+
+		assertFalse(isKeyword);
+	}
+
+	@Test
+	public void testKeywordSequence() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("add");
+		keywordList.add("on");
+		keywordList.add("from");
+		keywordList.add("to");
+		keywordList.add("priority");
+
+		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+	@Test
+	public void testInvalidKeywordSequence() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("add");
+		keywordList.add("on");
+		keywordList.add("to");
+		keywordList.add("from");
+		keywordList.add("priority");
+
+		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+
+		assertFalse(isKeyword);
+	}
+
+	@Test
+	public void testKeywordMapping() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("create");
+		keywordList.add("on");
+		keywordList.add("from");
+		keywordList.add("until");
+		keywordList.add("priority");
+		keywordList.add("urgent");
+
+		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+	@Test
+	public void testInvalidKeywordMapping() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("create");
+		keywordList.add("on");
+		keywordList.add("since");
+		keywordList.add("until");
+		keywordList.add("priority");
+		keywordList.add("urgent");
+
+		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+
+		assertFalse(isKeyword);
+	}
+
+	/***********************************
+	 * TEST CASE FOR ADD COMMAND
+	 ***********************************/
+
 	@Test
 	public void testAddTasks() {
 
@@ -131,44 +269,77 @@ public class WorkOnItTest {
 		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
 		taskAddedList.add("task ten");
 
-		Collections.sort(taskAddedList);
-
-		// execute search all command
-		Success status = testValidator.parseCommand(command);
-		Object obj = status.getObj();
-
-		if (status.isSuccess() && obj instanceof ArrayList<?>) {
-
-			// process retrieved tasks
-			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
-
-			List<String> retrievedList = new ArrayList<String>();
-
-			for (int i = 0; i < retrievedTaskList.size(); i++) {
-
-				Task currTask = retrievedTaskList.get(i);
-				retrievedList.add(currTask.toDisplay());
-			}
-
-			Collections.sort(retrievedList);
-			System.out.println(retrievedList.toString());
-			System.out.println(taskAddedList.toString());
-			assertEquals(retrievedList, taskAddedList);
-		}
+		testEquals(command, taskAddedList);
 	}
 
 	@Test
-	public void testRetrieveWrongSpelling() {
+	public void testAddInvalidStartDateNormal() {
 
 		initTestEnvironment();
 		addTask();
 
-		String command = "retrievee";
+		String currCommand = "add invalid start date from nowhere to 8 April";
 
-		Success status = testValidator.parseCommand(command);
+		Success status = testValidator.parseCommand(currCommand);
 
-		assertFalse(status.isSuccess());
+		assertFalse(!status.isSuccess());
 	}
+
+	@Test
+	public void testAddInvalidEndDateNormal() {
+
+		initTestEnvironment();
+		addTask();
+
+		String currCommand = "add invalid end date from 8 April to nowhere";
+
+		Success status = testValidator.parseCommand(currCommand);
+
+		assertFalse(!status.isSuccess());
+	}
+
+	@Test
+	public void testAddInvalidDeadlineDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String currCommand = "add invalid deadline date by nowhere";
+
+		Success status = testValidator.parseCommand(currCommand);
+
+		assertFalse(!status.isSuccess());
+	}
+
+	// @Test
+	// public void testAddInvalidNegativePriority() {
+	//
+	// initTestEnvironment();
+	// addTask();
+	//
+	// String currCommand = "add invalid negative priority -1";
+	//
+	// Success status = testValidator.parseCommand(currCommand);
+	//
+	// assertFalse(!status.isSuccess());
+	// }
+	//
+	// @Test
+	// public void testAddInvalidPositivePriority() {
+	//
+	// initTestEnvironment();
+	// addTask();
+	//
+	// String currCommand = "add invalid negative priority 3";
+	//
+	// Success status = testValidator.parseCommand(currCommand);
+	//
+	// assertFalse(!status.isSuccess());
+	// }
+
+	/***********************************
+	 * TEST CASE FOR RETRIEVE COMMAND
+	 ***********************************/
 
 	@Test
 	public void testRetrieveDescriptionNoResult() {
@@ -176,7 +347,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String command = "cat";
+		String command = "retrieve cat";
 
 		Success status = testValidator.parseCommand(command);
 		Object obj = status.getObj();
@@ -195,7 +366,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String command = "search task";
+		String command = "retrieve task";
 
 		List<String> taskAddedList = new ArrayList<String>();
 
@@ -214,38 +385,16 @@ public class WorkOnItTest {
 		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
 		taskAddedList.add("task ten");
 
-		Collections.sort(taskAddedList);
-
-		// execute search all command
-		Success status = testValidator.parseCommand(command);
-		Object obj = status.getObj();
-
-		if (status.isSuccess() && obj instanceof ArrayList<?>) {
-
-			// process retrieved tasks
-			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
-
-			List<String> retrievedList = new ArrayList<String>();
-
-			for (int i = 0; i < retrievedTaskList.size(); i++) {
-
-				Task currTask = retrievedTaskList.get(i);
-				retrievedList.add(currTask.toDisplay());
-			}
-
-			Collections.sort(retrievedList);
-
-			assertEquals(retrievedList, taskAddedList);
-		}
+		testEquals(command, taskAddedList);
 	}
-	
+
 	@Test
 	public void testRetrieveStartEndDate() {
 
 		initTestEnvironment();
 		addTask();
 
-		String command = "search from 9 April to 10 April";
+		String command = "retrieve from 9 April to 10 April";
 
 		List<String> taskAddedList = new ArrayList<String>();
 
@@ -254,32 +403,555 @@ public class WorkOnItTest {
 				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
 		taskAddedList
 				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
-		taskAddedList
-				.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
 		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
 
-		Collections.sort(taskAddedList);
+		testEquals(command, taskAddedList);
+	}
 
-		// execute search all command
+	@Test
+	public void testRetrieveOneDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve on 10 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// processing expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(command, taskAddedList);
+	}
+
+	@Test
+	public void testRetrieveOneDateNoResult() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve on 20 May";
+
 		Success status = testValidator.parseCommand(command);
 		Object obj = status.getObj();
 
-		if (status.isSuccess() && obj instanceof ArrayList<?>) {
+		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
 
-			// process retrieved tasks
 			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
 
-			List<String> retrievedList = new ArrayList<String>();
-
-			for (int i = 0; i < retrievedTaskList.size(); i++) {
-
-				Task currTask = retrievedTaskList.get(i);
-				retrievedList.add(currTask.toDisplay());
-			}
-
-			Collections.sort(retrievedList);
-
-			assertEquals(retrievedList, taskAddedList);
+			assertEquals(0, retrievedTaskList.size());
 		}
+	}
+
+	@Test
+	public void testRetrievePriorityHigh() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 2";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task seven on 08 Apr 2015,  3:00:00 PM priority 2");
+
+		testEquals(command, taskAddedList);
+	}
+
+	@Test
+	public void testRetrievePriorityMedium() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 1";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task ten");
+
+		testEquals(command, taskAddedList);
+	}
+
+	@Test
+	public void testRetrievePriorityLow() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 0";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+
+		testEquals(command, taskAddedList);
+	}
+
+	// @Test
+	// public void testRetrieveInvalidNegativePriority() {
+	//
+	// initTestEnvironment();
+	// addTask();
+	//
+	// String command = "retrieve priority -1";
+	//
+	// Success status = testValidator.parseCommand(command);
+	//
+	// assertFalse(status.isSuccess());
+	// }
+	//
+	// @Test
+	// public void testRetrieveInvalidPositivePriority() {
+	//
+	// initTestEnvironment();
+	// addTask();
+	//
+	// String command = "retrieve priority 3";
+	//
+	// Success status = testValidator.parseCommand(command);
+	//
+	// assertFalse(status.isSuccess());
+	// }
+
+	@Test
+	public void testRetrievePrioritySingleDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 0 at 8 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+
+		testEquals(command, taskAddedList);
+	}
+
+	@Test
+	public void testRetrievePriorityWithDateRange() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 1 from 7 April to 8 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/***********************************
+	 * TEST CASE FOR DELETE COMMAND
+	 ***********************************/
+
+	@Test
+	public void testDeleteMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testDeleteMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 0 1";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	@Test
+	public void testDeleteMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1 4";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	@Test
+	public void testDeleteNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 none-numeric 1";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	@Test
+	public void testDeleteWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		testValidator = new Validator();
+
+		String deleteCommand = "delete 3 1";
+
+		Success status = testValidator.parseCommand(deleteCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UPDATE COMMAND
+	 ***********************************/
+
+	@Test
+	public void testUpdate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 1";
+
+			status = testValidator.parseCommand(updateCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update updated task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM";
+			status = testValidator.parseCommand(updateCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("updated task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testUpdateInvalidWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		testValidator = new Validator();
+
+		String updateCommand = "update 1";
+
+		Success status = testValidator.parseCommand(updateCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	@Test
+	public void testUpdateInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 0";
+
+			status = testValidator.parseCommand(updateCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	@Test
+	public void testUpdateInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 4";
+
+			status = testValidator.parseCommand(updateCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UNDO COMMAND
+	 ***********************************/
+
+	@Test
+	public void testUndoMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = testValidator.parseCommand(undoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testUndoSingle() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = testValidator.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = testValidator.parseCommand(undoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testUndoInvalidEmptyStack() {
+
+		initTestEnvironment();
+		addTask();
+
+		testValidator = new Validator();
+
+		String undoCommand = "undo";
+
+		Success status = testValidator.parseCommand(undoCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR REDO COMMAND
+	 ***********************************/
+
+	@Test
+	public void testRedoMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = testValidator.parseCommand(deleteCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = testValidator.parseCommand(undoCommand);
+		}
+		
+		if (status.isSuccess()) {
+
+			String redoCommand = "redo";
+
+			status = testValidator.parseCommand(redoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testRedoSingle() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = testValidator.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = testValidator.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = testValidator.parseCommand(undoCommand);
+		}
+		
+		if (status.isSuccess()) {
+
+			String redoCommand = "redo";
+
+			status = testValidator.parseCommand(redoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("mock task on 10 Apr 2015,  5:00:00 PM");
+		
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	@Test
+	public void testRedoInvalidEmptyStack() {
+
+		initTestEnvironment();
+		addTask();
+
+		testValidator = new Validator();
+
+		String redoCommand = "redo";
+
+		Success status = testValidator.parseCommand(redoCommand);
+
+		assertFalse(status.isSuccess());
 	}
 }
