@@ -276,16 +276,31 @@ public class Engine {
 	}
 
 	// delete task with specific ID
-	public Success deleteTask(Task task) {
+	public Success deleteTask(List<Task> deleteList) {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		boolean isMarkAllDeleted = true;
 
-		status = dataStorage.deleteFromFile(task);
+		for (int i = 0; i < deleteList.size(); i++) {
+
+			Task currentTask = deleteList.get(i);
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDeleted = false;
+			}
+		}
 
 		TaskHistory taskHistoryObj = new TaskHistory(
-				KeywordConstant.KEYWORD_DELETE, task);
+				KeywordConstant.KEYWORD_DELETE, deleteList);
 		undoStack.push(taskHistoryObj);
+
+		if (isMarkAllDeleted) {
+			status = new Success(true, Message.SUCCESS_DELETE);
+		} else {
+			status = new Success(false, Message.ERROR_DELETE);
+		}
 
 		return status;
 	}
@@ -294,11 +309,11 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
-		
-		if(taskOld.isCompleted()){
+
+		if (taskOld.isCompleted()) {
 			taskUpdate.setCompleted(true);
 		}
-		
+
 		status = dataStorage.updateFromFile(taskUpdate, taskOld);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
@@ -307,7 +322,7 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	public Success getCompleteTask(boolean isComplete) {
 
 		Success status = null;
@@ -317,7 +332,6 @@ public class Engine {
 
 		return status;
 	}
-
 
 	public Success markAsDone(List<Task> doneList) {
 
@@ -410,8 +424,24 @@ public class Engine {
 			// add the taskObj.
 			else if (undoOperation
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
-				Task taskObj = undoTask.getTask();
-				status = dataStorage.saveIntoFile(taskObj);
+				List<Task> taskListToRevert = undoTask.getTaskList();
+				boolean isMarkAllDeleted = true;
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+					Success successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (successObj == null || !successObj.isSuccess()) {
+						isMarkAllDeleted = false;
+					}
+				}
+
+				if (isMarkAllDeleted) {
+					status = new Success(true, Message.SUCCESS_DELETE);
+				} else {
+					status = new Success(false, Message.ERROR_DELETE);
+				}
 			}
 			// revert the taskObj to previous version.
 			else if (undoOperation
@@ -508,7 +538,25 @@ public class Engine {
 			// delete the taskObj.
 			else if (undoOperation
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
-				status = dataStorage.deleteFromFile(taskObj);
+				List<Task> taskListToRevert = redoTask.getTaskList();
+				boolean isMarkAllDeleted = true;
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+					Success successObj = status = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (successObj == null || !successObj.isSuccess()) {
+						isMarkAllDeleted = false;
+					}
+				}
+
+				if (isMarkAllDeleted) {
+					status = new Success(true, Message.SUCCESS_DELETE);
+				} else {
+					status = new Success(false, Message.ERROR_DELETE);
+				}
 			}
 			// revert the taskObj to previous version.
 			else if (undoOperation

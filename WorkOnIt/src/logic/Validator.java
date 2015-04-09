@@ -1393,6 +1393,7 @@ public class Validator {
 		Success retrievalStatus = null;
 		index = index.trim();
 		Scanner sc = new Scanner(index);
+		List<Task> taskToDeleteList = new ArrayList<>();
 
 		try {
 
@@ -1412,13 +1413,11 @@ public class Validator {
 				int unfixedIndex = indexList.get(i);
 				int indexOffset = unfixedIndex - 1;
 				Task taskToRemove = retrievedTaskList.get(indexOffset);
-
-				status = engine.deleteTask(taskToRemove);
-
-				if (!status.isSuccess()) {
-					break;
-				}
+				
+				taskToDeleteList.add(taskToRemove);
 			}
+			
+			status = engine.deleteTask(taskToDeleteList);
 
 			if (status.isSuccess() == true &&
 					lastRetrieve != null) {
