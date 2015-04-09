@@ -45,6 +45,8 @@ public class Validator {
 
 		boolean isKeyword = false;
 
+		fixKeywordInconsistency(keyword);
+
 		if (keywordFullMap.containsKey(keyword)) {
 			isKeyword = true;
 		}
@@ -53,11 +55,33 @@ public class Validator {
 	}
 
 	public boolean validateKeywordSequence(List<String> keywordList) {
-
+		
+		fixKeywordInconsistency(keywordList);
+		
 		KeywordStructure keySequence = new KeywordStructure();
 		boolean isValidSequence = keySequence.checkKeyword(keywordList);
 
 		return isValidSequence;
+	}
+	
+	private String fixKeywordInconsistency(String keyword) {
+
+		keyword = keyword.toLowerCase();
+		keyword = keyword.trim();
+
+		return keyword;
+	}
+
+	private List<String> fixKeywordInconsistency(List<String> keywordList) {
+
+		for (int i = 0; i < keywordList.size(); i++) {
+			String currKeyWord = keywordList.get(i);
+			currKeyWord = currKeyWord.toLowerCase();
+			currKeyWord = currKeyWord.trim();
+			keywordList.set(i, currKeyWord);
+		}
+
+		return keywordList;
 	}
 
 	public Success getHistory() {
@@ -190,7 +214,6 @@ public class Validator {
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
 				status = redoCommand();
 
-			
 			} else if (commandResolved
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_EXIT)) {
 				System.exit(0);
@@ -218,10 +241,8 @@ public class Validator {
 			task = (Task) status.getObj();
 			status = engine.addTask(task);
 
-
 			Success retrievalStatus = null;
-			if (status.isSuccess() == true &&
-					lastRetrieve != null) {
+			if (status.isSuccess() == true && lastRetrieve != null) {
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
@@ -326,8 +347,6 @@ public class Validator {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
-		
-		
 		return status;
 	}
 
@@ -664,7 +683,7 @@ public class Validator {
 		boolean isMonth = false;
 		boolean isResolved = false;
 		boolean isDoneUndone = false;
-		
+
 		Date startDate = null;
 		Date endDate = null;
 
@@ -702,9 +721,11 @@ public class Validator {
 					isPriority = true;
 					isResolved = true;
 
-				} else if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE) ||
-						resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-					if(sc.hasNextLine()){
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)
+						|| resolvedWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+					if (sc.hasNextLine()) {
 						remainingText = sc.nextLine();
 					} else {
 						remainingText = currentWord;
@@ -812,7 +833,7 @@ public class Validator {
 			}
 		}
 		System.out.println("" + isDesc + isAll + isPriority + isSingleDate
-				+ isDoubleDate + isMonth + isWeek + isDay +isDoneUndone);
+				+ isDoubleDate + isMonth + isWeek + isDay + isDoneUndone);
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -849,24 +870,24 @@ public class Validator {
 		Scanner sc = new Scanner(remainingText);
 		boolean isStatusResolved = false;
 		boolean isDone = false;
-		while(sc.hasNext()){
+		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
-			
-			if(resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)){
+
+			if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
 				isDone = true;
 				isStatusResolved = true;
-			} else if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)){
+			} else if (resolvedWord
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
 				isDone = false;
 				isStatusResolved = true;
 			}
 		}
-		
-		if(isStatusResolved == true){
+
+		if (isStatusResolved == true) {
 			status = engine.getCompleteTask(isDone);
 		}
-		
-		
+
 		return status;
 	}
 
@@ -1361,8 +1382,7 @@ public class Validator {
 					Task updatedTask = (Task) statusTask.getObj();
 					status = engine.updateTask(updatedTask, taskToRemove);
 
-					if (status.isSuccess() &&
-							lastRetrieve != null) {
+					if (status.isSuccess() && lastRetrieve != null) {
 						retrievalStatus = parseCommand(lastRetrieve);
 						status.setObj(retrievalStatus.getObj());
 						setRetrievedTaskList((ArrayList<Task>) retrievalStatus
@@ -1413,14 +1433,13 @@ public class Validator {
 				int unfixedIndex = indexList.get(i);
 				int indexOffset = unfixedIndex - 1;
 				Task taskToRemove = retrievedTaskList.get(indexOffset);
-				
+
 				taskToDeleteList.add(taskToRemove);
 			}
-			
+
 			status = engine.deleteTask(taskToDeleteList);
 
-			if (status.isSuccess() == true &&
-					lastRetrieve != null) {
+			if (status.isSuccess() == true && lastRetrieve != null) {
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
@@ -1445,13 +1464,11 @@ public class Validator {
 	private Success undoCommand() {
 		Success status = engine.undoTask();
 		Success retrievalStatus = null;
-		if (status.isSuccess() == true &&
-				lastRetrieve != null) {
+		if (status.isSuccess() == true && lastRetrieve != null) {
 			retrievalStatus = parseCommand(lastRetrieve);
 			if (retrievalStatus.isSuccess() == true) {
 				status.setObj(retrievalStatus.getObj());
-				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-						.getObj());
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
 			}
 		}
 		return status;
@@ -1460,13 +1477,11 @@ public class Validator {
 	private Success redoCommand() {
 		Success status = engine.redoTask();
 		Success retrievalStatus = null;
-		if (status.isSuccess() == true &&
-				lastRetrieve != null) {
+		if (status.isSuccess() == true && lastRetrieve != null) {
 			retrievalStatus = parseCommand(lastRetrieve);
 			if (retrievalStatus.isSuccess() == true) {
 				status.setObj(retrievalStatus.getObj());
-				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-						.getObj());
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
 			}
 		}
 		return status;
@@ -1488,9 +1503,8 @@ public class Validator {
 			}
 
 			status = engine.markAsDone(doneList);
-			
-			if (status.isSuccess() == true &&
-					lastRetrieve != null) {
+
+			if (status.isSuccess() == true && lastRetrieve != null) {
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());
@@ -1529,8 +1543,7 @@ public class Validator {
 			}
 
 			status = engine.markAsUndone(undoneList);
-			if (status.isSuccess() == true &&
-					lastRetrieve != null){
+			if (status.isSuccess() == true && lastRetrieve != null) {
 				retrievalStatus = parseCommand(lastRetrieve);
 				if (retrievalStatus.isSuccess() == true) {
 					status.setObj(retrievalStatus.getObj());

@@ -461,6 +461,9 @@ public class Main extends Application {
 			if (i > 0) {
 				length++;
 			}
+			
+			stringArr[i] = stringArr[i].toLowerCase();
+			
 			// check if current word is a keyword
 			if (commandValidator.validateKeyword(stringArr[i])) {
 				// txtF.setStyle("-fx-text-fill: red;");
