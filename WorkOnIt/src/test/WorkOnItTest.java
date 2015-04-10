@@ -17,7 +17,7 @@ import entity.Task;
 
 public class WorkOnItTest {
 
-	CommandParser testValidator = null;
+	CommandParser commandParser = null;
 	Validator keywordValidator = null;
 	InitFileIO initFile = null;
 	List<String> addCommandList = null;
@@ -25,7 +25,7 @@ public class WorkOnItTest {
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
-		testValidator = new CommandParser();
+		commandParser = new CommandParser();
 		keywordValidator = new Validator();
 		addCommandList = new ArrayList<String>();
 	}
@@ -76,7 +76,7 @@ public class WorkOnItTest {
 
 		for (int i = 0; i < addCommandList.size(); i++) {
 			String currCommand = addCommandList.get(i);
-			testValidator.parseCommand(currCommand);
+			commandParser.parseCommand(currCommand);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class WorkOnItTest {
 		String retrieveCommand = "retrieve all";
 		String delCommand = "delete ";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 		Object obj = status.getObj();
 
 		if (status.isSuccess()) {
@@ -103,7 +103,7 @@ public class WorkOnItTest {
 				}
 			}
 
-			testValidator.parseCommand(delCommand);
+			commandParser.parseCommand(delCommand);
 
 			addCommandList = new ArrayList<String>();
 		}
@@ -114,7 +114,7 @@ public class WorkOnItTest {
 		Collections.sort(taskAddedList);
 
 		// execute retrieve all command
-		Success status = testValidator.parseCommand(command);
+		Success status = commandParser.parseCommand(command);
 		Object obj = status.getObj();
 
 		if (status.isSuccess() && obj instanceof ArrayList<?>) {
@@ -132,7 +132,7 @@ public class WorkOnItTest {
 
 			Collections.sort(retrievedList);
 
-			assertEquals(retrievedList, taskAddedList);
+			assertEquals(taskAddedList, retrievedList);
 		}
 	}
 
@@ -287,7 +287,7 @@ public class WorkOnItTest {
 
 		String currCommand = "add invalid start date from nowhere to 8 April";
 
-		Success status = testValidator.parseCommand(currCommand);
+		Success status = commandParser.parseCommand(currCommand);
 
 		assertFalse(!status.isSuccess());
 	}
@@ -300,7 +300,7 @@ public class WorkOnItTest {
 
 		String currCommand = "add invalid end date from 8 April to nowhere";
 
-		Success status = testValidator.parseCommand(currCommand);
+		Success status = commandParser.parseCommand(currCommand);
 
 		assertFalse(!status.isSuccess());
 	}
@@ -313,7 +313,7 @@ public class WorkOnItTest {
 
 		String currCommand = "add invalid deadline date by nowhere";
 
-		Success status = testValidator.parseCommand(currCommand);
+		Success status = commandParser.parseCommand(currCommand);
 
 		assertFalse(!status.isSuccess());
 	}
@@ -356,7 +356,7 @@ public class WorkOnItTest {
 
 		String command = "retrieve cat";
 
-		Success status = testValidator.parseCommand(command);
+		Success status = commandParser.parseCommand(command);
 		Object obj = status.getObj();
 
 		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
@@ -443,7 +443,7 @@ public class WorkOnItTest {
 
 		String command = "retrieve on 20 May";
 
-		Success status = testValidator.parseCommand(command);
+		Success status = commandParser.parseCommand(command);
 		Object obj = status.getObj();
 
 		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
@@ -589,13 +589,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 1";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -613,13 +613,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 0 1";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		assertFalse(status.isSuccess());
@@ -633,13 +633,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 1 4";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		assertFalse(status.isSuccess());
@@ -653,13 +653,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 none-numeric 1";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		assertFalse(status.isSuccess());
@@ -671,11 +671,11 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new CommandParser();
+		commandParser = new CommandParser();
 
 		String deleteCommand = "delete 3 1";
 
-		Success status = testValidator.parseCommand(deleteCommand);
+		Success status = commandParser.parseCommand(deleteCommand);
 
 		assertFalse(status.isSuccess());
 	}
@@ -692,18 +692,18 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 		if (status.isSuccess()) {
 
 			String updateCommand = "update 1";
 
-			status = testValidator.parseCommand(updateCommand);
+			status = commandParser.parseCommand(updateCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String updateCommand = "update updated task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM";
-			status = testValidator.parseCommand(updateCommand);
+			status = commandParser.parseCommand(updateCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -723,11 +723,11 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new CommandParser();
+		commandParser = new CommandParser();
 
 		String updateCommand = "update 1";
 
-		Success status = testValidator.parseCommand(updateCommand);
+		Success status = commandParser.parseCommand(updateCommand);
 
 		assertFalse(status.isSuccess());
 	}
@@ -740,13 +740,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String updateCommand = "update 0";
 
-			status = testValidator.parseCommand(updateCommand);
+			status = commandParser.parseCommand(updateCommand);
 		}
 
 		assertFalse(status.isSuccess());
@@ -760,13 +760,13 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String updateCommand = "update 4";
 
-			status = testValidator.parseCommand(updateCommand);
+			status = commandParser.parseCommand(updateCommand);
 		}
 
 		assertFalse(status.isSuccess());
@@ -784,20 +784,20 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 1";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String undoCommand = "undo";
 
-			status = testValidator.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -819,20 +819,20 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String addCommand = "add mock task on 10 April 5pm";
 
-			status = testValidator.parseCommand(addCommand);
+			status = commandParser.parseCommand(addCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String undoCommand = "undo";
 
-			status = testValidator.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -852,11 +852,11 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new CommandParser();
+		commandParser = new CommandParser();
 
 		String undoCommand = "undo";
 
-		Success status = testValidator.parseCommand(undoCommand);
+		Success status = commandParser.parseCommand(undoCommand);
 
 		assertFalse(status.isSuccess());
 	}
@@ -873,27 +873,27 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String deleteCommand = "delete 3 1";
 
-			status = testValidator.parseCommand(deleteCommand);
+			status = commandParser.parseCommand(deleteCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String undoCommand = "undo";
 
-			status = testValidator.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String redoCommand = "redo";
 
-			status = testValidator.parseCommand(redoCommand);
+			status = commandParser.parseCommand(redoCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -912,27 +912,27 @@ public class WorkOnItTest {
 
 		String retrieveCommand = "retrieve 10 April";
 
-		Success status = testValidator.parseCommand(retrieveCommand);
+		Success status = commandParser.parseCommand(retrieveCommand);
 
 		if (status.isSuccess()) {
 
 			String addCommand = "add mock task on 10 April 5pm";
 
-			status = testValidator.parseCommand(addCommand);
+			status = commandParser.parseCommand(addCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String undoCommand = "undo";
 
-			status = testValidator.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
 		}
 
 		if (status.isSuccess()) {
 
 			String redoCommand = "redo";
 
-			status = testValidator.parseCommand(redoCommand);
+			status = commandParser.parseCommand(redoCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
@@ -953,11 +953,11 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new CommandParser();
+		commandParser = new CommandParser();
 
 		String redoCommand = "redo";
 
-		Success status = testValidator.parseCommand(redoCommand);
+		Success status = commandParser.parseCommand(redoCommand);
 
 		assertFalse(status.isSuccess());
 	}
