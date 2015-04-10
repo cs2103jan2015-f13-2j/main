@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
+import resource.KeywordConstant;
+
 public abstract class Task {
 
 	protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
@@ -14,12 +16,13 @@ public abstract class Task {
 	private int priority;
 	private Date sortDate;
 	private boolean isCompleted;
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public Task(String taskName, int priority) {
 
 		long generatedTaskId = System.currentTimeMillis();
@@ -32,102 +35,120 @@ public abstract class Task {
 		long maxDateOffset = Long.MAX_VALUE;
 		this.setSortDate(new Date(maxDateOffset));
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public long getTaskId() {
 		return taskId;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void setTaskId(long taskId) {
 		this.taskId = taskId;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public String getTaskName() {
 		return taskName;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public int getPriority() {
 		return priority;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void setPriority(int priority) {
-		this.priority = priority;
+
+		if (priority > KeywordConstant.PRIORITY_MAX) {
+			this.priority = KeywordConstant.PRIORITY_MAX;
+		} else if (priority < KeywordConstant.PRIORITY_MIN) {
+			this.priority = KeywordConstant.PRIORITY_MIN;
+		} else {
+			this.priority = priority;
+		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public boolean isCompleted() {
 		return isCompleted;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public Date getSortDate() {
 		return sortDate;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void setSortDate(Date sortDate) {
 		this.sortDate = sortDate;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public Date getDateCreated() {
 
 		Date dateCreated = null;
@@ -136,12 +157,13 @@ public abstract class Task {
 
 		return dateCreated;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -154,12 +176,13 @@ public abstract class Task {
 				+ ((taskName == null) ? 0 : taskName.hashCode());
 		return result;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -185,12 +208,13 @@ public abstract class Task {
 			return false;
 		return true;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static Comparator<Task> taskComparator = new Comparator<Task>() {
 
 		@Override
@@ -230,18 +254,20 @@ public abstract class Task {
 			return returnVal;
 		}
 	};
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public abstract String toString();
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public abstract String toDisplay();
 }
