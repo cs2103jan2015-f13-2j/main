@@ -20,8 +20,7 @@ import entity.TaskHistory;
 
 public class Engine {
 
-	private Stack<TaskHistory> undoStack = new Stack<TaskHistory>();
-	private Stack<TaskHistory> redoStack = new Stack<TaskHistory>();
+	
 	/**
 	 *
 	 * @param  	
@@ -38,7 +37,9 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_ADD, task);
-		undoStack.push(taskHistoryObj);
+		
+		Utility.getInstance();
+		Utility.addUndoStack(taskHistoryObj);
 
 		return status;
 	}
@@ -397,7 +398,9 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DELETE, deleteList);
-		undoStack.push(taskHistoryObj);
+		
+		Utility.getInstance();
+		Utility.addUndoStack(taskHistoryObj);
 
 		if (isMarkAllDeleted) {
 			status = new Success(true, Message.SUCCESS_DELETE);
@@ -426,7 +429,8 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
-		undoStack.push(taskHistoryObj);
+		Utility.getInstance();
+		Utility.addUndoStack(taskHistoryObj);
 
 		return status;
 	}
@@ -477,7 +481,8 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DONE, doneList);
-		undoStack.push(taskHistoryObj);
+		Utility.getInstance();
+		Utility.addUndoStack(taskHistoryObj);
 
 		if (isMarkAllDone) {
 			status = new Success(true, Message.SUCCESS_MARK_DONE);
@@ -519,7 +524,8 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_UNDONE, undoneList);
-		undoStack.push(taskHistoryObj);
+		Utility.getInstance();
+		Utility.addUndoStack(taskHistoryObj);
 
 		if (isMarkAllUndone) {
 			status = new Success(true, Message.SUCCESS_MARK_UNDONE);
@@ -536,117 +542,12 @@ public class Engine {
 	 */
 	//@author 
 	public Success undoTask() {
-
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		if (undoStack.size() > 0) {
-			TaskHistory undoTask = undoStack.pop();
-			String undoOperation = undoTask.getOperation();
-
-			// delete the task obj.
-			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
-				Task taskObj = undoTask.getTask();
-				status = dataStorage.deleteFromFile(taskObj);
-			}
-			// add the taskObj.
-			else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
-				List<Task> taskListToRevert = undoTask.getTaskList();
-				boolean isMarkAllDeleted = true;
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-					Success successObj = dataStorage.saveIntoFile(currentTask);
-
-					if (successObj == null || !successObj.isSuccess()) {
-						isMarkAllDeleted = false;
-					}
-				}
-
-				if (isMarkAllDeleted) {
-					status = new Success(true, Message.SUCCESS_DELETE);
-				} else {
-					status = new Success(false, Message.ERROR_DELETE);
-				}
-			}
-			// revert the taskObj to previous version.
-			else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
-				Task taskObj = undoTask.getTask();
-				Task taskToRevert = undoTask.getAuxTask();
-				status = dataStorage.updateFromFile(taskToRevert, taskObj);
-
-			} else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
-
-				boolean isMarkAllUndone = true;
-				List<Task> taskListToRevert = undoTask.getTaskList();
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-
-					Success successObj = dataStorage
-							.deleteFromFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllUndone = false;
-					}
-
-					currentTask.setCompleted(false);
-					successObj = dataStorage.saveIntoFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllUndone = false;
-					}
-				}
-
-				if (isMarkAllUndone) {
-					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
-				} else {
-					status = new Success(false, Message.FAIL_MARK_UNDONE);
-				}
-
-			} else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-
-				boolean isMarkAllDone = true;
-				List<Task> taskListToRevert = undoTask.getTaskList();
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-
-					Success successObj = dataStorage
-							.deleteFromFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllDone = false;
-					}
-
-					currentTask.setCompleted(true);
-					successObj = dataStorage.saveIntoFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllDone = false;
-					}
-				}
-
-				if (isMarkAllDone) {
-					status = new Success(true, Message.SUCCESS_MARK_DONE);
-				} else {
-					status = new Success(false, Message.FAIL_MARK_DONE);
-				}
-			}
-
-			redoStack.push(undoTask);
-
-		} else {
-			status = new Success(false, Message.FAIL_UNDO);
-		}
-		return status;
+		
+		Utility.getInstance();
+		Success successObj = Utility.undoTaskFunction();
+		
+		return successObj;
+		
 	}
 	/**
 	 *
@@ -655,117 +556,11 @@ public class Engine {
 	 */
 	//@author 
 	public Success redoTask() {
-
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		if (redoStack.size() > 0) {
-			TaskHistory redoTask = redoStack.pop();
-			String undoOperation = redoTask.getOperation();
-			Task taskObj = redoTask.getTask();
-
-			// add the task obj.
-			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
-				status = dataStorage.saveIntoFile(taskObj);
-			}
-			// delete the taskObj.
-			else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
-				List<Task> taskListToRevert = redoTask.getTaskList();
-				boolean isMarkAllDeleted = true;
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-					Success successObj = status = dataStorage
-							.deleteFromFile(currentTask);
-
-					if (successObj == null || !successObj.isSuccess()) {
-						isMarkAllDeleted = false;
-					}
-				}
-
-				if (isMarkAllDeleted) {
-					status = new Success(true, Message.SUCCESS_DELETE);
-				} else {
-					status = new Success(false, Message.ERROR_DELETE);
-				}
-			}
-			// revert the taskObj to previous version.
-			else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
-				Task taskToRevert = redoTask.getAuxTask();
-				status = dataStorage.updateFromFile(taskObj, taskToRevert);
-			} else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-
-				boolean isMarkAllUndone = true;
-				List<Task> taskListToRevert = redoTask.getTaskList();
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-
-					Success successObj = dataStorage
-							.deleteFromFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllUndone = false;
-					}
-
-					currentTask.setCompleted(false);
-					successObj = dataStorage.saveIntoFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllUndone = false;
-					}
-				}
-
-				if (isMarkAllUndone) {
-					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
-				} else {
-					status = new Success(false, Message.FAIL_MARK_UNDONE);
-				}
-
-			} else if (undoOperation
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
-
-				boolean isMarkAllDone = true;
-				List<Task> taskListToRevert = redoTask.getTaskList();
-
-				for (int i = 0; i < taskListToRevert.size(); i++) {
-
-					Task currentTask = taskListToRevert.get(i);
-
-					Success successObj = dataStorage
-							.deleteFromFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllDone = false;
-					}
-
-					currentTask.setCompleted(true);
-					successObj = dataStorage.saveIntoFile(currentTask);
-
-					if (!successObj.isSuccess()) {
-						isMarkAllDone = false;
-					}
-				}
-
-				if (isMarkAllDone) {
-					status = new Success(true, Message.SUCCESS_MARK_DONE);
-				} else {
-					status = new Success(false, Message.FAIL_MARK_DONE);
-				}
-			}
-
-			undoStack.push(redoTask);
-
-		} else {
-			status = new Success(false, Message.FAIL_REDO);
-		}
-
-		return status;
+		
+		Utility.getInstance();
+		Success successObj = Utility.redoTaskFunction();
+		
+		return successObj;
 	}
 	/**
 	 *
