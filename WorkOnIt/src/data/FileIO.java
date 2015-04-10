@@ -46,15 +46,7 @@ public class FileIO {
 
 		addHistory(task.getTaskName());
 
-		if (task instanceof FloatingTask) {
-			file_type = filename_floating;
-		} else if (task instanceof NormalTask) {
-			file_type = filename_normal;
-		} else if (task instanceof RecurrenceTask) {
-			file_type = filename_recur;
-		} else if (task instanceof DeadlineTask) {
-			file_type = filename_deadline;
-		}
+		file_type = getFileType(task);
 
 		String gsonSerial = Serializer.serializeToJson(task);
 		PrintWriter filewrite = null;
@@ -72,7 +64,24 @@ public class FileIO {
 			status = new Success(false, Message.ERROR_SAVE_INTO_FILE);
 		}
 
+
 		return status;
+	}
+	
+	private String getFileType(Task task) {
+		
+		String type = null;
+		
+		if (task instanceof FloatingTask) {
+			type = filename_floating;
+		} else if (task instanceof NormalTask) {
+			type = filename_normal;
+		} else if (task instanceof RecurrenceTask) {
+			type = filename_recur;
+		} else if (task instanceof DeadlineTask) {
+			type = filename_deadline;
+		}
+		return type;
 	}
 	/**
 	 *
@@ -85,19 +94,7 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
-		if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
-			file_type = filename_floating;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
-			file_type = filename_normal;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
-			file_type = filename_recur;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
-			file_type = filename_deadline;
-		}
+		file_type = getFileTypeWithKeyword(file_keyword);
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
@@ -145,6 +142,27 @@ public class FileIO {
 		}
 
 		return successObj;
+	}
+
+	private String getFileTypeWithKeyword(String file_keyword) {
+		
+		String type = "";
+		
+		if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
+			type = filename_floating;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
+			type = filename_normal;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
+			type= filename_recur;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
+			type = filename_deadline;
+		}
+		
+		return type;
 	}
 	/**
 	 *
@@ -227,8 +245,7 @@ public class FileIO {
 			List<Task> taskList = new ArrayList<Task>();
 
 			recurReader = new BufferedReader(new FileReader(filename_recur));
-			deadlineReader = new BufferedReader(new FileReader(
-					filename_deadline));
+			deadlineReader = new BufferedReader(new FileReader(filename_deadline));
 			normalReader = new BufferedReader(new FileReader(filename_normal));
 
 			String printLine;
@@ -981,15 +998,7 @@ public class FileIO {
 
 		BufferedReader reader = null;
 
-		if (taskObj instanceof FloatingTask) {
-			file_type = filename_floating;
-		} else if (taskObj instanceof NormalTask) {
-			file_type = filename_normal;
-		} else if (taskObj instanceof RecurrenceTask) {
-			file_type = filename_recur;
-		} else if (taskObj instanceof DeadlineTask) {
-			file_type = filename_deadline;
-		}
+		getFileType(taskObj);
 
 		try {
 
@@ -1128,15 +1137,7 @@ public class FileIO {
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
 		Success successObj = null;
 		BufferedReader reader = null;
-		if (taskObj instanceof FloatingTask) {
-			file_type = filename_floating;
-		} else if (taskObj instanceof NormalTask) {
-			file_type = filename_normal;
-		} else if (taskObj instanceof RecurrenceTask) {
-			file_type = filename_recur;
-		} else if (taskObj instanceof DeadlineTask) {
-			file_type = filename_deadline;
-		}
+		getFileType(taskObj);
 
 		try {
 
