@@ -22,6 +22,17 @@ public class AddParser {
 	private Engine engine = null;
 	private DataParser dataParser = null;
 
+	/**
+	 * This constructor takes in a full map of keywords, if any. It will make
+	 * use of the data in data parser to manipulate information.
+	 * 
+	 * @param keywordFullMap
+	 *            a hash map of first string mapped onto second string
+	 * @param dataParser
+	 *            the data that contains current information
+	 * @return
+	 */
+	// @author A0111916M
 	public AddParser(Map<String, String> keywordFullMap, DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
@@ -29,12 +40,18 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method begins the process of add command.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @param dataParser
+	 *            the information consist within this session
+	 * @return Success object
+	 * 
 	 */
-	// @author
-	protected Success processAddCommand(String remainingCommand, DataParser dataParser) {
+	// @author A0111916M
+	protected Success processAddCommand(String remainingCommand,
+			DataParser dataParser) {
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		remainingCommand = remainingCommand.trim();
@@ -50,11 +67,14 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Parse the add command. It will call the necessary interpreter, based on
+	 * keywords.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	protected Success parseAddCommand(String remainingCommand) {
 
 		Success status = null;
@@ -152,11 +172,15 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Interpret the commands into Normal Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	private Success createNormalTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -250,11 +274,15 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Interpret the commands into Deadline Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	private Success createDeadlineTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -317,11 +345,15 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Interpret the commands into Recurrence Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -443,11 +475,15 @@ public class AddParser {
 	}
 
 	/**
-	 *
-	 * @param
+	 * Interpret the commands into Floating Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingPriority
+	 *            remains of the priority, if any
 	 * @return
 	 */
-	// @author
+	// @author A0111916M
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
 		taskDesc = taskDesc.trim();

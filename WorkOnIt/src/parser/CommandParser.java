@@ -19,11 +19,9 @@ public class CommandParser {
 	private static DataParser dataParser = null;
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Constructor for Command Parser. It will set up necessary datas.
 	 */
-	// @author
+	// @author A0111916M
 	public CommandParser() {
 
 		engine = new Engine();
@@ -34,11 +32,10 @@ public class CommandParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Load the configuration file (command.cfg) which contains the customized
+	 * keyword mapping. The content of this file is in JSON.
 	 */
-	// @author
+	// @author A0111916M
 	private void loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();
@@ -46,11 +43,12 @@ public class CommandParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Get a list of history that were saved as a file, based on what the user
+	 * have added.
+	 * 
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	public Success getHistory() {
 
 		Success status = null;
@@ -61,11 +59,14 @@ public class CommandParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * The start of the parsing process. It will check the first word of
+	 * fullCommand, and determine which command to execute.
+	 * 
+	 * @param fullCommand
+	 *            Full command that is entered by user
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	public Success parseCommand(String fullCommand) {
 
 		Success status = null;
@@ -141,10 +142,24 @@ public class CommandParser {
 		return status;
 	}
 
+	/**
+	 * Exit the program if an exit command is entered.
+	 */
+	// @author A0111916M
 	private void executeExitCommand() {
 		System.exit(0);
 	}
 
+	/**
+	 * Begin executing "undone" command. It will call DoneParser to continue
+	 * parsing command for "undone". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeUndoneCommand(String remainingCommand) {
 
 		Success status;
@@ -156,6 +171,16 @@ public class CommandParser {
 		return status;
 	}
 
+	/**
+	 * Begin executing "done" command. It will call DoneParser to continue
+	 * parsing command for "done". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeDoneCommand(String remainingCommand) {
 
 		Success status;
@@ -168,11 +193,13 @@ public class CommandParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Begin executing "undo" command. It will call Engine to continue parsing
+	 * command for "undo". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
+	 * 
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	private Success executeUndoCommand() {
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		Success status = engine.undoTask();
@@ -182,11 +209,13 @@ public class CommandParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Begin executing "redo" command. It will call Engine to continue parsing
+	 * command for "redo". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
+	 * 
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	private Success executeRedoCommand() {
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		Success status = engine.redoTask();
@@ -195,6 +224,16 @@ public class CommandParser {
 		return status;
 	}
 
+	/**
+	 * Begin executing "display" command. It will call DisplayParser to continue
+	 * parsing command for "display". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeDisplayCommand(String remainingCommand) {
 
 		Success status;
@@ -209,16 +248,28 @@ public class CommandParser {
 		if (status.isSuccess() == true) {
 			dataParser.appendLastRetrieve(remainingCommand);
 			if (status.getObj() != null) {
-				dataParser.setRetrievedTaskList((ArrayList<Task>) status.getObj());
+				dataParser.setRetrievedTaskList((ArrayList<Task>) status
+						.getObj());
 			}
 		}
 		return status;
 	}
 
+	/**
+	 * Begin executing "retrieve" command. It will call RetrieveParser to
+	 * continue parsing command for "retrieve". It will pass back a Success
+	 * object to parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111837J
 	private Success executeRetrieveCommand(String remainingCommand) {
 
 		Success status;
-		RetrieveParser retrieveParser = new RetrieveParser(keywordFullMap, dataParser);
+		RetrieveParser retrieveParser = new RetrieveParser(keywordFullMap,
+				dataParser);
 
 		dataParser.setLastRetrieve(KeywordConstant.KEYWORD_RETRIEVE);
 		remainingCommand = remainingCommand.trim();
@@ -229,12 +280,23 @@ public class CommandParser {
 		if (status.isSuccess() == true) {
 			dataParser.appendLastRetrieve(remainingCommand);
 			if (status.getObj() != null) {
-				dataParser.setRetrievedTaskList((ArrayList<Task>) status.getObj());
+				dataParser.setRetrievedTaskList((ArrayList<Task>) status
+						.getObj());
 			}
 		}
 		return status;
 	}
 
+	/**
+	 * Begin executing "delete" command. It will call DeleteParser to continue
+	 * parsing command for "delete". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeDeleteCommand(String remainingCommand) {
 
 		Success status;
@@ -246,6 +308,16 @@ public class CommandParser {
 		return status;
 	}
 
+	/**
+	 * Begin executing "update" command. It will call UpdateParser to continue
+	 * parsing command for "update". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeUpdateCommand(String remainingCommand) {
 
 		Success status;
@@ -258,6 +330,16 @@ public class CommandParser {
 		return status;
 	}
 
+	/**
+	 * Begin executing "add" command. It will call AddParser to continue
+	 * parsing command for "add". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// @author A0111916M
 	private Success executeAddCommand(String remainingCommand) {
 
 		Success status;

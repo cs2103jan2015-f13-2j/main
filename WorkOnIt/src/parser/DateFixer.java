@@ -16,11 +16,20 @@ public class DateFixer {
 												// process
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will fix any Date object to its beginning time, which is
+	 * 0000H. Example: [17 APRIL 2015 5:30PM] (current time stamp) translated to
+	 * [17 APRIL 2015 00:00:01H]
+	 * 
+	 * This method will not fix the date, if no fixing is needed. It will just
+	 * return the same date.
+	 * 
+	 * @param inDate
+	 *            the Date object that is intending to be fixed, if needed
+	 * 
+	 * @return fixedDate the Date object that is fixed or unfixed
+	 * 
 	 */
-	// @author
+	// @author A0111916M
 	protected static Date fixStartDate(Date inDate) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -50,11 +59,20 @@ public class DateFixer {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will fix any Date object to its ending time, which is 2359H.
+	 * Example: [17 APRIL 2015 5:30PM] (current time stamp) translated to [17
+	 * APRIL 2015 23:59:59H]
+	 * 
+	 * This method will not fix the date, if no fixing is needed. It will just
+	 * return the same date.
+	 * 
+	 * @param inDate
+	 *            the Date object that is intending to be fixed, if needed
+	 * 
+	 * @return fixedDate the Date object that is fixed or unfixed
+	 * 
 	 */
-	// @author
+	// @author A0111916M
 	protected static Date fixEndDate(Date inDate) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -84,11 +102,17 @@ public class DateFixer {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Using Natty to parse any given String to List of Date(s). A String may
+	 * resembles more than one Date object(s). Natty will include all possible
+	 * Date object(s) into an ArrayList<Date>.
+	 * 
+	 * @param dateInfo
+	 *            The date(s) in String form
+	 * @return List of Date(s) Return one or more Date object, if the String
+	 *         contains at least one Date resemblance
+	 * 
 	 */
-	// @author
+	// @author A0111916M
 	protected static List<Date> parseStringToDate(String dateInfo) {
 
 		List<Date> dates = new ArrayList<Date>();
@@ -108,11 +132,19 @@ public class DateFixer {
 	}
 
 	/**
-	 *
-	 * @param
+	 * It will fixed the Date to its intended starting Date, depending on view,
+	 * if needed. type. Example : [DAY - fix the Date object to 0000H] [WEEK -
+	 * fix the Date object to a date that is the first day of that particular
+	 * week, with 0000H] [MONTH - fix the date to the first day of the month,
+	 * with 0000H]
+	 * 
+	 * @param inDate
+	 *            The date that is needed to be fixed, if required.
+	 * @param displayType
+	 *            DAY, WEEK, MONTH view
 	 * @return
 	 */
-	// @author
+	// @author A0111916M
 	protected static Date fixStartDateDisplay(Date inDate, String displayType) {
 
 		Calendar inCalendar = Calendar.getInstance();
@@ -189,11 +221,19 @@ public class DateFixer {
 	}
 
 	/**
-	 *
-	 * @param
+	 * It will fixed the Date to its intended ending Date, depending on view, if
+	 * needed. type. Example : [DAY - fix the Date object to 2359H] [WEEK - fix
+	 * the Date object to a date that is the last day of that particular week,
+	 * with 2359H] [MONTH - fix the date to the last day of the month, with
+	 * 2359H]
+	 * 
+	 * @param inDate
+	 *            The date that is needed to be fixed, if required.
+	 * @param displayType
+	 *            DAY, WEEK, MONTH view
 	 * @return
 	 */
-	// @author
+	// @author A0111916M
 	protected static Date fixEndDateDisplay(Date inDate, String displayType) {
 
 		Calendar inCalendar = Calendar.getInstance();

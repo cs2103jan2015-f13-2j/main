@@ -14,16 +14,20 @@ public class DisplayParser {
 
 	private Engine engine = null;
 
+	/**
+	 * This constructor will instantiate an Engine instance.
+	 * 
+	 */
+	// @author A0111916M
 	public DisplayParser() {
 		engine = new Engine();
 	}
 
 	/**
-	 *
-	 * @param
+	 * @param remainingCommand
 	 * @return
 	 */
-	// @author
+	// @author A0111916M
 	protected SuccessDisplay parseDisplayCommand(String remainingCommand) {
 
 		SuccessDisplay status = null;

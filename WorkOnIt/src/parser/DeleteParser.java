@@ -15,19 +15,35 @@ public class DeleteParser {
 	private Engine engine = null;
 	private Map<String, String> keywordFullMap = null;
 	private DataParser dataParser = null;
-	
-	public DeleteParser(Map<String, String> keywordFullMap, DataParser dataParser) {
+
+	/**
+	 * This constructor takes in a full map of keywords, if any. It will make
+	 * use of the data in data parser to manipulate information.
+	 * 
+	 * @param keywordFullMap
+	 *            a hash map of first string mapped onto second string
+	 * @param dataParser
+	 *            the data that contains current information
+	 * @return
+	 */
+	// @author A0111916M
+	public DeleteParser(Map<String, String> keywordFullMap,
+			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		engine = new Engine();
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This will parse the delete command. It will call Engine and will receive
+	 * a Success object. This Success object will be returned back to
+	 * CommandParser, which will then return to UI tier.
+	 * 
+	 * @param index
+	 *            index of task to be deleted
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	protected Success parseDeleteCommand(String index) {
 
 		Success status = null;
@@ -42,7 +58,8 @@ public class DeleteParser {
 
 			while (sc.hasNext()) {
 				int currIndex = Integer.parseInt(sc.next());
-				if (currIndex <= 0 || currIndex > dataParser.getRetrievedTaskList().size()) {
+				if (currIndex <= 0
+						|| currIndex > dataParser.getRetrievedTaskList().size()) {
 					sc.close();
 					throw new IndexOutOfBoundsException(
 							Message.ERROR_DELETE_INVALID_INDEX);
@@ -54,14 +71,15 @@ public class DeleteParser {
 
 				int unfixedIndex = indexList.get(i);
 				int indexOffset = unfixedIndex - 1;
-				Task taskToRemove = dataParser.getRetrievedTaskList().get(indexOffset);
+				Task taskToRemove = dataParser.getRetrievedTaskList().get(
+						indexOffset);
 
 				taskToDeleteList.add(taskToRemove);
 			}
-			
+
 			status = engine.deleteTask(taskToDeleteList);
 			auxParser.secondaryListRetrieval(status);
-			
+
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
@@ -71,7 +89,7 @@ public class DeleteParser {
 		} catch (Exception e) {
 			status = new Success(false, Message.ERROR_DELETE);
 		}
-		
+
 		sc.close();
 
 		return status;
