@@ -14,8 +14,10 @@
 	text-align: right;
 }
 
+
 body .fc { /* extra precedence to overcome jqui */
 	font-size: 1em;
+	font-family: "Arial", sans-serif;
 }
 
 
