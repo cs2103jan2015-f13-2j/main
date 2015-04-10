@@ -1061,8 +1061,9 @@ public class Validator {
 			if (!dateList.isEmpty()) {
 				fromDate = dateList.remove(0);
 			}
-
-			status = engine.searchTask(searchString, fromDate);
+			Date fixedSingleDate = fixStartDate(fromDate);
+					
+			status = engine.searchTask(searchString, fixedSingleDate);
 
 		} else if (isSingleDate == true && isDoubleDate == true) {
 			Date fromDate = null;
@@ -1078,8 +1079,9 @@ public class Validator {
 			if (!dateList.isEmpty()) {
 				maxDate = dateList.remove(0);
 			}
-
-			status = engine.searchTask(searchString, fromDate, maxDate);
+			Date fixedSingleDate = fixStartDate(fromDate);
+			
+			status = engine.searchTask(searchString, fixedSingleDate , maxDate);
 
 		} else if (isSingleDate == false && isDoubleDate == true) {
 			Date fromDate = null;
@@ -1095,8 +1097,10 @@ public class Validator {
 			if (!dateList.isEmpty()) {
 				endDate = dateList.remove(0);
 			}
-
-			status = engine.searchTask(searchString, fromDate, endDate);
+			Date fixedStartDate = fixStartDate(fromDate);
+			Date fixedEndDate = fixEndDate(endDate);
+			
+			status = engine.searchTask(searchString, fixedStartDate, fixedEndDate);
 
 		}
 
@@ -1181,8 +1185,8 @@ public class Validator {
 					if (!dateList.isEmpty()) {
 						fromDate = dateList.remove(0);
 					}
-
-					status = engine.retrieveTask(priority, fromDate);
+					Date fixedSingleDate = fixStartDate(fromDate);
+					status = engine.retrieveTask(priority, fixedSingleDate);
 
 				} else if (isSingleDate == true && isDoubleDate == true) {
 
@@ -1201,7 +1205,8 @@ public class Validator {
 						maxDate = dateMaxList.remove(0);
 					}
 
-					status = engine.retrieveTask(priority, fromDate, maxDate);
+					Date fixedSingleDate = fixStartDate(fromDate);
+					status = engine.retrieveTask(priority, fixedSingleDate, maxDate);
 
 				} else if (isSingleDate == false && isDoubleDate == true) {
 
@@ -1222,7 +1227,9 @@ public class Validator {
 						}
 					}
 					System.out.println(fromDate + " " + toDate);
-					status = engine.retrieveTask(priority, fromDate, toDate);
+					Date fixedStartDate = fixStartDate(fromDate);
+					Date fixedEndDate = fixEndDate(toDate);
+					status = engine.retrieveTask(priority, fixedStartDate, fixedEndDate);
 				}
 
 			}
