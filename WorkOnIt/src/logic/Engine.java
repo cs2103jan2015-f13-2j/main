@@ -243,6 +243,27 @@ public class Engine {
 
 		return status;
 	}
+	
+	public Success getCompleteTaskWithDate(boolean isComplete ,Date date) {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		status = dataStorage.loadCompletedTaskWithDate(isComplete, date);
+
+		return status;
+	}
+	
+	public Success getCompleteTaskBetweenDate(boolean isComplete, Date startDate, Date endDate) {
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		status = dataStorage.loadCompletedTaskBetweenDate(isComplete, startDate, endDate);
+
+		return status;
+	}
+
 	/**
 	 *
 	 * @param  	

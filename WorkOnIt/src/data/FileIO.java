@@ -674,6 +674,116 @@ public class FileIO {
 		return successObj;
 	
 	}
+	
+	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date){
+		Success successObj;
+		BufferedReader reader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+	
+				reader = new BufferedReader(new FileReader(filename_normal));
+				while ((printLine = reader.readLine()) != null) {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted && checkNormalTaskDate(task, date)) {
+						taskList.add(task);
+					}
+				}
+
+			
+	
+				reader = new BufferedReader(new FileReader(filename_deadline));
+				while ((printLine = reader.readLine()) != null) {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted && task.getDeadline().compareTo(date) >= 0) {
+						taskList.add(task);
+					}
+				
+
+			}
+		
+				reader = new BufferedReader(new FileReader(filename_floating));
+				while ((printLine = reader.readLine()) != null) {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	
+	}
+	
+	public Success loadCompletedTaskBetweenDate(boolean isCompleted, Date startDate, Date endDate){
+		Success successObj;
+		BufferedReader reader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+	
+				reader = new BufferedReader(new FileReader(filename_normal));
+				while ((printLine = reader.readLine()) != null) {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted && checkNormalTaskBetweenDate(task, startDate, endDate)) {
+						taskList.add(task);
+					}
+				}
+
+			
+	
+				reader = new BufferedReader(new FileReader(filename_deadline));
+				while ((printLine = reader.readLine()) != null) {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted && task.getDeadline().compareTo(startDate) >= 0) {
+						taskList.add(task);
+					}
+				
+
+			}
+		
+				reader = new BufferedReader(new FileReader(filename_floating));
+				while ((printLine = reader.readLine()) != null) {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	
+	}
 	/**
 	 *
 	 * @param  	
