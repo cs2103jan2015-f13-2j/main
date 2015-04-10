@@ -1,5 +1,6 @@
 package data;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -78,27 +79,27 @@ public class InitFileIO {
 
 		return isExist;
 	}
-	
-	 
-	public static void copyFileUsingFileStreams(String sourceString, String destString)
-			throws IOException {
-		
-		File source = new File(sourceString);
+
+	public static void copyFileUsingFileStreams(String sourceString,
+			String destString) throws IOException {
+
 		File dest = new File(destString);
-		
-		System.out.println("initfileIO : " + source.getPath());
-		
+
+		if (!dest.exists()) {
+			dest.createNewFile();
+		}
+
 		InputStream input = null;
 		OutputStream output = null;
 		try {
-			input = new FileInputStream(source);
+			input = ChooseFolder.class.getResourceAsStream(sourceString);
 			output = new FileOutputStream(dest);
 			byte[] buf = new byte[1024];
 			int bytesRead;
 			while ((bytesRead = input.read(buf)) > 0) {
 				output.write(buf, 0, bytesRead);
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			input.close();

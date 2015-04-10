@@ -369,27 +369,43 @@ public class FileName {
 		FileName.filenameCalendarUi = filenameCalendarUi;
 	}
 
+	public static String getFolderCss() {
+		return getCanonicalPath() + File.separator + getWebUiPath() + File.separator + folderCss;
+	}
+
+	public static void setFolderCss(String folderCss) {
+		FileName.folderCss = folderCss;
+	}
+
+	public static String getFolderJs() {
+		return getCanonicalPath() + File.separator + getWebUiPath() + File.separator + folderJs;
+	}
+
+	public static void setFolderJs(String folderJs) {
+		FileName.folderJs = folderJs;
+	}
+
 	public static String getFileNameMomentLocal() {
-		return getCanonicalPath() + File.separator + folderJs + File.separator
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath() + File.separator + folderJs + File.separator
 				+ fileNameMoment;
 	}
 
 	public static String getFileNameJqueryLocal() {
-		return getCanonicalPath() + File.separator + folderJs + File.separator
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath() + File.separator + folderJs + File.separator
 				+ fileNameJquery;
 	}
 
 	public static String getFileNameFullCalendarJsLocal() {
-		return getCanonicalPath() + File.separator + folderJs + File.separator
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath() + File.separator + folderJs + File.separator
 				+ fileNameFullCalendarJs;
 	}
 
 	public static String getFileNameCalendarViewLocal() {
-		return getCanonicalPath() + filenameCalendarUi;
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath() + File.separator + filenameCalendarUi;
 	}
 
 	public static String getFileNameFullCalendarCssLocal() {
-		return getCanonicalPath() + File.separator + folderCss + File.separator
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath() + File.separator + folderCss + File.separator
 				+ fileNameFullCalendarCss;
 	}
 

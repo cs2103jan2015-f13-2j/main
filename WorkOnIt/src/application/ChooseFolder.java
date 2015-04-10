@@ -116,24 +116,39 @@ public class ChooseFolder extends Application {
 	 */
 	// @author
 	private static void createWebUiFiles() {
-		
+
 		try {
-			
-//			File file = new File("/webUI/moment.js");
-			System.out.println("Working Directory = " +
-		              System.getProperty("user.dir"));
-			System.out.println("choose folder " + FileName.getFileNameMomentProgram());
-			System.out.println("choose folder " + FileName.getFileNameMomentLocal());
-			
-			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameMomentProgram(), FileName.getFileNameMomentLocal());
-			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameJqueryProgram(), FileName.getFileNameJqueryLocal());
-			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameFullCalendarJsProgram(), FileName.getFileNameFullCalendarJsLocal());
-			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameCalendarViewProgram(), FileName.getFileNameCalendarViewLocal());
-			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameFullCalendarCssProgram(), FileName.getFileNameFullCalendarCssLocal());
+
+			File cssFolder = new File(FileName.getFolderCss());
+			File jsFolder = new File(FileName.getFolderJs());
+
+			if (!cssFolder.exists()) {
+				cssFolder.mkdirs();
+			}
+
+			if (!jsFolder.exists()) {
+				jsFolder.mkdirs();
+			}
+
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameMomentProgram(),
+					FileName.getFileNameMomentLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameJqueryProgram(),
+					FileName.getFileNameJqueryLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameFullCalendarJsProgram(),
+					FileName.getFileNameFullCalendarJsLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameCalendarViewProgram(),
+					FileName.getFileNameCalendarViewLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameFullCalendarCssProgram(),
+					FileName.getFileNameFullCalendarCssLocal());
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 	}
 }
