@@ -38,11 +38,12 @@ public class FileIO {
 	private static String file_type;
 
 	/**
+	 *	save task into into data file base on it Class Type.
 	 *
-	 * @param
-	 * @return
+	 * @param task created by user
+	 * @return Success Object which contain the success/failure message
 	 */
-	// @author
+	// @author A0112694
 	public Success saveIntoFile(Task task) {
 
 		Success status = null;
@@ -87,11 +88,12 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file base the on keyword for the class.
 	 *
-	 * @param
-	 * @return
+	 * @param 	String	keyword which specific which class type to retrieve
+	 * @return Success 	Object which contain the success/failure message
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromFileTask(String file_keyword) {
 
 		Success successObj;
@@ -188,11 +190,12 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file base on the input date 
 	 *
-	 * @param
-	 * @return
+	 * @param 	date 	which specific which task to retrieve
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromStartDate(Date date) {
 
 		Success successObj;
@@ -268,11 +271,13 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file in between the start date and end date. 
 	 *
-	 * @param
-	 * @return
+	 * @param 	Date 	startDate which specific the start date
+	 * @param 	Date 	endDate which specific the end date
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
 
 		Success successObj;
@@ -344,11 +349,12 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file base on task priority 
 	 *
-	 * @param
-	 * @return
+	 * @param 	int 	specific task priority for the task
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromPriority(int priority) {
 
 		Success successObj;
@@ -433,11 +439,13 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file base on its priority and its date
 	 *
-	 * @param
-	 * @return
+	 * @param 	int 	specific task priority for the task
+	 * @param 	Date 	date which specific the end date
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
 		Success successObj;
@@ -517,11 +525,14 @@ public class FileIO {
 	}
 
 	/**
+	 *	load task from data file in between the start date,end date and priority. 
 	 *
-	 * @param
-	 * @return
+	 * @param 	int 	specific task priority for the task
+	 * @param 	Date 	startDate which specific the start date
+	 * @param 	Date 	endDate which specific the end date
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
 			Date endDate) {
 
@@ -599,12 +610,7 @@ public class FileIO {
 		return successObj;
 	}
 
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	// @author
+	/*
 	public Success loadFromStartDateWithTask(Task taskObj, Date date) {
 
 		Success successObj;
@@ -688,6 +694,7 @@ public class FileIO {
 	 * @return
 	 */
 	// @author
+	/*
 	public Success loadFromBetweenDateWithTask(Task taskObj, Date startDate,
 			Date endDate) {
 
@@ -761,13 +768,16 @@ public class FileIO {
 
 		return successObj;
 	}
-
+*/
+	
+	
 	/**
+	 *	load task from data file which already marked as done
 	 *
-	 * @param
-	 * @return
+	 * @param 	boolean the specific boolean which indicate wether task is already completed
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success getCompletedTask(boolean isCompleted) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -829,7 +839,14 @@ public class FileIO {
 		return successObj;
 
 	}
-
+	/**
+	 *	load task from data file which already marked as done on a date.
+	 *
+	 * @param 	boolean the specific boolean which indicate wether task is already completed
+	 * @param 	Date 	date which specific the task date
+	 * @return 	Success Object which contain message and task ArrayList from data file
+	 */
+	// @author A0112694
 	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -894,7 +911,15 @@ public class FileIO {
 		return successObj;
 
 	}
-
+	/**
+	 *	load task from data file which already marked as done from a start date to an end date.
+	 *
+	 * @param 	boolean The specific boolean which indicate wether task is already completed
+	 * @param 	Date 	start date which specific the task date
+	 * @param 	Date 	end date which specific the task date
+	 * @return 	Success Object which contain message and task ArrayList from data file
+	 */
+	// @author A0112694
 	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
 			Date startDate, Date endDate) {
 		Success successObj;
@@ -963,11 +988,12 @@ public class FileIO {
 	}
 
 	/**
+	 * search for a list of task base on the keyword entered
 	 *
-	 * @param
-	 * @return
+	 * @param 	String 		specific keyword which user enter to search
+	 * @return 	Success 	Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success searchFromFile(String keyword) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -1048,11 +1074,13 @@ public class FileIO {
 	}
 
 	/**
+	 * search for a list of task base on the keyword entered on a date
 	 *
-	 * @param
-	 * @return
+	 * @param 	String 		specific keyword which user enter to search
+	 * @param 	Date 		specific date which user enter to search
+	 * @return 	Success 	Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success searchFromFileWithDate(String keyword, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -1122,11 +1150,14 @@ public class FileIO {
 	}
 
 	/**
+	 * search for a list of task base on the keyword entered from a start date to an end date
 	 *
-	 * @param
-	 * @return
+	 * @param 	String 		specific keyword which user enter to search
+	 * @param 	Date 		specific start date which user enter to search
+	 * @param 	Date 		specific end date which user enter to search
+	 * @return 	Success 	Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success searchFromFileBetweenDate(String keyword, Date startDate,
 			Date endDate) {
 		Success successObj;
@@ -1197,11 +1228,12 @@ public class FileIO {
 	}
 
 	/**
+	 * Delete task from the data file 
 	 *
-	 * @param
-	 * @return
+	 * @param 	Task 	the specific task that need to be deleted from the data file
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success deleteFromFile(Task taskObj) {
 		Success successObj = null;
 
@@ -1358,11 +1390,13 @@ public class FileIO {
 	}
 
 	/**
+	 * update task from the data file by overwriting the old task.
 	 *
-	 * @param
-	 * @return
+	 * @param 	Task 	the specific task that need to be updated from the data file
+	 * @param 	Task 	the specific task that need to be deleted from the data file
+	 * @return 	Success Object which contain message and task ArrayList from data file
 	 */
-	// @author
+	// @author A0112694
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
 		Success successObj = null;
 		BufferedReader reader = null;
@@ -1607,11 +1641,13 @@ public class FileIO {
 	 * return matchDate; }
 	 */
 	/**
+	 * Check wether the task date and the date entered are the same
 	 *
-	 * @param
-	 * @return
+	 * @param 	Task 	the task which have the task date to be compared
+	 * @param 	Date 	the date that need to be compared
+	 * @return 	boolean true if the both date are the same
 	 */
-	// @author
+	// @author A0112694
 	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 

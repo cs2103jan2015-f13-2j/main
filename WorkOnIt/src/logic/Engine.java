@@ -234,6 +234,7 @@ public class Engine {
 	//@author 
 	// retrieve task with specific task and date (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
+	/*
 	public Success retrieveTask(Task task, Date date) throws IOException {
 
 		Success status = null;
@@ -242,7 +243,7 @@ public class Engine {
 		status = dataStorage.loadFromStartDateWithTask(task, date);
 
 		return status;
-	}
+	}*/
 	
 	public Success getCompleteTaskWithDate(boolean isComplete ,Date date) {
 
@@ -272,6 +273,7 @@ public class Engine {
 	//@author 
 	// retrieve task with specific priority (EG. URGENT)
 	// Affected File > NormalTask, DeadlineTask, RecurTask
+	/*
 	public Success retrieveTask(Task task, Date startDate, Date endDate)
 			throws IOException {
 
@@ -282,7 +284,7 @@ public class Engine {
 				endDate);
 
 		return status;
-	}
+	}*/
 	/**
 	 *
 	 * @param  	
