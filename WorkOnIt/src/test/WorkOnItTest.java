@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import logic.KeywordValidator;
 import logic.Validator;
 import data.InitFileIO;
 
@@ -17,6 +18,7 @@ import entity.Task;
 public class WorkOnItTest {
 
 	Validator testValidator = null;
+	KeywordValidator keywordValidator = null;
 	InitFileIO initFile = null;
 	List<String> addCommandList = null;
 
@@ -24,6 +26,7 @@ public class WorkOnItTest {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
 		testValidator = new Validator();
+		keywordValidator = new KeywordValidator();
 		addCommandList = new ArrayList<String>();
 	}
 
@@ -145,7 +148,7 @@ public class WorkOnItTest {
 
 		String keyword = "add";
 
-		boolean isKeyword = testValidator.validateKeyword(keyword);
+		boolean isKeyword = keywordValidator.validateKeyword(keyword);
 
 		assertTrue(isKeyword);
 	}
@@ -158,7 +161,7 @@ public class WorkOnItTest {
 
 		String command = "retrievee";
 
-		boolean isKeyword = testValidator.validateKeyword(command);
+		boolean isKeyword = keywordValidator.validateKeyword(command);
 
 		assertFalse(isKeyword);
 	}
@@ -177,7 +180,8 @@ public class WorkOnItTest {
 		keywordList.add("to");
 		keywordList.add("priority");
 
-		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
 
 		assertTrue(isKeyword);
 	}
@@ -196,7 +200,8 @@ public class WorkOnItTest {
 		keywordList.add("from");
 		keywordList.add("priority");
 
-		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
 
 		assertFalse(isKeyword);
 	}
@@ -216,7 +221,8 @@ public class WorkOnItTest {
 		keywordList.add("priority");
 		keywordList.add("urgent");
 
-		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
 
 		assertTrue(isKeyword);
 	}
@@ -236,7 +242,8 @@ public class WorkOnItTest {
 		keywordList.add("priority");
 		keywordList.add("urgent");
 
-		boolean isKeyword = testValidator.validateKeywordSequence(keywordList);
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
 
 		assertFalse(isKeyword);
 	}
@@ -881,7 +888,7 @@ public class WorkOnItTest {
 
 			status = testValidator.parseCommand(undoCommand);
 		}
-		
+
 		if (status.isSuccess()) {
 
 			String redoCommand = "redo";
@@ -920,7 +927,7 @@ public class WorkOnItTest {
 
 			status = testValidator.parseCommand(undoCommand);
 		}
-		
+
 		if (status.isSuccess()) {
 
 			String redoCommand = "redo";
@@ -936,7 +943,7 @@ public class WorkOnItTest {
 		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
 		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
 		taskAddedList.add("mock task on 10 Apr 2015,  5:00:00 PM");
-		
+
 		testEquals(retrieveCommand, taskAddedList);
 	}
 

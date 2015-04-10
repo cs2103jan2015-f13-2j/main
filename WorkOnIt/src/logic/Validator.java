@@ -39,8 +39,23 @@ public class Validator {
 	//@author 
 	public Validator() {
 		engine = new Engine();
-		loadConfigFile();
+		
+		KeywordValidator keywordValidator = new KeywordValidator();
+		keywordFullMap = keywordValidator.getKeywordFullMap();
 	}
+	
+	/**
+	 *
+	 * @param  	
+	 * @return      
+	 */
+	//@author 
+	private void loadConfigFile() {
+
+		ConfigIO config = new ConfigIO();
+		keywordFullMap = config.getFullKeywordMap();
+	}
+	
 	/**
 	 *
 	 * @param  	
@@ -50,69 +65,7 @@ public class Validator {
 	public void setRetrievedTaskList(ArrayList<Task> list) {
 		retrievedTaskList = list;
 	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
-	public boolean validateKeyword(String keyword) {
-
-		boolean isKeyword = false;
-
-		fixKeywordInconsistency(keyword);
-
-		if (keywordFullMap.containsKey(keyword)) {
-			isKeyword = true;
-		}
-
-		return isKeyword;
-	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
-	public boolean validateKeywordSequence(List<String> keywordList) {
-		
-		fixKeywordInconsistency(keywordList);
-		
-		KeywordStructure keySequence = new KeywordStructure();
-		boolean isValidSequence = keySequence.checkKeyword(keywordList);
-
-		return isValidSequence;
-	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
-	private String fixKeywordInconsistency(String keyword) {
-
-		keyword = keyword.toLowerCase();
-		keyword = keyword.trim();
-
-		return keyword;
-	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
-	private List<String> fixKeywordInconsistency(List<String> keywordList) {
-
-		for (int i = 0; i < keywordList.size(); i++) {
-			String currKeyWord = keywordList.get(i);
-			currKeyWord = currKeyWord.toLowerCase();
-			currKeyWord = currKeyWord.trim();
-			keywordList.set(i, currKeyWord);
-		}
-
-		return keywordList;
-	}
+	
 	/**
 	 *
 	 * @param  	
@@ -1789,17 +1742,7 @@ public class Validator {
 
 		return processedDate;
 	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
-	private void loadConfigFile() {
-
-		ConfigIO config = new ConfigIO();
-		keywordFullMap = config.getFullKeywordMap();
-	}
+	
 	/**
 	 *
 	 * @param  	

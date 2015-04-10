@@ -54,6 +54,7 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import logic.KeywordValidator;
 import logic.Validator;
 
 public class Main extends Application {
@@ -62,6 +63,7 @@ public class Main extends Application {
 	private List<String> elementList = null;
 	private List<String> secondaryList = null;
 	private static Validator commandValidator = null;
+	private static KeywordValidator keywordValidator = null;
 	private Success successObj = null;
 	private ArrayList<Integer> indexArray = null;
 	private int indexCounter = 0;
@@ -346,6 +348,7 @@ public class Main extends Application {
 		elementList = new ArrayList<String>();
 		secondaryList = new ArrayList<String>();
 		commandValidator = new Validator();
+		keywordValidator = new KeywordValidator();
 		indexArray = new ArrayList<Integer>();
 	}
 	/**
@@ -375,7 +378,7 @@ public class Main extends Application {
 
 		Success status = null;
 
-		if (commandValidator.validateKeywordSequence(secondaryList) == true) {
+		if (keywordValidator.validateKeywordSequence(secondaryList) == true) {
 			System.out.println(commandString);
 			status = commandValidator.parseCommand(commandString);
 
@@ -460,7 +463,7 @@ public class Main extends Application {
 			currText = new Text(" " + stringArr[i]);
 
 			currText.setFont(Font.font("Arial", 28));
-			if (commandValidator.validateKeyword(stringArr[i])) {
+			if (keywordValidator.validateKeyword(stringArr[i])) {
 				currText.setFill(Color.RED);
 
 			} else {
@@ -530,7 +533,7 @@ public class Main extends Application {
 			stringArr[i] = stringArr[i].toLowerCase();
 			
 			// check if current word is a keyword
-			if (commandValidator.validateKeyword(stringArr[i])) {
+			if (keywordValidator.validateKeyword(stringArr[i])) {
 				// txtF.setStyle("-fx-text-fill: red;");
 
 				String currentKeyword = stringArr[i];
