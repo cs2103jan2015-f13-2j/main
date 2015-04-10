@@ -75,10 +75,13 @@ public class CommandParser {
 		Scanner sc = new Scanner(fullCommand);
 		String commandInput = sc.next();
 		String commandResolved = keywordFullMap.get(commandInput);
+		String remainingCommand = null;
 
-		if (commandResolved != null && sc.hasNext()) {
+		if (commandResolved != null) {
 
-			String remainingCommand = sc.nextLine();
+			if (sc.hasNext()) {
+				remainingCommand = sc.nextLine();
+			}
 
 			if (commandResolved.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
 
@@ -130,10 +133,12 @@ public class CommandParser {
 				executeExitCommand();
 
 			} else {
+				System.out.println("STUPID FAIL1");
 				status = new Success(false, Message.FAIL_PARSE_COMMAND);
 			}
 
 		} else {
+			System.out.println("STUPID FAIL2");
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
@@ -163,11 +168,18 @@ public class CommandParser {
 	private Success executeUndoneCommand(String remainingCommand) {
 
 		Success status;
-		DoneParser undoneParser = new DoneParser(keywordFullMap, dataParser);
 
-		remainingCommand = remainingCommand.trim();
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
 
-		status = undoneParser.undoneCommand(remainingCommand);
+			DoneParser undoneParser = new DoneParser(keywordFullMap, dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = undoneParser.undoneCommand(remainingCommand);
+		}
+
 		return status;
 	}
 
@@ -184,11 +196,18 @@ public class CommandParser {
 	private Success executeDoneCommand(String remainingCommand) {
 
 		Success status;
-		DoneParser doneParser = new DoneParser(keywordFullMap, dataParser);
 
-		remainingCommand = remainingCommand.trim();
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
 
-		status = doneParser.doneCommand(remainingCommand);
+			DoneParser doneParser = new DoneParser(keywordFullMap, dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = doneParser.doneCommand(remainingCommand);
+		}
+
 		return status;
 	}
 
@@ -237,21 +256,28 @@ public class CommandParser {
 	private Success executeDisplayCommand(String remainingCommand) {
 
 		Success status;
-		DisplayParser displayParser = new DisplayParser();
 
-		dataParser.setLastRetrieve(KeywordConstant.KEYWORD_DISPLAY);
-		remainingCommand = remainingCommand.trim();
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
 
-		status = displayParser.parseDisplayCommand(remainingCommand);
+			DisplayParser displayParser = new DisplayParser();
 
-		dataParser.setRetrievedTaskList(null);
-		if (status.isSuccess() == true) {
-			dataParser.appendLastRetrieve(remainingCommand);
-			if (status.getObj() != null) {
-				dataParser.setRetrievedTaskList((ArrayList<Task>) status
-						.getObj());
+			dataParser.setLastRetrieve(KeywordConstant.KEYWORD_DISPLAY);
+			remainingCommand = remainingCommand.trim();
+
+			status = displayParser.parseDisplayCommand(remainingCommand);
+
+			dataParser.setRetrievedTaskList(null);
+			if (status.isSuccess() == true) {
+				dataParser.appendLastRetrieve(remainingCommand);
+				if (status.getObj() != null) {
+					dataParser.setRetrievedTaskList((ArrayList<Task>) status
+							.getObj());
+				}
 			}
 		}
+
 		return status;
 	}
 
@@ -268,22 +294,29 @@ public class CommandParser {
 	private Success executeRetrieveCommand(String remainingCommand) {
 
 		Success status;
-		RetrieveParser retrieveParser = new RetrieveParser(keywordFullMap,
-				dataParser);
 
-		dataParser.setLastRetrieve(KeywordConstant.KEYWORD_RETRIEVE);
-		remainingCommand = remainingCommand.trim();
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
 
-		status = retrieveParser.parseRetrieveCommand(remainingCommand);
+			RetrieveParser retrieveParser = new RetrieveParser(keywordFullMap,
+					dataParser);
 
-		dataParser.setRetrievedTaskList(null);
-		if (status.isSuccess() == true) {
-			dataParser.appendLastRetrieve(remainingCommand);
-			if (status.getObj() != null) {
-				dataParser.setRetrievedTaskList((ArrayList<Task>) status
-						.getObj());
+			dataParser.setLastRetrieve(KeywordConstant.KEYWORD_RETRIEVE);
+			remainingCommand = remainingCommand.trim();
+
+			status = retrieveParser.parseRetrieveCommand(remainingCommand);
+
+			dataParser.setRetrievedTaskList(null);
+			if (status.isSuccess() == true) {
+				dataParser.appendLastRetrieve(remainingCommand);
+				if (status.getObj() != null) {
+					dataParser.setRetrievedTaskList((ArrayList<Task>) status
+							.getObj());
+				}
 			}
 		}
+
 		return status;
 	}
 
@@ -300,10 +333,17 @@ public class CommandParser {
 	private Success executeDeleteCommand(String remainingCommand) {
 
 		Success status;
-		DeleteParser deleteParser = new DeleteParser(keywordFullMap, dataParser);
-		remainingCommand = remainingCommand.trim();
 
-		status = deleteParser.parseDeleteCommand(remainingCommand);
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			DeleteParser deleteParser = new DeleteParser(keywordFullMap,
+					dataParser);
+			remainingCommand = remainingCommand.trim();
+
+			status = deleteParser.parseDeleteCommand(remainingCommand);
+		}
 
 		return status;
 	}
@@ -321,19 +361,26 @@ public class CommandParser {
 	private Success executeUpdateCommand(String remainingCommand) {
 
 		Success status;
-		UpdateParser updateParser = new UpdateParser(keywordFullMap, dataParser);
 
-		remainingCommand = remainingCommand.trim();
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
 
-		status = updateParser.parseUpdateCommand(remainingCommand);
+			UpdateParser updateParser = new UpdateParser(keywordFullMap,
+					dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = updateParser.parseUpdateCommand(remainingCommand);
+		}
 
 		return status;
 	}
 
 	/**
-	 * Begin executing "add" command. It will call AddParser to continue
-	 * parsing command for "add". It will pass back a Success object to
-	 * parseCommand method, which will then pass back to UI tier.
+	 * Begin executing "add" command. It will call AddParser to continue parsing
+	 * command for "add". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
 	 * 
 	 * @param remainingCommand
 	 *            The remaining command that were truncated
@@ -343,10 +390,16 @@ public class CommandParser {
 	private Success executeAddCommand(String remainingCommand) {
 
 		Success status;
-		AddParser addParser = new AddParser(keywordFullMap, dataParser);
-		remainingCommand = remainingCommand.trim();
 
-		status = addParser.processAddCommand(remainingCommand, dataParser);
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			AddParser addParser = new AddParser(keywordFullMap, dataParser);
+			remainingCommand = remainingCommand.trim();
+
+			status = addParser.processAddCommand(remainingCommand, dataParser);
+		}
 
 		return status;
 	}
