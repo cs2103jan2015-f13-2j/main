@@ -162,15 +162,18 @@ public class CommandParser {
 					.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)) {
 
 				if (sc.hasNext()) {
+					lastRetrieve = KeywordConstant.KEYWORD_DISPLAY;
 					String remainingCommand = sc.nextLine();
 					remainingCommand = remainingCommand.trim();
 
 					status = parseDisplayCommand(remainingCommand);
 
 					retrievedTaskList = null;
-
-					if (status.getObj() != null) {
-						retrievedTaskList = (ArrayList<Task>) status.getObj();
+					if (status.isSuccess() == true) {
+						lastRetrieve += " " + remainingCommand;
+						if (status.getObj() != null) {
+							retrievedTaskList = (ArrayList<Task>) status.getObj();
+						}
 					}
 				} else {
 					status = new Success(false, Message.FAIL_PARSE_COMMAND);
@@ -241,16 +244,7 @@ public class CommandParser {
 		if (status.isSuccess()) {
 			task = (Task) status.getObj();
 			status = engine.addTask(task);
-
-			Success retrievalStatus = null;
-			if (status.isSuccess() == true && lastRetrieve != null) {
-				retrievalStatus = parseCommand(lastRetrieve);
-				if (retrievalStatus.isSuccess() == true) {
-					status.setObj(retrievalStatus.getObj());
-					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-							.getObj());
-				}
-			}
+			secondaryListRetrieval(status);
 		}
 		return status;
 	}
@@ -1471,14 +1465,9 @@ public class CommandParser {
 					Task updatedTask = (Task) statusTask.getObj();
 					status = engine.updateTask(updatedTask, taskToRemove);
 
-					if (status.isSuccess() && lastRetrieve != null) {
-						retrievalStatus = parseCommand(lastRetrieve);
-						status.setObj(retrievalStatus.getObj());
-						setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-								.getObj());
-
+					if (status.isSuccess()) {
+						secondaryListRetrieval(status);
 						taskToRemove = null;
-
 					}
 				}
 			} else {
@@ -1532,15 +1521,7 @@ public class CommandParser {
 			}
 
 			status = engine.deleteTask(taskToDeleteList);
-
-			if (status.isSuccess() == true && lastRetrieve != null) {
-				retrievalStatus = parseCommand(lastRetrieve);
-				if (retrievalStatus.isSuccess() == true) {
-					status.setObj(retrievalStatus.getObj());
-					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-							.getObj());
-				}
-			}
+			secondaryListRetrieval(status);
 
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
@@ -1562,14 +1543,7 @@ public class CommandParser {
 	//@author 
 	private Success undoCommand() {
 		Success status = engine.undoTask();
-		Success retrievalStatus = null;
-		if (status.isSuccess() == true && lastRetrieve != null) {
-			retrievalStatus = parseCommand(lastRetrieve);
-			if (retrievalStatus.isSuccess() == true) {
-				status.setObj(retrievalStatus.getObj());
-				setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
-			}
-		}
+		secondaryListRetrieval(status);
 		return status;
 	}
 	/**
@@ -1580,14 +1554,7 @@ public class CommandParser {
 	//@author 
 	private Success redoCommand() {
 		Success status = engine.redoTask();
-		Success retrievalStatus = null;
-		if (status.isSuccess() == true && lastRetrieve != null) {
-			retrievalStatus = parseCommand(lastRetrieve);
-			if (retrievalStatus.isSuccess() == true) {
-				status.setObj(retrievalStatus.getObj());
-				setRetrievedTaskList((ArrayList<Task>) retrievalStatus.getObj());
-			}
-		}
+		secondaryListRetrieval(status);
 		return status;
 	}
 	/**
@@ -1601,7 +1568,7 @@ public class CommandParser {
 		remainingCommand = remainingCommand.trim();
 		Scanner sc = new Scanner(remainingCommand);
 		List<Task> doneList = new ArrayList<Task>();
-		Success retrievalStatus = null;
+		
 		try {
 			while (sc.hasNext()) {
 
@@ -1612,15 +1579,7 @@ public class CommandParser {
 			}
 
 			status = engine.markAsDone(doneList);
-
-			if (status.isSuccess() == true && lastRetrieve != null) {
-				retrievalStatus = parseCommand(lastRetrieve);
-				if (retrievalStatus.isSuccess() == true) {
-					status.setObj(retrievalStatus.getObj());
-					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-							.getObj());
-				}
-			}
+			secondaryListRetrieval(status);
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_DONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
@@ -1634,6 +1593,45 @@ public class CommandParser {
 		sc.close();
 
 		return status;
+	}
+	/**
+	 * This secondary retrieval serves to retrieve the task list after
+	 * previous operations have been executed. The retrieved list will
+	 * be appended into the Success object and passed back to Main UI
+	 *
+	 * @param	status	The main Success object without secondary list      
+	 */
+	//@author A0111837
+	private void secondaryListRetrieval(Success status) {
+		Success retrievalStatus = null;
+		if (status.isSuccess() == true && lastRetrieve != null) {
+		
+			Scanner retrievalSD = new Scanner(lastRetrieve);
+			String type = null;
+			if(retrievalSD.hasNext()){
+				type = retrievalSD.next();
+				type = keywordFullMap.get(type);
+				
+				if(type.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)){
+					System.out.println(type);
+					retrievalStatus = (SuccessDisplay) retrievalStatus;
+				} 
+			}
+			retrievalStatus = parseCommand(lastRetrieve);
+			
+			if(retrievalStatus instanceof SuccessDisplay){
+				System.out.println("sup dude");
+				status.setObj(retrievalStatus);
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+						.getObj());
+			} else {
+				status.setObj(retrievalStatus.getObj());
+				setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+						.getObj());
+			}
+			
+			
+		}
 	}
 	/**
 	 *
@@ -1657,14 +1655,7 @@ public class CommandParser {
 			}
 
 			status = engine.markAsUndone(undoneList);
-			if (status.isSuccess() == true && lastRetrieve != null) {
-				retrievalStatus = parseCommand(lastRetrieve);
-				if (retrievalStatus.isSuccess() == true) {
-					status.setObj(retrievalStatus.getObj());
-					setRetrievedTaskList((ArrayList<Task>) retrievalStatus
-							.getObj());
-				}
-			}
+			secondaryListRetrieval(status);
 		} catch (NumberFormatException e) {
 			status = new Success(false, Message.ERROR_UNDONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {

@@ -281,13 +281,14 @@ public class Main extends Application {
 			final ListView listView, final ScrollPane scrollPane,
 			final WebEngine webengine, Object returnObj) {
 		if (successObj instanceof SuccessDisplay) {
+			
 			SuccessDisplay sdObj = (SuccessDisplay) successObj;
 
 			String displayType = sdObj.getDisplayType();
 			if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
 					|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
 				@SuppressWarnings("unchecked")
-				List<Task> taskList = (ArrayList<Task>) returnObj;
+				List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
 				Calendar displayCal = sdObj.getCalendar();
 
 				HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
@@ -308,8 +309,35 @@ public class Main extends Application {
 
 		} else {
 			if (returnObj instanceof ArrayList<?>) {
+			
 				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
 				handleDisplayList(txtF, listView, taskList);
+			} else if (returnObj instanceof SuccessDisplay){
+				
+				SuccessDisplay sdObj = (SuccessDisplay) returnObj;
+
+				String displayType = sdObj.getDisplayType();
+				if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
+						|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
+					@SuppressWarnings("unchecked")
+					List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+					Calendar displayCal = sdObj.getCalendar();
+
+					HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
+							displayCal, taskList);
+					webengine.setJavaScriptEnabled(true);
+					webengine.load(FileName.getFilenameCalendarUiUrl());
+
+					scrollPane.setVisible(true);
+
+				} else if (sdObj.getDisplayType().equals(
+						KeywordConstant.KEYWORD_DAY)
+						|| sdObj.getDisplayType().equals(
+								KeywordConstant.KEYWORD_DATE)) {
+					// daily view
+					List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+					handleDisplayList(txtF, listView, taskList);
+				}
 			}
 		}
 	}
