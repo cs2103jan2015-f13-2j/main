@@ -11,6 +11,8 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import data.InitFileIO;
+
 public class FileName {
 
 	public static final String FILENAME_PATH = "saved_path.cfg";
@@ -26,138 +28,161 @@ public class FileName {
 	private static String localUrl = "file:\\\\\\";
 	private static String relativeWebUiPath = "webUI";
 	private static String filenameCalendarUi = "calendarView.html";
+
+	private static String webUiPath = "/webUI/";
+	private static String folderCss = "css";
+	private static String folderJs = "js";
+	private static String fileNameFullCalendarCss = "fullcalendar.css";
+	private static String fileNameFullCalendarJs = "fullcalendar.js";
+	private static String fileNameJquery = "jquery-2.1.3.min.js";
+	private static String fileNameMoment = "moment.js";
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameDeadline(String filenameDeadline) {
 		FileName.filenameDeadline = filenameDeadline;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameFloating() {
 		return getCanonicalPath() + File.separator + filenameFloating;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameFloating(String filenameFloating) {
 		FileName.filenameFloating = filenameFloating;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameNormal() {
 		return getCanonicalPath() + File.separator + filenameNormal;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameNormal(String filenameNormal) {
 		FileName.filenameNormal = filenameNormal;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameRecur() {
 		return getCanonicalPath() + File.separator + filenameRecur;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameRecur(String filenameRecur) {
 		FileName.filenameRecur = filenameRecur;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameCfg() {
 		return getCanonicalPath() + File.separator + filenameCfg;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameCfg(String filenameCfg) {
 		FileName.filenameCfg = filenameCfg;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameHistory() {
 		return getCanonicalPath() + File.separator + filenameHistory;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameHistory(String filenameHistory) {
 		FileName.filenameHistory = filenameHistory;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getCanonicalPath() {
 		return canonicalPath;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setCanonicalPath(String canonicalPath) {
 		FileName.canonicalPath = canonicalPath;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setDefaultCanonicalPath() {
 		try {
 			canonicalPath = new File(".").getCanonicalPath();
@@ -165,12 +190,13 @@ public class FileName {
 			System.err.println(Message.ERROR_GENERAL);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void writeCanonicalToFile() {
 		try {
 			File file = new File(FILENAME_PATH);
@@ -186,12 +212,13 @@ public class FileName {
 			System.err.println(Message.ERROR_SAVE_INTO_FILE);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String readCanonicalPathFromFile() {
 
 		File file = new File(FileName.FILENAME_PATH);
@@ -220,78 +247,158 @@ public class FileName {
 
 		return retrievedCanonicalPath;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getLocalUrl() {
 		return localUrl;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setLocalUrl(String localUrl) {
 		FileName.localUrl = localUrl;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getRelativeWebUiPath() {
 		return relativeWebUiPath;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setRelativeWebUiPath(String relativeWebUiPath) {
 		FileName.relativeWebUiPath = relativeWebUiPath;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameCalendarUi() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + FileName.filenameCalendarUi;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getFilenameCalendarUiUrl() {
 		return getLocalUrl() + getCanonicalPath() + File.separator
 				+ getRelativeWebUiPath() + File.separator
 				+ FileName.filenameCalendarUi;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void setFilenameMonthUi(String filenameMonthUi) {
 		FileName.filenameCalendarUi = filenameMonthUi;
 	}
+
+	public static String getWebUiPath() {
+		return webUiPath;
+	}
+
+	public static void setWebUiPath(String webUiPath) {
+		FileName.webUiPath = webUiPath;
+	}
+
+	public static String getFileNameCalendarViewProgram() {
+		return getWebUiPath() + filenameCalendarUi;
+	}
+
+	public static String getFileNameFullCalendarCssProgram() {
+		return getWebUiPath() + fileNameFullCalendarCss;
+	}
+
+	public static void setFileNameFullCalendarCss(String fileNameFullCalendarCss) {
+		FileName.fileNameFullCalendarCss = fileNameFullCalendarCss;
+	}
+
+	public static String getFileNameFullCalendarJsProgram() {
+		return getWebUiPath() + fileNameFullCalendarJs;
+	}
+
+	public static void setFileNameFullCalendarJs(String fileNameFullCalendarJs) {
+		FileName.fileNameFullCalendarJs = fileNameFullCalendarJs;
+	}
+
+	public static String getFileNameJqueryProgram() {
+		return getWebUiPath() + fileNameJquery;
+	}
+
+	public static void setFileNameJquery(String fileNameJquery) {
+		FileName.fileNameJquery = fileNameJquery;
+	}
+
+	public static String getFileNameMomentProgram() {
+		return getWebUiPath() + fileNameMoment;
+	}
+
+	public static void setFileNameMoment(String fileNameMoment) {
+		FileName.fileNameMoment = fileNameMoment;
+	}
+
+	public static void setFilenameCalendarUi(String filenameCalendarUi) {
+		FileName.filenameCalendarUi = filenameCalendarUi;
+	}
+
+	public static String getFileNameMomentLocal() {
+		return getCanonicalPath() + File.separator + folderJs + File.separator
+				+ fileNameMoment;
+	}
+
+	public static String getFileNameJqueryLocal() {
+		return getCanonicalPath() + File.separator + folderJs + File.separator
+				+ fileNameJquery;
+	}
+
+	public static String getFileNameFullCalendarJsLocal() {
+		return getCanonicalPath() + File.separator + folderJs + File.separator
+				+ fileNameFullCalendarJs;
+	}
+
+	public static String getFileNameCalendarViewLocal() {
+		return getCanonicalPath() + filenameCalendarUi;
+	}
+
+	public static String getFileNameFullCalendarCssLocal() {
+		return getCanonicalPath() + File.separator + folderCss + File.separator
+				+ fileNameFullCalendarCss;
+	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void createFileIfNotExist() {
 
 		try {
@@ -305,12 +412,13 @@ public class FileName {
 			System.exit(1);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private static void createFile(String canonicalFileName) throws IOException {
 		File file = new File(canonicalFileName);
 
@@ -332,12 +440,13 @@ public class FileName {
 			}
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private static String serializeToJson(Object object) {
 
 		String json;

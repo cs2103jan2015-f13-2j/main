@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+import data.InitFileIO;
 import resource.FileName;
 import resource.Message;
 import javafx.application.Application;
@@ -17,10 +18,10 @@ import javafx.stage.Stage;
 public class ChooseFolder extends Application {
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -30,17 +31,19 @@ public class ChooseFolder extends Application {
 
 		if (isChoose) {
 			openFileChooser(primaryStage);
+			createWebUiFiles();
 			notifySuccess();
 		} else {
 			System.exit(0);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private boolean showChooseFolderConfirmation(final Stage primaryStage) {
 
 		boolean isYes = false;
@@ -60,12 +63,13 @@ public class ChooseFolder extends Application {
 
 		return isYes;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void notifySuccess() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -75,12 +79,13 @@ public class ChooseFolder extends Application {
 
 		alert.show();
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose Save Directory");
@@ -104,4 +109,31 @@ public class ChooseFolder extends Application {
 		}
 	}
 
+	/**
+	 *
+	 * @param
+	 * @return
+	 */
+	// @author
+	private static void createWebUiFiles() {
+		
+		try {
+			
+//			File file = new File("/webUI/moment.js");
+			System.out.println("Working Directory = " +
+		              System.getProperty("user.dir"));
+			System.out.println("choose folder " + FileName.getFileNameMomentProgram());
+			System.out.println("choose folder " + FileName.getFileNameMomentLocal());
+			
+			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameMomentProgram(), FileName.getFileNameMomentLocal());
+			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameJqueryProgram(), FileName.getFileNameJqueryLocal());
+			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameFullCalendarJsProgram(), FileName.getFileNameFullCalendarJsLocal());
+			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameCalendarViewProgram(), FileName.getFileNameCalendarViewLocal());
+			InitFileIO.copyFileUsingFileStreams(FileName.getFileNameFullCalendarCssProgram(), FileName.getFileNameFullCalendarCssLocal());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
 }

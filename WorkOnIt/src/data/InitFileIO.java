@@ -1,6 +1,11 @@
 package data;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import application.ChooseFolder;
 import javafx.application.Platform;
@@ -11,24 +16,25 @@ import resource.FileName;
 public class InitFileIO {
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void checkAndProcessFile() {
-	
+
 		FileName.readCanonicalPathFromFile();
 
 		if (!isFilesExist()) {
 			showChooseFolderUi();
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void showChooseFolderUi() {
 		new JFXPanel();
 		Platform.runLater(new Runnable() {
@@ -38,12 +44,13 @@ public class InitFileIO {
 			}
 		});
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private boolean isFilesExist() {
 
 		boolean isExist = true;
@@ -70,6 +77,33 @@ public class InitFileIO {
 		}
 
 		return isExist;
+	}
+	
+	 
+	public static void copyFileUsingFileStreams(String sourceString, String destString)
+			throws IOException {
+		
+		File source = new File(sourceString);
+		File dest = new File(destString);
+		
+		System.out.println("initfileIO : " + source.getPath());
+		
+		InputStream input = null;
+		OutputStream output = null;
+		try {
+			input = new FileInputStream(source);
+			output = new FileOutputStream(dest);
+			byte[] buf = new byte[1024];
+			int bytesRead;
+			while ((bytesRead = input.read(buf)) > 0) {
+				output.write(buf, 0, bytesRead);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			input.close();
+			output.close();
+		}
 	}
 
 }
