@@ -1232,6 +1232,8 @@ public class Validator {
 					status = engine.retrieveTask(priority, fixedStartDate, fixedEndDate);
 				}
 
+			} else {
+				status = new Success(false, Message.ERROR_RETRIEVE);
 			}
 
 		} catch (IOException e) {
