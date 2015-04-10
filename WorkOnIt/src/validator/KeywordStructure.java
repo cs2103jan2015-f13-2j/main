@@ -1,4 +1,4 @@
-package logic;
+package validator;
 
 import java.util.ArrayList;
 import java.util.List;

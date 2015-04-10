@@ -1,4 +1,4 @@
-package logic;
+package parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,12 +9,15 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import logic.Engine;
+
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 import data.ConfigIO;
 import resource.KeywordConstant;
 import resource.Message;
+import validator.Validator;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -23,7 +26,7 @@ import entity.SuccessDisplay;
 import entity.Task;
 import entity.Success;
 
-public class Validator {
+public class CommandParser {
 
 	private Engine engine;
 	private Map<String, String> keywordFullMap = null;
@@ -37,10 +40,10 @@ public class Validator {
 	 * @return      
 	 */
 	//@author 
-	public Validator() {
+	public CommandParser() {
 		engine = new Engine();
 		
-		KeywordValidator keywordValidator = new KeywordValidator();
+		Validator keywordValidator = new Validator();
 		keywordFullMap = keywordValidator.getKeywordFullMap();
 	}
 	

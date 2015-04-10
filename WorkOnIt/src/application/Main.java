@@ -11,11 +11,13 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import parser.CommandParser;
 import data.InitFileIO;
 import resource.FileName;
 import resource.Graphic;
 import resource.KeywordConstant;
 import resource.Message;
+import validator.Validator;
 import web.HtmlBuilder;
 import entity.DeadlineTask;
 import entity.FloatingTask;
@@ -54,16 +56,14 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import logic.KeywordValidator;
-import logic.Validator;
 
 public class Main extends Application {
 
 	// need a global variable for the input
 	private List<String> elementList = null;
 	private List<String> secondaryList = null;
-	private static Validator commandValidator = null;
-	private static KeywordValidator keywordValidator = null;
+	private static CommandParser commandValidator = null;
+	private static Validator keywordValidator = null;
 	private Success successObj = null;
 	private ArrayList<Integer> indexArray = null;
 	private int indexCounter = 0;
@@ -347,8 +347,8 @@ public class Main extends Application {
 	public void initializeGlobals() {
 		elementList = new ArrayList<String>();
 		secondaryList = new ArrayList<String>();
-		commandValidator = new Validator();
-		keywordValidator = new KeywordValidator();
+		commandValidator = new CommandParser();
+		keywordValidator = new Validator();
 		indexArray = new ArrayList<Integer>();
 	}
 	/**

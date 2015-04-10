@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import logic.KeywordValidator;
-import logic.Validator;
 import data.InitFileIO;
 
 import org.junit.Test;
 
+import parser.CommandParser;
+import validator.Validator;
 import entity.Success;
 import entity.Task;
 
 public class WorkOnItTest {
 
-	Validator testValidator = null;
-	KeywordValidator keywordValidator = null;
+	CommandParser testValidator = null;
+	Validator keywordValidator = null;
 	InitFileIO initFile = null;
 	List<String> addCommandList = null;
 
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
-		testValidator = new Validator();
-		keywordValidator = new KeywordValidator();
+		testValidator = new CommandParser();
+		keywordValidator = new Validator();
 		addCommandList = new ArrayList<String>();
 	}
 
@@ -671,7 +671,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new Validator();
+		testValidator = new CommandParser();
 
 		String deleteCommand = "delete 3 1";
 
@@ -723,7 +723,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new Validator();
+		testValidator = new CommandParser();
 
 		String updateCommand = "update 1";
 
@@ -852,7 +852,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new Validator();
+		testValidator = new CommandParser();
 
 		String undoCommand = "undo";
 
@@ -953,7 +953,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		testValidator = new Validator();
+		testValidator = new CommandParser();
 
 		String redoCommand = "redo";
 

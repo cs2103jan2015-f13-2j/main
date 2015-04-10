@@ -1,15 +1,15 @@
-package logic;
+package validator;
 
 import java.util.List;
 import java.util.Map;
 
 import data.ConfigIO;
 
-public class KeywordValidator {
+public class Validator {
 
 	private Map<String, String> keywordFullMap = null;
 
-	public KeywordValidator() {
+	public Validator() {
 
 		loadConfigFile();
 	}
