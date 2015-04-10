@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import logic.Utility;
 import data.InitFileIO;
 
 import org.junit.Test;
@@ -851,8 +852,8 @@ public class WorkOnItTest {
 
 		initTestEnvironment();
 		addTask();
-
-		commandParser = new CommandParser();
+		
+		Utility.reset();
 
 		String undoCommand = "undo";
 

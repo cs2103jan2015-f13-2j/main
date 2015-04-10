@@ -11,55 +11,49 @@ import entity.Task;
 import entity.TaskHistory;
 
 public class Utility {
-	
-	public static Stack<TaskHistory> undoStack;
-	public static Stack<TaskHistory> redoStack;
+
+	public static Stack<TaskHistory> undoStack = null;
+	public static Stack<TaskHistory> redoStack = null;
 	private static Utility obj = null;
-	
-	
-	public Utility()
-	{
+
+	public Utility() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
 	}
-	
-	public static Utility getInstance()
-	{
-		if( obj == null)
-		{
+
+	public static Utility getInstance() {
+		if (obj == null) {
 			obj = new Utility();
 			return obj;
-		}
-		else
-		{
+		} else {
 			return obj;
 		}
 	}
 	
-	public static void addUndoStack(TaskHistory task)
-	{
+	public static void reset() {
+		undoStack = new Stack<TaskHistory>();
+		redoStack = new Stack<TaskHistory>();
+	}
+
+	public static void addUndoStack(TaskHistory task) {
 		undoStack.push(task);
-		
+
 	}
-	
-	public static void addRedoStack(TaskHistory task)
-	{
+
+	public static void addRedoStack(TaskHistory task) {
 		redoStack.push(task);
-		
+
 	}
-	
-	public static void removeUndoStack()
-	{
+
+	public static void removeUndoStack() {
 		undoStack.pop();
-		
+
 	}
-	
-	public static void removeRedoStack()
-	{
+
+	public static void removeRedoStack() {
 		redoStack.pop();
-		
+
 	}
-	
 
 	public static Success undoTaskFunction() {
 
@@ -174,12 +168,13 @@ public class Utility {
 		}
 		return status;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static Success redoTaskFunction() {
 
 		Success status = null;
