@@ -1,14 +1,9 @@
 package web;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,13 +20,23 @@ import entity.Task;
 
 public class HtmlBuilder {
 
-	private PrintWriter writer;
+	private PrintWriter writer = null;
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This constructor will take in the necessaray information and create an
+	 * HTML file for viewing of agenda.
+	 * 
+	 * @param displayType
+	 *            the agenda type (DAY, WEEK, MONTH)
+	 * @param displayCal
+	 *            the starting date, depending on agenda type (DAY - a single
+	 *            day, WEEK - first day of the week, MONTH - first day of the
+	 *            month)
+	 * @param taskList
+	 *            List of Task(s) that will be shown in the agenda, according to
+	 *            the display type and date range
 	 */
-	//@author 
+	// @author A0111916M
 	public HtmlBuilder(String displayType, Calendar displayCal,
 			List<Task> taskList) {
 		try {
@@ -40,16 +45,22 @@ public class HtmlBuilder {
 
 			writer.close();
 		} catch (IOException e) {
-			System.out.println("error");
-			e.printStackTrace();
+			// continue
 		}
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * Create an HTML file at the specified save path.
+	 * 
+	 * @param displayType
+	 *            the agenda type (DAY, WEEK, MONTH)
+	 * @throws UnsupportedEncodingException
+	 *             Will throw this exception if PrintWriter cannot write in
+	 *             UTF-8
+	 * @throws FileNotFoundException
+	 *             Will throw this exception if the HTML file cannot be found
 	 */
-	//@author 
+	// @author A0111916M
 	private void init(String displayType) throws UnsupportedEncodingException,
 			FileNotFoundException {
 
@@ -58,12 +69,22 @@ public class HtmlBuilder {
 		writer = new PrintWriter(fileName, "UTF-8");
 
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This will generate the HTML file, based on the input parameters in the
+	 * constructor. It will then create the HTML file, and display it in UI tier
+	 * via JavaFX WebView.
+	 * 
+	 * @param taskList
+	 *            List of Task(s), based on the display criteria
+	 * @param displayCal
+	 *            the starting date, depending on agenda type (DAY - a single
+	 *            day, WEEK - first day of the week, MONTH - first day of the
+	 *            month)
+	 * @param displayType
+	 *            the agenda type (DAY, WEEK, MONTH)
 	 */
-	//@author 
+	// @author A0111916M
 	private void createHtml(List<Task> taskList, Calendar displayCal,
 			String displayType) {
 
@@ -107,12 +128,13 @@ public class HtmlBuilder {
 
 				// if (!(currTask instanceof FloatingTask)) {
 				String title = currTask.getTaskName();
-//				System.out.println(title);
+				// System.out.println(title);
 
 				writer.println("{");
 				int indexOffset = i + 1;
 				String fixedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "");
-				writer.println("title: '" + indexOffset + ". " + fixedTitle + "',");
+				writer.println("title: '" + indexOffset + ". " + fixedTitle
+						+ "',");
 
 				if (currTask instanceof NormalTask) {
 
@@ -148,6 +170,9 @@ public class HtmlBuilder {
 						if (endCal.get(Calendar.HOUR_OF_DAY) == 23
 								&& endCal.get(Calendar.MINUTE) == 59
 								&& endCal.get(Calendar.SECOND) == 59) {
+
+							// offset current end date to the next day
+							endCal.add(Calendar.DATE, 1);
 							writer.println("end: '"
 									+ sdfNormal.format(endCal.getTime()) + "'");
 						} else {
@@ -214,8 +239,6 @@ public class HtmlBuilder {
 						}
 					}
 
-					// NEVER RECUR EVERY WEEKLY
-
 				} else if (currTask instanceof FloatingTask) {
 
 					FloatingTask floatingTask = (FloatingTask) currTask;
@@ -226,15 +249,19 @@ public class HtmlBuilder {
 					writer.println("start: '"
 							+ sdfNormal.format(createdCal.getTime()) + "'");
 				}
-				
-				if(currTask.isCompleted()) {
-					writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
-				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
-					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
-				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
-					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL + "'");
-				} else if(currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
-					writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
+
+				if (currTask.isCompleted()) {
+					writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL
+							+ "'");
+				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
+					writer.println(", color: '"
+							+ Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
+				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+					writer.println(", color: '"
+							+ Graphic.WEBUI_PRIORITY_MEDIUM_VAL + "'");
+				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
+					writer.println(", color: '"
+							+ Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
 				}
 
 				writer.println("}");
