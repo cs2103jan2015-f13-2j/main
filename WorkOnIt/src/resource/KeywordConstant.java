@@ -25,14 +25,14 @@ public class KeywordConstant {
 	public static final String KEYWORD_EXPORT = "export";
 	public static final String KEYWORD_ALL = "all";
 	public static final String KEYWORD_EXIT = "exit";
-	
+
 	public static final String KEYWORD_DAILY = "daily";
 	public static final String KEYWORD_WEEKLY = "weekly";
 	public static final String KEYWORD_MONTHLY = "monthly";
 	public static final String KEYWORD_YEARLY = "yearly";
 	public static final String KEYWORD_DEFAULT = "default";
 	public static final String KEYWORD_DEFAULT_OCCURENCE = KEYWORD_WEEKLY;
-	
+
 	public static final String KEYWORD_DISPLAY = "display";
 	public static final String KEYWORD_DAY = "day";
 	public static final String KEYWORD_DAYS = "days";
@@ -59,6 +59,13 @@ public class KeywordConstant {
 	public static final int PRIORITY_MAX = PRIORITY_HIGH;
 	public static final int PRIORITY_MIN = PRIORITY_LOW;
 
+	/**
+	 * This method will create the default keyword mapping, that is minimally
+	 * required by the application.
+	 * 
+	 * @return the default mapping of keywords
+	 */
+	// @author A0111916M
 	public static Map<String, String> createBasicMap() {
 
 		Map<String, String> basicCommand = new HashMap<String, String>();
@@ -90,7 +97,7 @@ public class KeywordConstant {
 		basicCommand.put("high", Integer.toString(PRIORITY_HIGH));
 		basicCommand.put("medium", Integer.toString(PRIORITY_MEDIUM));
 		basicCommand.put("low", Integer.toString(PRIORITY_LOW));
-		
+		basicCommand.put("search", KEYWORD_RETRIEVE);
 
 		return basicCommand;
 	}
