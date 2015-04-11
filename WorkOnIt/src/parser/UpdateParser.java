@@ -47,6 +47,8 @@ public class UpdateParser {
 	// @author A0111916M
 	protected Success parseUpdateCommand(String remainingCommand) {
 
+		assert(remainingCommand != null);
+		
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		AddParser addParser = new AddParser(keywordFullMap);

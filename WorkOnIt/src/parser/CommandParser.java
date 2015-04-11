@@ -71,6 +71,8 @@ public class CommandParser {
 
 		Success status = null;
 
+		assert(keywordFullMap != null);
+		
 		fullCommand = fullCommand.toLowerCase();
 		Scanner sc = new Scanner(fullCommand);
 		String commandInput = sc.next();
@@ -166,7 +168,8 @@ public class CommandParser {
 	private Success executeUndoneCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
+		
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -194,7 +197,7 @@ public class CommandParser {
 	private Success executeDoneCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -292,7 +295,7 @@ public class CommandParser {
 	private Success executeRetrieveCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -331,7 +334,7 @@ public class CommandParser {
 	private Success executeDeleteCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -359,7 +362,7 @@ public class CommandParser {
 	private Success executeUpdateCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -388,7 +391,7 @@ public class CommandParser {
 	private Success executeAddCommand(String remainingCommand) {
 
 		Success status;
-
+		assert(keywordFullMap != null);
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {

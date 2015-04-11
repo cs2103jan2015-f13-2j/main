@@ -46,6 +46,8 @@ public class DeleteParser {
 	// @author A0111916M
 	protected Success parseDeleteCommand(String index) {
 
+		assert(index != null);
+		
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		index = index.trim();

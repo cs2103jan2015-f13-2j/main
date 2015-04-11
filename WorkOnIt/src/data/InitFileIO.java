@@ -96,6 +96,8 @@ public class InitFileIO {
 	public static void copyFileUsingFileStreams(String sourceString,
 			String destString) throws IOException {
 
+		assert(destString != null);
+		
 		File dest = new File(destString);
 
 		if (!dest.exists()) {

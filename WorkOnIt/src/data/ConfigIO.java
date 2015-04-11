@@ -73,6 +73,8 @@ public class ConfigIO {
 	// @author A0111916M
 	private void createNewFile(File file) {
 
+		assert(file != null);
+		
 		try {
 			file.createNewFile();
 
