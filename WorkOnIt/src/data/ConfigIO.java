@@ -13,10 +13,12 @@ import resource.Message;
 public class ConfigIO {
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * get the full keyword map
+	 *
+	 * @return    Map
+	 * 				return the keyword mapping  
 	 */
-	//@author 
+	//@author A0111916M
 	public Map<String, String> getFullKeywordMap() {
 
 		String loadedContents = loadFromFile();
@@ -27,12 +29,15 @@ public class ConfigIO {
 
 		return KEYWORD_MAP;
 	}
+	
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * load all the command and keyword from config file.
+	 *
+	 * @return    String
+	 * 				return the keyword and command from config file.  
 	 */
-	//@author 
+	//@author A0111916M 
 	private String loadFromFile() {
 
 		String loadedContents = null;
@@ -61,8 +66,10 @@ public class ConfigIO {
 	}
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * This method is to create new file for the config file.
+	 *
+	 * @param  	File
+	 * 				create new file with specific File object.
 	 */
 	//@author 
 	private void createNewFile(File file) {

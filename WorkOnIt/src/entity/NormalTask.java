@@ -7,12 +7,21 @@ import resource.KeywordConstant;
 public class NormalTask extends Task {
 
 	private Date startDateTime, endDateTime;
+	
 	/**
+	 * This is constructor for normal task.
 	 *
-	 * @param  	
+	 * @param 	String
+	 * 				The task name that need to be created
+	 * @param 	int
+	 * 				The priority of task that need to be created
+	 * @param 	Date
+	 * 				The start date of the normal of the task that need to be created
+	 * @param 	Date
+	 * 				The end date of the normal of the task that need to be created
 	 * @return      
 	 */
-	//@author 
+	//@author A0111916M 
 	public NormalTask(String taskName, int priority, Date startDateTime,
 			Date endDateTime) {
 
@@ -20,40 +29,50 @@ public class NormalTask extends Task {
 		this.setStartDateTime(startDateTime);
 		this.setEndDateTime(endDateTime);
 	}
+	
 	/**
+	 * This is the method to get start date from the normal task.
 	 *
-	 * @param  	
-	 * @return      
+	 * @return  Date
+	 * 				The start date from the normal Task.
 	 */
-	//@author 
+	//@author A0111916M
 	public Date getStartDateTime() {
 		return startDateTime;
 	}
+	
 	/**
+	 * This is the method to set start date for the normal task.
 	 *
-	 * @param  	
-	 * @return      
+	 * @param 	Date
+	 * 				The start date of the task that need to be created
+	 *
 	 */
-	//@author 
+	//@author A0111916M
 	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 		super.setSortDate(startDateTime);
 	}
+	
 	/**
+	 * This is the method to get end date from the normal task.
 	 *
-	 * @param  	
-	 * @return      
+	 * @return  Date
+	 * 				The end date from the normal Task.
 	 */
-	//@author 
+	//@author A0111916M
 	public Date getEndDateTime() {
 		return endDateTime;
 	}
+	
 	/**
+	 * This is the method to set end date for the normal task.
 	 *
-	 * @param  	
-	 * @return      
+	 * @param 	Date
+	 * 				The end date of the task that need to be created
+	 *
 	 */
-	//@author 
+	//@author A0111916M
 	public void setEndDateTime(Date endDateTime) {
 		if (endDateTime == null) {
 			this.endDateTime = this.getStartDateTime();
@@ -61,12 +80,15 @@ public class NormalTask extends Task {
 			this.endDateTime = endDateTime;
 		}
 	}
+	
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 *This is to generate the hash code from the normal task
+	 *	
+	 * @return   int
+	 * 				The hash code generated.
 	 */
-	//@author 
+	//@author A0111916M
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,12 +99,17 @@ public class NormalTask extends Task {
 				+ ((startDateTime == null) ? 0 : startDateTime.hashCode());
 		return result;
 	}
+	
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 *Compare between 2 normal task whether they are the same or not.
+	 *
+	 * @param  	Object
+	 * 				The parsed in object that need to be compared
+	 * @return  boolean
+	 * 				return true if both normal task are the same, else false.
 	 */
-	//@author 
+	//@author A0111916M
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -104,12 +131,15 @@ public class NormalTask extends Task {
 			return false;
 		return true;
 	}
+	
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * Generate the normal task property into String
+	 *	
+	 * @return	String
+	 * 				the String generated from the normal Task property
 	 */
-	//@author 
+	//@author A0111916M
 	@Override
 	public String toString() {
 		return "NormalTask [startDateTime=" + startDateTime + ", endDateTime="
@@ -117,12 +147,15 @@ public class NormalTask extends Task {
 				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
 				+ getPriority() + "]";
 	}
+	
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * Generate the normal task property into String and it is for display purpose
+	 *	
+	 * @return	String
+	 * 				the String generated from the normal Task property for display purpose
 	 */
-	//@author 
+	//@author A0111916M
 	@Override
 	public String toDisplay() {
 		String userString = "";

@@ -17,12 +17,17 @@ public abstract class Task {
 	private Date sortDate;
 	private boolean isCompleted;
 
+	
 	/**
+	 * This is constructor for Task superclass .
 	 *
-	 * @param
-	 * @return
+	 * @param 	String
+	 * 				The task name that need to be created
+	 * @param 	int
+	 * 				The priority of task that need to be created
+	 * @return      
 	 */
-	// @author
+	//@author A0111916M
 	public Task(String taskName, int priority) {
 
 		long generatedTaskId = System.currentTimeMillis();
@@ -37,61 +42,70 @@ public abstract class Task {
 	}
 
 	/**
+	 * This is the method to get Tag ID from the Task.
 	 *
-	 * @param
-	 * @return
+	 * @return  Long
+	 * 				The Tag ID from the Task.
 	 */
-	// @author
+	//@author A0111916M
 	public long getTaskId() {
 		return taskId;
 	}
 
 	/**
+	 * This is the method to set Tag ID for the  Task.
 	 *
-	 * @param
-	 * @return
+	 * @param 	Long
+	 * 				The Tag ID of the task that need to be created
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	private void setTaskId(long taskId) {
 		this.taskId = taskId;
 	}
 
 	/**
+	 * This is the method to get task name from the Task.
 	 *
-	 * @param
-	 * @return
+	 * @return  String
+	 * 				The task name from the Task.
 	 */
-	// @author
+	//@author A0111916M
 	public String getTaskName() {
 		return taskName;
 	}
 
 	/**
+	 * This is the method to set task name for the  Task.
 	 *
-	 * @param
-	 * @return
+	 * @param 	String
+	 * 				The task name of the task that need to be created
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
 
 	/**
+	 * This is the method to get priority from the Task.
 	 *
-	 * @param
-	 * @return
+	 * @return  int
+	 * 				The priority from the Task.
 	 */
-	// @author
+	//@author A0111916M
 	public int getPriority() {
 		return priority;
 	}
 
 	/**
+	 * This is the method to set priority for the  Task.
 	 *
-	 * @param
-	 * @return
+	 * @param 	int
+	 * 				The priority of the task that need to be created
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	public void setPriority(int priority) {
 
 		if (priority > KeywordConstant.PRIORITY_MAX) {
@@ -104,21 +118,24 @@ public abstract class Task {
 	}
 
 	/**
+	 * This is the method to get priority from the Task.
 	 *
-	 * @param
-	 * @return
+	 * @return  boolean
+	 * 				return true is the task is mark as completed, if not, false
 	 */
-	// @author
+	//@author A0111916M
 	public boolean isCompleted() {
 		return isCompleted;
 	}
 
 	/**
+	 * This is the method to set whether Task to complete or not.
 	 *
-	 * @param
-	 * @return
+	 * @param 	boolean
+	 * 				set as true is the task is mark as completed, if not, false.
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
@@ -134,21 +151,24 @@ public abstract class Task {
 	}
 
 	/**
+	 * This is the method to set sort date for the  Task.
 	 *
-	 * @param
-	 * @return
+	 * @param 	String
+	 * 				The sort date of the task that need to be created
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	public void setSortDate(Date sortDate) {
 		this.sortDate = sortDate;
 	}
 
 	/**
+	 * This is the method to get sort date from the Task.
 	 *
-	 * @param
-	 * @return
+	 * @return  String
+	 * 				The sort date from the Task.
 	 */
-	// @author
+	//@author A0111916M
 	public Date getDateCreated() {
 
 		Date dateCreated = null;
@@ -160,10 +180,12 @@ public abstract class Task {
 
 	/**
 	 *
-	 * @param
-	 * @return
+	 *This is to generate the hash code from the Task
+	 *	
+	 * @return   int
+	 * 				The hash code generated.
 	 */
-	// @author
+	//@author A0111916M
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -179,10 +201,14 @@ public abstract class Task {
 
 	/**
 	 *
-	 * @param
-	 * @return
+	 *Compare between 2 task whether they are the same or not.
+	 *
+	 * @param  	Object
+	 * 				The parsed in object that need to be compared
+	 * @return  boolean
+	 * 				return true if both task are the same, else false.
 	 */
-	// @author
+	//@author A0111916M
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -211,10 +237,11 @@ public abstract class Task {
 
 	/**
 	 *
-	 * @param
-	 * @return
+	 * comparator method to sort the task in the Array List base on it
+	 * date and follow by priority
+	 *
 	 */
-	// @author
+	//@author A0111916M
 	public static Comparator<Task> taskComparator = new Comparator<Task>() {
 
 		@Override
@@ -256,17 +283,13 @@ public abstract class Task {
 	};
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 *This is an abstract method
 	 */
 	// @author
 	public abstract String toString();
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 *This is an abstract method
 	 */
 	// @author
 	public abstract String toDisplay();
