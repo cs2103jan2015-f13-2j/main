@@ -17,10 +17,12 @@ import resource.FileName;
 public class InitFileIO {
 	/**
 	 *
+	 * check and process all the data file.
+	 *
 	 * @param
 	 * @return
 	 */
-	// @author
+	// @author A01111916M
 	public void checkAndProcessFile() {
 
 		FileName.readCanonicalPathFromFile();
@@ -32,10 +34,13 @@ public class InitFileIO {
 
 	/**
 	 *
+	 *	prompt user the choose folder UI for user to choose UI.
+	 *
+	 *
 	 * @param
 	 * @return
 	 */
-	// @author
+	// @author A01111916M
 	private void showChooseFolderUi() {
 		new JFXPanel();
 		Platform.runLater(new Runnable() {
@@ -48,10 +53,12 @@ public class InitFileIO {
 
 	/**
 	 *
-	 * @param
-	 * @return
+	 * Check whether the data file is exist
+	 *
+	 * @return	 boolean
+	 * 				true if the datafile exist , else return false.
 	 */
-	// @author
+	// @author A01111916M
 	private boolean isFilesExist() {
 
 		boolean isExist = true;
@@ -80,6 +87,17 @@ public class InitFileIO {
 		return isExist;
 	}
 
+	/**
+	 *
+	 * Copy data file to the specific path
+	 *
+	 * @return	 String
+	 * 				the starting destination of the file that need to be copy
+	 * @return	 String
+	 * 				the ending destination of the file that need to be copy
+	 * 
+	 */
+	// @author A01111916M
 	public static void copyFileUsingFileStreams(String sourceString,
 			String destString) throws IOException {
 
