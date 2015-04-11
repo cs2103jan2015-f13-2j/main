@@ -16,12 +16,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class ChooseFolder extends Application {
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	// @author
+
+	// @author A0111916M
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -39,11 +35,13 @@ public class ChooseFolder extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method calls the confirmation dialog
+	 * 
+	 * @param primaryStage
+	 *            UI primary stage
+	 * @return boolean value of true for YES and false for NO
 	 */
-	// @author
+	// @author A0111916M
 	private boolean showChooseFolderConfirmation(final Stage primaryStage) {
 
 		boolean isYes = false;
@@ -65,11 +63,9 @@ public class ChooseFolder extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Show up an alert box
 	 */
-	// @author
+	// @author A0111916M
 	private void notifySuccess() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -81,11 +77,12 @@ public class ChooseFolder extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This opens up a FileChooser dialog
+	 * 
+	 * @param primaryStage
+	 *            UI primary stage
 	 */
-	// @author
+	// @author A0111916M
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose Save Directory");
@@ -110,11 +107,9 @@ public class ChooseFolder extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Create the necessary web UI files, for viewing agenda
 	 */
-	// @author
+	// @author A0111916M
 	private static void createWebUiFiles() {
 
 		try {

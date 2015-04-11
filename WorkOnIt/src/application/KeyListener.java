@@ -23,17 +23,17 @@ public class KeyListener implements NativeKeyListener {
 	private static String hotkeyValueClose = "Escape";
 	private Logger logger;
 
+	/**
+	 * THis constructor is to disable jnativehook logging
+	 */
+	// @author A0111837J
 	public KeyListener() {
 		// disable jnativehook logging
 		logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 		logger.setLevel(Level.OFF);
 	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
+
+	// @author A0111837J
 	public void nativeKeyPressed(NativeKeyEvent e) {
 
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
@@ -54,7 +54,7 @@ public class KeyListener implements NativeKeyListener {
 		if (keyPressed.equals(hotkeyValueFirst)) {
 			isHotkeyFirst = true;
 			if (isHotkeySecond == true) {
-				
+
 				new JFXPanel();
 				Platform.runLater(new Runnable() {
 					@Override
@@ -66,19 +66,15 @@ public class KeyListener implements NativeKeyListener {
 		}
 		if (keyPressed.equals(hotkeyValueClose)) {
 			try {
-//				 Platform.exit();
+				// Platform.exit();
 
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
+
+	// @author A0111837J
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueSecond)) {
 			isHotkeySecond = false;
@@ -87,21 +83,17 @@ public class KeyListener implements NativeKeyListener {
 			isHotkeyFirst = false;
 		}
 	}
-	/**
-	 *
-	 * @param  	
-	 * @return      
-	 */
-	//@author 
+
+	// @author A0111837J
 	public void nativeKeyTyped(NativeKeyEvent e) {
 
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This method registers the keyhook
+	 * 
 	 */
-	//@author 
+	// @author A0111837J
 	public void registerHook() {
 		try {
 			System.out.println("key hook registered successfully");

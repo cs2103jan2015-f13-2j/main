@@ -27,7 +27,7 @@ public class AuxParser {
 	 * @param status
 	 *            The main Success object without secondary list
 	 */
-	// @author A0111837
+	// @author A0111837J
 	protected void secondaryListRetrieval(Success status) {
 
 		Success retrievalStatus = null;

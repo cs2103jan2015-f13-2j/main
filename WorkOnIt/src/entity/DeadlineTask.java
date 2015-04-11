@@ -7,57 +7,54 @@ import resource.KeywordConstant;
 public class DeadlineTask extends Task {
 
 	private Date deadline;
-	
+
 	/**
 	 * This is constructor for deadline task.
 	 *
-	 * @param 	String
-	 * 				The task name that need to be created
-	 * @param 	int
-	 * 				The priority of task that need to be created
-	 * @param 	Date
-	 * 				The date of the deadline of the task that need to be created
-	 * @return      
+	 * @param String
+	 *            The task name that need to be created
+	 * @param int The priority of task that need to be created
+	 * @param Date
+	 *            The date of the deadline of the task that need to be created
+	 * @return
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	public DeadlineTask(String taskName, int priority, Date deadline) {
 
 		super(taskName, priority);
 		this.setDeadline(deadline);
 	}
-	
+
 	/**
 	 * This is the method to get date from the deadline task.
 	 *
-	 * @return  Date
-	 * 				The date from the deadline Task.
+	 * @return Date The date from the deadline Task.
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	public Date getDeadline() {
 		return deadline;
 	}
-	
-	
+
 	/**
 	 * This is the method to set date for the deadline task.
 	 *
-	 * @param 	Date
-	 * 				The date of the deadline of the task that need to be created
+	 * @param Date
+	 *            The date of the deadline of the task that need to be created
 	 *
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 		super.setSortDate(deadline);
 	}
+
 	/**
 	 *
-	 *This is to generate the hash code from the deadline task
-	 *	
-	 * @return   int
-	 * 				The hash code generated.
+	 * This is to generate the hash code from the deadline task
+	 *
+	 * @return int The hash code generated.
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -66,16 +63,17 @@ public class DeadlineTask extends Task {
 				+ ((deadline == null) ? 0 : deadline.hashCode());
 		return result;
 	}
+
 	/**
 	 *
-	 *Compare between 2 deadline task whether they are the same or not.
+	 * Compare between 2 deadline task whether they are the same or not.
 	 *
-	 * @param  	Object
-	 * 				The parsed in object that need to be compared
-	 * @return  boolean
-	 * 				return true if both deadline task are the same, else false.
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both deadline task are the same, else
+	 *         false.
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -92,28 +90,30 @@ public class DeadlineTask extends Task {
 			return false;
 		return true;
 	}
+
 	/**
 	 *
 	 * Generate the deadline task property into String
-	 *	
-	 * @return	String
-	 * 				the string generated from the deadline Task property
+	 *
+	 * @return String the string generated from the deadline Task property
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	@Override
 	public String toString() {
 		return "DeadlineTask [deadline=" + deadline + ", getTaskId()="
 				+ getTaskId() + ", getTaskName()=" + getTaskName()
 				+ ", getPriority()=" + getPriority() + "]";
 	}
+
 	/**
 	 *
-	 * Generate the deadline task property into String and it is for display purpose
-	 *	
-	 * @return	String
-	 * 				the string generated from the deadline Task property for display purpose
+	 * Generate the deadline task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the string generated from the deadline Task property for
+	 *         display purpose
 	 */
-	//@author A01111916M
+	// @author A0111916M
 	@Override
 	public String toDisplay() {
 		String userString = "";

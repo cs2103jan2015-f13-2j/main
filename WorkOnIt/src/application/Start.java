@@ -5,14 +5,15 @@ import org.jnativehook.GlobalScreen;
 import data.InitFileIO;
 
 public class Start {
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * The starting point of this application
+	 * 
+	 * @param args
 	 */
-	//@author 
+	// @author A0111837J
 	public static void main(String[] args) {
-		
+
 		InitFileIO initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
 		KeyListener listener = new KeyListener();

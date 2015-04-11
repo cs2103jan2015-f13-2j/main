@@ -51,7 +51,7 @@ public class FileIO {
 	 *            created by user
 	 * @return Success Object which contain the success/failure message
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success saveIntoFile(Task task) {
 
 		Success status = null;
@@ -86,12 +86,11 @@ public class FileIO {
 	/**
 	 * get name of file base on the task class.
 	 *
-	 * @param Task 		
-	 * 			Type of task which parse in.
-	 * @return String	
-	 * 			Name of file for the task parse in.
+	 * @param Task
+	 *            Type of task which parse in.
+	 * @return String Name of file for the task parse in.
 	 */
-	// @author A0112694
+	// @author A0112694E
 	private String getFileType(Task task) {
 
 		String type = null;
@@ -115,7 +114,7 @@ public class FileIO {
 	 *            keyword which specific which class type to retrieve
 	 * @return Success Object which contain the success/failure message
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromFileTask(String file_keyword) {
 
 		assert(file_keyword != null);
@@ -191,16 +190,15 @@ public class FileIO {
 
 		return successObj;
 	}
-	
+
 	/**
 	 * get the file name the on keyword for the file.
 	 *
 	 * @param String
 	 *            keyword which specific which file name to be return
-	 * @return String 
-	 *			  the name of file from the keyword.
+	 * @return String the name of file from the keyword.
 	 */
-	// @author A0112694
+	// @author A0112694E
 	private String getFileTypeWithKeyword(String file_keyword) {
 
 		String type = "";
@@ -230,7 +228,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromStartDate(Date date) {
 
 		assert(date != null);
@@ -317,7 +315,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
 
 		assert(startDate != null);
@@ -398,7 +396,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromPriority(int priority) {
 
 		assert(priority >= 0 && priority <= 3);
@@ -493,7 +491,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
 		
@@ -587,7 +585,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
 			Date endDate) {
 
@@ -677,7 +675,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success getCompletedTask(boolean isCompleted) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -754,7 +752,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -841,7 +839,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
 			Date startDate, Date endDate) {
 		Success successObj;
@@ -927,7 +925,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success searchFromFile(String keyword) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -1028,7 +1026,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success searchFromFileWithDate(String keyword, Date date) {
 		Success successObj;
 		BufferedReader reader = null;
@@ -1120,7 +1118,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success searchFromFileBetweenDate(String keyword, Date startDate,
 			Date endDate) {
 		Success successObj;
@@ -1208,7 +1206,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success deleteFromFile(Task taskObj) {
 		Success successObj = null;
 
@@ -1374,7 +1372,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
 		Success successObj = null;
 		BufferedReader reader = null;
@@ -1615,7 +1613,7 @@ public class FileIO {
 	 *            the date that need to be compared
 	 * @return boolean true if the both date are the same
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 
@@ -1646,7 +1644,7 @@ public class FileIO {
 	 *            the end date that need to be compared
 	 * @return boolean true if the both date are the same
 	 */
-	// @author A0112694
+	// @author A0112694E
 	public static boolean checkNormalTaskBetweenDate(NormalTask task,
 			Date startDate, Date endDate) {
 		boolean matchDate = false;
