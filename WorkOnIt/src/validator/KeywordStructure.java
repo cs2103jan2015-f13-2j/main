@@ -11,22 +11,25 @@ import entity.KeywordNode;
 public class KeywordStructure {
 
 	private List<KeywordNode> mainKeywordList;
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This constructor will execute the init method. By instantiating this
+	 * class, it creates a keyword sequence for the respective commands. This
+	 * will allow the validation of proper command. All keywords are structured
+	 * in a form of Linked List.
+	 * 
+	 * @return
 	 */
-	//@author 
+	// @author A0111916M
 	public KeywordStructure() {
 
 		init();
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute all the possible keyword configurations.
 	 */
-	//@author 
+	// @author A0111916M
 	private void init() {
 
 		mainKeywordList = new ArrayList<KeywordNode>();
@@ -35,7 +38,6 @@ public class KeywordStructure {
 		initRetrieveKeyword();
 		initUpdateKeyword();
 		initDeleteKeyword();
-		// initExportKeyword();
 		initDoneKeyword();
 		initUndoneKeyword();
 		initRedoKeyword();
@@ -44,12 +46,12 @@ public class KeywordStructure {
 		initDisplayKeyword();
 		initExitKeyword();
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for add command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initAddKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -120,18 +122,17 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyAdd);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for retrieve command. This
+	 * method will arrange the possible combination and sequence for this
+	 * command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initRetrieveKeyword() {
 
-		KeywordNode keyDone = new KeywordNode(
-				KeywordConstant.KEYWORD_DONE);
-		KeywordNode keyUndone = new KeywordNode(
-				KeywordConstant.KEYWORD_UNDONE);
+		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
+		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
 
 		KeywordNode keyAll = new KeywordNode(KeywordConstant.KEYWORD_ALL);
 		keyAll.addSubsequentKeywords(keyDone);
@@ -208,12 +209,12 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyRetrieve);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for update command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initUpdateKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -257,7 +258,7 @@ public class KeywordStructure {
 		keyOn.addSubsequentKeywords(keyPriority);
 		keyOn.addSubsequentKeywords(keyFromOn);
 		keyOn.addSubsequentKeywords(keyToOn);
-		
+
 		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
 		keyAt.addSubsequentKeywords(keyPriority);
 		keyAt.addSubsequentKeywords(keyFromOn);
@@ -284,102 +285,109 @@ public class KeywordStructure {
 
 		mainKeywordList.add(keyUpdate);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for delete command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initDeleteKeyword() {
 
 		KeywordNode keyDel = new KeywordNode(KeywordConstant.KEYWORD_DELETE);
 
 		mainKeywordList.add(keyDel);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for undo command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initUndoKeyword() {
 		KeywordNode keyUndo = new KeywordNode(KeywordConstant.KEYWORD_UNDO);
 
 		mainKeywordList.add(keyUndo);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for redo command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initRedoKeyword() {
 		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
 
 		mainKeywordList.add(keyRedo);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for done command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initDoneKeyword() {
 		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
 
 		mainKeywordList.add(keyDone);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for undone command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initUndoneKeyword() {
 		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
 
 		mainKeywordList.add(keyUndone);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for clear command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initClearKeyword() {
 		KeywordNode keyClear = new KeywordNode(KeywordConstant.KEYWORD_CLEAR);
 
 		mainKeywordList.add(keyClear);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for display command. This
+	 * method will arrange the possible combination and sequence for this
+	 * command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initDisplayKeyword() {
 		KeywordNode keyDisplay = new KeywordNode(
 				KeywordConstant.KEYWORD_DISPLAY);
 
 		mainKeywordList.add(keyDisplay);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * It will execute the keyword configuration for exit command. This method
+	 * will arrange the possible combination and sequence for this command.
 	 */
-	//@author 
+	// @author A0111916M
 	private void initExitKeyword() {
 		KeywordNode keyExit = new KeywordNode(KeywordConstant.KEYWORD_EXIT);
 
 		mainKeywordList.add(keyExit);
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This method will check the keyword sequence in the input parameter. It
+	 * will return a boolean value of true, if the given keywords list is in a
+	 * correct and expected order, as defined in the init methods above. It will
+	 * return false otherwise.
+	 * 
+	 * @param keywords
+	 *            List of keywords, in expected sequence
+	 * @return boolean value
 	 */
-	//@author 
+	// @author A0111916M
 	public boolean checkKeyword(List<String> keywords) {
 
 		boolean isCorrectKeyword = false;
@@ -424,12 +432,18 @@ public class KeywordStructure {
 
 		return isCorrectKeyword;
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This method will load the configuration file named command.cfg. This file
+	 * is customizable by the user. User may enter their desired keyword
+	 * mappings, according to their preference. Example: "create":"add" which
+	 * means that the new keyword "create" is being mapped onto existing keyword
+	 * "add".
+	 * 
+	 * @return Map<String, String> keywordFullMap The mapping of customized
+	 *         keywords, according to user preference.
 	 */
-	//@author 
+	// @author A0111916M
 	private Map<String, String> loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();
