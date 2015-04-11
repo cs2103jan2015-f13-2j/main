@@ -45,9 +45,9 @@ public class FileIO {
 	}
 
 	/**
-	 * save task into into data file base on it Class Type.
+	 * save Task into into data file base on it Class Type.
 	 *
-	 * @param task
+	 * @param Task
 	 *            created by user
 	 * @return Success Object which contain the success/failure message
 	 */
@@ -79,6 +79,15 @@ public class FileIO {
 		return status;
 	}
 
+	/**
+	 * get name of file base on the task class.
+	 *
+	 * @param Task 		
+	 * 			Type of task which parse in.
+	 * @return String	
+	 * 			Name of file for the task parse in.
+	 */
+	// @author A0112694
 	private String getFileType(Task task) {
 
 		String type = null;
@@ -176,7 +185,16 @@ public class FileIO {
 
 		return successObj;
 	}
-
+	
+	/**
+	 * get the file name the on keyword for the file.
+	 *
+	 * @param String
+	 *            keyword which specific which file name to be return
+	 * @return String 
+	 *			  the name of file from the keyword.
+	 */
+	// @author A0112694
 	private String getFileTypeWithKeyword(String file_keyword) {
 
 		String type = "";
@@ -629,99 +647,6 @@ public class FileIO {
 
 		return successObj;
 	}
-
-	/*
-	 * public Success loadFromStartDateWithTask(Task taskObj, Date date) {
-	 * 
-	 * Success successObj; BufferedReader reader = null;
-	 * 
-	 * try { List<Task> taskList = new ArrayList<Task>(); String printLine;
-	 * 
-	 * if (taskObj instanceof NormalTask) { reader = new BufferedReader(new
-	 * FileReader(filename_normal)); while ((printLine = reader.readLine()) !=
-	 * null) { try { NormalTask task = (NormalTask) Serializer
-	 * .deserializeFromJson(printLine, NormalTask.class);
-	 * 
-	 * if (checkNormalTaskDate(task, date)) {
-	 * 
-	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
-	 * 
-	 * } if (taskObj instanceof DeadlineTask) { reader = new BufferedReader(new
-	 * FileReader(filename_deadline)); while ((printLine = reader.readLine()) !=
-	 * null) { try { DeadlineTask task = (DeadlineTask) Serializer
-	 * .deserializeFromJson(printLine, DeadlineTask.class); // if haven't reach
-	 * deadline yet. if (task.getDeadline().compareTo(date) > 0) {
-	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
-	 * 
-	 * } if (taskObj instanceof RecurrenceTask) { reader = new
-	 * BufferedReader(new FileReader(filename_recur)); while ((printLine =
-	 * reader.readLine()) != null) { try { RecurrenceTask task =
-	 * (RecurrenceTask) Serializer .deserializeFromJson(printLine,
-	 * RecurrenceTask.class); if (task.getStartRecurrenceDate().getDate() ==
-	 * date .getDate() && task.getStartRecurrenceDate().getMonth() == date
-	 * .getMonth() && task.getStartRecurrenceDate().getYear() == date
-	 * .getYear()) { taskList.add(task); } } catch (JsonSyntaxException e) { //
-	 * skip error } }
-	 * 
-	 * } successObj = new Success(taskList, true,
-	 * Message.SUCCESS_RETRIEVE_LIST);
-	 * 
-	 * reader.close();
-	 * 
-	 * } catch (IOException e) { successObj = new Success(false,
-	 * e.getMessage()); }
-	 * 
-	 * return successObj; }
-	 * 
-	 * /**
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 */
-	// @author
-	/*
-	 * public Success loadFromBetweenDateWithTask(Task taskObj, Date startDate,
-	 * Date endDate) {
-	 * 
-	 * Success successObj; BufferedReader reader = null;
-	 * 
-	 * try { List<Task> taskList = new ArrayList<Task>(); String printLine;
-	 * 
-	 * if (taskObj instanceof NormalTask) { reader = new BufferedReader(new
-	 * FileReader(filename_normal)); while ((printLine = reader.readLine()) !=
-	 * null) { try { NormalTask task = (NormalTask) Serializer
-	 * .deserializeFromJson(printLine, NormalTask.class); if
-	 * (checkNormalTaskBetweenDate(task, startDate, endDate)) {
-	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
-	 * 
-	 * } if (taskObj instanceof DeadlineTask) { reader = new BufferedReader(new
-	 * FileReader(filename_deadline)); while ((printLine = reader.readLine()) !=
-	 * null) { try { DeadlineTask task = (DeadlineTask) Serializer
-	 * .deserializeFromJson(printLine, DeadlineTask.class); // if haven't reach
-	 * deadline yet. if (task.getDeadline().compareTo(startDate) >= 0) {
-	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
-	 * 
-	 * } if (taskObj instanceof RecurrenceTask) { reader = new
-	 * BufferedReader(new FileReader(filename_recur)); while ((printLine =
-	 * reader.readLine()) != null) { try { RecurrenceTask task =
-	 * (RecurrenceTask) Serializer .deserializeFromJson(printLine,
-	 * RecurrenceTask.class); if
-	 * (task.getStartRecurrenceDate().compareTo(startDate) > 0 &&
-	 * task.getStartRecurrenceDate().compareTo( endDate) <= 0) {
-	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
-	 * 
-	 * }
-	 * 
-	 * successObj = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
-	 * 
-	 * reader.close();
-	 * 
-	 * } catch (IOException e) { successObj = new Success(false,
-	 * e.getMessage()); }
-	 * 
-	 * return successObj; }
-	 */
 
 	/**
 	 * load task from data file which already marked as done
@@ -1644,20 +1569,6 @@ public class FileIO {
 		return status;
 	}
 
-	/*
-	 * public static boolean checkDeadlineTaskDate(DeadlineTask task, Date date)
-	 * { boolean matchDate = false;
-	 * 
-	 * if(task.getDeadline().getDate() == date.getDate() &&
-	 * task.getDeadline().getMonth() == date.getMonth() &&
-	 * task.getDeadline().getHours() == date.getHours() &&
-	 * task.getDeadline().getYear() == date.getYear() &&
-	 * task.getDeadline().getHours() == date.getHours() &&
-	 * task.getDeadline().getMinutes() == date.getMinutes()) { matchDate = true;
-	 * } else if(task.getDeadline().compareTo(date) >= 0) { matchDate = true; }
-	 * 
-	 * return matchDate; }
-	 */
 	/**
 	 * Check wether the task date and the date entered are the same
 	 *
@@ -1688,11 +1599,17 @@ public class FileIO {
 	}
 
 	/**
+	 * Check wether the task date is the between the start and end date entered.
 	 *
-	 * @param
-	 * @return
+	 * @param Task
+	 *            the task which have the task date to be compared
+	 * @param Date
+	 *            the start date that need to be compared
+	 * @param Date
+	 *            the end date that need to be compared
+	 * @return boolean true if the both date are the same
 	 */
-	// @author
+	// @author A0112694
 	public static boolean checkNormalTaskBetweenDate(NormalTask task,
 			Date startDate, Date endDate) {
 		boolean matchDate = false;
