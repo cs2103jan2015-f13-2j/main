@@ -199,6 +199,7 @@ public class AddParser {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (!isEndDate && !isPriority) {
+				// in between startDate and endDate
 
 				if (resolvedWord != null) {
 					if (resolvedWord
@@ -217,7 +218,7 @@ public class AddParser {
 					startDateString += " " + currentWord;
 				}
 			} else if (isEndDate && !isPriority) {
-
+				// in between endDate and Priority
 				if (resolvedWord != null) {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
@@ -231,6 +232,8 @@ public class AddParser {
 					endDateString += " " + currentWord;
 				}
 			} else if (isPriority) {
+				// after Priority
+
 				try {
 					if (resolvedWord != null) {
 						priority = Integer.parseInt(resolvedWord);
@@ -299,6 +302,8 @@ public class AddParser {
 			String resolvedWord = keywordFullMap.get(currentWord);
 
 			if (!isPriority) {
+				// in between dueDate and Priority
+
 				if (resolvedWord != null) {
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
@@ -311,6 +316,8 @@ public class AddParser {
 				}
 
 			} else {
+				// after Priority
+
 				try {
 					if (resolvedWord != null) {
 						priority = Integer.parseInt(resolvedWord);
@@ -349,7 +356,8 @@ public class AddParser {
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// @author A0111916M
+	// @author A0111916M - unused
+	// dropped support for recurrence task
 	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 
 		taskDesc = taskDesc.trim();
@@ -393,6 +401,7 @@ public class AddParser {
 			}
 
 			if (!isEndRecurrenceDate && !isPriority) {
+				// in between startDate and endDate
 
 				if (resolvedWord != null) {
 					if (resolvedWord
@@ -411,6 +420,7 @@ public class AddParser {
 				}
 
 			} else if (isEndRecurrenceDate && !isPriority) {
+				// in between endDate and Priority
 
 				if (resolvedWord != null) {
 					if (resolvedWord
@@ -425,6 +435,8 @@ public class AddParser {
 				}
 
 			} else if (isPriority) {
+				// After priority
+
 				try {
 					if (resolvedWord != null) {
 						priority = Integer.parseInt(resolvedWord);
@@ -507,10 +519,8 @@ public class AddParser {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err.println(Message.FAIL_PARSE_PRIORITY);
+					// ignore error
 				}
-			} else {
-				System.err.println(Message.FAIL_PARSE_PRIORITY);
 			}
 
 			sc.close();
