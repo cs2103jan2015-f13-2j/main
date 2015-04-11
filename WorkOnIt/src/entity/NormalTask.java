@@ -21,7 +21,7 @@ public class NormalTask extends Task {
 	 * 				The end date of the normal of the task that need to be created
 	 * @return      
 	 */
-	//@author A01111916M 
+	//@author A0111916M 
 	public NormalTask(String taskName, int priority, Date startDateTime,
 			Date endDateTime) {
 
@@ -36,7 +36,7 @@ public class NormalTask extends Task {
 	 * @return  Date
 	 * 				The start date from the normal Task.
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public Date getStartDateTime() {
 		return startDateTime;
 	}
@@ -48,7 +48,7 @@ public class NormalTask extends Task {
 	 * 				The start date of the task that need to be created
 	 *
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 		super.setSortDate(startDateTime);
@@ -60,7 +60,7 @@ public class NormalTask extends Task {
 	 * @return  Date
 	 * 				The end date from the normal Task.
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public Date getEndDateTime() {
 		return endDateTime;
 	}
@@ -72,7 +72,7 @@ public class NormalTask extends Task {
 	 * 				The end date of the task that need to be created
 	 *
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public void setEndDateTime(Date endDateTime) {
 		if (endDateTime == null) {
 			this.endDateTime = this.getStartDateTime();
@@ -88,7 +88,7 @@ public class NormalTask extends Task {
 	 * @return   int
 	 * 				The hash code generated.
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,7 +109,7 @@ public class NormalTask extends Task {
 	 * @return  boolean
 	 * 				return true if both normal task are the same, else false.
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -139,7 +139,7 @@ public class NormalTask extends Task {
 	 * @return	String
 	 * 				the String generated from the normal Task property
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public String toString() {
 		return "NormalTask [startDateTime=" + startDateTime + ", endDateTime="
@@ -155,7 +155,7 @@ public class NormalTask extends Task {
 	 * @return	String
 	 * 				the String generated from the normal Task property for display purpose
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public String toDisplay() {
 		String userString = "";

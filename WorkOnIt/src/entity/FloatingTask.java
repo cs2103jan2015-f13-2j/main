@@ -13,7 +13,7 @@ public class FloatingTask extends Task {
 	 * 				The priority of task that need to be created
 	 * @return      
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public FloatingTask(String taskName, int priority) {
 
 		super(taskName, priority);
@@ -26,7 +26,7 @@ public class FloatingTask extends Task {
 	 * @return	String
 	 * 				the string generated from the floating Task property
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public String toString() {
 		return "FloatingTask [getTaskId()=" + getTaskId() + ", getTaskName()="
@@ -39,7 +39,7 @@ public class FloatingTask extends Task {
 	 * @return	String
 	 * 				the string generated from the floating Task property for display purpose
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public String toDisplay() {
 		String userString = "";

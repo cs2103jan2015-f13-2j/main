@@ -22,7 +22,7 @@ public class InitFileIO {
 	 * @param
 	 * @return
 	 */
-	// @author A01111916M
+	// @author A0111916M
 	public void checkAndProcessFile() {
 
 		FileName.readCanonicalPathFromFile();
@@ -40,7 +40,7 @@ public class InitFileIO {
 	 * @param
 	 * @return
 	 */
-	// @author A01111916M
+	// @author A0111916M
 	private void showChooseFolderUi() {
 		new JFXPanel();
 		Platform.runLater(new Runnable() {
@@ -58,7 +58,7 @@ public class InitFileIO {
 	 * @return	 boolean
 	 * 				true if the datafile exist , else return false.
 	 */
-	// @author A01111916M
+	// @author A0111916M
 	private boolean isFilesExist() {
 
 		boolean isExist = true;
@@ -97,7 +97,7 @@ public class InitFileIO {
 	 * 				the ending destination of the file that need to be copy
 	 * 
 	 */
-	// @author A01111916M
+	// @author A0111916M
 	public static void copyFileUsingFileStreams(String sourceString,
 			String destString) throws IOException {
 

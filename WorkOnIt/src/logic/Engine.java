@@ -20,17 +20,15 @@ import entity.TaskHistory;
 
 public class Engine {
 
-	
 	/**
-	 * This method will call the saveIntoFile method in 
-	 * fileIO to save the Task 
+	 * This method will call the saveIntoFile method in fileIO to save the Task
 	 *
-	 * @param	Task
-	 * 				Task which need to be save into the data file
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain the success Message.
+	 * @param Task
+	 *            Task which need to be save into the data file
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success addTask(Task task) {
 
 		Success status = null;
@@ -40,7 +38,7 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_ADD, task);
-		
+
 		Utility.getInstance();
 		Utility.addUndoStack(taskHistoryObj);
 
@@ -48,16 +46,15 @@ public class Engine {
 	}
 
 	/**
-	 * This method will call the loadFromFileTask method in 
-	 * fileIO to load the task based on the keyword entered
+	 * This method will call the loadFromFileTask method in fileIO to load the
+	 * task based on the keyword entered
 	 *
-	 * @param	String
-	 * 				Keyword which specific the task type
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param String
+	 *            Keyword which specific the task type
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask(String keyword) {
 
@@ -80,17 +77,16 @@ public class Engine {
 		return status;
 
 	}
-	
+
 	/**
-	 * This method will call the loadFromFileTask method in
-	 *  fileIO to load all Task.
+	 * This method will call the loadFromFileTask method in fileIO to load all
+	 * Task.
 	 *
-	 * @param	
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask() {
 
@@ -119,19 +115,17 @@ public class Engine {
 		return status;
 
 	}
-	
-	
+
 	/**
-	 * This method will call the loadFromStartDate method in 
-	 * fileIO to load the task based on the date entered
+	 * This method will call the loadFromStartDate method in fileIO to load the
+	 * task based on the date entered
 	 *
-	 * @param	Date
-	 * 				date which specific the task date to be retrieved
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param Date
+	 *            date which specific the task date to be retrieved
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success retrieveTask(Date date) throws IOException {
 
 		Success status = null;
@@ -140,20 +134,19 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the loadFromBetweenDate method in 
-	 * fileIO to load the task between start date and end date entered
+	 * This method will call the loadFromBetweenDate method in fileIO to load
+	 * the task between start date and end date entered
 	 *
-	 * @param	Date
-	 * 				start date which specific the task start date.
-	 * @param	Date
-	 * 				end date which specific the task end date.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param Date
+	 *            start date which specific the task start date.
+	 * @param Date
+	 *            end date which specific the task end date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
@@ -163,18 +156,16 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the loadFromPriority method in 
-	 * fileIO to load the task base on the priority
+	 * This method will call the loadFromPriority method in fileIO to load the
+	 * task base on the priority
 	 *
-	 * @param	int
-	 * 				priority which specific the task priority to be retrieved
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param int priority which specific the task priority to be retrieved
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success retrieveTask(int priority) throws IOException {
 
 		Success status = null;
@@ -184,19 +175,18 @@ public class Engine {
 
 		return status;
 	}
+
 	/**
-	 * This method will call the loadFromPriorityAndDate method in 
-	 * fileIO to load the task based on the date and priority entered
+	 * This method will call the loadFromPriorityAndDate method in fileIO to
+	 * load the task based on the date and priority entered
 	 *
-	 * @param	Date
-	 * 				date which specific the task date to be retrieved
-	 * @param	int
-	 * 				priority which specific the task priority to be retrieved
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param Date
+	 *            date which specific the task date to be retrieved
+	 * @param int priority which specific the task priority to be retrieved
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success retrieveTask(int priority, Date date) throws IOException {
 
 		Success status = null;
@@ -206,22 +196,20 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the loadFromPriorityBetweenDate method in 
-	 * fileIO to load the task between start date and end date and priority entered
+	 * This method will call the loadFromPriorityBetweenDate method in fileIO to
+	 * load the task between start date and end date and priority entered
 	 *
-	 * @param	Date
-	 * 				start date which specific the task start date.
-	 * @param	Date
-	 * 				end date which specific the task end date.
-	 * @param	int
-	 * 				priority which specific the task priority to be retrieved
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param Date
+	 *            start date which specific the task start date.
+	 * @param Date
+	 *            end date which specific the task end date.
+	 * @param int priority which specific the task priority to be retrieved
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success retrieveTask(int priority, Date startDate, Date endDate)
 			throws IOException {
 
@@ -233,21 +221,20 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the loadCompletedTaskWithDate method in 
-	 * fileIO to load the task which has mark as completed with date
+	 * This method will call the loadCompletedTaskWithDate method in fileIO to
+	 * load the task which has mark as completed with date
 	 *
-	 * @param	boolean
-	 * 				boolean which specific the wether the task has been completed or not
-	 * @param	Date
-	 * 				date which specific the task date.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param boolean boolean which specific the wether the task has been
+	 *        completed or not
+	 * @param Date
+	 *            date which specific the task date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
-	public Success getCompleteTaskWithDate(boolean isComplete ,Date date) {
+	// @author A0112694E
+	public Success getCompleteTaskWithDate(boolean isComplete, Date date) {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
@@ -256,34 +243,47 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the loadCompletedTaskBetweenDate method in 
-	 * fileIO to load the task between start date and end date entered and which mark as completed
+	 * This method will call the loadCompletedTaskBetweenDate method in fileIO
+	 * to load the task between start date and end date entered and which mark
+	 * as completed
 	 *
-	 * @param	boolean
-	 * 				boolean which specific the wether the task has been completed or not
-	 * @param	Date
-	 * 				start date which specific the task start date.
-	 * @param	Date
-	 * 				end date which specific the task end date.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param boolean boolean which specific the wether the task has been
+	 *        completed or not
+	 * @param Date
+	 *            start date which specific the task start date.
+	 * @param Date
+	 *            end date which specific the task end date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
-	public Success getCompleteTaskBetweenDate(boolean isComplete, Date startDate, Date endDate) {
+	// @author A0112694E
+	public Success getCompleteTaskBetweenDate(boolean isComplete,
+			Date startDate, Date endDate) {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 
-		status = dataStorage.loadCompletedTaskBetweenDate(isComplete, startDate, endDate);
+		status = dataStorage.loadCompletedTaskBetweenDate(isComplete,
+				startDate, endDate);
 
 		return status;
 	}
 
-	
-	
+	/**
+	 * This method will retrieve Task(s) for displaying agenda view.
+	 * 
+	 * @param startDate
+	 *            the beginning date
+	 * @param endDate
+	 *            the ending date
+	 * @param displayType
+	 *            the agenda view type
+	 * @return
+	 * @throws IOException
+	 *             Will throw this exception if the file cannot be read or write
+	 */
 	@SuppressWarnings("unchecked")
 	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
 			String displayType) throws IOException {
@@ -319,19 +319,17 @@ public class Engine {
 
 		return statusDisp;
 	}
-	
-	
+
 	/**
-	 * This method will call the searchFromFile method in 
-	 * fileIO to load the task base on the keyword entered.
+	 * This method will call the searchFromFile method in fileIO to load the
+	 * task base on the keyword entered.
 	 *
-	 * @param	String
-	 * 				keyowrd which specific inside the task description  
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success searchTask(String keyword) {
 
 		Success status = null;
@@ -341,19 +339,19 @@ public class Engine {
 
 		return status;
 	}
+
 	/**
-	 * This method will call the searchFromFileWithDate method in 
-	 * fileIO to load the task base on the keyword and date entered.
+	 * This method will call the searchFromFileWithDate method in fileIO to load
+	 * the task base on the keyword and date entered.
 	 *
-	 * @param	String
-	 * 				keyowrd which specific inside the task description  
-	 * @param	Date
-	 * 				date which specific the task date.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @param Date
+	 *            date which specific the task date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success searchTask(String keyword, Date date) {
 
 		Success status = null;
@@ -363,22 +361,22 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the searchFromFileBetweenDate method in 
-	 * fileIO to load the task base on the keyword and between the start date and end date entered.
+	 * This method will call the searchFromFileBetweenDate method in fileIO to
+	 * load the task base on the keyword and between the start date and end date
+	 * entered.
 	 *
-	 * @param	String
-	 * 				keyowrd which specific inside the task description  
-	 * @param	Date
-	 * 				start date which specific the task start date.
-	 * @param	Date
-	 * 				end date which specific the task end date.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @param Date
+	 *            start date which specific the task start date.
+	 * @param Date
+	 *            end date which specific the task end date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 
+	// @author
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
 
 		Success status = null;
@@ -389,18 +387,17 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the deleteFromFile method in 
-	 * fileIO to delete the specific task parse in.
+	 * This method will call the deleteFromFile method in fileIO to delete the
+	 * specific task parse in.
 	 *
-	 * @param	List
-	 * 				List of task that need to be deleted from the data file  
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param List
+	 *            List of task that need to be deleted from the data file
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author A0112694E
+	// @author A0112694E
 	public Success deleteTask(List<Task> deleteList) {
 
 		Success status = null;
@@ -419,7 +416,7 @@ public class Engine {
 
 		TaskHistory taskHistoryObj = new TaskHistory(
 				KeywordConstant.KEYWORD_DELETE, deleteList);
-		
+
 		Utility.getInstance();
 		Utility.addUndoStack(taskHistoryObj);
 
@@ -431,20 +428,19 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the updateFromFile method in 
-	 * fileIO to update the specific task parse in
+	 * This method will call the updateFromFile method in fileIO to update the
+	 * specific task parse in
 	 *
-	 * @param	Task
-	 * 				the new task that need to be updated
-	 * @param	Task
-	 * 				the old task that need to be overwrite.
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param Task
+	 *            the new task that need to be updated
+	 * @param Task
+	 *            the old task that need to be overwrite.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author A0112694E
+	// @author A0112694E
 	public Success updateTask(Task taskUpdate, Task taskOld) {
 
 		Success status = null;
@@ -463,18 +459,17 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
-	 * This method will call the getCompletedTask method in 
-	 * fileIO to load the task which mark as completed
+	 * This method will call the getCompletedTask method in fileIO to load the
+	 * task which mark as completed
 	 *
-	 * @param	boolean
-	 * 				boolean which specific the wether the task has been completed or not
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param boolean boolean which specific the wether the task has been
+	 *        completed or not
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Success getCompleteTask(boolean isComplete) {
 
 		Success status = null;
@@ -484,17 +479,16 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
 	 * This method will mark the list of task as done
 	 * 
-	 * @param	List
-	 * 				the list of task that need to be mark as done
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param List
+	 *            the list of task that need to be mark as done
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A01111916M
+	// @author A0111916M
 	public Success markAsDone(List<Task> doneList) {
 
 		Success status = null;
@@ -532,17 +526,16 @@ public class Engine {
 
 		return status;
 	}
-	
+
 	/**
 	 * This method will mark the list of task as undone
 	 * 
-	 * @param	List
-	 * 				the list of task that need to be mark as undone
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain 
-	 * 				the success Message and Array List of task retrieve from data file.
+	 * @param List
+	 *            the list of task that need to be mark as undone
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author 	A01111916M
+	// @author A0111916M
 	public Success markAsUndone(List<Task> undoneList) {
 
 		Success status = null;
@@ -580,43 +573,44 @@ public class Engine {
 
 		return status;
 	}
+
 	/**
 	 * call the undoTaskFunction method in Utility class to undo the last task
 	 *
-	 * @param  	
-	 * @return  Success
-	 * 				Success object which contain the message from utility  
+	 * @param
+	 * @return Success Success object which contain the message from utility
 	 */
-	//@author A0112694E
+	// @author A0112694E
 	public Success undoTask() {
-		
+
 		Utility.getInstance();
 		Success successObj = Utility.undoTaskFunction();
-		
+
 		return successObj;
-		
+
 	}
+
 	/**
 	 * call the redoTaskFunction method in Utility class to redo the last task
 	 *
-	 * @param  	
-	 * @return  Success
-	 * 				Success object which contain the message from utility  
+	 * @param
+	 * @return Success Success object which contain the message from utility
 	 */
-	//@author A0112694E
+	// @author A0112694E
 	public Success redoTask() {
-		
+
 		Utility.getInstance();
 		Success successObj = Utility.redoTaskFunction();
-		
+
 		return successObj;
 	}
+
 	/**
-	 *
-	 * @param  	
-	 * @return      
+	 * This method will get the list of History that were saved.
+	 * 
+	 * @return Success object
 	 */
-	//@author 
+	// @author A0111916M
 	public Success getHistory() {
 
 		Success status = null;

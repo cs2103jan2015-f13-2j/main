@@ -109,7 +109,7 @@ public class SuccessDisplay extends Success {
 	 * @return	String
 	 * 				the String generated from the SuccessDisplay property for display purpose
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	@Override
 	public String toString() {
 		return "SuccessDisplay [displayType=" + displayType + ", calendar="

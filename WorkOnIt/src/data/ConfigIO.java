@@ -18,7 +18,7 @@ public class ConfigIO {
 	 * @return    Map
 	 * 				return the keyword mapping  
 	 */
-	//@author A01111916M
+	//@author A0111916M
 	public Map<String, String> getFullKeywordMap() {
 
 		String loadedContents = loadFromFile();
@@ -37,7 +37,7 @@ public class ConfigIO {
 	 * @return    String
 	 * 				return the keyword and command from config file.  
 	 */
-	//@author A01111916M 
+	//@author A0111916M 
 	private String loadFromFile() {
 
 		String loadedContents = null;
