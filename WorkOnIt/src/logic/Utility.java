@@ -16,11 +16,24 @@ public class Utility {
 	public static Stack<TaskHistory> redoStack = null;
 	private static Utility obj = null;
 
+	/**
+	 *  instantiate both of the undo and redo stack.
+	 *
+	 * @return
+	 */
+	//@author 	A0112694E
 	public Utility() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
 	}
 
+	/**
+	 * instantiate the utility object.
+	 *
+	 * @return	Utility
+	 * 				the only Utility object which belong to the class
+	 */
+	//@author 	A0112694E
 	public static Utility getInstance() {
 		if (obj == null) {
 			obj = new Utility();
@@ -30,31 +43,45 @@ public class Utility {
 		}
 	}
 	
+	/**
+	 * re-instantiate both of the undo and redo stack.
+	 *
+	 * @return
+	 */
+	//@author 	A0112694E
 	public static void reset() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
 	}
 
+	/**
+	 * add Task into the undo stack
+	 *
+	 * @return	
+	 */
+	//@author 	A0112694E
 	public static void addUndoStack(TaskHistory task) {
 		undoStack.push(task);
 
 	}
-
+	
+	/**
+	 * add Task into the redo stack
+	 *
+	 * @return	
+	 */
+	//@author 	A0112694E
 	public static void addRedoStack(TaskHistory task) {
 		redoStack.push(task);
-
 	}
-
-	public static void removeUndoStack() {
-		undoStack.pop();
-
-	}
-
-	public static void removeRedoStack() {
-		redoStack.pop();
-
-	}
-
+	
+	/**
+	 * undo the last command from the undo stack
+	 *
+	 * @return	Success      
+	 * 				Success object return by the fileIO contain the success Message.
+	 */
+	//@author 	A0112694E
 	public static Success undoTaskFunction() {
 
 		Success status = null;
@@ -170,11 +197,12 @@ public class Utility {
 	}
 
 	/**
+	 * redo the last command from the redo stack
 	 *
-	 * @param
-	 * @return
+	 * @return	Success      
+	 * 				Success object return by the fileIO contain the success Message.
 	 */
-	// @author
+	//@author 	A0112694E
 	public static Success redoTaskFunction() {
 
 		Success status = null;
