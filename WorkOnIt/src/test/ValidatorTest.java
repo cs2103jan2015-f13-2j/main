@@ -13,7 +13,6 @@ import data.InitFileIO;
 
 public class ValidatorTest {
 
-	CommandParser commandParser = null;
 	Validator keywordValidator = null;
 	InitFileIO initFile = null;
 	List<String> addCommandList = null;
@@ -26,7 +25,6 @@ public class ValidatorTest {
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
-		commandParser = new CommandParser();
 		keywordValidator = new Validator();
 		addCommandList = new ArrayList<String>();
 	}
