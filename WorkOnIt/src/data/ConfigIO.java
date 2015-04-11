@@ -17,7 +17,7 @@ public class ConfigIO {
 	 *
 	 * @return Map return the keyword mapping
 	 */
-	// @author A0111916M
+	// @author A0112694E
 	public Map<String, String> getFullKeywordMap() {
 
 		String loadedContents = loadFromFile();
@@ -35,7 +35,7 @@ public class ConfigIO {
 	 *
 	 * @return String return the keyword and command from config file.
 	 */
-	// @author A0111916M
+	// @author A0112694E
 	private String loadFromFile() {
 
 		String loadedContents = null;
@@ -70,7 +70,7 @@ public class ConfigIO {
 	 * @param File
 	 *            create new file with specific File object.
 	 */
-	// @author A0111916M
+	// @author A0112694E
 	private void createNewFile(File file) {
 
 		assert(file != null);
