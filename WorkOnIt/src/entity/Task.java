@@ -17,17 +17,15 @@ public abstract class Task {
 	private Date sortDate;
 	private boolean isCompleted;
 
-	
 	/**
 	 * This is constructor for Task superclass .
 	 *
-	 * @param 	String
-	 * 				The task name that need to be created
-	 * @param 	int
-	 * 				The priority of task that need to be created
-	 * @return      
+	 * @param String
+	 *            The task name that need to be created
+	 * @param int The priority of task that need to be created
+	 * @return
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public Task(String taskName, int priority) {
 
 		long generatedTaskId = System.currentTimeMillis();
@@ -44,22 +42,21 @@ public abstract class Task {
 	/**
 	 * This is the method to get Tag ID from the Task.
 	 *
-	 * @return  Long
-	 * 				The Tag ID from the Task.
+	 * @return Long The Tag ID from the Task.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public long getTaskId() {
 		return taskId;
 	}
 
 	/**
-	 * This is the method to set Tag ID for the  Task.
+	 * This is the method to set Tag ID for the Task.
 	 *
-	 * @param 	Long
-	 * 				The Tag ID of the task that need to be created
+	 * @param Long
+	 *            The Tag ID of the task that need to be created
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	private void setTaskId(long taskId) {
 		this.taskId = taskId;
 	}
@@ -67,22 +64,21 @@ public abstract class Task {
 	/**
 	 * This is the method to get task name from the Task.
 	 *
-	 * @return  String
-	 * 				The task name from the Task.
+	 * @return String The task name from the Task.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public String getTaskName() {
 		return taskName;
 	}
 
 	/**
-	 * This is the method to set task name for the  Task.
+	 * This is the method to set task name for the Task.
 	 *
-	 * @param 	String
-	 * 				The task name of the task that need to be created
+	 * @param String
+	 *            The task name of the task that need to be created
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
@@ -90,22 +86,20 @@ public abstract class Task {
 	/**
 	 * This is the method to get priority from the Task.
 	 *
-	 * @return  int
-	 * 				The priority from the Task.
+	 * @return int The priority from the Task.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public int getPriority() {
 		return priority;
 	}
 
 	/**
-	 * This is the method to set priority for the  Task.
+	 * This is the method to set priority for the Task.
 	 *
-	 * @param 	int
-	 * 				The priority of the task that need to be created
+	 * @param int The priority of the task that need to be created
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public void setPriority(int priority) {
 
 		if (priority > KeywordConstant.PRIORITY_MAX) {
@@ -120,10 +114,10 @@ public abstract class Task {
 	/**
 	 * This is the method to get priority from the Task.
 	 *
-	 * @return  boolean
-	 * 				return true is the task is mark as completed, if not, false
+	 * @return boolean return true is the task is mark as completed, if not,
+	 *         false
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public boolean isCompleted() {
 		return isCompleted;
 	}
@@ -131,11 +125,11 @@ public abstract class Task {
 	/**
 	 * This is the method to set whether Task to complete or not.
 	 *
-	 * @param 	boolean
-	 * 				set as true is the task is mark as completed, if not, false.
+	 * @param boolean set as true is the task is mark as completed, if not,
+	 *        false.
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public void setCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
@@ -151,13 +145,13 @@ public abstract class Task {
 	}
 
 	/**
-	 * This is the method to set sort date for the  Task.
+	 * This is the method to set sort date for the Task.
 	 *
-	 * @param 	String
-	 * 				The sort date of the task that need to be created
+	 * @param String
+	 *            The sort date of the task that need to be created
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public void setSortDate(Date sortDate) {
 		this.sortDate = sortDate;
 	}
@@ -165,10 +159,9 @@ public abstract class Task {
 	/**
 	 * This is the method to get sort date from the Task.
 	 *
-	 * @return  String
-	 * 				The sort date from the Task.
+	 * @return String The sort date from the Task.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public Date getDateCreated() {
 
 		Date dateCreated = null;
@@ -180,12 +173,11 @@ public abstract class Task {
 
 	/**
 	 *
-	 *This is to generate the hash code from the Task
-	 *	
-	 * @return   int
-	 * 				The hash code generated.
+	 * This is to generate the hash code from the Task
+	 *
+	 * @return int The hash code generated.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -201,14 +193,13 @@ public abstract class Task {
 
 	/**
 	 *
-	 *Compare between 2 task whether they are the same or not.
+	 * Compare between 2 task whether they are the same or not.
 	 *
-	 * @param  	Object
-	 * 				The parsed in object that need to be compared
-	 * @return  boolean
-	 * 				return true if both task are the same, else false.
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both task are the same, else false.
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -237,11 +228,11 @@ public abstract class Task {
 
 	/**
 	 *
-	 * comparator method to sort the task in the Array List base on it
-	 * date and follow by priority
+	 * comparator method to sort the task in the Array List base on it date and
+	 * follow by priority
 	 *
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public static Comparator<Task> taskComparator = new Comparator<Task>() {
 
 		@Override
@@ -283,13 +274,13 @@ public abstract class Task {
 	};
 
 	/**
-	 *This is an abstract method
+	 * This is an abstract method
 	 */
 	// @author
 	public abstract String toString();
 
 	/**
-	 *This is an abstract method
+	 * This is an abstract method
 	 */
 	// @author
 	public abstract String toDisplay();

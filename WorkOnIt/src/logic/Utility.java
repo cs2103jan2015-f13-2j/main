@@ -17,11 +17,11 @@ public class Utility {
 	private static Utility obj = null;
 
 	/**
-	 *  instantiate both of the undo and redo stack.
+	 * instantiate both of the undo and redo stack.
 	 *
 	 * @return
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public Utility() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
@@ -30,10 +30,9 @@ public class Utility {
 	/**
 	 * instantiate the utility object.
 	 *
-	 * @return	Utility
-	 * 				the only Utility object which belong to the class
+	 * @return Utility the only Utility object which belong to the class
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static Utility getInstance() {
 		if (obj == null) {
 			obj = new Utility();
@@ -42,13 +41,13 @@ public class Utility {
 			return obj;
 		}
 	}
-	
+
 	/**
 	 * re-instantiate both of the undo and redo stack.
 	 *
 	 * @return
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static void reset() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
@@ -57,31 +56,31 @@ public class Utility {
 	/**
 	 * add Task into the undo stack
 	 *
-	 * @return	
+	 * @return
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static void addUndoStack(TaskHistory task) {
 		undoStack.push(task);
 
 	}
-	
+
 	/**
 	 * add Task into the redo stack
 	 *
-	 * @return	
+	 * @return
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static void addRedoStack(TaskHistory task) {
 		redoStack.push(task);
 	}
-	
+
 	/**
 	 * undo the last command from the undo stack
 	 *
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain the success Message.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static Success undoTaskFunction() {
 
 		Success status = null;
@@ -199,10 +198,10 @@ public class Utility {
 	/**
 	 * redo the last command from the redo stack
 	 *
-	 * @return	Success      
-	 * 				Success object return by the fileIO contain the success Message.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message.
 	 */
-	//@author 	A0112694E
+	// @author A0112694E
 	public static Success redoTaskFunction() {
 
 		Success status = null;

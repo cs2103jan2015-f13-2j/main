@@ -82,10 +82,9 @@ public class FileIO {
 	/**
 	 * get name of file base on the task class.
 	 *
-	 * @param Task 		
-	 * 			Type of task which parse in.
-	 * @return String	
-	 * 			Name of file for the task parse in.
+	 * @param Task
+	 *            Type of task which parse in.
+	 * @return String Name of file for the task parse in.
 	 */
 	// @author A0112694E
 	private String getFileType(Task task) {
@@ -185,14 +184,13 @@ public class FileIO {
 
 		return successObj;
 	}
-	
+
 	/**
 	 * get the file name the on keyword for the file.
 	 *
 	 * @param String
 	 *            keyword which specific which file name to be return
-	 * @return String 
-	 *			  the name of file from the keyword.
+	 * @return String the name of file from the keyword.
 	 */
 	// @author A0112694E
 	private String getFileTypeWithKeyword(String file_keyword) {

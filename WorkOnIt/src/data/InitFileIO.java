@@ -1,8 +1,6 @@
 package data;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +32,7 @@ public class InitFileIO {
 
 	/**
 	 *
-	 *	prompt user the choose folder UI for user to choose UI.
+	 * prompt user the choose folder UI for user to choose UI.
 	 *
 	 *
 	 * @param
@@ -55,8 +53,7 @@ public class InitFileIO {
 	 *
 	 * Check whether the data file is exist
 	 *
-	 * @return	 boolean
-	 * 				true if the datafile exist , else return false.
+	 * @return boolean true if the datafile exist , else return false.
 	 */
 	// @author A0111916M
 	private boolean isFilesExist() {
@@ -91,10 +88,8 @@ public class InitFileIO {
 	 *
 	 * Copy data file to the specific path
 	 *
-	 * @return	 String
-	 * 				the starting destination of the file that need to be copy
-	 * @return	 String
-	 * 				the ending destination of the file that need to be copy
+	 * @return String the starting destination of the file that need to be copy
+	 * @return String the ending destination of the file that need to be copy
 	 * 
 	 */
 	// @author A0111916M

@@ -3,43 +3,43 @@ package entity;
 import resource.KeywordConstant;
 
 public class FloatingTask extends Task {
-	
+
 	/**
 	 * This is constructor for floating task.
 	 *
-	 * @param 	String
-	 * 				The task name that need to be created
-	 * @param 	int
-	 * 				The priority of task that need to be created
-	 * @return      
+	 * @param String
+	 *            The task name that need to be created
+	 * @param int The priority of task that need to be created
+	 * @return
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	public FloatingTask(String taskName, int priority) {
 
 		super(taskName, priority);
 	}
-	
+
 	/**
 	 *
 	 * Generate the floating task property into String
-	 *	
-	 * @return	String
-	 * 				the string generated from the floating Task property
+	 *
+	 * @return String the string generated from the floating Task property
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	@Override
 	public String toString() {
 		return "FloatingTask [getTaskId()=" + getTaskId() + ", getTaskName()="
 				+ getTaskName() + ", getPriority()=" + getPriority() + "]";
 	}
+
 	/**
 	 *
-	 * Generate the floating task property into String and it is for display purpose
-	 *	
-	 * @return	String
-	 * 				the string generated from the floating Task property for display purpose
+	 * Generate the floating task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the string generated from the floating Task property for
+	 *         display purpose
 	 */
-	//@author A0111916M
+	// @author A0111916M
 	@Override
 	public String toDisplay() {
 		String userString = "";

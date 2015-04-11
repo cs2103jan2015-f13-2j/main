@@ -1,18 +1,13 @@
 package application;
 
-import java.awt.SystemTray;
-import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import parser.CommandParser;
-import data.InitFileIO;
 import resource.FileName;
 import resource.Graphic;
 import resource.KeywordConstant;
@@ -37,7 +32,6 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -53,7 +47,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -81,12 +74,13 @@ public class Main extends Application {
 	final static int POSITION_TEXT_BOX_X = 0;
 	final static int POSITION_TEXT_BOX_Y = 0;
 	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -139,7 +133,7 @@ public class Main extends Application {
 			setProgramIconDesc(primaryStage);
 
 			// UI - SCENE SETTINGS
-			//scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
+			// scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
 
 			// UI - POP UP SETTINGS
@@ -151,7 +145,7 @@ public class Main extends Application {
 			listView.setId("listView");
 			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
 			listView.setStyle("-fx-font-size: 15pt;");
-					
+
 			listView.setOpacity(0);
 			listView.setEditable(true);
 			listView.setFocusTraversable(false);
@@ -193,7 +187,7 @@ public class Main extends Application {
 
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
-					
+
 					wordHandler(txtF, txtF.getText(), listView);
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
@@ -231,12 +225,13 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void handleCommandResponse(final Stage primaryStage,
 			final TextField txtF, final ListView listView,
 			final ScrollPane scrollPane, final Popup popup,
@@ -253,12 +248,13 @@ public class Main extends Application {
 			showPopUp(null, false, primaryStage, popup);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void handleDisplayList(final TextField txtF,
 			final ListView listView, List<Task> taskList) {
 		if (taskList.isEmpty()) {
@@ -271,17 +267,18 @@ public class Main extends Application {
 			switchListView(listView);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void handleDisplayCommand(final TextField txtF,
 			final ListView listView, final ScrollPane scrollPane,
 			final WebEngine webengine, Object returnObj) {
 		if (successObj instanceof SuccessDisplay) {
-			
+
 			SuccessDisplay sdObj = (SuccessDisplay) successObj;
 
 			String displayType = sdObj.getDisplayType();
@@ -309,11 +306,11 @@ public class Main extends Application {
 
 		} else {
 			if (returnObj instanceof ArrayList<?>) {
-			
+
 				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
 				handleDisplayList(txtF, listView, taskList);
-			} else if (returnObj instanceof SuccessDisplay){
-				
+			} else if (returnObj instanceof SuccessDisplay) {
+
 				SuccessDisplay sdObj = (SuccessDisplay) returnObj;
 
 				String displayType = sdObj.getDisplayType();
@@ -341,12 +338,13 @@ public class Main extends Application {
 			}
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void setProgramIconDesc(final Stage primaryStage) {
 		Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
 		Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
@@ -366,12 +364,13 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Work On It");
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void initializeGlobals() {
 		elementList = new ArrayList<String>();
 		secondaryList = new ArrayList<String>();
@@ -379,12 +378,13 @@ public class Main extends Application {
 		keywordValidator = new Validator();
 		indexArray = new ArrayList<Integer>();
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void history(ListView listView) {
 
 		Success status = commandValidator.getHistory();
@@ -395,12 +395,13 @@ public class Main extends Application {
 			isHistory = true;
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void executeCommand(TextField txtF, String commandString,
 			Stage primaryStage, Popup popup, ListView listView) {
 
@@ -435,19 +436,20 @@ public class Main extends Application {
 
 		successObj = status;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void keypressHandler(KeyEvent event, String textFieldText,
 			final Stage stage, TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB)) {
 			int startPosition = 0;
-			if(indexArray.size()>0){
+			if (indexArray.size() > 0) {
 				startPosition = indexArray.get(indexCounter);
 			}
 			int endPosition = 0;
@@ -476,12 +478,13 @@ public class Main extends Application {
 			wordHandler(txtF, textFieldText, listView);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
 		tf.getChildren().clear();
@@ -500,12 +503,13 @@ public class Main extends Application {
 			tf.getChildren().add(currText);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static void listHandler(KeyEvent event, final Stage stage,
 			TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -523,12 +527,13 @@ public class Main extends Application {
 			txtF.requestFocus();
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void wordHandler(TextField txtF, String textFieldText,
 			ListView listView) {
 
@@ -538,12 +543,13 @@ public class Main extends Application {
 		int startIndex = 0;
 		startIndex = loopTextNodes(listView, stringArr, startIndex);
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private int loopTextNodes(ListView listView, String[] stringArr,
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
@@ -557,9 +563,9 @@ public class Main extends Application {
 			if (i > 0) {
 				length++;
 			}
-			
+
 			stringArr[i] = stringArr[i].toLowerCase();
-			
+
 			// check if current word is a keyword
 			if (keywordValidator.validateKeyword(stringArr[i])) {
 				// txtF.setStyle("-fx-text-fill: red;");
@@ -587,24 +593,26 @@ public class Main extends Application {
 		}
 		return startIndex;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void resetDependentLists() {
 		elementList.clear();
 		secondaryList.clear();
 		// tf.getChildren().clear();
 		indexArray.clear();
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private static void hide(final Stage stage) {
 		Platform.setImplicitExit(false);
 		stage.hide();
@@ -618,10 +626,10 @@ public class Main extends Application {
 	// }
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	// FOR KEY PRESS
 	private static void switchListView(ListView listView, TextField textField,
 			KeyEvent event) {
@@ -639,12 +647,13 @@ public class Main extends Application {
 			listView.setOpacity(0);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	// FOR KEY ON ACTION
 	private static void switchListView(ListView listView) {
 		if (listView.getItems().size() != 0) {
@@ -653,12 +662,13 @@ public class Main extends Application {
 			listView.setOpacity(0);
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private static void addTaskToListView(ListView listView, Success successObj) {
 
 		Image imgDoneTask = new Image(Graphic.UI_GREEN_TICK_PATH);
@@ -761,12 +771,13 @@ public class Main extends Application {
 			}
 		}
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private static String getAgendaTitle(Success successObj) {
 
 		String title = Message.UI_DISPLAY_TASK_FOR;
@@ -818,12 +829,13 @@ public class Main extends Application {
 
 		return title;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	public static String getDateFromTask(Task taskObj) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM h:mm a");
@@ -921,12 +933,13 @@ public class Main extends Application {
 
 		return displayText;
 	}
+
 	/**
 	 *
-	 * @param  	
-	 * @return      
+	 * @param
+	 * @return
 	 */
-	//@author 
+	// @author
 	private void showPopUp(String message, boolean isSuccess,
 			final Stage primaryStage, final Popup popup) {
 

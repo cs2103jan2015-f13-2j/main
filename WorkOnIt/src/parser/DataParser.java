@@ -28,6 +28,7 @@ public class DataParser {
 	 * @param retrievedTaskList
 	 *            set the list of Task(s)
 	 */
+	// @author A0111837J
 	public void setRetrievedTaskList(ArrayList<Task> retrievedTaskList) {
 		this.retrievedTaskList = retrievedTaskList;
 	}
