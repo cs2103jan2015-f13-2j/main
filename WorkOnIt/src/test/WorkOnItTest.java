@@ -23,6 +23,11 @@ public class WorkOnItTest {
 	InitFileIO initFile = null;
 	List<String> addCommandList = null;
 
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	// @author A0111916M
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
@@ -31,6 +36,10 @@ public class WorkOnItTest {
 		addCommandList = new ArrayList<String>();
 	}
 
+	/**
+	 * This method add in the sample data that is required for testing.
+	 */
+	// @author A0111916M
 	public void addTask() {
 
 		clearTask();
@@ -81,6 +90,10 @@ public class WorkOnItTest {
 		}
 	}
 
+	/**
+	 * This method clears all data in the file.
+	 */
+	// @author A0111916M
 	public void clearTask() {
 
 		addCommandList = new ArrayList<String>();
@@ -93,6 +106,7 @@ public class WorkOnItTest {
 
 		if (status.isSuccess()) {
 
+			@SuppressWarnings("unchecked")
 			List<Task> taskList = (ArrayList<Task>) obj;
 
 			for (int i = 1; i <= taskList.size(); i++) {
@@ -110,6 +124,10 @@ public class WorkOnItTest {
 		}
 	}
 
+	/**
+	 * This method assist in asserting equals objects.
+	 */
+	// @author A0111916M
 	private void testEquals(String command, List<String> taskAddedList) {
 
 		Collections.sort(taskAddedList);
@@ -121,6 +139,7 @@ public class WorkOnItTest {
 		if (status.isSuccess() && obj instanceof ArrayList<?>) {
 
 			// process retrieved tasks
+			@SuppressWarnings("unchecked")
 			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
 
 			List<String> retrievedList = new ArrayList<String>();
@@ -141,6 +160,10 @@ public class WorkOnItTest {
 	 * TEST CASE FOR KEYWORD VALIDATOR
 	 ***********************************/
 
+	/**
+	 * This method will test the validation of individual keyword.
+	 */
+	// @author A0111916M
 	@Test
 	public void testKeyword() {
 
@@ -154,6 +177,10 @@ public class WorkOnItTest {
 		assertTrue(isKeyword);
 	}
 
+	/**
+	 * This method will test for invalid individual keyword.
+	 */
+	// @author A0111916M
 	@Test
 	public void testInvalidKeyword() {
 
@@ -167,6 +194,10 @@ public class WorkOnItTest {
 		assertFalse(isKeyword);
 	}
 
+	/**
+	 * This method will test for a valid keyword sequence.
+	 */
+	// @author A0111916M
 	@Test
 	public void testKeywordSequence() {
 
@@ -187,6 +218,10 @@ public class WorkOnItTest {
 		assertTrue(isKeyword);
 	}
 
+	/**
+	 * This method will test for invalid keyword sequence.
+	 */
+	// @author A0111916M
 	@Test
 	public void testInvalidKeywordSequence() {
 
@@ -207,6 +242,10 @@ public class WorkOnItTest {
 		assertFalse(isKeyword);
 	}
 
+	/**
+	 * This method will test if the customized keyword mapping is working fine.
+	 */
+	// @author A0111916M
 	@Test
 	public void testKeywordMapping() {
 
@@ -228,6 +267,11 @@ public class WorkOnItTest {
 		assertTrue(isKeyword);
 	}
 
+	/**
+	 * This method will test for an invalid keyword mapping that does not exist
+	 * in command.cfg
+	 */
+	// @author A0111916M
 	@Test
 	public void testInvalidKeywordMapping() {
 
@@ -253,6 +297,10 @@ public class WorkOnItTest {
 	 * TEST CASE FOR ADD COMMAND
 	 ***********************************/
 
+	/**
+	 * This method will test if all task(s) is added successfully.
+	 */
+	// @author A0111916M
 	@Test
 	public void testAddTasks() {
 
@@ -280,6 +328,11 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the program rejects a command that has a start
+	 * date which does not resembles a Date.
+	 */
+	// @author A0111916M
 	@Test
 	public void testAddInvalidStartDateNormal() {
 
@@ -293,6 +346,11 @@ public class WorkOnItTest {
 		assertFalse(!status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the program rejects a command that has an end
+	 * date which does not resembles a Date.
+	 */
+	// @author A0111916M
 	@Test
 	public void testAddInvalidEndDateNormal() {
 
@@ -306,6 +364,11 @@ public class WorkOnItTest {
 		assertFalse(!status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the program rejects a command that has an
+	 * invalid due date which does not resembles a Date.
+	 */
+	// @author A0111916M
 	@Test
 	public void testAddInvalidDeadlineDate() {
 
@@ -319,36 +382,75 @@ public class WorkOnItTest {
 		assertFalse(!status.isSuccess());
 	}
 
-	// @Test
-	// public void testAddInvalidNegativePriority() {
-	//
-	// initTestEnvironment();
-	// addTask();
-	//
-	// String currCommand = "add invalid negative priority -1";
-	//
-	// Success status = testValidator.parseCommand(currCommand);
-	//
-	// assertFalse(!status.isSuccess());
-	// }
-	//
-	// @Test
-	// public void testAddInvalidPositivePriority() {
-	//
-	// initTestEnvironment();
-	// addTask();
-	//
-	// String currCommand = "add invalid negative priority 3";
-	//
-	// Success status = testValidator.parseCommand(currCommand);
-	//
-	// assertFalse(!status.isSuccess());
-	// }
+	/**
+	 * This method will test if the program fix a negative priority (<0) to low
+	 * priority (0).
+	 */
+	// @author A0111916M
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAddInvalidNegativePriority() {
+
+		initTestEnvironment();
+		addTask();
+		Task actualTask = null;
+		int expectedLowPriority = 0;
+
+		String currCommand = "add invalid negative priority -1";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		if (status.isSuccess()) {
+			currCommand = "retrieve invalid negative";
+			status = commandParser.parseCommand(currCommand);
+		}
+
+		if (status.isSuccess()) {
+			actualTask = ((ArrayList<Task>) status.getObj()).get(0);
+		}
+
+		assertEquals(expectedLowPriority, actualTask.getPriority());
+	}
+
+	/**
+	 * This method will test if the program fix a higher positive priority (>2)
+	 * to high priority (2).
+	 */
+	// @author A0111916M
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAddInvalidPositivePriority() {
+
+		initTestEnvironment();
+		addTask();
+		Task actualTask = null;
+		int expectedHighPriority = 2;
+
+		String currCommand = "add invalid positive priority 3";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		if (status.isSuccess()) {
+			currCommand = "retrieve invalid positive";
+			status = commandParser.parseCommand(currCommand);
+		}
+
+		if (status.isSuccess()) {
+			actualTask = ((ArrayList<Task>) status.getObj()).get(0);
+		}
+
+		assertEquals(expectedHighPriority, actualTask.getPriority());
+	}
 
 	/***********************************
 	 * TEST CASE FOR RETRIEVE COMMAND
 	 ***********************************/
 
+	/**
+	 * This method will test if a description that does not exist, will return
+	 * no result correctly.
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrieveDescriptionNoResult() {
 
@@ -362,12 +464,18 @@ public class WorkOnItTest {
 
 		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
 
+			@SuppressWarnings("unchecked")
 			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
 
 			assertEquals(0, retrievedTaskList.size());
 		}
 	}
 
+	/**
+	 * This method will test if a description that exist, will return the result
+	 * correctly.
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrieveDescriptionWithResult() {
 
@@ -396,6 +504,11 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that have a start and end
+	 * date, if it return the result correctly.
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrieveStartEndDate() {
 
@@ -417,6 +530,11 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that have a start date, if
+	 * it return the result correctly.
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrieveOneDate() {
 
@@ -436,6 +554,12 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that have a single date,
+	 * but there is no Task(s) on that date.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrieveOneDateNoResult() {
 
@@ -449,12 +573,19 @@ public class WorkOnItTest {
 
 		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
 
+			@SuppressWarnings("unchecked")
 			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
 
 			assertEquals(0, retrievedTaskList.size());
 		}
 	}
 
+	/**
+	 * This method will test for the retrieve command that search for high
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrievePriorityHigh() {
 
@@ -471,6 +602,12 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that search for medium
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrievePriorityMedium() {
 
@@ -497,6 +634,12 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that search for low
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrievePriorityLow() {
 
@@ -513,32 +656,50 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
-	// @Test
-	// public void testRetrieveInvalidNegativePriority() {
-	//
-	// initTestEnvironment();
-	// addTask();
-	//
-	// String command = "retrieve priority -1";
-	//
-	// Success status = testValidator.parseCommand(command);
-	//
-	// assertFalse(status.isSuccess());
-	// }
-	//
-	// @Test
-	// public void testRetrieveInvalidPositivePriority() {
-	//
-	// initTestEnvironment();
-	// addTask();
-	//
-	// String command = "retrieve priority 3";
-	//
-	// Success status = testValidator.parseCommand(command);
-	//
-	// assertFalse(status.isSuccess());
-	// }
+	/**
+	 * This method will test for the retrieve command that search for an invalid
+	 * negative priority, if the application rejects the command.
+	 * 
+	 */
+	// @author A0112694E
+	@Test
+	public void testRetrieveInvalidNegativePriority() {
 
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority -1";
+
+		Success status = commandParser.parseCommand(command);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for an invalid
+	 * higher priority, if the application rejects the command.
+	 * 
+	 */
+	// @author A0112694E
+	@Test
+	public void testRetrieveInvalidPositivePriority() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 3";
+
+		Success status = commandParser.parseCommand(command);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for a
+	 * particular priority on a single date, if it return the result correctly.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrievePrioritySingleDate() {
 
@@ -555,6 +716,13 @@ public class WorkOnItTest {
 		testEquals(command, taskAddedList);
 	}
 
+	/**
+	 * This method will test for the retrieve command that search for a
+	 * particular priority within a start and end date, if it return the result
+	 * correctly.
+	 * 
+	 */
+	// @author A0112694E
 	@Test
 	public void testRetrievePriorityWithDateRange() {
 
@@ -582,6 +750,11 @@ public class WorkOnItTest {
 	 * TEST CASE FOR DELETE COMMAND
 	 ***********************************/
 
+	/**
+	 * This method will test for deleting multiple Task(s).
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testDeleteMultiple() {
 
@@ -606,6 +779,11 @@ public class WorkOnItTest {
 		testEquals(retrieveCommand, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the deleting index is out of range (<1).
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testDeleteMultipleInvalidLowerBound() {
 
@@ -626,6 +804,12 @@ public class WorkOnItTest {
 		assertFalse(status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the deleting index is out of range (> retrieved
+	 * Task(s) list's size).
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testDeleteMultipleInvalidUpperBound() {
 
@@ -646,6 +830,11 @@ public class WorkOnItTest {
 		assertFalse(status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the delete command contains non-numeric value.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testDeleteNaN() {
 
@@ -666,6 +855,12 @@ public class WorkOnItTest {
 		assertFalse(status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the delete command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testDeleteWithoutRetrieve() {
 
@@ -685,6 +880,12 @@ public class WorkOnItTest {
 	 * TEST CASE FOR UPDATE COMMAND
 	 ***********************************/
 
+	/**
+	 * This method will test if the update command is able to update the Task
+	 * object successfully.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testUpdate() {
 
@@ -718,6 +919,12 @@ public class WorkOnItTest {
 		testEquals(retrieveCommand, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the update command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testUpdateInvalidWithoutRetrieve() {
 
@@ -733,6 +940,12 @@ public class WorkOnItTest {
 		assertFalse(status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the update command is disallowed if the update
+	 * command is an invalid range (<1)
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testUpdateInvalidLowerBound() {
 
@@ -753,6 +966,12 @@ public class WorkOnItTest {
 		assertFalse(status.isSuccess());
 	}
 
+	/**
+	 * This method will test if the update command is disallowed if the update
+	 * command is an invalid range (> retrieved Task(s) list's size).
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testUpdateInvalidUpperBound() {
 
@@ -777,41 +996,11 @@ public class WorkOnItTest {
 	 * TEST CASE FOR UNDO COMMAND
 	 ***********************************/
 
-	@Test
-	public void testUndoMultiple() {
-
-		initTestEnvironment();
-		addTask();
-
-		String retrieveCommand = "retrieve 10 April";
-
-		Success status = commandParser.parseCommand(retrieveCommand);
-
-		if (status.isSuccess()) {
-
-			String deleteCommand = "delete 3 1";
-
-			status = commandParser.parseCommand(deleteCommand);
-		}
-
-		if (status.isSuccess()) {
-
-			String undoCommand = "undo";
-
-			status = commandParser.parseCommand(undoCommand);
-		}
-
-		List<String> taskAddedList = new ArrayList<String>();
-
-		// adding expected output
-		taskAddedList
-				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
-		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
-		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
-
-		testEquals(retrieveCommand, taskAddedList);
-	}
-
+	/**
+	 * This method will test if a single undo command is executing fine.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testUndoSingle() {
 
@@ -847,27 +1036,13 @@ public class WorkOnItTest {
 		testEquals(retrieveCommand, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the undo command can be executed multiple times.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
-	public void testUndoInvalidEmptyStack() {
-
-		initTestEnvironment();
-		addTask();
-		
-		Utility.reset();
-
-		String undoCommand = "undo";
-
-		Success status = commandParser.parseCommand(undoCommand);
-
-		assertFalse(status.isSuccess());
-	}
-
-	/***********************************
-	 * TEST CASE FOR REDO COMMAND
-	 ***********************************/
-
-	@Test
-	public void testRedoMultiple() {
+	public void testUndoMultiple() {
 
 		initTestEnvironment();
 		addTask();
@@ -885,26 +1060,60 @@ public class WorkOnItTest {
 
 		if (status.isSuccess()) {
 
-			String undoCommand = "undo";
+			String addCommand = "add mock task on 10 April 5pm";
 
-			status = commandParser.parseCommand(undoCommand);
+			status = commandParser.parseCommand(addCommand);
 		}
 
 		if (status.isSuccess()) {
 
-			String redoCommand = "redo";
+			String undoCommand = "undo";
 
-			status = commandParser.parseCommand(redoCommand);
+			status = commandParser.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
 		}
 
 		List<String> taskAddedList = new ArrayList<String>();
 
 		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
 		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
 
 		testEquals(retrieveCommand, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the undo command is not executed if there is no
+	 * previous command that can be undo.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testUndoInvalidEmptyStack() {
+
+		initTestEnvironment();
+		addTask();
+
+		Utility.reset();
+
+		String undoCommand = "undo";
+
+		Success status = commandParser.parseCommand(undoCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR REDO COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if a single redo command is executing fine.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testRedoSingle() {
 
@@ -948,6 +1157,66 @@ public class WorkOnItTest {
 		testEquals(retrieveCommand, taskAddedList);
 	}
 
+	/**
+	 * This method will test if the redo command can be executed multiple times.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testRedoMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = commandParser.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = commandParser.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String redoCommand = "redo";
+
+			status = commandParser.parseCommand(redoCommand);
+			status = commandParser.parseCommand(redoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("mock task on 10 Apr 2015,  5:00:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the redo command is not executed if there is no
+	 * previous undo command that can be redo.
+	 * 
+	 */
+	// @author A0111916M
 	@Test
 	public void testRedoInvalidEmptyStack() {
 
@@ -959,6 +1228,282 @@ public class WorkOnItTest {
 		String redoCommand = "redo";
 
 		Success status = commandParser.parseCommand(redoCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR DONE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test for marking done multiple Task(s).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testDoneMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+
+		retrieveCommand = "retrieve completed";
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the done index is out of range (<1).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testDoneMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 0 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done index is out of range (> retrieved
+	 * Task(s) list's size).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testDoneMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1 4";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done command contains non-numeric value.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testDoneNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 none-numeric 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testDoneWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String doneCommand = "done 3 1";
+
+		Success status = commandParser.parseCommand(doneCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UNDONE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test for marking undone multiple Task(s).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testUndoneMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the undone index is out of range (<1).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testUndoneMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 0 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undoneCommand index is out of range (>
+	 * retrieved Task(s) list's size).
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testUndoneMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 1 4";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undone command contains non-numeric value.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testUndoneNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 none-numeric 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undone command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+	// @author A0111916M
+	@Test
+	public void testunDoneWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String undoneCommand = "undone 3 1";
+
+		Success status = commandParser.parseCommand(undoneCommand);
 
 		assertFalse(status.isSuccess());
 	}

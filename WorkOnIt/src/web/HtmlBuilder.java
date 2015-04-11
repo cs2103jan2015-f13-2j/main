@@ -23,7 +23,7 @@ public class HtmlBuilder {
 	private PrintWriter writer = null;
 
 	/**
-	 * This constructor will take in the necessaray information and create an
+	 * This constructor will take in the necessary information and create an
 	 * HTML file for viewing of agenda.
 	 * 
 	 * @param displayType
