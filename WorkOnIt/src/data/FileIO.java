@@ -16,9 +16,7 @@ import resource.FileName;
 import resource.KeywordConstant;
 import resource.Message;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -755,6 +753,8 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
 			while ((printLine = reader.readLine()) != null) {
 				try {
@@ -769,6 +769,8 @@ public class FileIO {
 				}
 
 			}
+
+			reader.close();
 
 			reader = new BufferedReader(new FileReader(filename_floating));
 			while ((printLine = reader.readLine()) != null) {
@@ -829,7 +831,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					DeadlineTask task = (DeadlineTask) Serializer
@@ -845,7 +850,10 @@ public class FileIO {
 
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_floating));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					FloatingTask task = (FloatingTask) Serializer
@@ -910,7 +918,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					DeadlineTask task = (DeadlineTask) Serializer
@@ -926,7 +937,10 @@ public class FileIO {
 
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_floating));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					FloatingTask task = (FloatingTask) Serializer
@@ -985,7 +999,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					DeadlineTask task = (DeadlineTask) Serializer
@@ -998,7 +1015,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_recur));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					RecurrenceTask task = (RecurrenceTask) Serializer
@@ -1012,7 +1032,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_floating));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					FloatingTask task = (FloatingTask) Serializer
@@ -1076,7 +1099,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					DeadlineTask task = (DeadlineTask) Serializer
@@ -1090,7 +1116,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_recur));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					RecurrenceTask task = (RecurrenceTask) Serializer
@@ -1160,7 +1189,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_deadline));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					DeadlineTask task = (DeadlineTask) Serializer
@@ -1174,7 +1206,10 @@ public class FileIO {
 				}
 			}
 
+			reader.close();
+
 			reader = new BufferedReader(new FileReader(filename_recur));
+
 			while ((printLine = reader.readLine()) != null) {
 				try {
 					RecurrenceTask task = (RecurrenceTask) Serializer
@@ -1247,7 +1282,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1281,7 +1316,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 
@@ -1315,7 +1350,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1348,7 +1383,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1412,7 +1447,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1445,7 +1480,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1479,7 +1514,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1512,7 +1547,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					
+
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1594,6 +1629,8 @@ public class FileIO {
 
 				status = new Success(historyList, true,
 						Message.SUCCESS_GET_HISTORY);
+
+				historyReader.close();
 
 			} catch (FileNotFoundException e) {
 				status = new Success(false, Message.FAIL_GET_HISTORY);

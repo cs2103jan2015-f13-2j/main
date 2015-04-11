@@ -17,7 +17,8 @@ public class RetrieveParser {
 	private Engine engine = null;
 	private DataParser dataParser = null;
 
-	public RetrieveParser(Map<String, String> keywordFullMap, DataParser dataParser) {
+	public RetrieveParser(Map<String, String> keywordFullMap,
+			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		engine = new Engine();
@@ -245,7 +246,7 @@ public class RetrieveParser {
 	 */
 	// @author
 	private Success retrieveDoneUndone(String remainingText) {
-		
+
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
 		boolean isStatusResolved = false;
