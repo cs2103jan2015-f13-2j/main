@@ -34,6 +34,8 @@ public class Engine {
 	public Success addTask(Task task) {
 
 		Success status = null;
+		
+		assert(task != null);
 
 		FileIO dataStorage = new FileIO();
 		status = dataStorage.saveIntoFile(task);
@@ -63,6 +65,8 @@ public class Engine {
 
 		Success status;
 
+		assert(keyword != null);
+		
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
@@ -157,6 +161,7 @@ public class Engine {
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
+		
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 		status = dataStorage.loadFromBetweenDate(startDate, endDate);
@@ -180,6 +185,8 @@ public class Engine {
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 
+		assert(priority >=0 && priority <= 3 );
+		
 		status = dataStorage.loadFromPriority(priority);
 
 		return status;
@@ -202,6 +209,9 @@ public class Engine {
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 
+		assert(date != null);
+		assert(priority >=0 && priority <= 3 );
+		
 		status = dataStorage.loadFromPriorityAndDate(priority, date);
 
 		return status;
@@ -227,6 +237,9 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(priority >=0 && priority <= 3 );
+		assert(startDate != null && endDate != null);
 
 		status = dataStorage.loadFromPriorityBetweenDate(priority, startDate,
 				endDate);
@@ -251,6 +264,8 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(date != null);
 
 		status = dataStorage.loadCompletedTaskWithDate(isComplete, date);
 
@@ -276,6 +291,8 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(startDate != null && endDate != null);
 
 		status = dataStorage.loadCompletedTaskBetweenDate(isComplete, startDate, endDate);
 
@@ -336,6 +353,9 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(keyword != null);
+		
 
 		status = dataStorage.searchFromFile(keyword);
 
@@ -358,6 +378,8 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(keyword != null && date != null);
 
 		status = dataStorage.searchFromFileWithDate(keyword, date);
 
@@ -383,6 +405,8 @@ public class Engine {
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
+		
+		assert(keyword != null && startDate != null && endDate != null);
 
 		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
 				endDate);

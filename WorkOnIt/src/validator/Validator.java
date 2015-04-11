@@ -45,6 +45,8 @@ public class Validator {
 	// @author A0111916M
 	public boolean validateKeyword(String keyword) {
 
+		assert(keyword != null);
+		
 		boolean isKeyword = false;
 
 		fixKeywordInconsistency(keyword);
@@ -69,6 +71,8 @@ public class Validator {
 	// @author A0111916M
 	public boolean validateKeywordSequence(List<String> keywordList) {
 
+		assert(keywordList != null);
+		
 		fixKeywordInconsistency(keywordList);
 
 		KeywordStructure keySequence = new KeywordStructure();
@@ -87,6 +91,8 @@ public class Validator {
 	// @author A0111916M
 	private String fixKeywordInconsistency(String keyword) {
 
+		assert(keyword != null);
+		
 		keyword = keyword.toLowerCase();
 		keyword = keyword.trim();
 
@@ -103,6 +109,8 @@ public class Validator {
 	// @author A0111916M
 	private List<String> fixKeywordInconsistency(List<String> keywordList) {
 
+		assert(keywordList != null);
+		
 		for (int i = 0; i < keywordList.size(); i++) {
 			String currKeyWord = keywordList.get(i);
 			currKeyWord = currKeyWord.toLowerCase();

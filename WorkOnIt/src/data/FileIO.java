@@ -56,6 +56,8 @@ public class FileIO {
 
 		Success status = null;
 
+		assert(task!=null);
+		
 		addHistory(task.getTaskName());
 
 		file_type = getFileType(task);
@@ -63,6 +65,8 @@ public class FileIO {
 		String gsonSerial = Serializer.serializeToJson(task);
 		PrintWriter filewrite = null;
 
+		
+		
 		try {
 			filewrite = new PrintWriter(new BufferedWriter(new FileWriter(
 					file_type, true)));
@@ -114,6 +118,8 @@ public class FileIO {
 	// @author A0112694
 	public Success loadFromFileTask(String file_keyword) {
 
+		assert(file_keyword != null);
+		
 		Success successObj;
 		BufferedReader reader = null;
 
@@ -227,6 +233,8 @@ public class FileIO {
 	// @author A0112694
 	public Success loadFromStartDate(Date date) {
 
+		assert(date != null);
+		
 		Success successObj;
 		String printLine;
 		BufferedReader recurReader = null;
@@ -312,6 +320,9 @@ public class FileIO {
 	// @author A0112694
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
 
+		assert(startDate != null);
+		assert(endDate != null);
+		
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -390,6 +401,8 @@ public class FileIO {
 	// @author A0112694
 	public Success loadFromPriority(int priority) {
 
+		assert(priority >= 0 && priority <= 3);
+		
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -483,6 +496,10 @@ public class FileIO {
 	// @author A0112694
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
+		
+		assert(priority >= 0 && priority <= 3);
+		assert(date != null);
+		
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -574,6 +591,10 @@ public class FileIO {
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
 			Date endDate) {
 
+		assert(priority >= 0 && priority <= 3);
+		assert(startDate != null);
+		assert(endDate != null);
+		
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -738,6 +759,8 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
+		assert(date != null);
+		
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
@@ -823,6 +846,10 @@ public class FileIO {
 			Date startDate, Date endDate) {
 		Success successObj;
 		BufferedReader reader = null;
+		
+		assert(startDate != null);
+		assert(endDate != null);
+		
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
@@ -905,6 +932,8 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
+		assert(keyword != null);
+		
 		keyword = keyword.trim();
 
 		try {
@@ -1004,6 +1033,10 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
+		assert(keyword != null);
+		assert(date != null);
+
+		
 		keyword = keyword.trim();
 
 		try {
@@ -1093,6 +1126,10 @@ public class FileIO {
 		Success successObj;
 		BufferedReader reader = null;
 
+		assert(keyword != null);
+		assert(endDate != null);
+		assert(startDate != null);
+		
 		keyword = keyword.trim();
 
 		try {
