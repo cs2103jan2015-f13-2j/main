@@ -16,6 +16,16 @@ public class DoneParser {
 	private Map<String, String> keywordFullMap = null;
 	private DataParser dataParser = null;
 
+	/**
+	 * This constructor takes in a full map of keywords, if any. It will make
+	 * use of the data in data parser to manipulate information.
+	 * 
+	 * @param keywordFullMap
+	 *            a hash map of first string mapped onto second string
+	 * @param dataParser
+	 *            the data that contains current information
+	 */
+	// @author A0111916M
 	public DoneParser(Map<String, String> keywordFullMap, DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
@@ -23,11 +33,16 @@ public class DoneParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method execute the done command. The input parameter
+	 * remainingCommand will contains the numbering of Task(s) that needed to be
+	 * done. It will form up the Task object(s) into a List, and pass it to
+	 * Engine to perform the necessary logic.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	protected Success doneCommand(String remainingCommand) {
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
@@ -64,11 +79,16 @@ public class DoneParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method execute the undone command. The input parameter
+	 * remainingCommand will contains the numbering of Task(s) that needed to be
+	 * undone. It will form up the Task object(s) into a List, and pass it to
+	 * Engine to perform the necessary logic.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111916M
 	protected Success undoneCommand(String remainingCommand) {
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);

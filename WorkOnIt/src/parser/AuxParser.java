@@ -42,7 +42,7 @@ public class AuxParser {
 				type = keywordFullMap.get(type);
 
 				if (type.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)) {
-					System.out.println(type);
+
 					retrievalStatus = (SuccessDisplay) retrievalStatus;
 				}
 			}

@@ -24,8 +24,13 @@ public class DisplayParser {
 	}
 
 	/**
+	 * This will parse the Display command, for viewing of DAY, WEEK or MONTH
+	 * agenda. It will return a SuccessDisplay object, which contains the view
+	 * type and list of Task(s) retrieved.
+	 * 
 	 * @param remainingCommand
-	 * @return
+	 *            the remaining command after being truncated
+	 * @return SuccessDisplay object
 	 */
 	// @author A0111916M
 	protected SuccessDisplay parseDisplayCommand(String remainingCommand) {

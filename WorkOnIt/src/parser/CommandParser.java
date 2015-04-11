@@ -133,12 +133,10 @@ public class CommandParser {
 				executeExitCommand();
 
 			} else {
-				System.out.println("STUPID FAIL1");
 				status = new Success(false, Message.FAIL_PARSE_COMMAND);
 			}
 
 		} else {
-			System.out.println("STUPID FAIL2");
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
@@ -395,7 +393,7 @@ public class CommandParser {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
 
-			AddParser addParser = new AddParser(keywordFullMap, dataParser);
+			AddParser addParser = new AddParser(keywordFullMap);
 			remainingCommand = remainingCommand.trim();
 
 			status = addParser.processAddCommand(remainingCommand, dataParser);

@@ -17,6 +17,17 @@ public class RetrieveParser {
 	private Engine engine = null;
 	private DataParser dataParser = null;
 
+	/**
+	 * This constructor takes in a full map of keywords, if any. It will make
+	 * use of the data in data parser to manipulate information.
+	 * 
+	 * @param keywordFullMap
+	 *            a hash map of first string mapped onto second string
+	 * @param dataParser
+	 *            the data that contains current information
+	 * @return
+	 */
+	// @author A0111837J
 	public RetrieveParser(Map<String, String> keywordFullMap,
 			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
@@ -206,8 +217,7 @@ public class RetrieveParser {
 				isDesc = true;
 			}
 		}
-		System.out.println("" + isDesc + isAll + isPriority + isSingleDate
-				+ isDoubleDate + isMonth + isWeek + isDay + isDoneUndone);
+
 		if (isAll == true) {
 			status = retrieveAllDates();
 		} else if (isPriority == true) {
@@ -226,7 +236,6 @@ public class RetrieveParser {
 				status = retrieveInBetween(remainingText.trim());
 			} else if (isSingleDate == false && isDoubleDate == true) {
 				if (isMonth == true || isWeek == true) {
-					System.out.println("" + startDate + endDate);
 					status = retrieveInBetween(startDate, endDate);
 				} else {
 					status = retrieveInBetween(remainingText.trim());
@@ -240,11 +249,15 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command for done or undone Task(s).
+	 * It will parse the retrieve command and call method in Engine to retrieve
+	 * the appropriate Task(s).
+	 * 
+	 * @param remainingText
+	 *            the remaining command after being truncated
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111837J
 	private Success retrieveDoneUndone(String remainingText) {
 
 		Success status = null;
@@ -275,28 +288,15 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command command by retrieving Task(s)
+	 * object that contains words in remainingText. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingText
+	 *            The text that need to be retrieved
+	 * @return Success object
 	 */
-	// @author
-	private Success retrieveInBetween(Date start, Date end) {
-
-		Success status = null;
-		try {
-			status = engine.retrieveTask(start, end);
-		} catch (IOException e) {
-			status = new Success(null, false, Message.ERROR_RETRIEVE);
-		}
-		return status;
-	}
-
-	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	// @author
+	// @author A0111837J
 	private Success retrieveTaskDesc(String remainingText) {
 		Success status = null;
 
@@ -352,7 +352,7 @@ public class RetrieveParser {
 		endDateString = endDateString.trim();
 
 		if (isSingleDate == false && isDoubleDate == false) {
-			System.out.println("Description only");
+
 			status = engine.searchTask(searchString);
 		} else if (isSingleDate == true && isDoubleDate == false) {
 			Date fromDate = null;
@@ -411,11 +411,15 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command command by retrieving Task(s)
+	 * object that have the specified priority. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingPriority
+	 *            priority level that need to be retrieved
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111837J
 	private Success retrievePriority(String remainingPriority) {
 
 		Scanner sc = new Scanner(remainingPriority);
@@ -535,7 +539,7 @@ public class RetrieveParser {
 							toDate = dateList.remove(0);
 						}
 					}
-					System.out.println(fromDate + " " + toDate);
+
 					Date fixedStartDate = DateFixer.fixStartDate(fromDate);
 					Date fixedEndDate = DateFixer.fixEndDate(toDate);
 					status = engine.retrieveTask(priority, fixedStartDate,
@@ -554,11 +558,13 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object. It will parse the retrieve command and call method in
+	 * Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111837J
 	private Success retrieveAllDates() {
 
 		Success status = null;
@@ -568,11 +574,15 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object that is on a particular Date. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingDate
+	 *            a String that resembles a Date
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111837J
 	private Success retrieveSingleDate(String remainingDate) {
 
 		Scanner sc = new Scanner(remainingDate);
@@ -618,7 +628,6 @@ public class RetrieveParser {
 					fixedStartDate = DateFixer.fixStartDate(onDate);
 					fixedEndDate = DateFixer.fixEndDate(onDate);
 				}
-				System.out.println("" + fixedStartDate + fixedEndDate);
 				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
 			}
 
@@ -630,11 +639,39 @@ public class RetrieveParser {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method will process a retrieve command by retrieving Task(s) object
+	 * that lies in between two Date objects. It will parse the retrieve command
+	 * and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param start
+	 *            start Date object
+	 * @param end
+	 *            end Date object
+	 * @return Success object
 	 */
-	// @author
+	// @author A0111837J
+	private Success retrieveInBetween(Date start, Date end) {
+
+		Success status = null;
+		try {
+			status = engine.retrieveTask(start, end);
+		} catch (IOException e) {
+			status = new Success(null, false, Message.ERROR_RETRIEVE);
+		}
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object that is between a range of two Dates. It will parse the
+	 * retrieve command and call method in Engine to retrieve the appropriate
+	 * Task(s).
+	 * 
+	 * @param remainingDate
+	 *            a String that resembles two Date objects
+	 * @return Success object
+	 */
+	// @author A0111837J
 	private Success retrieveInBetween(String remainingDate) {
 
 		Scanner sc = new Scanner(remainingDate);
@@ -679,15 +716,13 @@ public class RetrieveParser {
 				fromDate = dateListFrom.remove(0);
 				fixedFromDate = DateFixer.fixStartDate(fromDate);
 			}
-			System.out.println("" + startDateString + endDateString);
 			if (!endDateString.equals("")) {
 
 				String combinedDate = startDateString + " to " + endDateString;
 
 				combinedDate = combinedDate.trim();
-				System.out.println(combinedDate);
 				List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
-				System.out.println(dateList.size());
+
 				if (!dateList.isEmpty()) {
 					fromDate = dateList.remove(0);
 					fixedFromDate = DateFixer.fixStartDate(fromDate);
@@ -697,7 +732,7 @@ public class RetrieveParser {
 
 					}
 				}
-				System.out.println("" + fixedFromDate + fixedToDate);
+
 				status = engine.retrieveTask(fixedFromDate, fixedToDate);
 
 			} else {

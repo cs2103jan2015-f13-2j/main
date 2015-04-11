@@ -20,7 +20,6 @@ public class AddParser {
 
 	private Map<String, String> keywordFullMap = null;
 	private Engine engine = null;
-	private DataParser dataParser = null;
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -28,14 +27,11 @@ public class AddParser {
 	 * 
 	 * @param keywordFullMap
 	 *            a hash map of first string mapped onto second string
-	 * @param dataParser
-	 *            the data that contains current information
 	 * @return
 	 */
 	// @author A0111916M
-	public AddParser(Map<String, String> keywordFullMap, DataParser dataParser) {
+	public AddParser(Map<String, String> keywordFullMap) {
 		this.keywordFullMap = keywordFullMap;
-		this.dataParser = dataParser;
 		engine = new Engine();
 	}
 
@@ -214,7 +210,7 @@ public class AddParser {
 					} else if (!(resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM) || resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_ON))) {
-						// System.out.println(resolvedWord);
+
 						startDateString += " " + currentWord;
 					}
 				} else {
@@ -264,7 +260,7 @@ public class AddParser {
 				toDate = DateFixer.fixEndDate(unprocessedEndDate);
 			}
 		}
-		// System.out.println(combinedDate);
+
 		task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
 		status = new Success(task, true, null);
 
