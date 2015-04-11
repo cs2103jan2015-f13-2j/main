@@ -29,18 +29,28 @@ import entity.Success;
 
 public class FileIO {
 
-	private String filename_floating = FileName.getFilenameFloating();
-	private String filename_normal = FileName.getFilenameNormal();
-	private String filename_recur = FileName.getFilenameRecur();
-	private String filename_deadline = FileName.getFilenameDeadline();
-	private String filename_history = FileName.getFilenameHistory();
+	private String filename_floating = null;
+	private String filename_normal = null;
+	private String filename_recur = null;
+	private String filename_deadline = null;
+	private String filename_history = null;
 
-	private static String file_type;
+	private static String file_type = null;
+
+	public FileIO() {
+
+		filename_floating = FileName.getFilenameFloating();
+		filename_normal = FileName.getFilenameNormal();
+		filename_recur = FileName.getFilenameRecur();
+		filename_deadline = FileName.getFilenameDeadline();
+		filename_history = FileName.getFilenameHistory();
+	}
 
 	/**
-	 *	save task into into data file base on it Class Type.
+	 * save task into into data file base on it Class Type.
 	 *
-	 * @param task created by user
+	 * @param task
+	 *            created by user
 	 * @return Success Object which contain the success/failure message
 	 */
 	// @author A0112694
@@ -88,10 +98,11 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file base the on keyword for the class.
+	 * load task from data file base the on keyword for the class.
 	 *
-	 * @param 	String	keyword which specific which class type to retrieve
-	 * @return Success 	Object which contain the success/failure message
+	 * @param String
+	 *            keyword which specific which class type to retrieve
+	 * @return Success Object which contain the success/failure message
 	 */
 	// @author A0112694
 	public Success loadFromFileTask(String file_keyword) {
@@ -190,10 +201,12 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file base on the input date 
+	 * load task from data file base on the input date
 	 *
-	 * @param 	date 	which specific which task to retrieve
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param date
+	 *            which specific which task to retrieve
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadFromStartDate(Date date) {
@@ -271,11 +284,14 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file in between the start date and end date. 
+	 * load task from data file in between the start date and end date.
 	 *
-	 * @param 	Date 	startDate which specific the start date
-	 * @param 	Date 	endDate which specific the end date
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param Date
+	 *            startDate which specific the start date
+	 * @param Date
+	 *            endDate which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
@@ -349,10 +365,11 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file base on task priority 
+	 * load task from data file base on task priority
 	 *
-	 * @param 	int 	specific task priority for the task
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param int specific task priority for the task
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadFromPriority(int priority) {
@@ -439,11 +456,13 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file base on its priority and its date
+	 * load task from data file base on its priority and its date
 	 *
-	 * @param 	int 	specific task priority for the task
-	 * @param 	Date 	date which specific the end date
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param int specific task priority for the task
+	 * @param Date
+	 *            date which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadFromPriorityAndDate(int priority, Date date) {
@@ -525,12 +544,15 @@ public class FileIO {
 	}
 
 	/**
-	 *	load task from data file in between the start date,end date and priority. 
+	 * load task from data file in between the start date,end date and priority.
 	 *
-	 * @param 	int 	specific task priority for the task
-	 * @param 	Date 	startDate which specific the start date
-	 * @param 	Date 	endDate which specific the end date
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param int specific task priority for the task
+	 * @param Date
+	 *            startDate which specific the start date
+	 * @param Date
+	 *            endDate which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
@@ -611,171 +633,105 @@ public class FileIO {
 	}
 
 	/*
-	public Success loadFromStartDateWithTask(Task taskObj, Date date) {
-
-		Success successObj;
-		BufferedReader reader = null;
-
-		try {
-			List<Task> taskList = new ArrayList<Task>();
-			String printLine;
-
-			if (taskObj instanceof NormalTask) {
-				reader = new BufferedReader(new FileReader(filename_normal));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						NormalTask task = (NormalTask) Serializer
-								.deserializeFromJson(printLine,
-										NormalTask.class);
-
-						if (checkNormalTaskDate(task, date)) {
-
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-			if (taskObj instanceof DeadlineTask) {
-				reader = new BufferedReader(new FileReader(filename_deadline));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						DeadlineTask task = (DeadlineTask) Serializer
-								.deserializeFromJson(printLine,
-										DeadlineTask.class);
-						// if haven't reach deadline yet.
-						if (task.getDeadline().compareTo(date) > 0) {
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-			if (taskObj instanceof RecurrenceTask) {
-				reader = new BufferedReader(new FileReader(filename_recur));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						RecurrenceTask task = (RecurrenceTask) Serializer
-								.deserializeFromJson(printLine,
-										RecurrenceTask.class);
-						if (task.getStartRecurrenceDate().getDate() == date
-								.getDate()
-								&& task.getStartRecurrenceDate().getMonth() == date
-										.getMonth()
-								&& task.getStartRecurrenceDate().getYear() == date
-										.getYear()) {
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-			successObj = new Success(taskList, true,
-					Message.SUCCESS_RETRIEVE_LIST);
-
-			reader.close();
-
-		} catch (IOException e) {
-			successObj = new Success(false, e.getMessage());
-		}
-
-		return successObj;
-	}
-
-	/**
-	 *
+	 * public Success loadFromStartDateWithTask(Task taskObj, Date date) {
+	 * 
+	 * Success successObj; BufferedReader reader = null;
+	 * 
+	 * try { List<Task> taskList = new ArrayList<Task>(); String printLine;
+	 * 
+	 * if (taskObj instanceof NormalTask) { reader = new BufferedReader(new
+	 * FileReader(filename_normal)); while ((printLine = reader.readLine()) !=
+	 * null) { try { NormalTask task = (NormalTask) Serializer
+	 * .deserializeFromJson(printLine, NormalTask.class);
+	 * 
+	 * if (checkNormalTaskDate(task, date)) {
+	 * 
+	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
+	 * 
+	 * } if (taskObj instanceof DeadlineTask) { reader = new BufferedReader(new
+	 * FileReader(filename_deadline)); while ((printLine = reader.readLine()) !=
+	 * null) { try { DeadlineTask task = (DeadlineTask) Serializer
+	 * .deserializeFromJson(printLine, DeadlineTask.class); // if haven't reach
+	 * deadline yet. if (task.getDeadline().compareTo(date) > 0) {
+	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
+	 * 
+	 * } if (taskObj instanceof RecurrenceTask) { reader = new
+	 * BufferedReader(new FileReader(filename_recur)); while ((printLine =
+	 * reader.readLine()) != null) { try { RecurrenceTask task =
+	 * (RecurrenceTask) Serializer .deserializeFromJson(printLine,
+	 * RecurrenceTask.class); if (task.getStartRecurrenceDate().getDate() ==
+	 * date .getDate() && task.getStartRecurrenceDate().getMonth() == date
+	 * .getMonth() && task.getStartRecurrenceDate().getYear() == date
+	 * .getYear()) { taskList.add(task); } } catch (JsonSyntaxException e) { //
+	 * skip error } }
+	 * 
+	 * } successObj = new Success(taskList, true,
+	 * Message.SUCCESS_RETRIEVE_LIST);
+	 * 
+	 * reader.close();
+	 * 
+	 * } catch (IOException e) { successObj = new Success(false,
+	 * e.getMessage()); }
+	 * 
+	 * return successObj; }
+	 * 
+	 * /**
+	 * 
 	 * @param
+	 * 
 	 * @return
 	 */
 	// @author
 	/*
-	public Success loadFromBetweenDateWithTask(Task taskObj, Date startDate,
-			Date endDate) {
+	 * public Success loadFromBetweenDateWithTask(Task taskObj, Date startDate,
+	 * Date endDate) {
+	 * 
+	 * Success successObj; BufferedReader reader = null;
+	 * 
+	 * try { List<Task> taskList = new ArrayList<Task>(); String printLine;
+	 * 
+	 * if (taskObj instanceof NormalTask) { reader = new BufferedReader(new
+	 * FileReader(filename_normal)); while ((printLine = reader.readLine()) !=
+	 * null) { try { NormalTask task = (NormalTask) Serializer
+	 * .deserializeFromJson(printLine, NormalTask.class); if
+	 * (checkNormalTaskBetweenDate(task, startDate, endDate)) {
+	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
+	 * 
+	 * } if (taskObj instanceof DeadlineTask) { reader = new BufferedReader(new
+	 * FileReader(filename_deadline)); while ((printLine = reader.readLine()) !=
+	 * null) { try { DeadlineTask task = (DeadlineTask) Serializer
+	 * .deserializeFromJson(printLine, DeadlineTask.class); // if haven't reach
+	 * deadline yet. if (task.getDeadline().compareTo(startDate) >= 0) {
+	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
+	 * 
+	 * } if (taskObj instanceof RecurrenceTask) { reader = new
+	 * BufferedReader(new FileReader(filename_recur)); while ((printLine =
+	 * reader.readLine()) != null) { try { RecurrenceTask task =
+	 * (RecurrenceTask) Serializer .deserializeFromJson(printLine,
+	 * RecurrenceTask.class); if
+	 * (task.getStartRecurrenceDate().compareTo(startDate) > 0 &&
+	 * task.getStartRecurrenceDate().compareTo( endDate) <= 0) {
+	 * taskList.add(task); } } catch (JsonSyntaxException e) { // skip error } }
+	 * 
+	 * }
+	 * 
+	 * successObj = new Success(taskList, true, Message.SUCCESS_RETRIEVE_LIST);
+	 * 
+	 * reader.close();
+	 * 
+	 * } catch (IOException e) { successObj = new Success(false,
+	 * e.getMessage()); }
+	 * 
+	 * return successObj; }
+	 */
 
-		Success successObj;
-		BufferedReader reader = null;
-
-		try {
-			List<Task> taskList = new ArrayList<Task>();
-			String printLine;
-
-			if (taskObj instanceof NormalTask) {
-				reader = new BufferedReader(new FileReader(filename_normal));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						NormalTask task = (NormalTask) Serializer
-								.deserializeFromJson(printLine,
-										NormalTask.class);
-						if (checkNormalTaskBetweenDate(task, startDate, endDate)) {
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-			if (taskObj instanceof DeadlineTask) {
-				reader = new BufferedReader(new FileReader(filename_deadline));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						DeadlineTask task = (DeadlineTask) Serializer
-								.deserializeFromJson(printLine,
-										DeadlineTask.class);
-						// if haven't reach deadline yet.
-						if (task.getDeadline().compareTo(startDate) >= 0) {
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-			if (taskObj instanceof RecurrenceTask) {
-				reader = new BufferedReader(new FileReader(filename_recur));
-				while ((printLine = reader.readLine()) != null) {
-					try {
-						RecurrenceTask task = (RecurrenceTask) Serializer
-								.deserializeFromJson(printLine,
-										RecurrenceTask.class);
-						if (task.getStartRecurrenceDate().compareTo(startDate) > 0
-								&& task.getStartRecurrenceDate().compareTo(
-										endDate) <= 0) {
-							taskList.add(task);
-						}
-					} catch (JsonSyntaxException e) {
-						// skip error
-					}
-				}
-
-			}
-
-			successObj = new Success(taskList, true,
-					Message.SUCCESS_RETRIEVE_LIST);
-
-			reader.close();
-
-		} catch (IOException e) {
-			successObj = new Success(false, e.getMessage());
-		}
-
-		return successObj;
-	}
-*/
-	
-	
 	/**
-	 *	load task from data file which already marked as done
+	 * load task from data file which already marked as done
 	 *
-	 * @param 	boolean the specific boolean which indicate wether task is already completed
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param boolean the specific boolean which indicate wether task is already
+	 *        completed
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success getCompletedTask(boolean isCompleted) {
@@ -839,12 +795,16 @@ public class FileIO {
 		return successObj;
 
 	}
+
 	/**
-	 *	load task from data file which already marked as done on a date.
+	 * load task from data file which already marked as done on a date.
 	 *
-	 * @param 	boolean the specific boolean which indicate wether task is already completed
-	 * @param 	Date 	date which specific the task date
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param boolean the specific boolean which indicate wether task is already
+	 *        completed
+	 * @param Date
+	 *            date which specific the task date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
@@ -911,13 +871,19 @@ public class FileIO {
 		return successObj;
 
 	}
+
 	/**
-	 *	load task from data file which already marked as done from a start date to an end date.
+	 * load task from data file which already marked as done from a start date
+	 * to an end date.
 	 *
-	 * @param 	boolean The specific boolean which indicate wether task is already completed
-	 * @param 	Date 	start date which specific the task date
-	 * @param 	Date 	end date which specific the task date
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param boolean The specific boolean which indicate wether task is already
+	 *        completed
+	 * @param Date
+	 *            start date which specific the task date
+	 * @param Date
+	 *            end date which specific the task date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
@@ -990,8 +956,10 @@ public class FileIO {
 	/**
 	 * search for a list of task base on the keyword entered
 	 *
-	 * @param 	String 		specific keyword which user enter to search
-	 * @return 	Success 	Object which contain message and task ArrayList from data file
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success searchFromFile(String keyword) {
@@ -1076,9 +1044,12 @@ public class FileIO {
 	/**
 	 * search for a list of task base on the keyword entered on a date
 	 *
-	 * @param 	String 		specific keyword which user enter to search
-	 * @param 	Date 		specific date which user enter to search
-	 * @return 	Success 	Object which contain message and task ArrayList from data file
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @param Date
+	 *            specific date which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success searchFromFileWithDate(String keyword, Date date) {
@@ -1150,12 +1121,17 @@ public class FileIO {
 	}
 
 	/**
-	 * search for a list of task base on the keyword entered from a start date to an end date
+	 * search for a list of task base on the keyword entered from a start date
+	 * to an end date
 	 *
-	 * @param 	String 		specific keyword which user enter to search
-	 * @param 	Date 		specific start date which user enter to search
-	 * @param 	Date 		specific end date which user enter to search
-	 * @return 	Success 	Object which contain message and task ArrayList from data file
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @param Date
+	 *            specific start date which user enter to search
+	 * @param Date
+	 *            specific end date which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success searchFromFileBetweenDate(String keyword, Date startDate,
@@ -1228,10 +1204,12 @@ public class FileIO {
 	}
 
 	/**
-	 * Delete task from the data file 
+	 * Delete task from the data file
 	 *
-	 * @param 	Task 	the specific task that need to be deleted from the data file
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param Task
+	 *            the specific task that need to be deleted from the data file
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success deleteFromFile(Task taskObj) {
@@ -1269,7 +1247,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1303,7 +1281,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 
@@ -1337,7 +1315,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1370,7 +1348,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1392,9 +1370,12 @@ public class FileIO {
 	/**
 	 * update task from the data file by overwriting the old task.
 	 *
-	 * @param 	Task 	the specific task that need to be updated from the data file
-	 * @param 	Task 	the specific task that need to be deleted from the data file
-	 * @return 	Success Object which contain message and task ArrayList from data file
+	 * @param Task
+	 *            the specific task that need to be updated from the data file
+	 * @param Task
+	 *            the specific task that need to be deleted from the data file
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
 	 */
 	// @author A0112694
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
@@ -1431,7 +1412,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1464,7 +1445,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1498,7 +1479,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1531,7 +1512,7 @@ public class FileIO {
 				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
 
 				for (int i = 0; i < taskList.size(); i++) {
-					// System.out.println(taskList.size());
+					
 					String gsonSerial = Serializer.serializeToJson(taskList
 							.get(i));
 					filewriteIntoFile.println(gsonSerial);
@@ -1643,9 +1624,11 @@ public class FileIO {
 	/**
 	 * Check wether the task date and the date entered are the same
 	 *
-	 * @param 	Task 	the task which have the task date to be compared
-	 * @param 	Date 	the date that need to be compared
-	 * @return 	boolean true if the both date are the same
+	 * @param Task
+	 *            the task which have the task date to be compared
+	 * @param Date
+	 *            the date that need to be compared
+	 * @return boolean true if the both date are the same
 	 */
 	// @author A0112694
 	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
