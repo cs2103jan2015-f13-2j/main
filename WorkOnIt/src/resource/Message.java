@@ -3,6 +3,7 @@ package resource;
 public class Message {
 
 	public static final String UI_INPUT_HERE = "input here";
+	public static final String UI_TITLE = "Work On It";
 	public static final String UI_WELCOME_TITLE = "Welcome";
 	public static final String UI_WELCOME_INFO = "Welcome to Work On It.";
 	public static final String UI_WELCOME_INFO_NO_FILE_FOUND = UI_WELCOME_INFO
