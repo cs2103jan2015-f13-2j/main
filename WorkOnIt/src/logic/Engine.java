@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 
 import resource.KeywordConstant;
 import resource.Message;
-import data.FileIO;
+import data.ReadFileIO;
+import data.WriteFileIO;
 import entity.DeadlineTask;
 import entity.FloatingTask;
 import entity.NormalTask;
@@ -32,7 +33,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message.
 	 */
-	// @author A0112694E
+	// @author A0119402R
 	public Success addTask(Task task) {
 
 		LOGGER.info("process adding of new task");
@@ -41,7 +42,7 @@ public class Engine {
 
 		assert (task != null);
 
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 		status = dataStorage.saveIntoFile(task);
 
 		TaskHistory taskHistoryObj = new TaskHistory(
@@ -75,7 +76,7 @@ public class Engine {
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
-			FileIO dataStorage = new FileIO();
+			ReadFileIO dataStorage = new ReadFileIO();
 
 			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					keyword).getObj());
@@ -109,7 +110,7 @@ public class Engine {
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 
-			FileIO dataStorage = new FileIO();
+			ReadFileIO dataStorage = new ReadFileIO();
 
 			taskList.addAll((ArrayList<Task>) dataStorage.loadFromFileTask(
 					KeywordConstant.KEYWORD_FLOATING_TASK).getObj());
@@ -145,7 +146,7 @@ public class Engine {
 		LOGGER.info("process retrieve task singe date");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 		status = dataStorage.loadFromStartDate(date);
 
 		return status;
@@ -169,7 +170,7 @@ public class Engine {
 		LOGGER.info("process retrieve task within date range");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 		status = dataStorage.loadFromBetweenDate(startDate, endDate);
 
 		return status;
@@ -189,7 +190,7 @@ public class Engine {
 		LOGGER.info("process retrieve task with priority");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (priority >= 0 && priority <= 3);
 
@@ -214,7 +215,7 @@ public class Engine {
 		LOGGER.info("process retrieve task with priority on a single date");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (date != null);
 		assert (priority >= 0 && priority <= 3);
@@ -243,7 +244,7 @@ public class Engine {
 		LOGGER.info("process retrieve task with priority within a date range");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (priority >= 0 && priority <= 3);
 		assert (startDate != null && endDate != null);
@@ -271,7 +272,7 @@ public class Engine {
 		LOGGER.info("process retrieve completed/incomplete task on a given date");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (date != null);
 
@@ -301,7 +302,7 @@ public class Engine {
 		LOGGER.info("process retrieve completed/incomplete task within date range");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (startDate != null && endDate != null);
 
@@ -326,7 +327,7 @@ public class Engine {
 		LOGGER.info("process search task with keyword");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (keyword != null);
 
@@ -352,7 +353,7 @@ public class Engine {
 		LOGGER.info("process search task with keyword on a given date");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (keyword != null && date != null);
 
@@ -381,7 +382,7 @@ public class Engine {
 		LOGGER.info("process search task with keyword within a date range");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (keyword != null && startDate != null && endDate != null);
 
@@ -406,7 +407,7 @@ public class Engine {
 		LOGGER.info("process delete task");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 		boolean isMarkAllDeleted = true;
 
 		for (int i = 0; i < deleteList.size(); i++) {
@@ -451,7 +452,7 @@ public class Engine {
 		LOGGER.info("process update task");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 
 		if (taskOld.isCompleted()) {
 			taskUpdate.setCompleted(true);
@@ -482,7 +483,7 @@ public class Engine {
 		LOGGER.info("process retrieve completed/incomplete task");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		status = dataStorage.getCompletedTask(isComplete);
 
@@ -495,6 +496,7 @@ public class Engine {
 	 * @param
 	 * @return Success Success object which contain the message from utility
 	 */
+	// @author A0112694E
 	public Success undoTask() {
 
 		LOGGER.info("process undo");
@@ -587,7 +589,7 @@ public class Engine {
 		LOGGER.info("process mark task as done");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 		boolean isMarkAllDone = true;
 
 		for (int i = 0; i < doneList.size(); i++) {
@@ -636,7 +638,7 @@ public class Engine {
 		LOGGER.info("process mark task as undone");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 		boolean isMarkAllUndone = true;
 
 		for (int i = 0; i < undoneList.size(); i++) {
@@ -681,7 +683,7 @@ public class Engine {
 		LOGGER.info("process get history from file");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		ReadFileIO dataStorage = new ReadFileIO();
 
 		status = dataStorage.getHistory();
 

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import data.WriteFileIO;
 import resource.KeywordConstant;
 import resource.Message;
-import data.FileIO;
 import entity.Success;
 import entity.Task;
 import entity.TaskHistory;
@@ -97,7 +97,7 @@ public class UndoRedoManager {
 		LOGGER.fine("Performing undo");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 
 		if (undoStack.size() > 0) {
 			TaskHistory undoTask = undoStack.pop();
@@ -224,7 +224,7 @@ public class UndoRedoManager {
 		LOGGER.fine("Performing redo");
 
 		Success status = null;
-		FileIO dataStorage = new FileIO();
+		WriteFileIO dataStorage = new WriteFileIO();
 
 		if (redoStack.size() > 0) {
 			TaskHistory redoTask = redoStack.pop();
