@@ -50,7 +50,7 @@ public class UpdateParser {
 	 * @param remainingCommand
 	 * @return
 	 */
-	// @author A0111916M
+
 	protected Success parseUpdateCommand(String remainingCommand) {
 
 		LOGGER.fine("Parsing update command");

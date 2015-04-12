@@ -48,7 +48,7 @@ public class DeleteParser {
 	 *            index of task to be deleted
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	protected Success parseDeleteCommand(String index) {
 
 		assert (index != null);

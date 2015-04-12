@@ -28,7 +28,7 @@ public class Validator {
 	 * the user, if any.
 	 * 
 	 */
-	// @author A0111916M
+
 	private void loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();
@@ -46,7 +46,7 @@ public class Validator {
 	 *            A word that is to be determined is a keyword
 	 * @return boolean value
 	 */
-	// @author A0111916M
+
 	public boolean validateKeyword(String keyword) {
 
 		assert (keyword != null);
@@ -76,7 +76,7 @@ public class Validator {
 	 *            A list of keywords sequence that is to be validated
 	 * @return boolean value
 	 */
-	// @author A0111916M
+
 	public boolean validateKeywordSequence(List<String> keywordList) {
 
 		assert (keywordList != null);
@@ -99,7 +99,7 @@ public class Validator {
 	 *            keyword to be fixed
 	 * @return fixed keyword
 	 */
-	// @author A0111916M
+
 	private String fixKeywordInconsistency(String keyword) {
 
 		assert (keyword != null);
@@ -117,7 +117,7 @@ public class Validator {
 	 *            list of keywords to be fixed
 	 * @return fixed list of keywords
 	 */
-	// @author A0111916M
+
 	private List<String> fixKeywordInconsistency(List<String> keywordList) {
 
 		assert (keywordList != null);
@@ -137,7 +137,7 @@ public class Validator {
 	 * 
 	 * @return keywordFullMap the mapping of customized keywords
 	 */
-	// @author A0111916M
+
 	public Map<String, String> getKeywordFullMap() {
 		return keywordFullMap;
 	}

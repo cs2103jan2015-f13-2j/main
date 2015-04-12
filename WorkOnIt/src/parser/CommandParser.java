@@ -41,7 +41,7 @@ public class CommandParser {
 	 * 
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	public Success getHistory() {
 
 		Success status = null;
@@ -61,7 +61,7 @@ public class CommandParser {
 	 *            Full command that is entered by user
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	public Success parseCommand(String fullCommand) {
 
 		LOGGER.fine("Parsing command : " + fullCommand);
@@ -150,7 +150,7 @@ public class CommandParser {
 	/**
 	 * Exit the program if an exit command is entered.
 	 */
-	// @author A0111916M
+
 	private void executeExitCommand() {
 
 		LOGGER.fine("Exiting application");
@@ -166,7 +166,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeUndoneCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
@@ -197,7 +197,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeDoneCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
@@ -226,7 +226,7 @@ public class CommandParser {
 	 * 
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeUndoCommand() {
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		Success status = engine.undoTask();
@@ -242,7 +242,7 @@ public class CommandParser {
 	 * 
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeRedoCommand() {
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		Success status = engine.redoTask();
@@ -260,7 +260,8 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
+	@SuppressWarnings("unchecked")
 	private Success executeDisplayCommand(String remainingCommand) {
 
 		Success status = null;
@@ -299,6 +300,7 @@ public class CommandParser {
 	 * @return Success object
 	 */
 	// @author A0111837J
+	@SuppressWarnings("unchecked")
 	private Success executeRetrieveCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
@@ -371,7 +373,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeUpdateCommand(String remainingCommand) {
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
@@ -402,7 +404,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success executeAddCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);

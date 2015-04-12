@@ -25,7 +25,7 @@ public class KeywordNode {
 	 *            The keyword that need to be created
 	 * @return
 	 */
-	// @author A0111916M
+
 	public KeywordNode(String keyword) {
 		this(keyword, new ArrayList<KeywordNode>());
 
@@ -40,7 +40,7 @@ public class KeywordNode {
 	 *            The List of keyword Node that need to be put in.
 	 * @return
 	 */
-	// @author A0111916M
+
 	private KeywordNode(String keyword, List<KeywordNode> subsequentKeywords) {
 		this.setKeyword(keyword);
 		this.setSubsequentKeywords(subsequentKeywords);
@@ -51,7 +51,7 @@ public class KeywordNode {
 	 *
 	 * @return String return the keyword from the KeywordNode.
 	 */
-	// @author A0111916M
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -62,7 +62,7 @@ public class KeywordNode {
 	 * @param String
 	 *            set the keyword for the KeywordNode.
 	 */
-	// @author A0111916M
+
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
@@ -72,7 +72,7 @@ public class KeywordNode {
 	 *
 	 * @return List return the list of keywordNode from the KeywordNode.
 	 */
-	// @author A0111916M
+
 	public List<KeywordNode> getSubsequentKeywords() {
 		return subsequentKeywords;
 	}
@@ -83,7 +83,7 @@ public class KeywordNode {
 	 * @param List
 	 *            set the list of keywordNode for the KeywordNode.
 	 */
-	// @author A0111916M
+
 	private void setSubsequentKeywords(List<KeywordNode> subsequentKeywords) {
 		this.subsequentKeywords = subsequentKeywords;
 	}
@@ -94,7 +94,7 @@ public class KeywordNode {
 	 * @param KeywordNode
 	 *            add the keyword node into the list
 	 */
-	// @author A0111916M
+
 	public void addSubsequentKeywords(KeywordNode node) {
 
 		if (subsequentKeywords != null) {
@@ -108,7 +108,7 @@ public class KeywordNode {
 	 *
 	 * @return int The hash code generated.
 	 */
-	// @author A0111916M
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -125,7 +125,7 @@ public class KeywordNode {
 	 *            The parsed in object that need to be compared
 	 * @return boolean return true if both keywordNode are the same, else false.
 	 */
-	// @author A0111916M
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

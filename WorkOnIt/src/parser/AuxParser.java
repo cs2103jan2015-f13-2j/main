@@ -72,7 +72,7 @@ public class AuxParser {
 	 *            String to be determined whether it is a number
 	 * @return boolean whether text is a number
 	 */
-	// @author A0111837J
+
 	public boolean isNaN(String text) {
 		boolean isNumber;
 

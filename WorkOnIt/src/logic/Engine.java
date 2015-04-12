@@ -62,7 +62,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask(String keyword) {
 
@@ -98,7 +98,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	@SuppressWarnings("unchecked")
 	public Success retrieveTask() {
 
@@ -139,7 +139,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success retrieveTask(Date date) throws IOException {
 
 		LOGGER.info("process retrieve task singe date");
@@ -162,7 +162,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
@@ -183,7 +183,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success retrieveTask(int priority) throws IOException {
 
 		LOGGER.info("process retrieve task with priority");
@@ -208,7 +208,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success retrieveTask(int priority, Date date) throws IOException {
 
 		LOGGER.info("process retrieve task with priority on a single date");
@@ -236,7 +236,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success retrieveTask(int priority, Date startDate, Date endDate)
 			throws IOException {
 
@@ -265,7 +265,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success getCompleteTaskWithDate(boolean isComplete, Date date) {
 
 		LOGGER.info("process retrieve completed/incomplete task on a given date");
@@ -294,7 +294,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0112694E
+
 	public Success getCompleteTaskBetweenDate(boolean isComplete,
 			Date startDate, Date endDate) {
 
@@ -309,6 +309,217 @@ public class Engine {
 				startDate, endDate);
 
 		return status;
+	}
+
+	/**
+	 * This method will call the searchFromFile method in fileIO to load the
+	 * task base on the keyword entered.
+	 *
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success searchTask(String keyword) {
+
+		LOGGER.info("process search task with keyword");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		assert (keyword != null);
+
+		status = dataStorage.searchFromFile(keyword);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the searchFromFileWithDate method in fileIO to load
+	 * the task base on the keyword and date entered.
+	 *
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @param Date
+	 *            date which specific the task date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success searchTask(String keyword, Date date) {
+
+		LOGGER.info("process search task with keyword on a given date");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		assert (keyword != null && date != null);
+
+		status = dataStorage.searchFromFileWithDate(keyword, date);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the searchFromFileBetweenDate method in fileIO to
+	 * load the task base on the keyword and between the start date and end date
+	 * entered.
+	 *
+	 * @param String
+	 *            keyowrd which specific inside the task description
+	 * @param Date
+	 *            start date which specific the task start date.
+	 * @param Date
+	 *            end date which specific the task end date.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+	// @author
+	public Success searchTask(String keyword, Date startDate, Date endDate) {
+
+		LOGGER.info("process search task with keyword within a date range");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		assert (keyword != null && startDate != null && endDate != null);
+
+		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
+				endDate);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the deleteFromFile method in fileIO to delete the
+	 * specific task parse in.
+	 *
+	 * @param List
+	 *            List of task that need to be deleted from the data file
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success deleteTask(List<Task> deleteList) {
+
+		LOGGER.info("process delete task");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+		boolean isMarkAllDeleted = true;
+
+		for (int i = 0; i < deleteList.size(); i++) {
+
+			Task currentTask = deleteList.get(i);
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDeleted = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_DELETE, deleteList);
+
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		if (isMarkAllDeleted) {
+			status = new Success(true, Message.SUCCESS_DELETE);
+		} else {
+			status = new Success(false, Message.ERROR_DELETE);
+		}
+
+		return status;
+	}
+
+	/**
+	 * This method will call the updateFromFile method in fileIO to update the
+	 * specific task parse in
+	 *
+	 * @param Task
+	 *            the new task that need to be updated
+	 * @param Task
+	 *            the old task that need to be overwrite.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success updateTask(Task taskUpdate, Task taskOld) {
+
+		LOGGER.info("process update task");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		if (taskOld.isCompleted()) {
+			taskUpdate.setCompleted(true);
+		}
+
+		status = dataStorage.updateFromFile(taskUpdate, taskOld);
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the getCompletedTask method in fileIO to load the
+	 * task which mark as completed
+	 *
+	 * @param boolean boolean which specific the wether the task has been
+	 *        completed or not
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success getCompleteTask(boolean isComplete) {
+
+		LOGGER.info("process retrieve completed/incomplete task");
+
+		Success status = null;
+		FileIO dataStorage = new FileIO();
+
+		status = dataStorage.getCompletedTask(isComplete);
+
+		return status;
+	}
+
+	/**
+	 * call the undoTaskFunction method in Utility class to undo the last task
+	 *
+	 * @param
+	 * @return Success Success object which contain the message from utility
+	 */
+	public Success undoTask() {
+
+		LOGGER.info("process undo");
+
+		UndoRedoManager.getInstance();
+		Success successObj = UndoRedoManager.undoTaskFunction();
+
+		return successObj;
+
+	}
+
+	/**
+	 * call the redoTaskFunction method in Utility class to redo the last task
+	 *
+	 * @param
+	 * @return Success Success object which contain the message from utility
+	 */
+	public Success redoTask() {
+
+		LOGGER.info("process redo");
+
+		UndoRedoManager.getInstance();
+		Success successObj = UndoRedoManager.redoTaskFunction();
+
+		return successObj;
 	}
 
 	/**
@@ -364,184 +575,6 @@ public class Engine {
 	}
 
 	/**
-	 * This method will call the searchFromFile method in fileIO to load the
-	 * task base on the keyword entered.
-	 *
-	 * @param String
-	 *            keyowrd which specific inside the task description
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author A0112694E
-	public Success searchTask(String keyword) {
-
-		LOGGER.info("process search task with keyword");
-
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		assert (keyword != null);
-
-		status = dataStorage.searchFromFile(keyword);
-
-		return status;
-	}
-
-	/**
-	 * This method will call the searchFromFileWithDate method in fileIO to load
-	 * the task base on the keyword and date entered.
-	 *
-	 * @param String
-	 *            keyowrd which specific inside the task description
-	 * @param Date
-	 *            date which specific the task date.
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author A0112694E
-	public Success searchTask(String keyword, Date date) {
-
-		LOGGER.info("process search task with keyword on a given date");
-		
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		assert (keyword != null && date != null);
-
-		status = dataStorage.searchFromFileWithDate(keyword, date);
-
-		return status;
-	}
-
-	/**
-	 * This method will call the searchFromFileBetweenDate method in fileIO to
-	 * load the task base on the keyword and between the start date and end date
-	 * entered.
-	 *
-	 * @param String
-	 *            keyowrd which specific inside the task description
-	 * @param Date
-	 *            start date which specific the task start date.
-	 * @param Date
-	 *            end date which specific the task end date.
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author
-	public Success searchTask(String keyword, Date startDate, Date endDate) {
-
-		LOGGER.info("process search task with keyword within a date range");
-		
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		assert (keyword != null && startDate != null && endDate != null);
-
-		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
-				endDate);
-
-		return status;
-	}
-
-	/**
-	 * This method will call the deleteFromFile method in fileIO to delete the
-	 * specific task parse in.
-	 *
-	 * @param List
-	 *            List of task that need to be deleted from the data file
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author A0112694E
-	public Success deleteTask(List<Task> deleteList) {
-
-		LOGGER.info("process delete task");
-		
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-		boolean isMarkAllDeleted = true;
-
-		for (int i = 0; i < deleteList.size(); i++) {
-
-			Task currentTask = deleteList.get(i);
-			Success successObj = dataStorage.deleteFromFile(currentTask);
-
-			if (!successObj.isSuccess()) {
-				isMarkAllDeleted = false;
-			}
-		}
-
-		TaskHistory taskHistoryObj = new TaskHistory(
-				KeywordConstant.KEYWORD_DELETE, deleteList);
-
-		UndoRedoManager.getInstance();
-		UndoRedoManager.addUndoStack(taskHistoryObj);
-
-		if (isMarkAllDeleted) {
-			status = new Success(true, Message.SUCCESS_DELETE);
-		} else {
-			status = new Success(false, Message.ERROR_DELETE);
-		}
-
-		return status;
-	}
-
-	/**
-	 * This method will call the updateFromFile method in fileIO to update the
-	 * specific task parse in
-	 *
-	 * @param Task
-	 *            the new task that need to be updated
-	 * @param Task
-	 *            the old task that need to be overwrite.
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author A0112694E
-	public Success updateTask(Task taskUpdate, Task taskOld) {
-
-		LOGGER.info("process update task");
-		
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		if (taskOld.isCompleted()) {
-			taskUpdate.setCompleted(true);
-		}
-
-		status = dataStorage.updateFromFile(taskUpdate, taskOld);
-
-		TaskHistory taskHistoryObj = new TaskHistory(
-				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
-		UndoRedoManager.getInstance();
-		UndoRedoManager.addUndoStack(taskHistoryObj);
-
-		return status;
-	}
-
-	/**
-	 * This method will call the getCompletedTask method in fileIO to load the
-	 * task which mark as completed
-	 *
-	 * @param boolean boolean which specific the wether the task has been
-	 *        completed or not
-	 * @return Success Success object return by the fileIO contain the success
-	 *         Message and Array List of task retrieve from data file.
-	 */
-	// @author A0112694E
-	public Success getCompleteTask(boolean isComplete) {
-
-		LOGGER.info("process retrieve completed/incomplete task");
-		
-		Success status = null;
-		FileIO dataStorage = new FileIO();
-
-		status = dataStorage.getCompletedTask(isComplete);
-
-		return status;
-	}
-
-	/**
 	 * This method will mark the list of task as done
 	 * 
 	 * @param List
@@ -549,11 +582,10 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0111916M
 	public Success markAsDone(List<Task> doneList) {
 
 		LOGGER.info("process mark task as done");
-		
+
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 		boolean isMarkAllDone = true;
@@ -598,11 +630,11 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// @author A0111916M
+
 	public Success markAsUndone(List<Task> undoneList) {
 
 		LOGGER.info("process mark task as undone");
-		
+
 		Success status = null;
 		FileIO dataStorage = new FileIO();
 		boolean isMarkAllUndone = true;
@@ -640,48 +672,12 @@ public class Engine {
 	}
 
 	/**
-	 * call the undoTaskFunction method in Utility class to undo the last task
-	 *
-	 * @param
-	 * @return Success Success object which contain the message from utility
-	 */
-	// @author A0112694E
-	public Success undoTask() {
-		
-		LOGGER.info("process undo");
-
-		UndoRedoManager.getInstance();
-		Success successObj = UndoRedoManager.undoTaskFunction();
-
-		return successObj;
-
-	}
-
-	/**
-	 * call the redoTaskFunction method in Utility class to redo the last task
-	 *
-	 * @param
-	 * @return Success Success object which contain the message from utility
-	 */
-	// @author A0112694E
-	public Success redoTask() {
-		
-		LOGGER.info("process redo");
-
-		UndoRedoManager.getInstance();
-		Success successObj = UndoRedoManager.redoTaskFunction();
-
-		return successObj;
-	}
-
-	/**
 	 * This method will get the list of History that were saved.
 	 * 
 	 * @return Success object
 	 */
-	// @author A0111916M
 	public Success getHistory() {
-		
+
 		LOGGER.info("process get history from file");
 
 		Success status = null;

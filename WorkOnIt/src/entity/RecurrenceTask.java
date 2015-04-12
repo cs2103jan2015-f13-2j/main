@@ -54,7 +54,7 @@ public class RecurrenceTask extends Task {
 	 *            The occurrence type of the task.
 	 * @return
 	 */
-	// @author A0111916M
+
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate,
 			String occurenceType) {
@@ -74,7 +74,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return Long The Tag ID from the recurrence Task.
 	 */
-	// @author A0111916M
+
 	public long getTagId() {
 		return tagId;
 	}
@@ -86,7 +86,7 @@ public class RecurrenceTask extends Task {
 	 *            The Tag ID of the task that need to be created
 	 *
 	 */
-	// @author A0111916M
+
 	private void setTagId(long tagId) {
 		this.tagId = tagId;
 	}
@@ -96,7 +96,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return Date The start recurrence date from the recurrence Task.
 	 */
-	// @author A0111916M
+
 	public Date getStartRecurrenceDate() {
 		return startRecurrenceDate;
 	}
@@ -108,7 +108,7 @@ public class RecurrenceTask extends Task {
 	 *            The start recurrence date of the task that need to be created
 	 *
 	 */
-	// @author A0111916M
+
 	public void setStartRecurrenceDate(Date startRecurrenceDate) {
 		this.startRecurrenceDate = startRecurrenceDate;
 		super.setSortDate(startRecurrenceDate);
@@ -119,7 +119,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return Date The end recurrence date from the recurrence Task.
 	 */
-	// @author A0111916M
+
 	public Date getEndRecurrenceDate() {
 		return endRecurrenceDate;
 	}
@@ -131,7 +131,7 @@ public class RecurrenceTask extends Task {
 	 *            The end recurrence date of the task that need to be created
 	 *
 	 */
-	// @author A0111916M
+
 	public void setEndRecurrenceDate(Date endRecurrenceDate) {
 		if (endRecurrenceDate == null) {
 			this.endRecurrenceDate = this.getStartRecurrenceDate();
@@ -145,7 +145,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return String The occurrence type from the recurrence Task.
 	 */
-	// @author A0111916M
+
 	public String getOccurenceType() {
 		return occurenceType;
 	}
@@ -156,7 +156,6 @@ public class RecurrenceTask extends Task {
 	 * @param String
 	 *            Set occurrence type for the recurrence Task.
 	 */
-	// @author A0111916M
 
 	public void setOccurenceType(String occurenceType) {
 		this.occurenceType = occurenceType;
@@ -168,7 +167,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return int The hash code generated.
 	 */
-	// @author A0111916M
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -196,7 +195,7 @@ public class RecurrenceTask extends Task {
 	 * @return boolean return true if both recurrence task are the same, else
 	 *         false.
 	 */
-	// @author A0111916M
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -232,7 +231,7 @@ public class RecurrenceTask extends Task {
 	 *
 	 * @return String the String generated from the recurrence Task property
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toString() {
 		return "RecurrenceTask [tagId=" + tagId + ", startRecurrenceDate="
@@ -252,7 +251,7 @@ public class RecurrenceTask extends Task {
 	 * @return String the String generated from the recurrence Task property for
 	 *         display purpose
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toDisplay() {
 		String userString = "";

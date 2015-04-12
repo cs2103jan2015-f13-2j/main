@@ -32,7 +32,7 @@ public class ConfigIO {
 				.deserializeFromJson(loadedContents, HashMap.class);
 
 		LOGGER.fine("customized Keyword Map retrieved successfully");
-		
+
 		return KEYWORD_MAP;
 	}
 
@@ -42,7 +42,7 @@ public class ConfigIO {
 	 *
 	 * @return String return the keyword and command from config file.
 	 */
-	// @author A0112694E
+
 	private String loadFromFile() {
 
 		String loadedContents = null;
@@ -77,7 +77,7 @@ public class ConfigIO {
 	 * @param File
 	 *            create new file with specific File object.
 	 */
-	// @author A0112694E
+
 	private void createNewFile(File file) {
 
 		assert (file != null);

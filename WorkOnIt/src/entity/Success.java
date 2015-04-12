@@ -35,7 +35,7 @@ public class Success {
 	 * 
 	 * @return
 	 */
-	// @author A0111837J
+
 	public Success(Object obj, boolean isSuccess, String message) {
 
 		this.setObj(obj);
@@ -48,7 +48,7 @@ public class Success {
 	 *
 	 * @return boolean return true Success Object is successfully go through.
 	 */
-	// @author A0111837J
+
 	public boolean isSuccess() {
 		return isSuccess;
 	}
@@ -58,7 +58,7 @@ public class Success {
 	 *
 	 * param boolean set whether is success object is true or false.
 	 */
-	// @author A0111837J
+
 	private void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
 	}
@@ -68,7 +68,7 @@ public class Success {
 	 *
 	 * @return String return success message from the success object.
 	 */
-	// @author A0111837J
+
 	public String getMessage() {
 		return message;
 	}
@@ -78,7 +78,7 @@ public class Success {
 	 *
 	 * @return String set success message for the success object.
 	 */
-	// @author A0111837J
+
 	private void setMessage(String message) {
 		this.message = message;
 	}
@@ -88,7 +88,7 @@ public class Success {
 	 *
 	 * @return Object return object from the success object.
 	 */
-	// @author A0111837J
+
 	public Object getObj() {
 		return obj;
 	}
@@ -98,7 +98,7 @@ public class Success {
 	 *
 	 * @return Object set object for the Success Object .
 	 */
-	// @author A0111837J
+
 	public void setObj(Object obj) {
 		this.obj = obj;
 	}
@@ -109,7 +109,7 @@ public class Success {
 	 *
 	 * @return String the String generated from the Success Object property
 	 */
-	// @author A0111837J
+
 	@Override
 	public String toString() {
 		return "Success [obj=" + obj + ", isSuccess=" + isSuccess
@@ -125,7 +125,7 @@ public class Success {
 	 * @return boolean return true if both Success Object are the same, else
 	 *         false.
 	 */
-	// @author A0111837J
+
 	@Override
 	public boolean equals(Object other) {
 		boolean isSame = false;

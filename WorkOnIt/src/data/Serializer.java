@@ -32,7 +32,6 @@ public class Serializer {
 	 *            <T> The class type of object that need to be converted
 	 * @return Object The object that converted from the Json String.
 	 */
-	// @author A0112694E
 	public static <T> Object deserializeFromJson(String json, Class<T> type) {
 
 		Gson gson = new Gson();

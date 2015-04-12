@@ -33,7 +33,6 @@ public class KeyListener implements NativeKeyListener {
 		logger.setLevel(Level.OFF);
 	}
 
-	// @author A0111837J
 	public void nativeKeyPressed(NativeKeyEvent e) {
 
 		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
@@ -74,7 +73,6 @@ public class KeyListener implements NativeKeyListener {
 		}
 	}
 
-	// @author A0111837J
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueSecond)) {
 			isHotkeySecond = false;
@@ -84,7 +82,6 @@ public class KeyListener implements NativeKeyListener {
 		}
 	}
 
-	// @author A0111837J
 	public void nativeKeyTyped(NativeKeyEvent e) {
 
 	}
@@ -93,7 +90,7 @@ public class KeyListener implements NativeKeyListener {
 	 * This method registers the keyhook
 	 * 
 	 */
-	// @author A0111837J
+
 	public void registerHook() {
 		try {
 			System.out.println("key hook registered successfully");

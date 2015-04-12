@@ -41,7 +41,7 @@ public class ChooseFolder extends Application {
 	 *            UI primary stage
 	 * @return boolean value of true for YES and false for NO
 	 */
-	// @author A0111916M
+
 	private boolean showChooseFolderConfirmation(final Stage primaryStage) {
 
 		boolean isYes = false;
@@ -65,7 +65,7 @@ public class ChooseFolder extends Application {
 	/**
 	 * Show up an alert box
 	 */
-	// @author A0111916M
+
 	private void notifySuccess() {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -82,7 +82,7 @@ public class ChooseFolder extends Application {
 	 * @param primaryStage
 	 *            UI primary stage
 	 */
-	// @author A0111916M
+
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose Save Directory");
@@ -109,7 +109,7 @@ public class ChooseFolder extends Application {
 	/**
 	 * Create the necessary web UI files, for viewing agenda
 	 */
-	// @author A0111916M
+
 	private static void createWebUiFiles() {
 
 		try {

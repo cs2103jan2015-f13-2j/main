@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import parser.CommandParser;
 import validator.Validator;
 import data.InitFileIO;
 
@@ -32,7 +31,7 @@ public class ValidatorTest {
 	/**
 	 * This method will test the validation of individual keyword.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeyword() {
 
@@ -48,7 +47,7 @@ public class ValidatorTest {
 	/**
 	 * This method will test for invalid individual keyword.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testInvalidKeyword() {
 
@@ -64,7 +63,7 @@ public class ValidatorTest {
 	/**
 	 * This method will test for a valid keyword sequence for add command.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeywordSequenceAdd() {
 
@@ -87,7 +86,7 @@ public class ValidatorTest {
 	/**
 	 * This method will test for a valid keyword sequence for retrieve command.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeywordSequenceRetrieve() {
 

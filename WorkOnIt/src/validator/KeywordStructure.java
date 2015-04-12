@@ -32,7 +32,7 @@ public class KeywordStructure {
 	/**
 	 * It will execute all the possible keyword configurations.
 	 */
-	// @author A0111916M
+
 	private void init() {
 
 		mainKeywordList = new ArrayList<KeywordNode>();
@@ -56,7 +56,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for add command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initAddKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -133,7 +133,7 @@ public class KeywordStructure {
 	 * method will arrange the possible combination and sequence for this
 	 * command.
 	 */
-	// @author A0111916M
+
 	private void initRetrieveKeyword() {
 
 		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
@@ -219,7 +219,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for update command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initUpdateKeyword() {
 
 		KeywordNode keyPriority = new KeywordNode(
@@ -295,7 +295,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for delete command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initDeleteKeyword() {
 
 		KeywordNode keyDel = new KeywordNode(KeywordConstant.KEYWORD_DELETE);
@@ -307,7 +307,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for undo command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initUndoKeyword() {
 		KeywordNode keyUndo = new KeywordNode(KeywordConstant.KEYWORD_UNDO);
 
@@ -318,7 +318,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for redo command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initRedoKeyword() {
 		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
 
@@ -329,7 +329,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for done command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initDoneKeyword() {
 		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
 
@@ -340,7 +340,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for undone command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initUndoneKeyword() {
 		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
 
@@ -351,7 +351,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for clear command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initClearKeyword() {
 		KeywordNode keyClear = new KeywordNode(KeywordConstant.KEYWORD_CLEAR);
 
@@ -363,7 +363,7 @@ public class KeywordStructure {
 	 * method will arrange the possible combination and sequence for this
 	 * command.
 	 */
-	// @author A0111916M
+
 	private void initDisplayKeyword() {
 		KeywordNode keyDisplay = new KeywordNode(
 				KeywordConstant.KEYWORD_DISPLAY);
@@ -375,7 +375,7 @@ public class KeywordStructure {
 	 * It will execute the keyword configuration for exit command. This method
 	 * will arrange the possible combination and sequence for this command.
 	 */
-	// @author A0111916M
+
 	private void initExitKeyword() {
 		KeywordNode keyExit = new KeywordNode(KeywordConstant.KEYWORD_EXIT);
 
@@ -392,7 +392,7 @@ public class KeywordStructure {
 	 *            List of keywords, in expected sequence
 	 * @return boolean value
 	 */
-	// @author A0111916M
+
 	public boolean checkKeyword(List<String> keywords) {
 
 		boolean isCorrectKeyword = false;
@@ -448,7 +448,7 @@ public class KeywordStructure {
 	 * @return Map<String, String> keywordFullMap The mapping of customized
 	 *         keywords, according to user preference.
 	 */
-	// @author A0111916M
+
 	private Map<String, String> loadConfigFile() {
 
 		ConfigIO config = new ConfigIO();

@@ -32,7 +32,7 @@ public class TaskHistory {
 	 * @param task
 	 *            The task need to be over ride in task history
 	 */
-	// @author A0111916M
+
 	public TaskHistory(String operation, Task task, Task auxTask) {
 		this.setOperation(operation);
 		this.setTask(task);
@@ -47,7 +47,7 @@ public class TaskHistory {
 	 * @param List
 	 *            The task list that need to set in the task history
 	 */
-	// @author A0111916M
+
 	public TaskHistory(String operation, List<Task> taskList) {
 		this.setOperation(operation);
 		this.setTaskList(taskList);
@@ -58,7 +58,7 @@ public class TaskHistory {
 	 *
 	 * @return Task return the Task from the TaskHistory.
 	 */
-	// @author A0111916M
+
 	public Task getTask() {
 		return task;
 	}
@@ -68,7 +68,7 @@ public class TaskHistory {
 	 *
 	 * @return Task set the Task into the TaskHistory.
 	 */
-	// @author A0111916M
+
 	private void setTask(Task task) {
 		this.task = task;
 	}
@@ -78,7 +78,7 @@ public class TaskHistory {
 	 *
 	 * @return Task return the override Task from the TaskHistory.
 	 */
-	// @author A0111916M
+
 	public Task getAuxTask() {
 		return auxTask;
 	}
@@ -88,7 +88,7 @@ public class TaskHistory {
 	 *
 	 * @return Task set the override Task into the TaskHistory.
 	 */
-	// @author A0111916M
+
 	private void setAuxTask(Task auxTask) {
 		this.auxTask = auxTask;
 	}
@@ -98,7 +98,7 @@ public class TaskHistory {
 	 *
 	 * @return Task return the operation Task from the TaskHistory.
 	 */
-	// @author A0111916M
+
 	public String getOperation() {
 		return operation;
 	}
@@ -108,7 +108,7 @@ public class TaskHistory {
 	 *
 	 * @return Task set the operation Task into the TaskHistory.
 	 */
-	// @author A0111916M
+
 	private void setOperation(String operation) {
 		this.operation = operation;
 	}
@@ -118,7 +118,7 @@ public class TaskHistory {
 	 *
 	 * @return Task return the task list from the TaskHistory.
 	 */
-	// @author A0111916M
+
 	public List<Task> getTaskList() {
 		return taskList;
 	}
@@ -128,7 +128,7 @@ public class TaskHistory {
 	 *
 	 * @return Task set the task list Task into the TaskHistory.
 	 */
-	// @author A0111916M
+
 	private void setTaskList(List<Task> taskList) {
 		this.taskList = taskList;
 	}
@@ -139,7 +139,7 @@ public class TaskHistory {
 	 *
 	 * @return int The hash code generated.
 	 */
-	// @author A0111916M
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -161,7 +161,7 @@ public class TaskHistory {
 	 *            The parsed in object that need to be compared
 	 * @return boolean return true if both task are the same, else false.
 	 */
-	// @author A0111916M
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

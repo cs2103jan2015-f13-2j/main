@@ -77,7 +77,7 @@ public class DateFixer {
 	 * @return fixedDate the Date object that is fixed or unfixed
 	 * 
 	 */
-	// @author A0111916M
+
 	protected static Date fixEndDate(Date inDate) {
 
 		LOGGER.fine("fixing the following end date : " + inDate.toString());
@@ -119,7 +119,7 @@ public class DateFixer {
 	 *         contains at least one Date resemblance
 	 * 
 	 */
-	// @author A0111916M
+
 	protected static List<Date> parseStringToDate(String dateInfo) {
 
 		LOGGER.fine("Parsing date String to Date object using Natty library");
@@ -153,7 +153,7 @@ public class DateFixer {
 	 *            DAY, WEEK, MONTH view
 	 * @return
 	 */
-	// @author A0111916M
+
 	protected static Date fixStartDateDisplay(Date inDate, String displayType) {
 
 		LOGGER.fine("fixing the following start date for Display: "
@@ -246,7 +246,7 @@ public class DateFixer {
 	 *            DAY, WEEK, MONTH view
 	 * @return
 	 */
-	// @author A0111916M
+
 	protected static Date fixEndDateDisplay(Date inDate, String displayType) {
 
 		LOGGER.fine("fixing the following end date for Display: "

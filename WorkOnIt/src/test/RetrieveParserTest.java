@@ -9,12 +9,10 @@ import java.util.Map;
 import org.junit.Test;
 
 import data.InitFileIO;
-import parser.AddParser;
 import parser.DataParser;
 import parser.RetrieveParser;
 import validator.Validator;
 import entity.Success;
-import entity.Task;
 
 public class RetrieveParserTest {
 
@@ -39,7 +37,6 @@ public class RetrieveParserTest {
 	 * This method test if can retrieve a task with a priority within a date
 	 * range.
 	 */
-	// @author A0111837J
 	@Test
 	public void retrieveKeywordPiorityDateRange() {
 
@@ -54,7 +51,6 @@ public class RetrieveParserTest {
 	 * This method test if can retrieve a task with a priority within a date
 	 * range.
 	 */
-	// @author A0111837J
 	@Test
 	public void retrieveKeywordDateRange() {
 
@@ -84,7 +80,6 @@ public class RetrieveParserTest {
 	 * pass in the parameter. It also test the expected output against the
 	 * obtained output.
 	 */
-	// @author A0111916M
 	private void executeTestTrue(String command) {
 
 		@SuppressWarnings("rawtypes")

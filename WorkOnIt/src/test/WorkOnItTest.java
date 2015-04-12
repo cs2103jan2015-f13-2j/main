@@ -39,7 +39,7 @@ public class WorkOnItTest {
 	/**
 	 * This method add in the sample data that is required for testing.
 	 */
-	// @author A0111916M
+
 	public void addTask() {
 
 		clearTask();
@@ -93,7 +93,7 @@ public class WorkOnItTest {
 	/**
 	 * This method clears all data in the file.
 	 */
-	// @author A0111916M
+
 	public void clearTask() {
 
 		addCommandList = new ArrayList<String>();
@@ -127,7 +127,7 @@ public class WorkOnItTest {
 	/**
 	 * This method assist in asserting equals objects.
 	 */
-	// @author A0111916M
+
 	private void testEquals(String command, List<String> taskAddedList) {
 
 		Collections.sort(taskAddedList);
@@ -163,7 +163,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test the validation of individual keyword.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeyword() {
 
@@ -180,7 +180,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test for invalid individual keyword.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testInvalidKeyword() {
 
@@ -197,7 +197,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test for a valid keyword sequence.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeywordSequence() {
 
@@ -221,7 +221,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test for invalid keyword sequence.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testInvalidKeywordSequence() {
 
@@ -245,7 +245,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test if the customized keyword mapping is working fine.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testKeywordMapping() {
 
@@ -271,7 +271,7 @@ public class WorkOnItTest {
 	 * This method will test for an invalid keyword mapping that does not exist
 	 * in command.cfg
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testInvalidKeywordMapping() {
 
@@ -300,7 +300,7 @@ public class WorkOnItTest {
 	/**
 	 * This method will test if all task(s) is added successfully.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testAddTasks() {
 
@@ -332,7 +332,7 @@ public class WorkOnItTest {
 	 * This method will test if the program rejects a command that has a start
 	 * date which does not resembles a Date.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testAddInvalidStartDateNormal() {
 
@@ -350,7 +350,7 @@ public class WorkOnItTest {
 	 * This method will test if the program rejects a command that has an end
 	 * date which does not resembles a Date.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testAddInvalidEndDateNormal() {
 
@@ -368,7 +368,7 @@ public class WorkOnItTest {
 	 * This method will test if the program rejects a command that has an
 	 * invalid due date which does not resembles a Date.
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testAddInvalidDeadlineDate() {
 
@@ -386,7 +386,7 @@ public class WorkOnItTest {
 	 * This method will test if the program fix a negative priority (<0) to low
 	 * priority (0).
 	 */
-	// @author A0111916M
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddInvalidNegativePriority() {
@@ -416,7 +416,7 @@ public class WorkOnItTest {
 	 * This method will test if the program fix a higher positive priority (>2)
 	 * to high priority (2).
 	 */
-	// @author A0111916M
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddInvalidPositivePriority() {
@@ -475,7 +475,7 @@ public class WorkOnItTest {
 	 * This method will test if a description that exist, will return the result
 	 * correctly.
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveDescriptionWithResult() {
 
@@ -508,7 +508,7 @@ public class WorkOnItTest {
 	 * This method will test for the retrieve command that have a start and end
 	 * date, if it return the result correctly.
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveStartEndDate() {
 
@@ -534,7 +534,7 @@ public class WorkOnItTest {
 	 * This method will test for the retrieve command that have a start date, if
 	 * it return the result correctly.
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveOneDate() {
 
@@ -559,7 +559,7 @@ public class WorkOnItTest {
 	 * but there is no Task(s) on that date.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveOneDateNoResult() {
 
@@ -585,7 +585,7 @@ public class WorkOnItTest {
 	 * priority, if it return the result correctly.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrievePriorityHigh() {
 
@@ -607,7 +607,7 @@ public class WorkOnItTest {
 	 * priority, if it return the result correctly.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrievePriorityMedium() {
 
@@ -639,7 +639,7 @@ public class WorkOnItTest {
 	 * priority, if it return the result correctly.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrievePriorityLow() {
 
@@ -661,7 +661,7 @@ public class WorkOnItTest {
 	 * negative priority, if the application rejects the command.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveInvalidNegativePriority() {
 
@@ -680,7 +680,7 @@ public class WorkOnItTest {
 	 * higher priority, if the application rejects the command.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrieveInvalidPositivePriority() {
 
@@ -699,7 +699,7 @@ public class WorkOnItTest {
 	 * particular priority on a single date, if it return the result correctly.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrievePrioritySingleDate() {
 
@@ -722,7 +722,7 @@ public class WorkOnItTest {
 	 * correctly.
 	 * 
 	 */
-	// @author A0111837J
+
 	@Test
 	public void testRetrievePriorityWithDateRange() {
 
@@ -783,7 +783,7 @@ public class WorkOnItTest {
 	 * This method will test if the deleting index is out of range (<1).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDeleteMultipleInvalidLowerBound() {
 
@@ -809,7 +809,7 @@ public class WorkOnItTest {
 	 * Task(s) list's size).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDeleteMultipleInvalidUpperBound() {
 
@@ -834,7 +834,7 @@ public class WorkOnItTest {
 	 * This method will test if the delete command contains non-numeric value.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDeleteNaN() {
 
@@ -860,7 +860,7 @@ public class WorkOnItTest {
 	 * previous retrieve command.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDeleteWithoutRetrieve() {
 
@@ -885,7 +885,7 @@ public class WorkOnItTest {
 	 * object successfully.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUpdate() {
 
@@ -924,7 +924,7 @@ public class WorkOnItTest {
 	 * previous retrieve command.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUpdateInvalidWithoutRetrieve() {
 
@@ -945,7 +945,7 @@ public class WorkOnItTest {
 	 * command is an invalid range (<1)
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUpdateInvalidLowerBound() {
 
@@ -971,7 +971,7 @@ public class WorkOnItTest {
 	 * command is an invalid range (> retrieved Task(s) list's size).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUpdateInvalidUpperBound() {
 
@@ -1000,7 +1000,7 @@ public class WorkOnItTest {
 	 * This method will test if a single undo command is executing fine.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoSingle() {
 
@@ -1040,7 +1040,7 @@ public class WorkOnItTest {
 	 * This method will test if the undo command can be executed multiple times.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoMultiple() {
 
@@ -1089,7 +1089,7 @@ public class WorkOnItTest {
 	 * previous command that can be undo.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoInvalidEmptyStack() {
 
@@ -1113,7 +1113,7 @@ public class WorkOnItTest {
 	 * This method will test if a single redo command is executing fine.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testRedoSingle() {
 
@@ -1161,7 +1161,7 @@ public class WorkOnItTest {
 	 * This method will test if the redo command can be executed multiple times.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testRedoMultiple() {
 
@@ -1216,7 +1216,7 @@ public class WorkOnItTest {
 	 * previous undo command that can be redo.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testRedoInvalidEmptyStack() {
 
@@ -1240,7 +1240,7 @@ public class WorkOnItTest {
 	 * This method will test for marking done multiple Task(s).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDoneMultiple() {
 
@@ -1274,7 +1274,7 @@ public class WorkOnItTest {
 	 * This method will test if the done index is out of range (<1).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDoneMultipleInvalidLowerBound() {
 
@@ -1300,7 +1300,7 @@ public class WorkOnItTest {
 	 * Task(s) list's size).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDoneMultipleInvalidUpperBound() {
 
@@ -1325,7 +1325,7 @@ public class WorkOnItTest {
 	 * This method will test if the done command contains non-numeric value.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDoneNaN() {
 
@@ -1351,7 +1351,7 @@ public class WorkOnItTest {
 	 * previous retrieve command.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testDoneWithoutRetrieve() {
 
@@ -1375,7 +1375,7 @@ public class WorkOnItTest {
 	 * This method will test for marking undone multiple Task(s).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoneMultiple() {
 
@@ -1415,7 +1415,7 @@ public class WorkOnItTest {
 	 * This method will test if the undone index is out of range (<1).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoneMultipleInvalidLowerBound() {
 
@@ -1441,7 +1441,7 @@ public class WorkOnItTest {
 	 * retrieved Task(s) list's size).
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoneMultipleInvalidUpperBound() {
 
@@ -1466,7 +1466,7 @@ public class WorkOnItTest {
 	 * This method will test if the undone command contains non-numeric value.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testUndoneNaN() {
 
@@ -1492,7 +1492,7 @@ public class WorkOnItTest {
 	 * previous retrieve command.
 	 * 
 	 */
-	// @author A0111916M
+
 	@Test
 	public void testunDoneWithoutRetrieve() {
 

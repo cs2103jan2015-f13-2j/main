@@ -24,7 +24,7 @@ public class DisplayParser {
 	// @author A0111916M
 	public DisplayParser() {
 		engine = new Engine();
-		
+
 		LOGGER.fine("Display Parser instantiated");
 	}
 
@@ -37,13 +37,13 @@ public class DisplayParser {
 	 *            the remaining command after being truncated
 	 * @return SuccessDisplay object
 	 */
-	// @author A0111916M
+
 	protected SuccessDisplay parseDisplayCommand(String remainingCommand) {
 
 		assert (remainingCommand != null);
 
 		LOGGER.fine("Parsing display command");
-		
+
 		SuccessDisplay status = null;
 		Scanner sc = new Scanner(remainingCommand);
 		String displayType = KeywordConstant.KEYWORD_DATE;
@@ -119,10 +119,10 @@ public class DisplayParser {
 			status = new SuccessDisplay(false, Message.FAIL_PARSE_COMMAND);
 		}
 		sc.close();
-		
+
 		LOGGER.fine("Display command returns with Success value : "
 				+ status.isSuccess());
-		
+
 		return status;
 	}
 

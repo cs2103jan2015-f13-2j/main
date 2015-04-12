@@ -60,7 +60,7 @@ public class HtmlBuilder {
 	 * @throws FileNotFoundException
 	 *             Will throw this exception if the HTML file cannot be found
 	 */
-	// @author A0111916M
+
 	private void init(String displayType) throws UnsupportedEncodingException,
 			FileNotFoundException {
 
@@ -84,7 +84,7 @@ public class HtmlBuilder {
 	 * @param displayType
 	 *            the agenda type (DAY, WEEK, MONTH)
 	 */
-	// @author A0111916M
+
 	private void createHtml(List<Task> taskList, Calendar displayCal,
 			String displayType) {
 
@@ -142,7 +142,7 @@ public class HtmlBuilder {
 	 * @param sdfNormal
 	 *            normal display date formatter
 	 */
-	// @author A0111916M
+
 	private void writeHeaderHtml(Calendar displayCal, String displayType,
 			SimpleDateFormat sdfNormal) {
 		writer.println("<head>");
@@ -182,7 +182,7 @@ public class HtmlBuilder {
 	 * @param title
 	 *            title of the current task
 	 */
-	// @author A0111916M
+
 	private void writeTaskNameHtml(int index, String title) {
 		writer.println("{");
 		int indexOffset = index + 1;
@@ -255,7 +255,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-	// @author A0111916M
+
 	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
 			SimpleDateFormat sdfTime, Task currTask) {
 		DeadlineTask deadlineTask = (DeadlineTask) currTask;
@@ -283,7 +283,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-	// @author A0111916M
+
 	private void writeNormalTaskHtml(SimpleDateFormat sdfNormal,
 			SimpleDateFormat sdfTime, Task currTask) {
 		NormalTask normalTask = (NormalTask) currTask;
@@ -338,7 +338,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-	// @author A0111916M
+
 	private void writeFloatingTaskHtml(SimpleDateFormat sdfNormal, Task currTask) {
 		FloatingTask floatingTask = (FloatingTask) currTask;
 		Date createdDate = new Date(floatingTask.getTaskId());
@@ -355,7 +355,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-	// @author A0111916M
+
 	private void writeTaskPriorityHtml(Task currTask) {
 		if (currTask.isCompleted()) {
 			writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
@@ -372,7 +372,7 @@ public class HtmlBuilder {
 	/**
 	 * Write the ending html file
 	 */
-	// @author A0111916M
+
 	private void writeClosingHtml() {
 		writer.println("]");
 

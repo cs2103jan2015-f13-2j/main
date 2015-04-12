@@ -37,7 +37,6 @@ public class Start {
 	 * @param isLogging
 	 *            boolean value to enable or disable logging
 	 */
-	// @author A0111837J
 	private static void setLogging(boolean isLogging) {
 
 		if (!isLogging) {

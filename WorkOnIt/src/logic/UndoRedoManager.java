@@ -39,7 +39,7 @@ public class UndoRedoManager {
 	 * @return UndoRedoManager the only UndoRedoManager object which belong to
 	 *         the class
 	 */
-	// @author A0112694E
+
 	public static UndoRedoManager getInstance() {
 
 		if (obj == null) {
@@ -55,7 +55,7 @@ public class UndoRedoManager {
 	 *
 	 * @return
 	 */
-	// @author A0112694E
+
 	public static void reset() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
@@ -68,7 +68,7 @@ public class UndoRedoManager {
 	 *
 	 * @return
 	 */
-	// @author A0112694E
+
 	public static void addUndoStack(TaskHistory task) {
 		undoStack.push(task);
 		LOGGER.fine("Added history into undo stack");
@@ -79,7 +79,7 @@ public class UndoRedoManager {
 	 *
 	 * @return
 	 */
-	// @author A0112694E
+
 	public static void addRedoStack(TaskHistory task) {
 		redoStack.push(task);
 		LOGGER.fine("Added history into redo stack");
@@ -91,7 +91,7 @@ public class UndoRedoManager {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message.
 	 */
-	// @author A0112694E
+
 	public static Success undoTaskFunction() {
 
 		LOGGER.fine("Performing undo");
@@ -218,7 +218,7 @@ public class UndoRedoManager {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message.
 	 */
-	// @author A0112694E
+
 	public static Success redoTaskFunction() {
 
 		LOGGER.fine("Performing redo");

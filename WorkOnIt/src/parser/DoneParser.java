@@ -48,7 +48,7 @@ public class DoneParser {
 	 *            the remaining command after being truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	protected Success doneCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
@@ -108,7 +108,7 @@ public class DoneParser {
 	 *            the remaining command after being truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	protected Success undoneCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);

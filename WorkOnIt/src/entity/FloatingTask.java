@@ -24,7 +24,7 @@ public class FloatingTask extends Task {
 	 *
 	 * @return String the string generated from the floating Task property
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toString() {
 		return "FloatingTask [getTaskId()=" + getTaskId() + ", getTaskName()="
@@ -39,7 +39,7 @@ public class FloatingTask extends Task {
 	 * @return String the string generated from the floating Task property for
 	 *         display purpose
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toDisplay() {
 		String userString = "";

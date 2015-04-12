@@ -51,7 +51,7 @@ public class RetrieveParser {
 	 *            command that is left after processing
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	protected Success parseRetrieveCommand(String remainingCommand) {
 
 		assert (remainingCommand != null);
@@ -274,7 +274,7 @@ public class RetrieveParser {
 	 *            the remaining command after being truncated
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveDoneUndone(String remainingText) {
 
 		assert (remainingText != null);
@@ -319,7 +319,7 @@ public class RetrieveParser {
 	 *            The text that need to be retrieved
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveTaskDesc(String remainingText) {
 
 		assert (remainingText != null);
@@ -449,7 +449,7 @@ public class RetrieveParser {
 	 *            priority level that need to be retrieved
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrievePriority(String remainingPriority) {
 
 		assert (remainingPriority != null);
@@ -601,7 +601,7 @@ public class RetrieveParser {
 	 * 
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveAllDates() {
 
 		LOGGER.fine("Processing retrieve all task" + " command");
@@ -620,7 +620,7 @@ public class RetrieveParser {
 	 *            a String that resembles a Date
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveSingleDate(String remainingDate) {
 
 		assert (remainingDate != null);
@@ -694,7 +694,7 @@ public class RetrieveParser {
 	 *            end Date object
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveInBetween(Date start, Date end) {
 
 		assert (start != null && end != null);
@@ -724,7 +724,7 @@ public class RetrieveParser {
 	 *            a String that resembles two Date objects
 	 * @return Success object
 	 */
-	// @author A0111837J
+
 	private Success retrieveInBetween(String remainingDate) {
 
 		assert (remainingDate != null);

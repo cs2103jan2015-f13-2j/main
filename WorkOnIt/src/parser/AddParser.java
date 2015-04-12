@@ -50,7 +50,7 @@ public class AddParser {
 	 * @return Success object
 	 * 
 	 */
-	// @author A0111916M
+
 	protected Success processAddCommand(String remainingCommand,
 			DataParser dataParser) {
 
@@ -85,7 +85,7 @@ public class AddParser {
 	 *            the remaining command after being truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	protected Success parseAddCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
@@ -198,7 +198,7 @@ public class AddParser {
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success createNormalTask(String taskDesc, String remainingDate) {
 
 		assert (taskDesc != null && remainingDate != null);
@@ -290,10 +290,10 @@ public class AddParser {
 				Date unprocessedEndDate = dateList.remove(0);
 				toDate = DateFixer.fixEndDate(unprocessedEndDate);
 			}
-			
+
 			task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
 			status = new Success(task, true, null);
-			
+
 		} else {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
@@ -311,7 +311,7 @@ public class AddParser {
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// @author A0111916M
+
 	private Success createDeadlineTask(String taskDesc, String remainingDate) {
 
 		assert (taskDesc != null && remainingDate != null);
@@ -535,7 +535,7 @@ public class AddParser {
 	 *            remains of the priority, if any
 	 * @return
 	 */
-	// @author A0111916M
+
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
 		assert (taskDesc != null && remainingPriority != null);

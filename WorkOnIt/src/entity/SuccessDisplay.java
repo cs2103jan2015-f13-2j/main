@@ -37,7 +37,7 @@ public class SuccessDisplay extends Success {
 	 *            the message that need to be return
 	 * @return
 	 */
-	// @author A0111837J
+
 	public SuccessDisplay(String displayType, Object obj, boolean isSuccess,
 			String message) {
 
@@ -51,7 +51,7 @@ public class SuccessDisplay extends Success {
 	 *
 	 * @return String return the display type of the SuccessDisplay Object
 	 */
-	// @author A0111837J
+
 	public String getDisplayType() {
 		return displayType;
 	}
@@ -62,7 +62,7 @@ public class SuccessDisplay extends Success {
 	 * @param String
 	 *            set the display type of the SuccessDisplay Object
 	 */
-	// @author A0111837J
+
 	private void setDisplayType(String displayType) {
 		this.displayType = displayType;
 	}
@@ -72,7 +72,7 @@ public class SuccessDisplay extends Success {
 	 *
 	 * @return Calendar return the calendar of the SuccessDisplay Object
 	 */
-	// @author A0111837J
+
 	public Calendar getCalendar() {
 		return calendar;
 	}
@@ -83,7 +83,7 @@ public class SuccessDisplay extends Success {
 	 * @param Calendar
 	 *            set the calendar of the SuccessDisplay Object
 	 */
-	// @author A0111837J
+
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
 	}
@@ -94,7 +94,7 @@ public class SuccessDisplay extends Success {
 	 * @param Date
 	 *            set the date of the SuccessDisplay Object
 	 */
-	// @author A0111837J
+
 	public void setCalendar(Date date) {
 
 		Calendar calendar = Calendar.getInstance();

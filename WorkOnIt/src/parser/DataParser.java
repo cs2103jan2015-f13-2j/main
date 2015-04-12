@@ -28,7 +28,7 @@ public class DataParser {
 	 * @param retrievedTaskList
 	 *            set the list of Task(s)
 	 */
-	// @author A0111837J
+
 	public void setRetrievedTaskList(ArrayList<Task> retrievedTaskList) {
 		this.retrievedTaskList = retrievedTaskList;
 	}
@@ -39,7 +39,7 @@ public class DataParser {
 	 * 
 	 * @return lastRetrieve The command that were used previously
 	 */
-	// @author A0111837J
+
 	public String getLastRetrieve() {
 		return lastRetrieve;
 	}
@@ -51,7 +51,7 @@ public class DataParser {
 	 * @param lastRetrieve
 	 *            Set the command that were used previously
 	 */
-	// @author A0111837J
+
 	public void setLastRetrieve(String lastRetrieve) {
 		this.lastRetrieve = lastRetrieve;
 	}
@@ -62,7 +62,7 @@ public class DataParser {
 	 * @param append
 	 *            Append more command to existing last retrieve command
 	 */
-	// @author A0111837J
+
 	public void appendLastRetrieve(String append) {
 		this.lastRetrieve += " " + append;
 	}
@@ -74,7 +74,7 @@ public class DataParser {
 	 * @return taskToRemove The Task object that will be used for update, if any
 	 *         update command is executed.
 	 */
-	// @author A0111837J
+
 	public Task getTaskToRemove() {
 		return taskToRemove;
 	}
@@ -87,7 +87,7 @@ public class DataParser {
 	 *            Set the Task object to be updated, if any update command is
 	 *            performed.
 	 */
-	// @author A0111837J
+
 	public void setTaskToRemove(Task taskToRemove) {
 		this.taskToRemove = taskToRemove;
 	}

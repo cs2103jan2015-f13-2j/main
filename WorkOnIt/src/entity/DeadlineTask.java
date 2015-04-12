@@ -30,7 +30,7 @@ public class DeadlineTask extends Task {
 	 *
 	 * @return Date The date from the deadline Task.
 	 */
-	// @author A0111916M
+
 	public Date getDeadline() {
 		return deadline;
 	}
@@ -42,7 +42,7 @@ public class DeadlineTask extends Task {
 	 *            The date of the deadline of the task that need to be created
 	 *
 	 */
-	// @author A0111916M
+
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 		super.setSortDate(deadline);
@@ -54,7 +54,7 @@ public class DeadlineTask extends Task {
 	 *
 	 * @return int The hash code generated.
 	 */
-	// @author A0111916M
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,7 +73,7 @@ public class DeadlineTask extends Task {
 	 * @return boolean return true if both deadline task are the same, else
 	 *         false.
 	 */
-	// @author A0111916M
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -97,7 +97,7 @@ public class DeadlineTask extends Task {
 	 *
 	 * @return String the string generated from the deadline Task property
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toString() {
 		return "DeadlineTask [deadline=" + deadline + ", getTaskId()="
@@ -113,7 +113,7 @@ public class DeadlineTask extends Task {
 	 * @return String the string generated from the deadline Task property for
 	 *         display purpose
 	 */
-	// @author A0111916M
+
 	@Override
 	public String toDisplay() {
 		String userString = "";

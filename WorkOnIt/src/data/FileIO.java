@@ -96,7 +96,7 @@ public class FileIO {
 	 *            Type of task which parse in.
 	 * @return String Name of file for the task parse in.
 	 */
-	// @author A0112694E
+
 	private String getFileType(Task task) {
 
 		LOGGER.fine("Identifying the file type of this task: "
@@ -123,7 +123,7 @@ public class FileIO {
 	 *            keyword which specific which class type to retrieve
 	 * @return Success Object which contain the success/failure message
 	 */
-	// @author A0112694E
+
 	public Success loadFromFileTask(String file_keyword) {
 
 		LOGGER.fine("Searching the following in files: " + file_keyword);
@@ -209,7 +209,7 @@ public class FileIO {
 	 *            keyword which specific which file name to be return
 	 * @return String the name of file from the keyword.
 	 */
-	// @author A0112694E
+
 	private String getFileTypeWithKeyword(String file_keyword) {
 
 		LOGGER.fine("Get the file name: " + file_keyword);
@@ -241,7 +241,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadFromStartDate(Date date) {
 
 		assert (date != null);
@@ -330,7 +330,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
 
 		assert (startDate != null);
@@ -414,7 +414,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadFromPriority(int priority) {
 
 		assert (priority >= 0 && priority <= 2);
@@ -511,7 +511,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
 		assert (priority >= 0 && priority <= 2);
@@ -607,7 +607,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
 			Date endDate) {
 
@@ -701,7 +701,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success getCompletedTask(boolean isCompleted) {
 
 		LOGGER.fine("search task is complete/incompliete: " + isCompleted);
@@ -781,7 +781,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
 
 		LOGGER.fine("search task is complete/incomplete on a date: "
@@ -872,7 +872,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
 			Date startDate, Date endDate) {
 
@@ -962,7 +962,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success searchFromFile(String keyword) {
 
 		LOGGER.fine("search task with keyword: " + keyword);
@@ -1066,7 +1066,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success searchFromFileWithDate(String keyword, Date date) {
 
 		LOGGER.fine("search task with keyword on a date: " + keyword + ", ["
@@ -1161,7 +1161,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success searchFromFileBetweenDate(String keyword, Date startDate,
 			Date endDate) {
 
@@ -1254,7 +1254,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success deleteFromFile(Task taskObj) {
 
 		LOGGER.fine("delete task from file: " + taskObj.toDisplay());
@@ -1423,7 +1423,7 @@ public class FileIO {
 	 * @return Success Object which contain message and task ArrayList from data
 	 *         file
 	 */
-	// @author A0112694E
+
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
 
 		LOGGER.fine("update task from file: " + taskUpdate.toDisplay());
@@ -1588,7 +1588,7 @@ public class FileIO {
 	 *            task name that is to be inserted into history
 	 * @return Success object
 	 */
-	// @author A0112694E
+
 	public Success addHistory(String toAdd) {
 
 		LOGGER.fine("adding history: " + toAdd);
@@ -1624,7 +1624,7 @@ public class FileIO {
 	 * 
 	 * @return Success object
 	 */
-	// @author A0112694E
+
 	public Success getHistory() {
 
 		LOGGER.fine("get history");
@@ -1673,7 +1673,7 @@ public class FileIO {
 	 *            the date that need to be compared
 	 * @return boolean true if the both date are the same
 	 */
-	// @author A0112694E
+
 	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 
@@ -1704,7 +1704,7 @@ public class FileIO {
 	 *            the end date that need to be compared
 	 * @return boolean true if the both date are the same
 	 */
-	// @author A0112694E
+
 	public static boolean checkNormalTaskBetweenDate(NormalTask task,
 			Date startDate, Date endDate) {
 		boolean matchDate = false;

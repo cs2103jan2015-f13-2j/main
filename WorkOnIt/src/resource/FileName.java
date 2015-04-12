@@ -51,7 +51,7 @@ public class FileName {
 	/**
 	 * Set the full path of deadline task(s) file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameDeadline(String filenameDeadline) {
 		FileName.filenameDeadline = filenameDeadline;
 	}
@@ -62,7 +62,7 @@ public class FileName {
 	 * 
 	 * @return Floating full path of file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameFloating() {
 		return getCanonicalPath() + File.separator + filenameFloating;
 	}
@@ -70,7 +70,7 @@ public class FileName {
 	/**
 	 * Set the full path of floating task(s) file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameFloating(String filenameFloating) {
 		FileName.filenameFloating = filenameFloating;
 	}
@@ -81,7 +81,7 @@ public class FileName {
 	 * 
 	 * @return Normal full path of file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameNormal() {
 		return getCanonicalPath() + File.separator + filenameNormal;
 	}
@@ -89,7 +89,7 @@ public class FileName {
 	/**
 	 * Set the full path of normal task(s) file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameNormal(String filenameNormal) {
 		FileName.filenameNormal = filenameNormal;
 	}
@@ -100,7 +100,7 @@ public class FileName {
 	 * 
 	 * @return Recurrence full path of file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameRecur() {
 		return getCanonicalPath() + File.separator + filenameRecur;
 	}
@@ -108,7 +108,7 @@ public class FileName {
 	/**
 	 * Set the full path of recurrence task(s) file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameRecur(String filenameRecur) {
 		FileName.filenameRecur = filenameRecur;
 	}
@@ -118,7 +118,7 @@ public class FileName {
 	 * 
 	 * @return Configuration full path of file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameCfg() {
 		return getCanonicalPath() + File.separator + filenameCfg;
 	}
@@ -126,7 +126,7 @@ public class FileName {
 	/**
 	 * Set the full path of configuration file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameCfg(String filenameCfg) {
 		FileName.filenameCfg = filenameCfg;
 	}
@@ -136,7 +136,7 @@ public class FileName {
 	 * 
 	 * @return History full path of file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameHistory() {
 		return getCanonicalPath() + File.separator + filenameHistory;
 	}
@@ -144,7 +144,7 @@ public class FileName {
 	/**
 	 * Set the full path of History file.
 	 */
-	// @author A0111916M
+
 	public static void setFilenameHistory(String filenameHistory) {
 		FileName.filenameHistory = filenameHistory;
 	}
@@ -155,7 +155,7 @@ public class FileName {
 	 * 
 	 * @return Canonical full path
 	 */
-	// @author A0111916M
+
 	public static String getCanonicalPath() {
 		return canonicalPath;
 	}
@@ -163,7 +163,7 @@ public class FileName {
 	/**
 	 * Set the canonical path.
 	 */
-	// @author A0111916M
+
 	public static void setCanonicalPath(String canonicalPath) {
 		FileName.canonicalPath = canonicalPath;
 	}
@@ -171,7 +171,7 @@ public class FileName {
 	/**
 	 * Set the default canonical path to be the current working directory.
 	 */
-	// @author A0111916M
+
 	public static void setDefaultCanonicalPath() {
 		try {
 			canonicalPath = new File(".").getCanonicalPath();
@@ -183,7 +183,7 @@ public class FileName {
 	/**
 	 * Save the user specified saved path for data files.
 	 */
-	// @author A0111916M
+
 	public static void writeCanonicalToFile() {
 		try {
 			File file = new File(FILENAME_PATH);
@@ -203,7 +203,7 @@ public class FileName {
 	/**
 	 * Read the user specified saved path for data files.
 	 */
-	// @author A0111916M
+
 	public static String readCanonicalPathFromFile() {
 
 		File file = new File(FileName.FILENAME_PATH);
@@ -237,7 +237,7 @@ public class FileName {
 	 * 
 	 * @return URL full path of HTML file
 	 */
-	// @author A0111916M
+
 	public static String getLocalUrl() {
 		return localUrl;
 	}
@@ -246,7 +246,7 @@ public class FileName {
 	 * Set the URL of the generated HTML file.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setLocalUrl(String localUrl) {
 		FileName.localUrl = localUrl;
 	}
@@ -257,7 +257,7 @@ public class FileName {
 	 * 
 	 * @return Path of the generated HTML file
 	 */
-	// @author A0111916M
+
 	public static String getRelativeWebUiPath() {
 		return relativeWebUiPath;
 	}
@@ -267,7 +267,7 @@ public class FileName {
 	 * 
 	 * @return Path of the generated HTML file
 	 */
-	// @author A0111916M
+
 	public static void setRelativeWebUiPath(String relativeWebUiPath) {
 		FileName.relativeWebUiPath = relativeWebUiPath;
 	}
@@ -278,7 +278,7 @@ public class FileName {
 	 * 
 	 * @return Full path of the generated HTML file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameCalendarUi() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + FileName.filenameCalendarUi;
@@ -290,7 +290,7 @@ public class FileName {
 	 * 
 	 * @return Full URL of the generated HTML file
 	 */
-	// @author A0111916M
+
 	public static String getFilenameCalendarUiUrl() {
 		return getLocalUrl() + getCanonicalPath() + File.separator
 				+ getRelativeWebUiPath() + File.separator
@@ -301,7 +301,7 @@ public class FileName {
 	 * Set the full path of the generated HTML file.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFilenameMonthUi(String filenameMonthUi) {
 		FileName.filenameCalendarUi = filenameMonthUi;
 	}
@@ -311,7 +311,7 @@ public class FileName {
 	 * 
 	 * @return Path of WebUI
 	 */
-	// @author A0111916M
+
 	public static String getWebUiPath() {
 		return webUiPath;
 	}
@@ -319,7 +319,7 @@ public class FileName {
 	/**
 	 * Set the Web UI path.
 	 */
-	// @author A0111916M
+
 	public static void setWebUiPath(String webUiPath) {
 		FileName.webUiPath = webUiPath;
 	}
@@ -329,7 +329,7 @@ public class FileName {
 	 * 
 	 * @return path of generated HTML file, within the program.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameCalendarViewProgram() {
 		return getWebUiPath() + filenameCalendarUi;
 	}
@@ -339,7 +339,7 @@ public class FileName {
 	 * 
 	 * @return path of full calendar css file, within the program.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameFullCalendarCssProgram() {
 		return getWebUiPath() + fileNameFullCalendarCss;
 	}
@@ -348,7 +348,7 @@ public class FileName {
 	 * Set the path of the full calendar css file, within the program.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFileNameFullCalendarCss(String fileNameFullCalendarCss) {
 		FileName.fileNameFullCalendarCss = fileNameFullCalendarCss;
 	}
@@ -358,7 +358,7 @@ public class FileName {
 	 * 
 	 * @return path of full calendar js file, within the program.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameFullCalendarJsProgram() {
 		return getWebUiPath() + fileNameFullCalendarJs;
 	}
@@ -367,7 +367,7 @@ public class FileName {
 	 * Set the path of the full calendar js file, within the program.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFileNameFullCalendarJs(String fileNameFullCalendarJs) {
 		FileName.fileNameFullCalendarJs = fileNameFullCalendarJs;
 	}
@@ -377,7 +377,7 @@ public class FileName {
 	 * 
 	 * @return path of jquery js file, within the program.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameJqueryProgram() {
 		return getWebUiPath() + fileNameJquery;
 	}
@@ -386,7 +386,7 @@ public class FileName {
 	 * Set the path of the jquery js file, within the program.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFileNameJquery(String fileNameJquery) {
 		FileName.fileNameJquery = fileNameJquery;
 	}
@@ -396,7 +396,7 @@ public class FileName {
 	 * 
 	 * @return path of moment js file, within the program.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameMomentProgram() {
 		return getWebUiPath() + fileNameMoment;
 	}
@@ -405,7 +405,7 @@ public class FileName {
 	 * Set the path of the moment js file, within the program.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFileNameMoment(String fileNameMoment) {
 		FileName.fileNameMoment = fileNameMoment;
 	}
@@ -414,7 +414,7 @@ public class FileName {
 	 * Set the filename of the generated HTML file, within the program.
 	 *
 	 */
-	// @author A0111916M
+
 	public static void setFilenameCalendarUi(String filenameCalendarUi) {
 		FileName.filenameCalendarUi = filenameCalendarUi;
 	}
@@ -424,7 +424,7 @@ public class FileName {
 	 * 
 	 * @return path of the css folder, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFolderCss() {
 		return getCanonicalPath() + File.separator + getWebUiPath()
 				+ File.separator + folderCss;
@@ -434,7 +434,7 @@ public class FileName {
 	 * Set the path of the css folder, according to user saved path.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFolderCss(String folderCss) {
 		FileName.folderCss = folderCss;
 	}
@@ -444,7 +444,7 @@ public class FileName {
 	 * 
 	 * @return path of the js folder, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFolderJs() {
 		return getCanonicalPath() + File.separator + getWebUiPath()
 				+ File.separator + folderJs;
@@ -454,7 +454,7 @@ public class FileName {
 	 * Set the path of the js folder, according to user saved path.
 	 * 
 	 */
-	// @author A0111916M
+
 	public static void setFolderJs(String folderJs) {
 		FileName.folderJs = folderJs;
 	}
@@ -464,7 +464,7 @@ public class FileName {
 	 * 
 	 * @return path of the moment js file, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameMomentLocal() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + folderJs + File.separator + fileNameMoment;
@@ -475,7 +475,7 @@ public class FileName {
 	 * 
 	 * @return path of the jquery js file, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameJqueryLocal() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + folderJs + File.separator + fileNameJquery;
@@ -487,7 +487,7 @@ public class FileName {
 	 * 
 	 * @return path of the full calendar js file, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameFullCalendarJsLocal() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + folderJs + File.separator
@@ -500,7 +500,7 @@ public class FileName {
 	 * 
 	 * @return path of generated HTML file, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameCalendarViewLocal() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + filenameCalendarUi;
@@ -512,7 +512,7 @@ public class FileName {
 	 * 
 	 * @return path of the full calendar css file, according to user saved path.
 	 */
-	// @author A0111916M
+
 	public static String getFileNameFullCalendarCssLocal() {
 		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
 				+ File.separator + folderCss + File.separator
@@ -523,7 +523,7 @@ public class FileName {
 	 * This method will create the required physical file(s), if they did not
 	 * exist in the defined user saved path.
 	 */
-	// @author A0111916M
+
 	public static void createFileIfNotExist() {
 
 		try {
@@ -548,7 +548,7 @@ public class FileName {
 	 *             Will throw this exception if unable to read or write on the
 	 *             file
 	 */
-	// @author A0111916M
+
 	private static void createFile(String canonicalFileName) throws IOException {
 		File file = new File(canonicalFileName);
 
@@ -579,7 +579,7 @@ public class FileName {
 	 *            Object to be serialized to JSON
 	 * @return the object that is serialized to JSON, in String format
 	 */
-	// @author A0111916M
+
 	private static String serializeToJson(Object object) {
 
 		String json;
