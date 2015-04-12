@@ -85,7 +85,7 @@ public class ChooseFolder extends Application {
 
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("Choose Save Directory");
+		directoryChooser.setTitle(Message.UI_CHOOSE_FOLDER);
 		File selectedDirectory = directoryChooser.showDialog(primaryStage);
 
 		if (selectedDirectory != null) {
@@ -109,7 +109,7 @@ public class ChooseFolder extends Application {
 	/**
 	 * Create the necessary web UI files, for viewing agenda
 	 */
-
+	
 	private static void createWebUiFiles() {
 
 		try {
@@ -117,33 +117,50 @@ public class ChooseFolder extends Application {
 			File cssFolder = new File(FileName.getFolderCss());
 			File jsFolder = new File(FileName.getFolderJs());
 
-			if (!cssFolder.exists()) {
-				cssFolder.mkdirs();
-			}
-
-			if (!jsFolder.exists()) {
-				jsFolder.mkdirs();
-			}
-
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameMomentProgram(),
-					FileName.getFileNameMomentLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameJqueryProgram(),
-					FileName.getFileNameJqueryLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameFullCalendarJsProgram(),
-					FileName.getFileNameFullCalendarJsLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameCalendarViewProgram(),
-					FileName.getFileNameCalendarViewLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameFullCalendarCssProgram(),
-					FileName.getFileNameFullCalendarCssLocal());
+			processFileCreation(cssFolder, jsFolder);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+	
+	/**
+	 * Perform the necessary process for save path's directories
+	 */
 
+	private static void processFileCreation(File cssFolder, File jsFolder)
+			throws IOException {
+		
+		if (!cssFolder.exists()) {
+			cssFolder.mkdirs();
+		}
+
+		if (!jsFolder.exists()) {
+			jsFolder.mkdirs();
+		}
+		copyFilesToLocal();
+	}
+	
+	/**
+	 * Copy out the necessary files to local save directory
+	 */
+
+	private static void copyFilesToLocal() throws IOException {
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameMomentProgram(),
+				FileName.getFileNameMomentLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameJqueryProgram(),
+				FileName.getFileNameJqueryLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameFullCalendarJsProgram(),
+				FileName.getFileNameFullCalendarJsLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameCalendarViewProgram(),
+				FileName.getFileNameCalendarViewLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameFullCalendarCssProgram(),
+				FileName.getFileNameFullCalendarCssLocal());
 	}
 }

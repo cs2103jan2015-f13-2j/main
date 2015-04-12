@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -547,19 +548,12 @@ public class Engine {
 
 			List<Task> taskList = (ArrayList<Task>) status.getObj();
 
-			for (int i = 0; i < taskList.size(); i++) {
-				String name = taskList.get(i).getTaskName();
-				System.out.println(name);
-			}
-
 			status = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
 
 			if (status.isSuccess()) {
-				List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
-				taskList.addAll(floatingTaskList);
 
-				statusDisp = new SuccessDisplay(displayType, taskList, true,
-						Message.SUCCESS_RETRIEVE_LIST);
+				statusDisp = appendFloatingTaskToRetrieve(displayType, status,
+						taskList, startDate, endDate);
 			} else {
 				statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
 			}
@@ -572,6 +566,71 @@ public class Engine {
 	}
 
 	/**
+	 * Append the Floating Task List onto other Task List, for return to UI
+	 * tier.
+	 * 
+	 * @param displayType
+	 *            the agenda view type
+	 * @param status
+	 *            the Success object that retrieve Floating Task List
+	 * @param taskList
+	 *            the taskList that is other Task List
+	 * @return
+	 */
+
+	@SuppressWarnings("unchecked")
+	private SuccessDisplay appendFloatingTaskToRetrieve(String displayType,
+			Success status, List<Task> taskList, Date startDate, Date endDate) {
+
+		SuccessDisplay statusDisp = null;
+		List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
+
+		floatingTaskList = excludeCompletedTaskForDateView(displayType,
+				floatingTaskList, startDate, endDate);
+
+		taskList.addAll(floatingTaskList);
+
+		statusDisp = new SuccessDisplay(displayType, taskList, true,
+				Message.SUCCESS_RETRIEVE_LIST);
+		return statusDisp;
+	}
+
+	/**
+	 * This method will exclude completed floating task(s) if it is a daily
+	 * agenda view
+	 * 
+	 * @param displayType
+	 *            the agenda view type
+	 * @param floatingTaskList
+	 *            list of unprocessed floating task
+	 * @return List<Task> The list of excluded floating task, if needed.
+	 */
+
+	private List<Task> excludeCompletedTaskForDateView(String displayType,
+			List<Task> floatingTaskList, Date startDate, Date endDate) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<Task> incompleteFloatingTaskList = new ArrayList<Task>();
+
+		for (int i = 0; i < floatingTaskList.size(); i++) {
+
+			Task currTask = floatingTaskList.get(i);
+
+			String startDateString = sdf.format(startDate);
+			String taskDateString = sdf.format(currTask.getDateCreated());
+
+			if (!(currTask.isCompleted()
+					&& (displayType.equals(KeywordConstant.KEYWORD_DAY) || displayType
+							.equals(KeywordConstant.KEYWORD_DATE)) && !startDateString
+						.equals(taskDateString))) {
+				incompleteFloatingTaskList.add(currTask);
+			}
+		}
+
+		return incompleteFloatingTaskList;
+	}
+
+	/**
 	 * This method will mark the list of task as done
 	 * 
 	 * @param List
@@ -579,6 +638,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
+
 	public Success markAsDone(List<Task> doneList) {
 
 		LOGGER.info("process mark task as done");

@@ -73,7 +73,7 @@
 
 	private void openFileChooser(Stage primaryStage) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("Choose Save Directory");
+		directoryChooser.setTitle(Message.UI_CHOOSE_FOLDER);
 		File selectedDirectory = directoryChooser.showDialog(primaryStage);
 
 		if (selectedDirectory != null) {
@@ -97,7 +97,7 @@
 	/**
 	 * Create the necessary web UI files, for viewing agenda
 	 */
-
+	
 	private static void createWebUiFiles() {
 
 		try {
@@ -105,34 +105,51 @@
 			File cssFolder = new File(FileName.getFolderCss());
 			File jsFolder = new File(FileName.getFolderJs());
 
-			if (!cssFolder.exists()) {
-				cssFolder.mkdirs();
-			}
-
-			if (!jsFolder.exists()) {
-				jsFolder.mkdirs();
-			}
-
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameMomentProgram(),
-					FileName.getFileNameMomentLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameJqueryProgram(),
-					FileName.getFileNameJqueryLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameFullCalendarJsProgram(),
-					FileName.getFileNameFullCalendarJsLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameCalendarViewProgram(),
-					FileName.getFileNameCalendarViewLocal());
-			InitFileIO.copyFileUsingFileStreams(
-					FileName.getFileNameFullCalendarCssProgram(),
-					FileName.getFileNameFullCalendarCssLocal());
+			processFileCreation(cssFolder, jsFolder);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+	
+	/**
+	 * Perform the necessary process for save path's directories
+	 */
 
+	private static void processFileCreation(File cssFolder, File jsFolder)
+			throws IOException {
+		
+		if (!cssFolder.exists()) {
+			cssFolder.mkdirs();
+		}
+
+		if (!jsFolder.exists()) {
+			jsFolder.mkdirs();
+		}
+		copyFilesToLocal();
+	}
+	
+	/**
+	 * Copy out the necessary files to local save directory
+	 */
+
+	private static void copyFilesToLocal() throws IOException {
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameMomentProgram(),
+				FileName.getFileNameMomentLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameJqueryProgram(),
+				FileName.getFileNameJqueryLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameFullCalendarJsProgram(),
+				FileName.getFileNameFullCalendarJsLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameCalendarViewProgram(),
+				FileName.getFileNameCalendarViewLocal());
+		InitFileIO.copyFileUsingFileStreams(
+				FileName.getFileNameFullCalendarCssProgram(),
+				FileName.getFileNameFullCalendarCssLocal());
 	}
 }
 
@@ -358,7 +375,7 @@
 
 		Label label = new Label(message);
 
-		label.getStyleClass().add("popup");
+		label.getStyleClass().add(Message.UI_POP_UP);
 
 		Image img = null;
 		ImageView imgView = null;
@@ -1220,19 +1237,12 @@
 
 			List<Task> taskList = (ArrayList<Task>) status.getObj();
 
-			for (int i = 0; i < taskList.size(); i++) {
-				String name = taskList.get(i).getTaskName();
-				System.out.println(name);
-			}
-
 			status = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
 
 			if (status.isSuccess()) {
-				List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
-				taskList.addAll(floatingTaskList);
 
-				statusDisp = new SuccessDisplay(displayType, taskList, true,
-						Message.SUCCESS_RETRIEVE_LIST);
+				statusDisp = appendFloatingTaskToRetrieve(displayType, status,
+						taskList, startDate, endDate);
 			} else {
 				statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
 			}
@@ -1245,6 +1255,71 @@
 	}
 
 	/**
+	 * Append the Floating Task List onto other Task List, for return to UI
+	 * tier.
+	 * 
+	 * @param displayType
+	 *            the agenda view type
+	 * @param status
+	 *            the Success object that retrieve Floating Task List
+	 * @param taskList
+	 *            the taskList that is other Task List
+	 * @return
+	 */
+
+	@SuppressWarnings("unchecked")
+	private SuccessDisplay appendFloatingTaskToRetrieve(String displayType,
+			Success status, List<Task> taskList, Date startDate, Date endDate) {
+
+		SuccessDisplay statusDisp = null;
+		List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
+
+		floatingTaskList = excludeCompletedTaskForDateView(displayType,
+				floatingTaskList, startDate, endDate);
+
+		taskList.addAll(floatingTaskList);
+
+		statusDisp = new SuccessDisplay(displayType, taskList, true,
+				Message.SUCCESS_RETRIEVE_LIST);
+		return statusDisp;
+	}
+
+	/**
+	 * This method will exclude completed floating task(s) if it is a daily
+	 * agenda view
+	 * 
+	 * @param displayType
+	 *            the agenda view type
+	 * @param floatingTaskList
+	 *            list of unprocessed floating task
+	 * @return List<Task> The list of excluded floating task, if needed.
+	 */
+
+	private List<Task> excludeCompletedTaskForDateView(String displayType,
+			List<Task> floatingTaskList, Date startDate, Date endDate) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<Task> incompleteFloatingTaskList = new ArrayList<Task>();
+
+		for (int i = 0; i < floatingTaskList.size(); i++) {
+
+			Task currTask = floatingTaskList.get(i);
+
+			String startDateString = sdf.format(startDate);
+			String taskDateString = sdf.format(currTask.getDateCreated());
+
+			if (!(currTask.isCompleted()
+					&& (displayType.equals(KeywordConstant.KEYWORD_DAY) || displayType
+							.equals(KeywordConstant.KEYWORD_DATE)) && !startDateString
+						.equals(taskDateString))) {
+				incompleteFloatingTaskList.add(currTask);
+			}
+		}
+
+		return incompleteFloatingTaskList;
+	}
+
+	/**
 	 * This method will mark the list of task as done
 	 * 
 	 * @param List
@@ -1252,6 +1327,7 @@
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
+
 	public Success markAsDone(List<Task> doneList) {
 
 		LOGGER.info("process mark task as done");

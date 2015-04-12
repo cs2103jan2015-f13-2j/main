@@ -1,13 +1,10 @@
 package data;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -176,6 +173,7 @@ public class ReadFileIO {
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success loadFromStartDate(Date date) {
 
 		assert (date != null);
@@ -446,6 +444,7 @@ public class ReadFileIO {
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
 		assert (priority >= 0 && priority <= 2);
@@ -1001,6 +1000,7 @@ public class ReadFileIO {
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success searchFromFileWithDate(String keyword, Date date) {
 
 		LOGGER.fine("search task with keyword on a date: " + keyword + ", ["
@@ -1235,6 +1235,7 @@ public class ReadFileIO {
 	 * @return boolean true if the both date are the same
 	 */
 
+	@SuppressWarnings("deprecation")
 	private static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 

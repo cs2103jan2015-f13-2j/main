@@ -480,6 +480,7 @@
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success loadFromStartDate(Date date) {
 
 		assert (date != null);
@@ -750,6 +751,7 @@
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
 		assert (priority >= 0 && priority <= 2);
@@ -1305,6 +1307,7 @@
 	 *         file
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success searchFromFileWithDate(String keyword, Date date) {
 
 		LOGGER.fine("search task with keyword on a date: " + keyword + ", ["
@@ -1539,6 +1542,7 @@
 	 * @return boolean true if the both date are the same
 	 */
 
+	@SuppressWarnings("deprecation")
 	private static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 

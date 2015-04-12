@@ -9,8 +9,8 @@ public class KeywordNode {
 	List<KeywordNode> subsequentKeywords;
 
 	/**
-	 * This is constructor for KeywordNode .
-	 *
+	 * This is constructor for KeywordNode.
+	 * This Node serve as an entity to form a Linked List.
 	 */
 	//@author A0111916M
 	public KeywordNode() {

@@ -1046,7 +1046,7 @@ public class Main extends Application {
 
 		Label label = new Label(message);
 
-		label.getStyleClass().add("popup");
+		label.getStyleClass().add(Message.UI_POP_UP);
 
 		Image img = null;
 		ImageView imgView = null;

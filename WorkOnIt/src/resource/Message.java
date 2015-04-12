@@ -4,8 +4,10 @@ public class Message {
 
 	public static final String UI_INPUT_HERE = "input here";
 	public static final String UI_TITLE = "Work On It";
+	public static final String UI_CHOOSE_FOLDER = "Choose Save Directory";
 	public static final String UI_WELCOME_TITLE = "Welcome";
 	public static final String UI_WELCOME_INFO = "Welcome to Work On It.";
+	public static final String UI_POP_UP = "popup";
 	public static final String UI_WELCOME_INFO_NO_FILE_FOUND = UI_WELCOME_INFO
 			+ " We need to create required file(s). Please choose your save directory. Continue with it?";
 
