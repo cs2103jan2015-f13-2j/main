@@ -1235,7 +1235,7 @@ public class ReadFileIO {
 	 * @return boolean true if the both date are the same
 	 */
 
-	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
+	private static boolean checkNormalTaskDate(NormalTask task, Date date) {
 		boolean matchDate = false;
 
 		if (task.getStartDateTime().equals(task.getEndDateTime())) {
@@ -1266,7 +1266,7 @@ public class ReadFileIO {
 	 * @return boolean true if the both date are the same
 	 */
 
-	public static boolean checkNormalTaskBetweenDate(NormalTask task,
+	private static boolean checkNormalTaskBetweenDate(NormalTask task,
 			Date startDate, Date endDate) {
 		boolean matchDate = false;
 

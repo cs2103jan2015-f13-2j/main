@@ -117,37 +117,6 @@ public class WriteFileIO {
 	}
 
 	/**
-	 * get the file name the on keyword for the file.
-	 *
-	 * @param String
-	 *            keyword which specific which file name to be return
-	 * @return String the name of file from the keyword.
-	 */
-
-	private String getFileTypeWithKeyword(String file_keyword) {
-
-		LOGGER.fine("Get the file name: " + file_keyword);
-
-		String type = "";
-
-		if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
-			type = filename_floating;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
-			type = filename_normal;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
-			type = filename_recur;
-		} else if (file_keyword
-				.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
-			type = filename_deadline;
-		}
-
-		return type;
-	}
-
-	/**
 	 * Delete task from the data file
 	 *
 	 * @param Task
@@ -520,61 +489,4 @@ public class WriteFileIO {
 		return status;
 	}
 
-
-	/**
-	 * Check wether the task date and the date entered are the same
-	 *
-	 * @param Task
-	 *            the task which have the task date to be compared
-	 * @param Date
-	 *            the date that need to be compared
-	 * @return boolean true if the both date are the same
-	 */
-
-	public static boolean checkNormalTaskDate(NormalTask task, Date date) {
-		boolean matchDate = false;
-
-		if (task.getStartDateTime().equals(task.getEndDateTime())) {
-			if (task.getStartDateTime().getDate() == date.getDate()
-					&& task.getStartDateTime().getMonth() == date.getMonth()
-					&& task.getStartDateTime().getYear() == date.getYear()) {
-				matchDate = true;
-			}
-		} else {
-			if (task.getStartDateTime().compareTo(date) <= 0
-					&& task.getEndDateTime().compareTo(date) >= 0) {
-				matchDate = true;
-			}
-
-		}
-		return matchDate;
-	}
-
-	/**
-	 * Check wether the task date is the between the start and end date entered.
-	 *
-	 * @param Task
-	 *            the task which have the task date to be compared
-	 * @param Date
-	 *            the start date that need to be compared
-	 * @param Date
-	 *            the end date that need to be compared
-	 * @return boolean true if the both date are the same
-	 */
-
-	public static boolean checkNormalTaskBetweenDate(NormalTask task,
-			Date startDate, Date endDate) {
-		boolean matchDate = false;
-
-		if ((task.getEndDateTime().compareTo(endDate) >= 0 && task
-				.getStartDateTime().compareTo(endDate) <= 0)
-				|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
-						.getStartDateTime().compareTo(startDate) <= 0)
-				|| (task.getEndDateTime().compareTo(endDate) <= 0 && task
-						.getStartDateTime().compareTo(startDate) >= 0)) {
-			matchDate = true;
-		}
-
-		return matchDate;
-	}
 }
