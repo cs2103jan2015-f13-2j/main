@@ -90,7 +90,7 @@ public class AddParser {
 
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
-		
+
 		LOGGER.fine("Parsing add command");
 
 		Success status = null;
@@ -290,11 +290,13 @@ public class AddParser {
 				Date unprocessedEndDate = dateList.remove(0);
 				toDate = DateFixer.fixEndDate(unprocessedEndDate);
 			}
+			
+			task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
+			status = new Success(task, true, null);
+			
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-
-		task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
-		status = new Success(task, true, null);
-
 		sc.close();
 
 		return status;
@@ -371,10 +373,12 @@ public class AddParser {
 		if (!dateList.isEmpty()) {
 			Date unprocessedDate = dateList.remove(0);
 			deadlineDate = DateFixer.fixEndDate(unprocessedDate);
-		}
 
-		task = new DeadlineTask(taskDesc, priority, deadlineDate);
-		status = new Success(task, true, null);
+			task = new DeadlineTask(taskDesc, priority, deadlineDate);
+			status = new Success(task, true, null);
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
 
 		sc.close();
 

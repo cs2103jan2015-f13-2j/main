@@ -379,7 +379,7 @@ public class WorkOnItTest {
 
 		Success status = commandParser.parseCommand(currCommand);
 
-		assertFalse(!status.isSuccess());
+		assertFalse(status.isSuccess());
 	}
 
 	/**
