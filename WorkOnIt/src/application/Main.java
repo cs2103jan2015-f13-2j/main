@@ -76,11 +76,12 @@ public class Main extends Application {
 	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
 
 	/**
+	 * This method initiates and sets up the User interface
+	 * for the application
 	 *
-	 * @param
-	 * @return
+	 * @param primaryStage	the main stage of the UI
 	 */
-	// @author
+	//@author A0111837J
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -102,7 +103,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root, TEXT_BOX_WIDTH, SCENE_HEIGHT);
 
 			// TEXTFLOW
-			// final TextFlow tFlow = new TextFlow();
+			final TextFlow tFlow = new TextFlow();
 
 			initializeGlobals();
 
@@ -165,8 +166,8 @@ public class Main extends Application {
 			txtF.setFont(Font.font("Arial", 28));
 
 			// UI - TEXT FLOW SETTINGS
-			// tFlow.setLayoutX(10);
-			// tFlow.setLayoutY(10);
+			tFlow.setLayoutX(10);
+			tFlow.setLayoutY(10);
 
 			/***********************
 			 * UI ACTIONS
@@ -188,12 +189,12 @@ public class Main extends Application {
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
 
-					wordHandler(txtF, txtF.getText(), listView);
+					wordHandler(txtF.getText(), listView);
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
 							listView);
 					handleCommandResponse(primaryStage, txtF, listView,
 							scrollPane, popup, webengine);
-					wordHandler(txtF, txtF.getText(), listView);
+					wordHandler(txtF.getText(), listView);
 					indexCounter = 0;
 				}
 
@@ -202,7 +203,7 @@ public class Main extends Application {
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					keypressHandler(event, txtF.getText(), primaryStage, txtF,
-							listView);
+							listView, tFlow);
 					switchListView(listView, txtF, event);
 					popup.hide();
 				}
@@ -215,7 +216,7 @@ public class Main extends Application {
 			root.getChildren().add(txtF);
 			root.getChildren().add(listView);
 			root.getChildren().add(scrollPane);
-			// root.getChildren().add(tFlow);
+			root.getChildren().add(tFlow);
 
 			primaryStage.setScene(scene);
 			primaryStage.setAlwaysOnTop(true);
@@ -227,11 +228,24 @@ public class Main extends Application {
 	}
 
 	/**
+	 * Handles the response of the executed command, it shows
+	 * the user whether the command is accepted or not, and 
+	 * calls for an appropriate response when the command is
+	 * executed correctly. 
 	 *
-	 * @param
-	 * @return
+	 * @param primaryStage			
+	 * 			The stage of this application
+	 * @param txtF
+	 * 			The main input textbox 
+	 * @param listView
+	 * 			The listview that contain tasks to be displayed
+	 * @param scrollPane
+	 * 			The scrollpane containing the calendar
+	 * @param popup
+	 * 			The popup to show whether command is accepted
+	 * @param webengine
+	 * 			The WebEngine for creating the calendar
 	 */
-	// @author
 	private void handleCommandResponse(final Stage primaryStage,
 			final TextField txtF, final ListView listView,
 			final ScrollPane scrollPane, final Popup popup,
@@ -250,11 +264,17 @@ public class Main extends Application {
 	}
 
 	/**
+	 * This method handles the list that will be shown after a
+	 * successfully executed command
 	 *
-	 * @param
-	 * @return
+	 * @param txtF
+	 * 			The main input textbox 
+	 * @param listView
+	 * 			The listview that contain tasks to be displayed
+	 * @param taskList
+	 * 			The list that contains task items
+	 * 
 	 */
-	// @author
 	private void handleDisplayList(final TextField txtF,
 			final ListView listView, List<Task> taskList) {
 		if (taskList.isEmpty()) {
@@ -269,82 +289,92 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method handles the displays of various objects being
+	 * returned from the appropriate commands
+	 * 
+	 * @param txtF
+	 * 			The main input textbox
+	 * @param listView
+	 * 			The listview that contain tasks to be displayed 
+	 * @param scrollPane
+	 * 			The scrollpane to contain the listview
+	 * @param webengine
+	 * 			The webengine which creates the calendar
+	 * @param returnObj
+	 * 			The embedded object of the Success object returned
 	 */
-	// @author
 	private void handleDisplayCommand(final TextField txtF,
 			final ListView listView, final ScrollPane scrollPane,
 			final WebEngine webengine, Object returnObj) {
 		if (successObj instanceof SuccessDisplay) {
 
 			SuccessDisplay sdObj = (SuccessDisplay) successObj;
-
-			String displayType = sdObj.getDisplayType();
-			if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
-					|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
-				@SuppressWarnings("unchecked")
-				List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
-				Calendar displayCal = sdObj.getCalendar();
-
-				HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
-						displayCal, taskList);
-				webengine.setJavaScriptEnabled(true);
-				webengine.load(FileName.getFilenameCalendarUiUrl());
-
-				scrollPane.setVisible(true);
-
-			} else if (sdObj.getDisplayType().equals(
-					KeywordConstant.KEYWORD_DAY)
-					|| sdObj.getDisplayType().equals(
-							KeywordConstant.KEYWORD_DATE)) {
-				// daily view
-				List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
-				handleDisplayList(txtF, listView, taskList);
-			}
+			displayCalendar(txtF, listView, scrollPane, webengine, sdObj);
 
 		} else {
 			if (returnObj instanceof ArrayList<?>) {
 
 				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
 				handleDisplayList(txtF, listView, taskList);
+				
 			} else if (returnObj instanceof SuccessDisplay) {
 
 				SuccessDisplay sdObj = (SuccessDisplay) returnObj;
-
-				String displayType = sdObj.getDisplayType();
-				if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
-						|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
-					@SuppressWarnings("unchecked")
-					List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
-					Calendar displayCal = sdObj.getCalendar();
-
-					HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
-							displayCal, taskList);
-					webengine.setJavaScriptEnabled(true);
-					webengine.load(FileName.getFilenameCalendarUiUrl());
-
-					scrollPane.setVisible(true);
-
-				} else if (sdObj.getDisplayType().equals(
-						KeywordConstant.KEYWORD_DAY)
-						|| sdObj.getDisplayType().equals(
-								KeywordConstant.KEYWORD_DATE)) {
-					// daily view
-					List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
-					handleDisplayList(txtF, listView, taskList);
-				}
+				displayCalendar(txtF, listView, scrollPane, webengine, sdObj);
 			}
+		}
+	}
+	
+	/**
+	 * This method handles the displays of various objects being
+	 * returned from the appropriate commands
+	 * 
+	 * @param txtF
+	 * 			The main input textbox
+	 * @param listView
+	 * 			The listview that contain tasks to be displayed 
+	 * @param scrollPane
+	 * 			The scrollpane to contain the listview
+	 * @param webengine
+	 * 			The webengine which creates the calendar
+	 * @param returnObj
+	 * 			The embedded object of the Success object returned
+	 */
+	private void displayCalendar(final TextField txtF, final ListView listView,
+			final ScrollPane scrollPane, final WebEngine webengine,
+			SuccessDisplay sdObj) {
+		String displayType = sdObj.getDisplayType();
+		if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
+				|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
+			@SuppressWarnings("unchecked")
+			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+			Calendar displayCal = sdObj.getCalendar();
+
+			HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
+					displayCal, taskList);
+			webengine.setJavaScriptEnabled(true);
+			webengine.load(FileName.getFilenameCalendarUiUrl());
+
+			scrollPane.setVisible(true);
+
+		} else if (sdObj.getDisplayType().equals(
+				KeywordConstant.KEYWORD_DAY)
+				|| sdObj.getDisplayType().equals(
+						KeywordConstant.KEYWORD_DATE)) {
+			// daily view
+			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+			handleDisplayList(txtF, listView, taskList);
 		}
 	}
 
 	/**
+	 * This method sets the appropriate icons of different sizes
+	 * and the title to the main stage of the application
 	 *
-	 * @param
-	 * @return
+	 * @param primaryStage
+	 * 			The main stage of the application
+	 * 
 	 */
-	// @author
 	private void setProgramIconDesc(final Stage primaryStage) {
 		Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
 		Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
@@ -362,15 +392,14 @@ public class Main extends Application {
 		primaryStage.getIcons().add(imgProgramIcon256);
 		primaryStage.getIcons().add(imgProgramIcon512);
 
-		primaryStage.setTitle("Work On It");
+		primaryStage.setTitle(Message.UI_TITLE);
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method initializes the global objects that is
+	 * required by the program
+	 * 
 	 */
-	// @author
 	public void initializeGlobals() {
 		elementList = new ArrayList<String>();
 		secondaryList = new ArrayList<String>();
@@ -380,11 +409,13 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method shows the history of task names that the
+	 * user has entered.
+	 * 
+	 * @param listView
+	 * 			This listview is the container of the list items
 	 */
-	// @author
+	// @author A0111916M
 	private void history(ListView listView) {
 
 		Success status = commandValidator.getHistory();
@@ -397,11 +428,21 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method executes the command from the textfield and 
+	 * and displays appropriate elements
+	 * 
+	 * @param txtF
+	 * 			The main textfield of the application
+	 * @param commandString
+	 * 			The command that the user entered
+	 * @param primaryStage
+	 * 			The main stage of the application
+	 * @param popup
+	 * 			The popup to show whether command is accepted
+	 * @param listView
+	 * 			This listview is the container of the list items 
 	 */
-	// @author
+	// @author A0111837J
 	private void executeCommand(TextField txtF, String commandString,
 			Stage primaryStage, Popup popup, ListView listView) {
 
@@ -438,13 +479,21 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method handles the keypresses of the user
+	 * 
+	 * @param event
+	 * 			This is the keypress event of the user
+	 * @param textFieldText
+	 * 			This is the text from the textfield
+	 * @param stage
+	 * 			This is the main stage of the application
+	 * @param txtF
+	 * 			This is the text field from the application
+	 * @param listView
+	 * 			This is the container containing the list of items
 	 */
-	// @author
 	public void keypressHandler(KeyEvent event, String textFieldText,
-			final Stage stage, TextField txtF, ListView listView) {
+			final Stage stage, TextField txtF, ListView listView, TextFlow tFlow) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB)) {
@@ -472,19 +521,21 @@ public class Main extends Application {
 		} else if (event.getCode().equals(KeyCode.DOWN)) {
 			listView.requestFocus();
 		}
-		// handleEachKey(txtF, tFlow);
+		handleEachKey(txtF, tFlow);
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
-			wordHandler(txtF, textFieldText, listView);
+			wordHandler(textFieldText, listView);
 		}
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method handles each character of user input for textFlow
+	 * 
+	 * @param txtF
+	 * 			This is the textfield of
+	 * @param tf
+	 * 			This is the textflow of the text nodes
 	 */
-	// @author
 	public void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
 		tf.getChildren().clear();
@@ -505,11 +556,18 @@ public class Main extends Application {
 	}
 
 	/**
+	 * This method handles keypresses from within the list view 
 	 *
-	 * @param
-	 * @return
+	 * @param event
+	 * 			The key event by the user
+	 * @param stage
+	 * 			The main stage of the application
+	 * @param txtF
+	 * 			The text field of the application
+	 * @param listView
+	 * 			This is the container containing the list of items
 	 */
-	// @author
+	//@author A0112694E
 	public static void listHandler(KeyEvent event, final Stage stage,
 			TextField txtF, ListView listView) {
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -529,12 +587,15 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method handles the words of user input
+	 * 
+	 * @param textFieldText
+	 * 			This is the text of the textfield
+	 * @param listView
+	 * 			This is the container containing the list of items
 	 */
-	// @author
-	private void wordHandler(TextField txtF, String textFieldText,
+	//@author A0111837J
+	private void wordHandler(String textFieldText,
 			ListView listView) {
 
 		String[] stringArr = textFieldText.trim().split(" ");
@@ -545,11 +606,17 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
-	 */
-	// @author
+	 * This method loops through the text nodes input by the user
+	 * and processes the keywords
+	 * 
+	 * @param listView
+	 * 			This is the container containing the list of items
+	 * @param stringArr
+	 * 			This is the string array of the text nodes
+	 * @param startIndex
+	 * 			This is the start index
+	 * @return int startIndex 
+	 */		
 	private int loopTextNodes(ListView listView, String[] stringArr,
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
@@ -595,11 +662,8 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method resets and clears relevant lists after an operation
 	 */
-	// @author
 	private void resetDependentLists() {
 		elementList.clear();
 		secondaryList.clear();
@@ -608,11 +672,11 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method hides the main stage of the application
+	 * 
+	 * @param stage
+	 * 			This is the main stage of the application
 	 */
-	// @author
 	private static void hide(final Stage stage) {
 		Platform.setImplicitExit(false);
 		stage.hide();
@@ -624,12 +688,15 @@ public class Main extends Application {
 	// initFile.checkAndProcessFile();
 	// launch();
 	// }
+	
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method alternates between hiding and showing the list view
+	 * 
+	 * @param listView
+	 * 			This is the container of the list of tasks
+	 * @param textField
+	 * 			This is the main text field of the application
 	 */
-	// @author
 	// FOR KEY PRESS
 	private static void switchListView(ListView listView, TextField textField,
 			KeyEvent event) {
@@ -649,11 +716,11 @@ public class Main extends Application {
 	}
 
 	/**
+	 * This method alternates between hiding and showing the list view
 	 *
-	 * @param
-	 * @return
+	 * @param listView
+	 * 			This is the container for the list of items
 	 */
-	// @author
 	// FOR KEY ON ACTION
 	private static void switchListView(ListView listView) {
 		if (listView.getItems().size() != 0) {
@@ -664,11 +731,14 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method adds the task from the success object into the list view
+	 * 
+	 * @param listView
+	 * 			This is the container containing the list of tasks
+	 * @param successObj
+	 * 			This is the object containing the required data to add into the list
 	 */
-	// @author
+	//@author A0112694E
 	private static void addTaskToListView(ListView listView, Success successObj) {
 
 		Image imgDoneTask = new Image(Graphic.UI_GREEN_TICK_PATH);
@@ -773,11 +843,14 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method formats the agenda view's title from data retrieved
+	 * from the success object.
+	 * 
+	 * @param successObj 
+	 * 			This object contains the relevant data to be displayed
+	 * @return String containing the formatted title
 	 */
-	// @author
+	// @author A0111916M
 	private static String getAgendaTitle(Success successObj) {
 
 		String title = Message.UI_DISPLAY_TASK_FOR;
@@ -831,11 +904,14 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method gets the date from the task and formats it to
+	 * be shown on the list view
+	 * 
+	 * @param taskObj
+	 * 			This is the object containing the date
+	 * 
+	 * @return String containing the formatted date
 	 */
-	// @author
 	public static String getDateFromTask(Task taskObj) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM h:mm a");
@@ -935,11 +1011,18 @@ public class Main extends Application {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * This method shows the popup on the UI
+	 * 
+	 * @param message
+	 * 			This is the message to be shown
+	 * @param isSuccess
+	 * 			This determines the type of graphic the 
+	 * 			popup will use
+	 * @param primaryStage
+	 * 			This is the main stage of the application
+	 * @param popup
+	 * 			This is the popup of the application
 	 */
-	// @author
 	private void showPopUp(String message, boolean isSuccess,
 			final Stage primaryStage, final Popup popup) {
 
