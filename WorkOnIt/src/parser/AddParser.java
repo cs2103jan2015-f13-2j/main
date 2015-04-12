@@ -48,8 +48,11 @@ public class AddParser {
 	// @author A0111916M
 	protected Success processAddCommand(String remainingCommand,
 			DataParser dataParser) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
-		assert(keywordFullMap != null);
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		remainingCommand = remainingCommand.trim();
 
@@ -73,6 +76,9 @@ public class AddParser {
 	 */
 	// @author A0111916M
 	protected Success parseAddCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
 
 		Success status = null;
 
@@ -180,8 +186,10 @@ public class AddParser {
 	// @author A0111916M
 	private Success createNormalTask(String taskDesc, String remainingDate) {
 
-		assert(taskDesc != null && remainingDate != null);
-		
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		taskDesc = taskDesc.trim();
 
 		NormalTask task = null;
@@ -287,8 +295,10 @@ public class AddParser {
 	// @author A0111916M
 	private Success createDeadlineTask(String taskDesc, String remainingDate) {
 
-		assert(taskDesc != null && remainingDate != null);
-		
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
 
@@ -365,8 +375,10 @@ public class AddParser {
 	// dropped support for recurrence task
 	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 
-		assert(taskDesc != null && remainingDate != null);
-		
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
 
@@ -501,8 +513,10 @@ public class AddParser {
 	// @author A0111916M
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
-		assert(taskDesc != null && remainingPriority != null);
-		
+		assert (taskDesc != null && remainingPriority != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		taskDesc = taskDesc.trim();
 
 		Success status = null;

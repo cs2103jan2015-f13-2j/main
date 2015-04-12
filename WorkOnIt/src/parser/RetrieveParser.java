@@ -47,8 +47,10 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	protected Success parseRetrieveCommand(String remainingCommand) {
-		assert(remainingCommand != null);
-		
+		assert (remainingCommand != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		Scanner sc = new Scanner(remainingCommand);
@@ -260,9 +262,11 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	private Success retrieveDoneUndone(String remainingText) {
-		
-		assert(remainingText != null);
-		
+
+		assert (remainingText != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
 		boolean isStatusResolved = false;
@@ -303,8 +307,10 @@ public class RetrieveParser {
 	private Success retrieveTaskDesc(String remainingText) {
 		Success status = null;
 
-		assert(remainingText != null);
-		
+		assert (remainingText != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Scanner sc = new Scanner(remainingText);
 		String searchString = "";
 
@@ -426,8 +432,10 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	private Success retrievePriority(String remainingPriority) {
-		
-		assert(remainingPriority != null);
+
+		assert (remainingPriority != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
 
 		Scanner sc = new Scanner(remainingPriority);
 		Success status = null;
@@ -592,8 +600,10 @@ public class RetrieveParser {
 	// @author A0111837J
 	private Success retrieveSingleDate(String remainingDate) {
 
-		assert(remainingDate != null);
-		
+		assert (remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Scanner sc = new Scanner(remainingDate);
 		String dateString = "";
 		Success status = null;
@@ -660,8 +670,10 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	private Success retrieveInBetween(Date start, Date end) {
-		
-		assert(start != null && end != null);
+
+		assert (start != null && end != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
 
 		Success status = null;
 		try {
@@ -685,8 +697,10 @@ public class RetrieveParser {
 	// @author A0111837J
 	private Success retrieveInBetween(String remainingDate) {
 
-		assert(remainingDate != null);
-		
+		assert (remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Scanner sc = new Scanner(remainingDate);
 		String startDateString = "";
 		String endDateString = "";

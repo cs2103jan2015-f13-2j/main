@@ -35,8 +35,8 @@ public class DisplayParser {
 	// @author A0111916M
 	protected SuccessDisplay parseDisplayCommand(String remainingCommand) {
 
-		assert(remainingCommand != null);
-		
+		assert (remainingCommand != null);
+
 		SuccessDisplay status = null;
 		Scanner sc = new Scanner(remainingCommand);
 		String displayType = KeywordConstant.KEYWORD_DATE;

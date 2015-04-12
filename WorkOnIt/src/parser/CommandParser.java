@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import logic.Engine;
-import data.ConfigIO;
 import resource.KeywordConstant;
 import resource.Message;
 import validator.Validator;
@@ -29,17 +28,6 @@ public class CommandParser {
 		Validator keywordValidator = new Validator();
 		keywordFullMap = keywordValidator.getKeywordFullMap();
 		dataParser = new DataParser();
-	}
-
-	/**
-	 * Load the configuration file (command.cfg) which contains the customized
-	 * keyword mapping. The content of this file is in JSON.
-	 */
-	// @author A0111916M
-	private void loadConfigFile() {
-
-		ConfigIO config = new ConfigIO();
-		keywordFullMap = config.getFullKeywordMap();
 	}
 
 	/**
@@ -71,8 +59,9 @@ public class CommandParser {
 
 		Success status = null;
 
-		assert(keywordFullMap != null);
-		
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		fullCommand = fullCommand.toLowerCase();
 		Scanner sc = new Scanner(fullCommand);
 		String commandInput = sc.next();
@@ -167,9 +156,11 @@ public class CommandParser {
 	// @author A0111916M
 	private Success executeUndoneCommand(String remainingCommand) {
 
-		Success status;
-		assert(keywordFullMap != null);
-		
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -196,8 +187,11 @@ public class CommandParser {
 	// @author A0111916M
 	private Success executeDoneCommand(String remainingCommand) {
 
-		Success status;
-		assert(keywordFullMap != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -256,7 +250,7 @@ public class CommandParser {
 	// @author A0111916M
 	private Success executeDisplayCommand(String remainingCommand) {
 
-		Success status;
+		Success status = null;
 
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
@@ -294,8 +288,11 @@ public class CommandParser {
 	// @author A0111837J
 	private Success executeRetrieveCommand(String remainingCommand) {
 
-		Success status;
-		assert(keywordFullMap != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -333,8 +330,11 @@ public class CommandParser {
 	// @author A0111916M
 	private Success executeDeleteCommand(String remainingCommand) {
 
-		Success status;
-		assert(keywordFullMap != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -360,9 +360,11 @@ public class CommandParser {
 	 */
 	// @author A0111916M
 	private Success executeUpdateCommand(String remainingCommand) {
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
 
-		Success status;
-		assert(keywordFullMap != null);
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {
@@ -390,8 +392,11 @@ public class CommandParser {
 	// @author A0111916M
 	private Success executeAddCommand(String remainingCommand) {
 
-		Success status;
-		assert(keywordFullMap != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
 		if (remainingCommand == null) {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} else {

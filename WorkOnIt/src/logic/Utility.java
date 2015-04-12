@@ -22,7 +22,7 @@ public class Utility {
 	 * @return
 	 */
 	// @author A0112694E
-	public Utility() {
+	private Utility() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
 	}
@@ -34,6 +34,7 @@ public class Utility {
 	 */
 	// @author A0112694E
 	public static Utility getInstance() {
+
 		if (obj == null) {
 			obj = new Utility();
 			return obj;

@@ -96,6 +96,7 @@ public class InitFileIO {
 	public static void copyFileUsingFileStreams(String sourceString,
 			String destString) throws IOException {
 
+		assert(sourceString != null);
 		assert(destString != null);
 		
 		File dest = new File(destString);
@@ -115,7 +116,7 @@ public class InitFileIO {
 				output.write(buf, 0, bytesRead);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		} finally {
 			input.close();
 			output.close();

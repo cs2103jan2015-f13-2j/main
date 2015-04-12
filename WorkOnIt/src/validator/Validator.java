@@ -47,6 +47,7 @@ public class Validator {
 
 		assert(keyword != null);
 		assert(keywordFullMap != null);
+		assert(!keywordFullMap.isEmpty());
 		
 		boolean isKeyword = false;
 

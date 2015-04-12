@@ -44,7 +44,12 @@ public class DoneParser {
 	 */
 	// @author A0111916M
 	protected Success doneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
+
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		ArrayList<Task> retrievedTaskList = dataParser.getRetrievedTaskList();
 
@@ -90,7 +95,12 @@ public class DoneParser {
 	 */
 	// @author A0111916M
 	protected Success undoneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
+
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
 		ArrayList<Task> retrievedTaskList = dataParser.getRetrievedTaskList();
 
