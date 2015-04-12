@@ -12,7 +12,7 @@ public class FloatingTask extends Task {
 	 * @param int The priority of task that need to be created
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public FloatingTask(String taskName, int priority) {
 
 		super(taskName, priority);

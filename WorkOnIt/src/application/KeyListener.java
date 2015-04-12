@@ -24,9 +24,9 @@ public class KeyListener implements NativeKeyListener {
 	private Logger logger;
 
 	/**
-	 * THis constructor is to disable jnativehook logging
+	 * This constructor is to disable jnativehook logging
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public KeyListener() {
 		// disable jnativehook logging
 		logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());

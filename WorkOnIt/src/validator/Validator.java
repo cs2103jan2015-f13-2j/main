@@ -16,7 +16,7 @@ public class Validator {
 	 * This constructor will load the configuration file.
 	 * 
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public Validator() {
 
 		loadConfigFile();

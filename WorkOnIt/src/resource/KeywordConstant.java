@@ -65,7 +65,7 @@ public class KeywordConstant {
 	 * 
 	 * @return the default mapping of keywords
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public static Map<String, String> createBasicMap() {
 
 		Map<String, String> basicCommand = new HashMap<String, String>();

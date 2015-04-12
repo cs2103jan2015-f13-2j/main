@@ -21,12 +21,12 @@ public class ReadFileIOTest {
 
 	InitFileIO initFile = null;
 	ReadFileIO readFile = null;
-	
+
 	/**
-	 * This method test if can get a correct file name with the following keyword
-	 * correctly.
+	 * This method test if can get a correct file name with the following
+	 * keyword correctly.
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	@Test
 	public void getNormalFileWithKeyword() {
 
@@ -34,13 +34,13 @@ public class ReadFileIOTest {
 
 		String keyword = KeywordConstant.KEYWORD_NORMAL_TASK;
 		String fileName = FileName.getFilenameNormal();
-		
-		executeTestEquals(keyword,fileName);
+
+		executeTestEquals(keyword, fileName);
 	}
 
 	/**
-	 * This method test if can get a correct file name with the following keyword
-	 * correctly.
+	 * This method test if can get a correct file name with the following
+	 * keyword correctly.
 	 */
 	@Test
 	public void getDeadlineFileWithKeyword() {
@@ -50,12 +50,12 @@ public class ReadFileIOTest {
 		String keyword = KeywordConstant.KEYWORD_DEADLINE_TASK;
 		String fileName = FileName.getFilenameDeadline();
 
-		executeTestEquals(keyword,fileName);
+		executeTestEquals(keyword, fileName);
 	}
 
 	/**
-	 * This method test if can get a correct file name with the following keyword
-	 * correctly.
+	 * This method test if can get a correct file name with the following
+	 * keyword correctly.
 	 */
 	@Test
 	public void getFloatingFileWithKeyword() {
@@ -65,7 +65,7 @@ public class ReadFileIOTest {
 		String keyword = KeywordConstant.KEYWORD_FLOATING_TASK;
 		String fileName = FileName.getFilenameFloating();
 
-		executeTestEquals(keyword,fileName);
+		executeTestEquals(keyword, fileName);
 	}
 
 	/**********************
@@ -80,7 +80,7 @@ public class ReadFileIOTest {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
 		readFile = new ReadFileIO();
-		
+
 	}
 
 	/**
@@ -97,10 +97,8 @@ public class ReadFileIOTest {
 		String expectedFileName = invokePrivateMethod(ReadFileIO.class,
 				"getFileTypeWithKeyword", argClasses, argObjects);
 
-		
 		assertEquals(expectedFileName, fileName);
-		
-		
+
 	}
 
 	/**
@@ -118,7 +116,7 @@ public class ReadFileIOTest {
 	 *            objects that is to be passed into the method
 	 * @return String
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String invokePrivateMethod(Class targetClass, String methodName,
 			Class[] argClasses, Object[] argObjects) {
@@ -126,9 +124,9 @@ public class ReadFileIOTest {
 		String status = null;
 
 		try {
-			
+
 			Object t = targetClass.getDeclaredConstructor().newInstance();
-			
+
 			Method method = targetClass.getDeclaredMethod(methodName,
 					argClasses);
 			System.out.println(method.getName());
@@ -136,7 +134,7 @@ public class ReadFileIOTest {
 
 			t = method.invoke(t, argObjects);
 
-			status =  (String) t;
+			status = (String) t;
 
 		} catch (NoSuchMethodException e) {
 			System.err.println(e.getMessage());

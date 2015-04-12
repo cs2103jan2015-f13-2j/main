@@ -22,7 +22,7 @@ public class ConfigIO {
 	 *
 	 * @return Map return the keyword mapping
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	public Map<String, String> getFullKeywordMap() {
 
 		String loadedContents = loadFromFile();

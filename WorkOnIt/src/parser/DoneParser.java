@@ -29,7 +29,7 @@ public class DoneParser {
 	 * @param dataParser
 	 *            the data that contains current information
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public DoneParser(Map<String, String> keywordFullMap, DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;

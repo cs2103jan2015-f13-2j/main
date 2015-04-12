@@ -17,7 +17,7 @@ public class Success {
 	 *            the message that need to be return
 	 * @return
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public Success(boolean isSuccess, String message) {
 
 		this(null, isSuccess, message);

@@ -11,7 +11,7 @@ public class Serializer {
 	 *            object that need to be convert into JSon String
 	 * @return String Json string that need to be store inside the text file
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	public static String serializeToJson(Object object) {
 
 		String json;

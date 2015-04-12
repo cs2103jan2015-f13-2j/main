@@ -21,7 +21,7 @@ public class NormalTask extends Task {
 	 *            The end date of the normal of the task that need to be created
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public NormalTask(String taskName, int priority, Date startDateTime,
 			Date endDateTime) {
 

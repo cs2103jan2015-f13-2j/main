@@ -31,7 +31,7 @@ public class RetrieveParser {
 	 *            the data that contains current information
 	 * @return
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public RetrieveParser(Map<String, String> keywordFullMap,
 			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;

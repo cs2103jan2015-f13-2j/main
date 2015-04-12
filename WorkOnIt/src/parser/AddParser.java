@@ -32,7 +32,7 @@ public class AddParser {
 	 *            a hash map of first string mapped onto second string
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public AddParser(Map<String, String> keywordFullMap) {
 		this.keywordFullMap = keywordFullMap;
 		engine = new Engine();
@@ -394,7 +394,7 @@ public class AddParser {
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// @author A0111916M - unused
+	//@author A0111916M - unused
 	// dropped support for recurrence task
 	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
 

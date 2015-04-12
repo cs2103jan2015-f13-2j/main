@@ -25,7 +25,7 @@ public abstract class Task {
 	 * @param int The priority of task that need to be created
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public Task(String taskName, int priority) {
 
 		long generatedTaskId = System.currentTimeMillis();
@@ -139,7 +139,7 @@ public abstract class Task {
 	 * @param
 	 * @return
 	 */
-	// @author
+	//@author
 	public Date getSortDate() {
 		return sortDate;
 	}
@@ -276,12 +276,10 @@ public abstract class Task {
 	/**
 	 * This is an abstract method
 	 */
-	// @author
 	public abstract String toString();
 
 	/**
 	 * This is an abstract method
 	 */
-	// @author
 	public abstract String toDisplay();
 }

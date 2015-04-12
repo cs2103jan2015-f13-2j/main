@@ -23,7 +23,7 @@ public class KeywordStructure {
 	 * 
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public KeywordStructure() {
 
 		init();

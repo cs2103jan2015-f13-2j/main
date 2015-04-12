@@ -76,10 +76,10 @@ public class Main extends Application {
 	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
 
 	/**
-	 * This method initiates and sets up the User interface
-	 * for the application
+	 * This method initiates and sets up the User interface for the application
 	 *
-	 * @param primaryStage	the main stage of the UI
+	 * @param primaryStage
+	 *            the main stage of the UI
 	 */
 	//@author A0111837J
 	@Override
@@ -189,12 +189,12 @@ public class Main extends Application {
 					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
 
-					wordHandler(txtF.getText(), listView);
+					wordHandler(txtF.getText(), listView, tFlow);
 					executeCommand(txtF, txtF.getText(), primaryStage, popup,
-							listView);
+							listView, tFlow);
 					handleCommandResponse(primaryStage, txtF, listView,
 							scrollPane, popup, webengine);
-					wordHandler(txtF.getText(), listView);
+					wordHandler(txtF.getText(), listView, tFlow);
 					indexCounter = 0;
 				}
 
@@ -203,9 +203,17 @@ public class Main extends Application {
 			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				public void handle(KeyEvent event) {
 					keypressHandler(event, txtF.getText(), primaryStage, txtF,
-							listView, tFlow);
+							listView, tFlow, true);
 					switchListView(listView, txtF, event);
 					popup.hide();
+				}
+			});
+
+			txtF.setOnKeyReleased(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					keypressHandler(event, txtF.getText(), primaryStage, txtF,
+							listView, tFlow, false);
+					switchListView(listView, txtF, event);
 				}
 			});
 
@@ -228,23 +236,22 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Handles the response of the executed command, it shows
-	 * the user whether the command is accepted or not, and 
-	 * calls for an appropriate response when the command is
-	 * executed correctly. 
+	 * Handles the response of the executed command, it shows the user whether
+	 * the command is accepted or not, and calls for an appropriate response
+	 * when the command is executed correctly.
 	 *
-	 * @param primaryStage			
-	 * 			The stage of this application
+	 * @param primaryStage
+	 *            The stage of this application
 	 * @param txtF
-	 * 			The main input textbox 
+	 *            The main input textbox
 	 * @param listView
-	 * 			The listview that contain tasks to be displayed
+	 *            The listview that contain tasks to be displayed
 	 * @param scrollPane
-	 * 			The scrollpane containing the calendar
+	 *            The scrollpane containing the calendar
 	 * @param popup
-	 * 			The popup to show whether command is accepted
+	 *            The popup to show whether command is accepted
 	 * @param webengine
-	 * 			The WebEngine for creating the calendar
+	 *            The WebEngine for creating the calendar
 	 */
 	private void handleCommandResponse(final Stage primaryStage,
 			final TextField txtF, final ListView listView,
@@ -264,15 +271,15 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method handles the list that will be shown after a
-	 * successfully executed command
+	 * This method handles the list that will be shown after a successfully
+	 * executed command
 	 *
 	 * @param txtF
-	 * 			The main input textbox 
+	 *            The main input textbox
 	 * @param listView
-	 * 			The listview that contain tasks to be displayed
+	 *            The listview that contain tasks to be displayed
 	 * @param taskList
-	 * 			The list that contains task items
+	 *            The list that contains task items
 	 * 
 	 */
 	private void handleDisplayList(final TextField txtF,
@@ -289,19 +296,19 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method handles the displays of various objects being
-	 * returned from the appropriate commands
+	 * This method handles the displays of various objects being returned from
+	 * the appropriate commands
 	 * 
 	 * @param txtF
-	 * 			The main input textbox
+	 *            The main input textbox
 	 * @param listView
-	 * 			The listview that contain tasks to be displayed 
+	 *            The listview that contain tasks to be displayed
 	 * @param scrollPane
-	 * 			The scrollpane to contain the listview
+	 *            The scrollpane to contain the listview
 	 * @param webengine
-	 * 			The webengine which creates the calendar
+	 *            The webengine which creates the calendar
 	 * @param returnObj
-	 * 			The embedded object of the Success object returned
+	 *            The embedded object of the Success object returned
 	 */
 	private void handleDisplayCommand(final TextField txtF,
 			final ListView listView, final ScrollPane scrollPane,
@@ -316,7 +323,7 @@ public class Main extends Application {
 
 				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
 				handleDisplayList(txtF, listView, taskList);
-				
+
 			} else if (returnObj instanceof SuccessDisplay) {
 
 				SuccessDisplay sdObj = (SuccessDisplay) returnObj;
@@ -324,21 +331,21 @@ public class Main extends Application {
 			}
 		}
 	}
-	
+
 	/**
-	 * This method handles the displays of various objects being
-	 * returned from the appropriate commands
+	 * This method handles the displays of various objects being returned from
+	 * the appropriate commands
 	 * 
 	 * @param txtF
-	 * 			The main input textbox
+	 *            The main input textbox
 	 * @param listView
-	 * 			The listview that contain tasks to be displayed 
+	 *            The listview that contain tasks to be displayed
 	 * @param scrollPane
-	 * 			The scrollpane to contain the listview
+	 *            The scrollpane to contain the listview
 	 * @param webengine
-	 * 			The webengine which creates the calendar
+	 *            The webengine which creates the calendar
 	 * @param returnObj
-	 * 			The embedded object of the Success object returned
+	 *            The embedded object of the Success object returned
 	 */
 	private void displayCalendar(final TextField txtF, final ListView listView,
 			final ScrollPane scrollPane, final WebEngine webengine,
@@ -350,17 +357,15 @@ public class Main extends Application {
 			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
 			Calendar displayCal = sdObj.getCalendar();
 
-			HtmlBuilder htmlBuilder = new HtmlBuilder(displayType,
-					displayCal, taskList);
+			HtmlBuilder htmlBuilder = new HtmlBuilder(displayType, displayCal,
+					taskList);
 			webengine.setJavaScriptEnabled(true);
 			webengine.load(FileName.getFilenameCalendarUiUrl());
 
 			scrollPane.setVisible(true);
 
-		} else if (sdObj.getDisplayType().equals(
-				KeywordConstant.KEYWORD_DAY)
-				|| sdObj.getDisplayType().equals(
-						KeywordConstant.KEYWORD_DATE)) {
+		} else if (sdObj.getDisplayType().equals(KeywordConstant.KEYWORD_DAY)
+				|| sdObj.getDisplayType().equals(KeywordConstant.KEYWORD_DATE)) {
 			// daily view
 			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
 			handleDisplayList(txtF, listView, taskList);
@@ -368,11 +373,11 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method sets the appropriate icons of different sizes
-	 * and the title to the main stage of the application
+	 * This method sets the appropriate icons of different sizes and the title
+	 * to the main stage of the application
 	 *
 	 * @param primaryStage
-	 * 			The main stage of the application
+	 *            The main stage of the application
 	 * 
 	 */
 	private void setProgramIconDesc(final Stage primaryStage) {
@@ -396,8 +401,8 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method initializes the global objects that is
-	 * required by the program
+	 * This method initializes the global objects that is required by the
+	 * program
 	 * 
 	 */
 	public void initializeGlobals() {
@@ -409,13 +414,12 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method shows the history of task names that the
-	 * user has entered.
+	 * This method shows the history of task names that the user has entered.
 	 * 
 	 * @param listView
-	 * 			This listview is the container of the list items
+	 *            This listview is the container of the list items
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	private void history(ListView listView) {
 
 		Success status = commandValidator.getHistory();
@@ -428,28 +432,28 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method executes the command from the textfield and 
-	 * and displays appropriate elements
+	 * This method executes the command from the textfield and and displays
+	 * appropriate elements
 	 * 
 	 * @param txtF
-	 * 			The main textfield of the application
+	 *            The main textfield of the application
 	 * @param commandString
-	 * 			The command that the user entered
+	 *            The command that the user entered
 	 * @param primaryStage
-	 * 			The main stage of the application
+	 *            The main stage of the application
 	 * @param popup
-	 * 			The popup to show whether command is accepted
+	 *            The popup to show whether command is accepted
 	 * @param listView
-	 * 			This listview is the container of the list items 
+	 *            This listview is the container of the list items
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	private void executeCommand(TextField txtF, String commandString,
-			Stage primaryStage, Popup popup, ListView listView) {
+			Stage primaryStage, Popup popup, ListView listView, TextFlow tFlow) {
 
 		Success status = null;
 
 		if (keywordValidator.validateKeywordSequence(secondaryList) == true) {
-			System.out.println(commandString);
+
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
@@ -469,6 +473,7 @@ public class Main extends Application {
 
 			showPopUp(status.getMessage(), status.isSuccess(), primaryStage,
 					popup);
+			tFlow.getChildren().clear();
 
 		} else {
 			showPopUp(null, false, primaryStage, popup);
@@ -482,21 +487,25 @@ public class Main extends Application {
 	 * This method handles the keypresses of the user
 	 * 
 	 * @param event
-	 * 			This is the keypress event of the user
+	 *            This is the keypress event of the user
 	 * @param textFieldText
-	 * 			This is the text from the textfield
+	 *            This is the text from the textfield
 	 * @param stage
-	 * 			This is the main stage of the application
+	 *            This is the main stage of the application
 	 * @param txtF
-	 * 			This is the text field from the application
+	 *            This is the text field from the application
 	 * @param listView
-	 * 			This is the container containing the list of items
+	 *            This is the container containing the list of items
 	 */
 	public void keypressHandler(KeyEvent event, String textFieldText,
-			final Stage stage, TextField txtF, ListView listView, TextFlow tFlow) {
+			final Stage stage, TextField txtF, ListView listView,
+			TextFlow tFlow, boolean isOnKeyPressed) {
+
+		int maxCharacter = 43; // optimal value for the textbox dimension
+
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
-		} else if (event.getCode().equals(KeyCode.TAB)) {
+		} else if (event.getCode().equals(KeyCode.TAB) && isOnKeyPressed) {
 			int startPosition = 0;
 			if (indexArray.size() > 0) {
 				startPosition = indexArray.get(indexCounter);
@@ -509,7 +518,9 @@ public class Main extends Application {
 				endPosition = indexArray.get(indexCounter + arrayOffset);
 				endPosition -= secondaryList.get(indexCounter + 1).length();
 			}
+
 			// selecting in reverse
+			txtF.positionCaret(endPosition);
 			txtF.selectRange(endPosition, startPosition);
 
 			// increment tab counter
@@ -522,9 +533,12 @@ public class Main extends Application {
 			listView.requestFocus();
 		}
 		handleEachKey(txtF, tFlow);
+		if (txtF.getText().length() > maxCharacter) {
+			tFlow.getChildren().clear();
+		}
 		// detects a space, handle new word
 		if (event.getText().equals(" ")) {
-			wordHandler(textFieldText, listView);
+			wordHandler(textFieldText, listView, tFlow);
 		}
 	}
 
@@ -532,9 +546,9 @@ public class Main extends Application {
 	 * This method handles each character of user input for textFlow
 	 * 
 	 * @param txtF
-	 * 			This is the textfield of
+	 *            This is the textfield of
 	 * @param tf
-	 * 			This is the textflow of the text nodes
+	 *            This is the textflow of the text nodes
 	 */
 	public void handleEachKey(TextField txtF, TextFlow tf) {
 		String[] stringArr = txtF.getText().trim().split(" ");
@@ -556,16 +570,16 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method handles keypresses from within the list view 
+	 * This method handles keypresses from within the list view
 	 *
 	 * @param event
-	 * 			The key event by the user
+	 *            The key event by the user
 	 * @param stage
-	 * 			The main stage of the application
+	 *            The main stage of the application
 	 * @param txtF
-	 * 			The text field of the application
+	 *            The text field of the application
 	 * @param listView
-	 * 			This is the container containing the list of items
+	 *            This is the container containing the list of items
 	 */
 	//@author A0112694E
 	public static void listHandler(KeyEvent event, final Stage stage,
@@ -590,13 +604,17 @@ public class Main extends Application {
 	 * This method handles the words of user input
 	 * 
 	 * @param textFieldText
-	 * 			This is the text of the textfield
+	 *            This is the text of the textfield
 	 * @param listView
-	 * 			This is the container containing the list of items
+	 *            This is the container containing the list of items
 	 */
 	//@author A0111837J
-	private void wordHandler(String textFieldText,
-			ListView listView) {
+	private void wordHandler(String textFieldText, ListView listView,
+			TextFlow tFlow) {
+
+		if (textFieldText == "") {
+			tFlow.getChildren().clear();
+		}
 
 		String[] stringArr = textFieldText.trim().split(" ");
 
@@ -606,17 +624,17 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method loops through the text nodes input by the user
-	 * and processes the keywords
+	 * This method loops through the text nodes input by the user and processes
+	 * the keywords
 	 * 
 	 * @param listView
-	 * 			This is the container containing the list of items
+	 *            This is the container containing the list of items
 	 * @param stringArr
-	 * 			This is the string array of the text nodes
+	 *            This is the string array of the text nodes
 	 * @param startIndex
-	 * 			This is the start index
-	 * @return int startIndex 
-	 */		
+	 *            This is the start index
+	 * @return int startIndex
+	 */
 	private int loopTextNodes(ListView listView, String[] stringArr,
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
@@ -675,7 +693,7 @@ public class Main extends Application {
 	 * This method hides the main stage of the application
 	 * 
 	 * @param stage
-	 * 			This is the main stage of the application
+	 *            This is the main stage of the application
 	 */
 	private static void hide(final Stage stage) {
 		Platform.setImplicitExit(false);
@@ -688,14 +706,14 @@ public class Main extends Application {
 	// initFile.checkAndProcessFile();
 	// launch();
 	// }
-	
+
 	/**
 	 * This method alternates between hiding and showing the list view
 	 * 
 	 * @param listView
-	 * 			This is the container of the list of tasks
+	 *            This is the container of the list of tasks
 	 * @param textField
-	 * 			This is the main text field of the application
+	 *            This is the main text field of the application
 	 */
 	// FOR KEY PRESS
 	private static void switchListView(ListView listView, TextField textField,
@@ -719,7 +737,7 @@ public class Main extends Application {
 	 * This method alternates between hiding and showing the list view
 	 *
 	 * @param listView
-	 * 			This is the container for the list of items
+	 *            This is the container for the list of items
 	 */
 	// FOR KEY ON ACTION
 	private static void switchListView(ListView listView) {
@@ -734,9 +752,10 @@ public class Main extends Application {
 	 * This method adds the task from the success object into the list view
 	 * 
 	 * @param listView
-	 * 			This is the container containing the list of tasks
+	 *            This is the container containing the list of tasks
 	 * @param successObj
-	 * 			This is the object containing the required data to add into the list
+	 *            This is the object containing the required data to add into
+	 *            the list
 	 */
 	//@author A0112694E
 	private static void addTaskToListView(ListView listView, Success successObj) {
@@ -843,14 +862,14 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method formats the agenda view's title from data retrieved
-	 * from the success object.
+	 * This method formats the agenda view's title from data retrieved from the
+	 * success object.
 	 * 
-	 * @param successObj 
-	 * 			This object contains the relevant data to be displayed
+	 * @param successObj
+	 *            This object contains the relevant data to be displayed
 	 * @return String containing the formatted title
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	private static String getAgendaTitle(Success successObj) {
 
 		String title = Message.UI_DISPLAY_TASK_FOR;
@@ -904,11 +923,11 @@ public class Main extends Application {
 	}
 
 	/**
-	 * This method gets the date from the task and formats it to
-	 * be shown on the list view
+	 * This method gets the date from the task and formats it to be shown on the
+	 * list view
 	 * 
 	 * @param taskObj
-	 * 			This is the object containing the date
+	 *            This is the object containing the date
 	 * 
 	 * @return String containing the formatted date
 	 */
@@ -1014,14 +1033,13 @@ public class Main extends Application {
 	 * This method shows the popup on the UI
 	 * 
 	 * @param message
-	 * 			This is the message to be shown
+	 *            This is the message to be shown
 	 * @param isSuccess
-	 * 			This determines the type of graphic the 
-	 * 			popup will use
+	 *            This determines the type of graphic the popup will use
 	 * @param primaryStage
-	 * 			This is the main stage of the application
+	 *            This is the main stage of the application
 	 * @param popup
-	 * 			This is the popup of the application
+	 *            This is the popup of the application
 	 */
 	private void showPopUp(String message, boolean isSuccess,
 			final Stage primaryStage, final Popup popup) {

@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 public class ChooseFolder extends Application {
 
-	// @author A0111916M
+	//@author A0111916M
 	@Override
 	public void start(final Stage primaryStage) {
 

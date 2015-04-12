@@ -1,0 +1,5697 @@
+//@author: a0111916m
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
+	 */
+
+	@Override
+	public void start(final Stage primaryStage) {
+
+		Platform.setImplicitExit(false);
+
+		boolean isChoose = showChooseFolderConfirmation(primaryStage);
+
+		if (isChoose) {
+			openFileChooser(primaryStage);
+			createWebUiFiles();
+			notifySuccess();
+		} else {
+			System.exit(0);
+		}
+	}
+
+	/**
+	 * This method calls the confirmation dialog
+	 * 
+	 * @param primaryStage
+	 *            UI primary stage
+	 * @return boolean value of true for YES and false for NO
+	 */
+
+	private boolean showChooseFolderConfirmation(final Stage primaryStage) {
+
+		boolean isYes = false;
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle(Message.UI_WELCOME_TITLE);
+		alert.setHeaderText(null);
+		alert.setContentText(Message.UI_WELCOME_INFO_NO_FILE_FOUND);
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.get() == ButtonType.OK) {
+			isYes = true;
+		} else {
+			isYes = false;
+		}
+
+		return isYes;
+	}
+
+	/**
+	 * Show up an alert box
+	 */
+
+	private void notifySuccess() {
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(Message.UI_SUCCESS_ALERT_TITLE);
+		alert.setHeaderText(null);
+		alert.setContentText(Message.UI_SUCCESS_ALERT_INFO);
+
+		alert.show();
+	}
+
+	/**
+	 * This opens up a FileChooser dialog
+	 * 
+	 * @param primaryStage
+	 *            UI primary stage
+	 */
+
+	private void openFileChooser(Stage primaryStage) {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Choose Save Directory");
+		File selectedDirectory = directoryChooser.showDialog(primaryStage);
+
+		if (selectedDirectory != null) {
+			try {
+				String directoryPath = selectedDirectory.getCanonicalPath();
+				FileName.setCanonicalPath(directoryPath);
+				FileName.writeCanonicalToFile();
+
+				FileName.createFileIfNotExist();
+
+			} catch (IOException e) {
+				System.err.println(Message.FAIL_FILES_EXIST);
+				System.exit(1);
+			}
+		} else {
+			System.exit(1);
+
+		}
+	}
+
+	/**
+	 * Create the necessary web UI files, for viewing agenda
+	 */
+
+	private static void createWebUiFiles() {
+
+		try {
+
+			File cssFolder = new File(FileName.getFolderCss());
+			File jsFolder = new File(FileName.getFolderJs());
+
+			if (!cssFolder.exists()) {
+				cssFolder.mkdirs();
+			}
+
+			if (!jsFolder.exists()) {
+				jsFolder.mkdirs();
+			}
+
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameMomentProgram(),
+					FileName.getFileNameMomentLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameJqueryProgram(),
+					FileName.getFileNameJqueryLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameFullCalendarJsProgram(),
+					FileName.getFileNameFullCalendarJsLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameCalendarViewProgram(),
+					FileName.getFileNameCalendarViewLocal());
+			InitFileIO.copyFileUsingFileStreams(
+					FileName.getFileNameFullCalendarCssProgram(),
+					FileName.getFileNameFullCalendarCssLocal());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	private void history(ListView listView) {
+
+		Success status = commandValidator.getHistory();
+
+		if (listView.getItems().isEmpty() && status.isSuccess()) {
+			addTaskToListView(listView, status);
+			switchListView(listView);
+			isHistory = true;
+		}
+	}
+
+	/**
+	 * This method executes the command from the textfield and and displays
+	 * appropriate elements
+	 * 
+	 * @param txtF
+	 *            The main textfield of the application
+	 * @param commandString
+	 *            The command that the user entered
+	 * @param primaryStage
+	 *            The main stage of the application
+	 * @param popup
+	 *            The popup to show whether command is accepted
+	 * @param listView
+	 *            This listview is the container of the list items
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	private static String getAgendaTitle(Success successObj) {
+
+		String title = Message.UI_DISPLAY_TASK_FOR;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+		String displayType = KeywordConstant.KEYWORD_DEFAULT;
+
+		if (successObj instanceof SuccessDisplay) {
+			Object obj = successObj.getObj();
+			ArrayList<Task> allTask = (ArrayList<Task>) obj;
+
+			displayType = ((SuccessDisplay) successObj).getDisplayType();
+
+			if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+					|| displayType
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+				// TODO
+				Calendar currCalendar = Calendar.getInstance();
+
+				int currDay = currCalendar.get(Calendar.DAY_OF_MONTH);
+				int currMonth = currCalendar.get(Calendar.MONTH);
+				int currYear = currCalendar.get(Calendar.YEAR);
+
+				Calendar displayCalendar = ((SuccessDisplay) successObj)
+						.getCalendar();
+
+				int dispDay = displayCalendar.get(Calendar.DAY_OF_MONTH);
+				int dispMonth = displayCalendar.get(Calendar.MONTH);
+				int dispYear = displayCalendar.get(Calendar.YEAR);
+
+				if (currDay == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_TODAY;
+				} else if (currDay + 1 == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_TOMORROW;
+				} else if (currDay - 1 == dispDay && currMonth == dispMonth
+						&& currYear == dispYear) {
+					title += Message.UI_YESTERDAY;
+				}
+
+				title += sdf.format(displayCalendar.getTime());
+
+			}
+
+		} else {
+			title = displayType;
+		}
+
+		return title;
+	}
+
+	/**
+	 * This method gets the date from the task and formats it to be shown on the
+	 * list view
+	 * 
+	 * @param taskObj
+	 *            This is the object containing the date
+	 * 
+	 * @return String containing the formatted date
+	 */
+	public static String getDateFromTask(Task taskObj) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MMM h:mm a");
+		SimpleDateFormat sdfEnd = new SimpleDateFormat("dd MMM h:mm a");
+		String displayText = null;
+		if (taskObj instanceof NormalTask) {
+
+			Date startDate = ((NormalTask) taskObj).getStartDateTime();
+			Date endDate = ((NormalTask) taskObj).getEndDateTime();
+			String startDateString = sdf.format(startDate);
+			String endDateString = sdf.format(endDate);
+
+			if (startDate.equals(endDate)) {
+				displayText = startDateString;
+			} else {
+				displayText = startDateString + " to " + endDateString;
+			}
+		}
+
+		if (taskObj instanceof FloatingTask) {
+			displayText = "-";
+		}
+
+		if (taskObj instanceof RecurrenceTask) {
+
+			Date startDate = ((RecurrenceTask) taskObj)
+					.getStartRecurrenceDate();
+			Date endDate = ((RecurrenceTask) taskObj).getEndRecurrenceDate();
+			String occurenceType = ((RecurrenceTask) taskObj)
+					.getOccurenceType();
+			String startDateString = null;
+			String endDateString = null;
+
+			if (occurenceType.equals(KeywordConstant.KEYWORD_DAILY)) {
+				sdf = new SimpleDateFormat("h:mm a");
+				sdfEnd = new SimpleDateFormat("h:mm a");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_WEEKLY)) {
+				sdf = new SimpleDateFormat("EEEE h:mm a");
+				sdfEnd = new SimpleDateFormat("h:mm a");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+				sdf = new SimpleDateFormat("d");
+				sdfEnd = new SimpleDateFormat("d");
+
+			} else if (occurenceType.equals(KeywordConstant.KEYWORD_YEARLY)) {
+				sdf = new SimpleDateFormat("d MMM");
+				sdfEnd = new SimpleDateFormat("d MMM");
+			}
+
+			String[] ordinals = { "th", "st", "nd", "rd", "th", "th", "th",
+					"th", "th", "th", "th", "th", "th", "th", "th", "th", "th",
+					"th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th",
+					"th", "th", "th", "th", "st" };
+
+			if (startDate.equals(endDate)) {
+
+				startDateString = sdf.format(startDate);
+
+				if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+					displayText = startDateString
+							+ ordinals[startDate.getDate()];
+				} else {
+					displayText = startDateString;
+				}
+			} else {
+				startDateString = sdf.format(startDate);
+				endDateString = sdfEnd.format(endDate);
+
+				if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+					displayText = startDateString
+							+ ordinals[startDate.getDate()];
+					displayText += " to ";
+					displayText += endDateString + ordinals[endDate.getDate()];
+				} else {
+					displayText = startDateString + " to " + endDateString;
+				}
+			}
+
+			if (occurenceType.equals(KeywordConstant.KEYWORD_MONTHLY)) {
+				displayText += " " + Message.UI_OF_THE_MONTH;
+			} else {
+				displayText += " " + occurenceType;
+			}
+		}
+
+		if (taskObj instanceof DeadlineTask) {
+
+			Date deadlineDate = ((DeadlineTask) taskObj).getDeadline();
+			String deadlineDateString = sdf.format(deadlineDate);
+
+			displayText = Message.UI_DUE_BY + " " + deadlineDateString;
+
+		}
+
+		return displayText;
+	}
+
+	/**
+	 * This method shows the popup on the UI
+	 * 
+	 * @param message
+	 *            This is the message to be shown
+	 * @param isSuccess
+	 *            This determines the type of graphic the popup will use
+	 * @param primaryStage
+	 *            This is the main stage of the application
+	 * @param popup
+	 *            This is the popup of the application
+	 */
+	private void showPopUp(String message, boolean isSuccess,
+			final Stage primaryStage, final Popup popup) {
+
+		Label label = new Label(message);
+
+		label.getStyleClass().add("popup");
+
+		Image img = null;
+		ImageView imgView = null;
+
+		if (isSuccess) {
+			img = new Image(Graphic.UI_TICK_PATH);
+			imgView = new ImageView(img);
+		} else {
+			img = new Image(Graphic.UI_CROSS_PATH);
+			imgView = new ImageView(img);
+		}
+
+		popup.getContent().clear();
+		popup.getContent().add(imgView);
+		popup.setOnShown(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent e) {
+				// popup.setX(primaryStage.getX() + primaryStage.getWidth() /
+				// 2);
+				// popup.setY(primaryStage.getY() + primaryStage.getHeight() /
+				// 2);
+				popup.setX(primaryStage.getX() + primaryStage.getWidth()
+						- popup.getWidth() - 5);
+				popup.setY(primaryStage.getY() + 5);
+			}
+		});
+		popup.show(primaryStage);
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
+	 */
+
+	public DeadlineTask(String taskName, int priority, Date deadline) {
+
+		super(taskName, priority);
+		this.setDeadline(deadline);
+	}
+
+	/**
+	 * This is the method to get date from the deadline task.
+	 *
+	 * @return Date The date from the deadline Task.
+	 */
+
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	/**
+	 * This is the method to set date for the deadline task.
+	 *
+	 * @param Date
+	 *            The date of the deadline of the task that need to be created
+	 *
+	 */
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+		super.setSortDate(deadline);
+	}
+
+	/**
+	 *
+	 * This is to generate the hash code from the deadline task
+	 *
+	 * @return int The hash code generated.
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((deadline == null) ? 0 : deadline.hashCode());
+		return result;
+	}
+
+	/**
+	 *
+	 * Compare between 2 deadline task whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both deadline task are the same, else
+	 *         false.
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DeadlineTask other = (DeadlineTask) obj;
+		if (deadline == null) {
+			if (other.deadline != null)
+				return false;
+		} else if (!deadline.equals(other.deadline))
+			return false;
+		return true;
+	}
+
+	/**
+	 *
+	 * Generate the deadline task property into String
+	 *
+	 * @return String the string generated from the deadline Task property
+	 */
+
+	@Override
+	public String toString() {
+		return "DeadlineTask [deadline=" + deadline + ", getTaskId()="
+				+ getTaskId() + ", getTaskName()=" + getTaskName()
+				+ ", getPriority()=" + getPriority() + "]";
+	}
+
+	/**
+	 *
+	 * Generate the deadline task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the string generated from the deadline Task property for
+	 *         display purpose
+	 */
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+		userString += " " + KeywordConstant.KEYWORD_BY;
+		userString += " " + DATE_FORMAT.format(getDeadline());
+
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
+	 */
+
+	public FloatingTask(String taskName, int priority) {
+
+		super(taskName, priority);
+	}
+
+	/**
+	 *
+	 * Generate the floating task property into String
+	 *
+	 * @return String the string generated from the floating Task property
+	 */
+
+	@Override
+	public String toString() {
+		return "FloatingTask [getTaskId()=" + getTaskId() + ", getTaskName()="
+				+ getTaskName() + ", getPriority()=" + getPriority() + "]";
+	}
+
+	/**
+	 *
+	 * Generate the floating task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the string generated from the floating Task property for
+	 *         display purpose
+	 */
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
+	 */
+
+	public KeywordNode() {
+		this(new String(), new ArrayList<KeywordNode>());
+
+	}
+
+	/**
+	 * This is constructor for KeywordNode .
+	 *
+	 * @param String
+	 *            The keyword that need to be created
+	 * @return
+	 */
+
+	public KeywordNode(String keyword) {
+		this(keyword, new ArrayList<KeywordNode>());
+
+	}
+
+	/**
+	 * This is constructor for KeywordNode .
+	 *
+	 * @param String
+	 *            The keyword that need to be created
+	 * @param List
+	 *            The List of keyword Node that need to be put in.
+	 * @return
+	 */
+
+	private KeywordNode(String keyword, List<KeywordNode> subsequentKeywords) {
+		this.setKeyword(keyword);
+		this.setSubsequentKeywords(subsequentKeywords);
+	}
+
+	/**
+	 * This is the method to get keyword from the KeywordNode.
+	 *
+	 * @return String return the keyword from the KeywordNode.
+	 */
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	/**
+	 * This is the method to set keyword for the KeywordNode.
+	 *
+	 * @param String
+	 *            set the keyword for the KeywordNode.
+	 */
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	/**
+	 * This is the method to get list of keywordNode from the KeywordNode.
+	 *
+	 * @return List return the list of keywordNode from the KeywordNode.
+	 */
+
+	public List<KeywordNode> getSubsequentKeywords() {
+		return subsequentKeywords;
+	}
+
+	/**
+	 * This is the method to set list of keywordNode for the KeywordNode.
+	 *
+	 * @param List
+	 *            set the list of keywordNode for the KeywordNode.
+	 */
+
+	private void setSubsequentKeywords(List<KeywordNode> subsequentKeywords) {
+		this.subsequentKeywords = subsequentKeywords;
+	}
+
+	/**
+	 * This is the method to add in keywordNode into list
+	 *
+	 * @param KeywordNode
+	 *            add the keyword node into the list
+	 */
+
+	public void addSubsequentKeywords(KeywordNode node) {
+
+		if (subsequentKeywords != null) {
+			subsequentKeywords.add(node);
+		}
+	}
+
+	/**
+	 *
+	 * This is to generate the hash code from the KeywordNode
+	 *
+	 * @return int The hash code generated.
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
+		return result;
+	}
+
+	/**
+	 *
+	 * Compare between 2 keywordNode whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both keywordNode are the same, else false.
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof String) {
+			String other = (String) obj;
+			if (keyword == null) {
+				if (other != null)
+					return false;
+			} else if (!keyword.equals(other))
+				return false;
+		}
+		return true;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
+	 */
+
+	public NormalTask(String taskName, int priority, Date startDateTime,
+			Date endDateTime) {
+
+		super(taskName, priority);
+		this.setStartDateTime(startDateTime);
+		this.setEndDateTime(endDateTime);
+	}
+
+	/**
+	 * This is the method to get start date from the normal task.
+	 *
+	 * @return Date The start date from the normal Task.
+	 */
+
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+
+	/**
+	 * This is the method to set start date for the normal task.
+	 *
+	 * @param Date
+	 *            The start date of the task that need to be created
+	 *
+	 */
+
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+		super.setSortDate(startDateTime);
+	}
+
+	/**
+	 * This is the method to get end date from the normal task.
+	 *
+	 * @return Date The end date from the normal Task.
+	 */
+
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+
+	/**
+	 * This is the method to set end date for the normal task.
+	 *
+	 * @param Date
+	 *            The end date of the task that need to be created
+	 *
+	 */
+
+	public void setEndDateTime(Date endDateTime) {
+		if (endDateTime == null) {
+			this.endDateTime = this.getStartDateTime();
+		} else {
+			this.endDateTime = endDateTime;
+		}
+	}
+
+	/**
+	 *
+	 * This is to generate the hash code from the normal task
+	 *
+	 * @return int The hash code generated.
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((endDateTime == null) ? 0 : endDateTime.hashCode());
+		result = prime * result
+				+ ((startDateTime == null) ? 0 : startDateTime.hashCode());
+		return result;
+	}
+
+	/**
+	 *
+	 * Compare between 2 normal task whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both normal task are the same, else false.
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NormalTask other = (NormalTask) obj;
+		if (endDateTime == null) {
+			if (other.endDateTime != null)
+				return false;
+		} else if (!endDateTime.equals(other.endDateTime))
+			return false;
+		if (startDateTime == null) {
+			if (other.startDateTime != null)
+				return false;
+		} else if (!startDateTime.equals(other.startDateTime))
+			return false;
+		return true;
+	}
+
+	/**
+	 *
+	 * Generate the normal task property into String
+	 *
+	 * @return String the String generated from the normal Task property
+	 */
+
+	@Override
+	public String toString() {
+		return "NormalTask [startDateTime=" + startDateTime + ", endDateTime="
+				+ endDateTime + ", getTaskId()=" + getTaskId()
+				+ ", getTaskName()=" + getTaskName() + ", getPriority()="
+				+ getPriority() + "]";
+	}
+
+	/**
+	 *
+	 * Generate the normal task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the String generated from the normal Task property for
+	 *         display purpose
+	 */
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+
+		if (this.getStartDateTime().equals(this.getEndDateTime())) {
+			userString += " " + KeywordConstant.KEYWORD_ON;
+			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
+
+		} else {
+			userString += " " + KeywordConstant.KEYWORD_FROM;
+			userString += " " + DATE_FORMAT.format(this.getStartDateTime());
+			userString += " " + KeywordConstant.KEYWORD_TO;
+			userString += " " + DATE_FORMAT.format(this.getEndDateTime());
+		}
+
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	 */
+
+	@Override
+	public String toString() {
+		return "SuccessDisplay [displayType=" + displayType + ", calendar="
+				+ calendar + ", getDisplayType()=" + getDisplayType()
+				+ ", getCalendar()=" + getCalendar() + "]";
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
+	 */
+
+	public Task(String taskName, int priority) {
+
+		long generatedTaskId = System.currentTimeMillis();
+
+		this.setTaskId(generatedTaskId);
+		this.setTaskName(taskName);
+		this.setPriority(priority);
+		this.setCompleted(false);
+
+		long maxDateOffset = Long.MAX_VALUE;
+		this.setSortDate(new Date(maxDateOffset));
+	}
+
+	/**
+	 * This is the method to get Tag ID from the Task.
+	 *
+	 * @return Long The Tag ID from the Task.
+	 */
+
+	public long getTaskId() {
+		return taskId;
+	}
+
+	/**
+	 * This is the method to set Tag ID for the Task.
+	 *
+	 * @param Long
+	 *            The Tag ID of the task that need to be created
+	 *
+	 */
+
+	private void setTaskId(long taskId) {
+		this.taskId = taskId;
+	}
+
+	/**
+	 * This is the method to get task name from the Task.
+	 *
+	 * @return String The task name from the Task.
+	 */
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	/**
+	 * This is the method to set task name for the Task.
+	 *
+	 * @param String
+	 *            The task name of the task that need to be created
+	 *
+	 */
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
+	/**
+	 * This is the method to get priority from the Task.
+	 *
+	 * @return int The priority from the Task.
+	 */
+
+	public int getPriority() {
+		return priority;
+	}
+
+	/**
+	 * This is the method to set priority for the Task.
+	 *
+	 * @param int The priority of the task that need to be created
+	 *
+	 */
+
+	public void setPriority(int priority) {
+
+		if (priority > KeywordConstant.PRIORITY_MAX) {
+			this.priority = KeywordConstant.PRIORITY_MAX;
+		} else if (priority < KeywordConstant.PRIORITY_MIN) {
+			this.priority = KeywordConstant.PRIORITY_MIN;
+		} else {
+			this.priority = priority;
+		}
+	}
+
+	/**
+	 * This is the method to get priority from the Task.
+	 *
+	 * @return boolean return true is the task is mark as completed, if not,
+	 *         false
+	 */
+
+	public boolean isCompleted() {
+		return isCompleted;
+	}
+
+	/**
+	 * This is the method to set whether Task to complete or not.
+	 *
+	 * @param boolean set as true is the task is mark as completed, if not,
+	 *        false.
+	 *
+	 */
+
+	public void setCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
+	/**
+	 *
+	 * @param
+	 * @return
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
+	 */
+
+	public TaskHistory(String operation, Task task) {
+		this(operation, task, null);
+	}
+
+	/**
+	 * This is constructor for Task History .
+	 *
+	 * @param String
+	 *            The last operation for the task
+	 * @param task
+	 *            The task need to be insert to task history
+	 * @param task
+	 *            The task need to be over ride in task history
+	 */
+
+	public TaskHistory(String operation, Task task, Task auxTask) {
+		this.setOperation(operation);
+		this.setTask(task);
+		this.setAuxTask(auxTask);
+	}
+
+	/**
+	 * This is constructor for Task History .
+	 *
+	 * @param String
+	 *            The last operation for the task
+	 * @param List
+	 *            The task list that need to set in the task history
+	 */
+
+	public TaskHistory(String operation, List<Task> taskList) {
+		this.setOperation(operation);
+		this.setTaskList(taskList);
+	}
+
+	/**
+	 * This is the method to get Task from the TaskHistory.
+	 *
+	 * @return Task return the Task from the TaskHistory.
+	 */
+
+	public Task getTask() {
+		return task;
+	}
+
+	/**
+	 * This is the method to set Task for the TaskHistory.
+	 *
+	 * @return Task set the Task into the TaskHistory.
+	 */
+
+	private void setTask(Task task) {
+		this.task = task;
+	}
+
+	/**
+	 * This is the method to get override Task from the TaskHistory.
+	 *
+	 * @return Task return the override Task from the TaskHistory.
+	 */
+
+	public Task getAuxTask() {
+		return auxTask;
+	}
+
+	/**
+	 * This is the method to set override Task for the TaskHistory.
+	 *
+	 * @return Task set the override Task into the TaskHistory.
+	 */
+
+	private void setAuxTask(Task auxTask) {
+		this.auxTask = auxTask;
+	}
+
+	/**
+	 * This is the method to get operation from the TaskHistory.
+	 *
+	 * @return Task return the operation Task from the TaskHistory.
+	 */
+
+	public String getOperation() {
+		return operation;
+	}
+
+	/**
+	 * This is the method to set operation for the TaskHistory.
+	 *
+	 * @return Task set the operation Task into the TaskHistory.
+	 */
+
+	private void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	/**
+	 * This is the method to get task list from the TaskHistory.
+	 *
+	 * @return Task return the task list from the TaskHistory.
+	 */
+
+	public List<Task> getTaskList() {
+		return taskList;
+	}
+
+	/**
+	 * This is the method to set task list for the TaskHistory.
+	 *
+	 * @return Task set the task list Task into the TaskHistory.
+	 */
+
+	private void setTaskList(List<Task> taskList) {
+		this.taskList = taskList;
+	}
+
+	/**
+	 *
+	 * This is to generate the hash code from the TaskHistory
+	 *
+	 * @return int The hash code generated.
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((auxTask == null) ? 0 : auxTask.hashCode());
+		result = prime * result
+				+ ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + ((task == null) ? 0 : task.hashCode());
+		result = prime * result
+				+ ((taskList == null) ? 0 : taskList.hashCode());
+		return result;
+	}
+
+	/**
+	 *
+	 * Compare between 2 TaskHistory whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both task are the same, else false.
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskHistory other = (TaskHistory) obj;
+		if (auxTask == null) {
+			if (other.auxTask != null)
+				return false;
+		} else if (!auxTask.equals(other.auxTask))
+			return false;
+		if (operation == null) {
+			if (other.operation != null)
+				return false;
+		} else if (!operation.equals(other.operation))
+			return false;
+		if (task == null) {
+			if (other.task != null)
+				return false;
+		} else if (!task.equals(other.task))
+			return false;
+		if (taskList == null) {
+			if (other.taskList != null)
+				return false;
+		} else if (!taskList.equals(other.taskList))
+			return false;
+		return true;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	 */
+
+	@SuppressWarnings("unchecked")
+	public SuccessDisplay retrieveDisplay(Date startDate, Date endDate,
+			String displayType) throws IOException {
+
+		LOGGER.info("process retrieve completed/incomplete task within date range");
+
+		SuccessDisplay statusDisp = null;
+
+		Success status = retrieveTask(startDate, endDate);
+
+		if (status.isSuccess()) {
+
+			List<Task> taskList = (ArrayList<Task>) status.getObj();
+
+			for (int i = 0; i < taskList.size(); i++) {
+				String name = taskList.get(i).getTaskName();
+				System.out.println(name);
+			}
+
+			status = retrieveTask(KeywordConstant.KEYWORD_FLOATING_TASK);
+
+			if (status.isSuccess()) {
+				List<Task> floatingTaskList = (ArrayList<Task>) status.getObj();
+				taskList.addAll(floatingTaskList);
+
+				statusDisp = new SuccessDisplay(displayType, taskList, true,
+						Message.SUCCESS_RETRIEVE_LIST);
+			} else {
+				statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
+			}
+
+		} else {
+			statusDisp = new SuccessDisplay(false, Message.ERROR_RETRIEVE);
+		}
+
+		return statusDisp;
+	}
+
+	/**
+	 * This method will mark the list of task as done
+	 * 
+	 * @param List
+	 *            the list of task that need to be mark as done
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+	public Success markAsDone(List<Task> doneList) {
+
+		LOGGER.info("process mark task as done");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+		boolean isMarkAllDone = true;
+
+		for (int i = 0; i < doneList.size(); i++) {
+
+			Task currentTask = doneList.get(i);
+
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDone = false;
+			}
+
+			currentTask.setCompleted(true);
+			successObj = dataStorage.saveIntoFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDone = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_DONE, doneList);
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		if (isMarkAllDone) {
+			status = new Success(true, Message.SUCCESS_MARK_DONE);
+		} else {
+			status = new Success(false, Message.FAIL_MARK_DONE);
+		}
+
+		return status;
+	}
+
+	/**
+	 * This method will mark the list of task as undone
+	 * 
+	 * @param List
+	 *            the list of task that need to be mark as undone
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success markAsUndone(List<Task> undoneList) {
+
+		LOGGER.info("process mark task as undone");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+		boolean isMarkAllUndone = true;
+
+		for (int i = 0; i < undoneList.size(); i++) {
+
+			Task currentTask = undoneList.get(i);
+
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllUndone = false;
+			}
+
+			currentTask.setCompleted(false);
+			successObj = dataStorage.saveIntoFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllUndone = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_UNDONE, undoneList);
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		if (isMarkAllUndone) {
+			status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+		} else {
+			status = new Success(false, Message.FAIL_MARK_UNDONE);
+		}
+
+		return status;
+	}
+
+	/**
+	 * This method will get the list of History that were saved.
+	 * 
+	 * @return Success object
+	 */
+	public Success getHistory() {
+
+		LOGGER.info("process get history from file");
+
+		Success status = null;
+		ReadFileIO dataStorage = new ReadFileIO();
+
+		status = dataStorage.getHistory();
+
+		return status;
+	}
+
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	 */
+
+	public AddParser(Map<String, String> keywordFullMap) {
+		this.keywordFullMap = keywordFullMap;
+		engine = new Engine();
+
+		LOGGER.fine("Add Parser instantiated");
+	}
+
+	/**
+	 * This method begins the process of add command.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @param dataParser
+	 *            the information consist within this session
+	 * @return Success object
+	 * 
+	 */
+
+	protected Success processAddCommand(String remainingCommand,
+			DataParser dataParser) {
+
+		LOGGER.fine("Processing add command");
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		remainingCommand = remainingCommand.trim();
+
+		status = parseAddCommand(remainingCommand);
+		Task task = null;
+		if (status.isSuccess()) {
+			task = (Task) status.getObj();
+			status = engine.addTask(task);
+			auxParser.secondaryListRetrieval(status);
+		}
+
+		LOGGER.fine("Add command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+
+	/**
+	 * Parse the add command. It will call the necessary interpreter, based on
+	 * keywords.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
+	 */
+
+	protected Success parseAddCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing add command");
+
+		Success status = null;
+
+		try {
+			Scanner sc = new Scanner(remainingCommand);
+
+			boolean isNormalTask = false;
+			boolean isDeadlineTask = false;
+			boolean isRecurrenceTask = false;
+			boolean isFloatingTask = false;
+
+			String taskDesc = "";
+
+			while (sc.hasNext()) {
+
+				String currentWord = sc.next();
+				String resolvedWord = keywordFullMap.get(currentWord);
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+
+						isNormalTask = true;
+
+						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
+						status = createNormalTask(taskDesc, remainingDate);
+
+						break;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_BY)) {
+
+						isDeadlineTask = true;
+
+						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
+						status = createDeadlineTask(taskDesc, remainingDate);
+
+						break;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_EVERY)) {
+
+						isRecurrenceTask = true;
+
+						String remainingDate = sc.nextLine();
+						taskDesc = taskDesc.trim();
+						status = createRecurrenceTask(taskDesc, remainingDate);
+
+						break;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+
+						isFloatingTask = true;
+						break;
+
+					} else {
+						taskDesc += " " + currentWord;
+					}
+
+				} else {
+					taskDesc += " " + currentWord;
+				}
+			}
+
+			if (isFloatingTask
+					|| (!isNormalTask && !isDeadlineTask && !isRecurrenceTask)) {
+
+				String remainingPriority = null;
+				try {
+					remainingPriority = sc.nextLine();
+				} catch (NoSuchElementException e) {
+					LOGGER.warning(Message.ERROR_NO_PRIORITY_FOUND);
+				}
+				taskDesc = taskDesc.trim();
+				status = createFloatingTask(taskDesc, remainingPriority);
+			}
+
+			sc.close();
+
+		} catch (NullPointerException e) {
+			LOGGER.warning(e.getMessage());
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} catch (Exception e) {
+			LOGGER.warning(e.getMessage());
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Interpret the commands into Normal Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
+	 */
+
+	private Success createNormalTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Normal Task");
+
+		taskDesc = taskDesc.trim();
+
+		NormalTask task = null;
+		Success status = null;
+		Scanner sc = new Scanner(remainingDate);
+
+		String startDateString = "";
+		String endDateString = "";
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
+
+		boolean isEndDate = false;
+		boolean isPriority = false;
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			currentWord = currentWord.trim();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (!isEndDate && !isPriority) {
+				// in between startDate and endDate
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						isEndDate = true;
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+						isPriority = true;
+					} else if (!(resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM) || resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_ON))) {
+
+						startDateString += " " + currentWord;
+					}
+				} else {
+					startDateString += " " + currentWord;
+				}
+			} else if (isEndDate && !isPriority) {
+				// in between endDate and Priority
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+						isPriority = true;
+					} else if (!(resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM) || resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_ON))) {
+						endDateString += " " + currentWord;
+					}
+				} else {
+					endDateString += " " + currentWord;
+				}
+			} else if (isPriority) {
+				// after Priority
+
+				try {
+					if (resolvedWord != null) {
+						priority = Integer.parseInt(resolvedWord);
+					} else {
+						priority = Integer.parseInt(currentWord);
+					}
+
+				} catch (NumberFormatException e) {
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
+				}
+			}
+		}
+
+		String combinedDate = startDateString + " to " + endDateString;
+		combinedDate = combinedDate.trim();
+		List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
+
+		Date fromDate = null;
+		Date toDate = null;
+
+		if (!dateList.isEmpty()) {
+			Date unprocessedStartDate = dateList.remove(0);
+			fromDate = DateFixer.fixStartDate(unprocessedStartDate);
+
+			if (!dateList.isEmpty()) {
+				Date unprocessedEndDate = dateList.remove(0);
+				toDate = DateFixer.fixEndDate(unprocessedEndDate);
+			}
+
+			task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
+			status = new Success(task, true, null);
+
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * Interpret the commands into Deadline Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
+	 */
+
+	private Success createDeadlineTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Deadline Task");
+
+		taskDesc = taskDesc.trim();
+		remainingDate = remainingDate.trim();
+
+		Success status = null;
+		DeadlineTask task = null;
+		Scanner sc = new Scanner(remainingDate);
+
+		String deadlineDateString = "";
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
+
+		boolean isPriority = false;
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (!isPriority) {
+				// in between dueDate and Priority
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+						isPriority = true;
+					} else {
+						deadlineDateString += " " + currentWord;
+					}
+				} else {
+					deadlineDateString += " " + currentWord;
+				}
+
+			} else {
+				// after Priority
+
+				try {
+					if (resolvedWord != null) {
+						priority = Integer.parseInt(resolvedWord);
+					} else {
+						priority = Integer.parseInt(currentWord);
+					}
+
+				} catch (NumberFormatException e) {
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
+				}
+			}
+		}
+		deadlineDateString = deadlineDateString.trim();
+		List<Date> dateList = DateFixer.parseStringToDate(deadlineDateString);
+		Date deadlineDate = null;
+
+		if (!dateList.isEmpty()) {
+			Date unprocessedDate = dateList.remove(0);
+			deadlineDate = DateFixer.fixEndDate(unprocessedDate);
+
+			task = new DeadlineTask(taskDesc, priority, deadlineDate);
+			status = new Success(task, true, null);
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * Interpret the commands into Recurrence Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingDate
+	 *            remains of the command
+	 * @return Success object
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 */
+
+	public CommandParser() {
+
+		engine = new Engine();
+
+		Validator keywordValidator = new Validator();
+		keywordFullMap = keywordValidator.getKeywordFullMap();
+		dataParser = new DataParser();
+
+		LOGGER.fine("Command Parser instantiated");
+	}
+
+	/**
+	 * Get a list of history that were saved as a file, based on what the user
+	 * have added.
+	 * 
+	 * @return Success object
+	 */
+
+	public Success getHistory() {
+
+		Success status = null;
+
+		status = engine.getHistory();
+
+		LOGGER.fine("History received successfully");
+
+		return status;
+	}
+
+	/**
+	 * The start of the parsing process. It will check the first word of
+	 * fullCommand, and determine which command to execute.
+	 * 
+	 * @param fullCommand
+	 *            Full command that is entered by user
+	 * @return Success object
+	 */
+
+	public Success parseCommand(String fullCommand) {
+
+		LOGGER.fine("Parsing command : " + fullCommand);
+
+		Success status = null;
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		fullCommand = fullCommand.toLowerCase();
+		Scanner sc = new Scanner(fullCommand);
+		String commandInput = sc.next();
+		String commandResolved = keywordFullMap.get(commandInput);
+		String remainingCommand = null;
+
+		if (commandResolved != null) {
+
+			if (sc.hasNext()) {
+				remainingCommand = sc.nextLine();
+			}
+
+			if (commandResolved.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+
+				status = executeAddCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+
+				status = executeUpdateCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+
+				status = executeDeleteCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_RETRIEVE)) {
+
+				status = executeRetrieveCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)) {
+
+				status = executeDisplayCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+
+				status = executeDoneCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+
+				status = executeUndoneCommand(remainingCommand);
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDO)) {
+
+				status = executeUndoCommand();
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_REDO)) {
+
+				status = executeRedoCommand();
+
+			} else if (commandResolved
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_EXIT)) {
+
+				executeExitCommand();
+
+			} else {
+				status = new Success(false, Message.FAIL_PARSE_COMMAND);
+			}
+
+		} else {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		}
+
+		sc.close();
+
+		LOGGER.fine("Parsing command isSuccess : " + status.isSuccess());
+
+		return status;
+	}
+
+	/**
+	 * Exit the program if an exit command is entered.
+	 */
+
+	private void executeExitCommand() {
+
+		LOGGER.fine("Exiting application");
+		System.exit(0);
+	}
+
+	/**
+	 * Begin executing "undone" command. It will call DoneParser to continue
+	 * parsing command for "undone". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+
+	private Success executeUndoneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			DoneParser undoneParser = new DoneParser(keywordFullMap, dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = undoneParser.undoneCommand(remainingCommand);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "done" command. It will call DoneParser to continue
+	 * parsing command for "done". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+
+	private Success executeDoneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			DoneParser doneParser = new DoneParser(keywordFullMap, dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = doneParser.doneCommand(remainingCommand);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "undo" command. It will call Engine to continue parsing
+	 * command for "undo". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
+	 * 
+	 * @return Success object
+	 */
+
+	private Success executeUndoCommand() {
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		Success status = engine.undoTask();
+		auxParser.secondaryListRetrieval(status);
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "redo" command. It will call Engine to continue parsing
+	 * command for "redo". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
+	 * 
+	 * @return Success object
+	 */
+
+	private Success executeRedoCommand() {
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		Success status = engine.redoTask();
+		auxParser.secondaryListRetrieval(status);
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "display" command. It will call DisplayParser to continue
+	 * parsing command for "display". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+
+	@SuppressWarnings("unchecked")
+	private Success executeDisplayCommand(String remainingCommand) {
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			DisplayParser displayParser = new DisplayParser();
+
+			dataParser.setLastRetrieve(KeywordConstant.KEYWORD_DISPLAY);
+			remainingCommand = remainingCommand.trim();
+
+			status = displayParser.parseDisplayCommand(remainingCommand);
+
+			dataParser.setRetrievedTaskList(null);
+			if (status.isSuccess() == true) {
+				dataParser.appendLastRetrieve(remainingCommand);
+				if (status.getObj() != null) {
+					dataParser.setRetrievedTaskList((ArrayList<Task>) status
+							.getObj());
+				}
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "retrieve" command. It will call RetrieveParser to
+	 * continue parsing command for "retrieve". It will pass back a Success
+	 * object to parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 */
+
+	private Success executeDeleteCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			DeleteParser deleteParser = new DeleteParser(keywordFullMap,
+					dataParser);
+			remainingCommand = remainingCommand.trim();
+
+			status = deleteParser.parseDeleteCommand(remainingCommand);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "update" command. It will call UpdateParser to continue
+	 * parsing command for "update". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+
+	private Success executeUpdateCommand(String remainingCommand) {
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			UpdateParser updateParser = new UpdateParser(keywordFullMap,
+					dataParser);
+
+			remainingCommand = remainingCommand.trim();
+
+			status = updateParser.parseUpdateCommand(remainingCommand);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "add" command. It will call AddParser to continue parsing
+	 * command for "add". It will pass back a Success object to parseCommand
+	 * method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+
+	private Success executeAddCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			AddParser addParser = new AddParser(keywordFullMap);
+			remainingCommand = remainingCommand.trim();
+
+			status = addParser.processAddCommand(remainingCommand, dataParser);
+		}
+
+		return status;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
+	 */
+
+	protected static Date fixStartDate(Date inDate) {
+
+		LOGGER.fine("fixing the following start date : " + inDate.toString());
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+			inCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			inCalendar.set(Calendar.MINUTE, 0);
+			inCalendar.set(Calendar.SECOND, 1);
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	/**
+	 * This method will fix any Date object to its ending time, which is 2359H.
+	 * Example: [17 APRIL 2015 5:30PM] (current time stamp) translated to [17
+	 * APRIL 2015 23:59:59H]
+	 * 
+	 * This method will not fix the date, if no fixing is needed. It will just
+	 * return the same date.
+	 * 
+	 * @param inDate
+	 *            the Date object that is intending to be fixed, if needed
+	 * 
+	 * @return fixedDate the Date object that is fixed or unfixed
+	 * 
+	 */
+
+	protected static Date fixEndDate(Date inDate) {
+
+		LOGGER.fine("fixing the following end date : " + inDate.toString());
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+			inCalendar.set(Calendar.HOUR_OF_DAY, 23);
+			inCalendar.set(Calendar.MINUTE, 59);
+			inCalendar.set(Calendar.SECOND, 59);
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	/**
+	 * Using Natty to parse any given String to List of Date(s). A String may
+	 * resembles more than one Date object(s). Natty will include all possible
+	 * Date object(s) into an ArrayList<Date>.
+	 * 
+	 * @param dateInfo
+	 *            The date(s) in String form
+	 * @return List of Date(s) Return one or more Date object, if the String
+	 *         contains at least one Date resemblance
+	 * 
+	 */
+
+	protected static List<Date> parseStringToDate(String dateInfo) {
+
+		LOGGER.fine("Parsing date String to Date object using Natty library");
+
+		List<Date> dates = new ArrayList<Date>();
+
+		if (dateInfo != null) {
+
+			Parser parser = new Parser();
+
+			List<DateGroup> groups = parser.parse(dateInfo.trim());
+
+			if (!groups.isEmpty()) {
+				DateGroup firstDate = groups.get(0);
+				dates = firstDate.getDates();
+			}
+		}
+		return dates;
+	}
+
+	/**
+	 * It will fixed the Date to its intended starting Date, depending on view,
+	 * if needed. type. Example : [DAY - fix the Date object to 0000H] [WEEK -
+	 * fix the Date object to a date that is the first day of that particular
+	 * week, with 0000H] [MONTH - fix the date to the first day of the month,
+	 * with 0000H]
+	 * 
+	 * @param inDate
+	 *            The date that is needed to be fixed, if required.
+	 * @param displayType
+	 *            DAY, WEEK, MONTH view
+	 * @return
+	 */
+
+	protected static Date fixStartDateDisplay(Date inDate, String displayType) {
+
+		LOGGER.fine("fixing the following start date for Display: "
+				+ inDate.toString());
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		int minDateInMonth = inCalendar.getActualMinimum(Calendar.DATE);
+		int minMonthInYear = inCalendar.getActualMinimum(Calendar.MONTH);
+		int minHour = inCalendar.getActualMinimum(Calendar.HOUR_OF_DAY);
+		int minMinute = inCalendar.getActualMinimum(Calendar.MINUTE);
+		int minSec = inCalendar.getActualMinimum(Calendar.SECOND);
+
+		if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+				|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
+
+			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.setFirstDayOfWeek(Calendar.SUNDAY);
+			firstDateOfWeek.add(
+					Calendar.DAY_OF_WEEK,
+					firstDateOfWeek.getFirstDayOfWeek()
+							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+				inCalendar = (Calendar) firstDateOfWeek.clone();
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, minDateInMonth);
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, minDateInMonth);
+				inCalendar.set(Calendar.MONTH, minMonthInYear);
+				inCalendar.set(Calendar.HOUR_OF_DAY, minHour);
+				inCalendar.set(Calendar.MINUTE, minMinute);
+				inCalendar.set(Calendar.SECOND, minSec);
+			}
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+
+	/**
+	 * It will fixed the Date to its intended ending Date, depending on view, if
+	 * needed. type. Example : [DAY - fix the Date object to 2359H] [WEEK - fix
+	 * the Date object to a date that is the last day of that particular week,
+	 * with 2359H] [MONTH - fix the date to the last day of the month, with
+	 * 2359H]
+	 * 
+	 * @param inDate
+	 *            The date that is needed to be fixed, if required.
+	 * @param displayType
+	 *            DAY, WEEK, MONTH view
+	 * @return
+	 */
+
+	protected static Date fixEndDateDisplay(Date inDate, String displayType) {
+
+		LOGGER.fine("fixing the following end date for Display: "
+				+ inDate.toString());
+
+		Calendar inCalendar = Calendar.getInstance();
+		Calendar auxCalendar = Calendar.getInstance();
+		Calendar nowCalendar = Calendar.getInstance();
+
+		inCalendar.setTime(inDate);
+		auxCalendar.set(Calendar.SECOND, inCalendar.get(Calendar.SECOND));
+		auxCalendar.set(Calendar.MINUTE, inCalendar.get(Calendar.MINUTE));
+		auxCalendar.set(Calendar.HOUR_OF_DAY,
+				inCalendar.get(Calendar.HOUR_OF_DAY));
+
+		long timeDifferenceLong = auxCalendar.getTime().getTime()
+				- nowCalendar.getTime().getTime();
+
+		int timeDifference = new Long(timeDifferenceLong).intValue();
+
+		int maxDateInMonth = inCalendar.getActualMaximum(Calendar.DATE);
+		int maxMonthInYear = inCalendar.getActualMaximum(Calendar.MONTH);
+		int maxHour = inCalendar.getActualMaximum(Calendar.HOUR_OF_DAY);
+		int maxMinute = inCalendar.getActualMaximum(Calendar.MINUTE);
+		int maxSec = inCalendar.getActualMaximum(Calendar.SECOND);
+
+		if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+				|| displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_DATE)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
+
+			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.setFirstDayOfWeek(Calendar.SUNDAY);
+			firstDateOfWeek.add(
+					Calendar.DAY_OF_WEEK,
+					firstDateOfWeek.getFirstDayOfWeek()
+							- firstDateOfWeek.get(Calendar.DAY_OF_WEEK));
+
+			Calendar lastDateOfWeek = (Calendar) firstDateOfWeek.clone();
+			lastDateOfWeek.add(Calendar.DATE, 6);
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+				inCalendar = (Calendar) lastDateOfWeek.clone();
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, maxDateInMonth);
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+
+		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)) {
+
+			if (0 <= timeDifference && timeDifference <= delayInMillisec) {
+
+				inCalendar.set(Calendar.DATE, maxDateInMonth);
+				inCalendar.set(Calendar.MONTH, maxMonthInYear);
+				inCalendar.set(Calendar.HOUR_OF_DAY, maxHour);
+				inCalendar.set(Calendar.MINUTE, maxMinute);
+				inCalendar.set(Calendar.SECOND, maxSec);
+			}
+		}
+
+		Date processedDate = inCalendar.getTime();
+
+		return processedDate;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
+	 */
+
+	public DeleteParser(Map<String, String> keywordFullMap,
+			DataParser dataParser) {
+		this.keywordFullMap = keywordFullMap;
+		this.dataParser = dataParser;
+		engine = new Engine();
+
+		LOGGER.fine("Delete Parser instantiated");
+	}
+
+	/**
+	 * This will parse the delete command. It will call Engine and will receive
+	 * a Success object. This Success object will be returned back to
+	 * CommandParser, which will then return to UI tier.
+	 * 
+	 * @param index
+	 *            index of task to be deleted
+	 * @return Success object
+	 */
+
+	protected Success parseDeleteCommand(String index) {
+
+		assert (index != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing delete command");
+
+		Success status = null;
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		index = index.trim();
+		Scanner sc = new Scanner(index);
+		List<Task> taskToDeleteList = new ArrayList<>();
+
+		try {
+
+			List<Integer> indexList = new ArrayList<Integer>();
+
+			while (sc.hasNext()) {
+				int currIndex = Integer.parseInt(sc.next());
+				if (currIndex <= 0
+						|| currIndex > dataParser.getRetrievedTaskList().size()) {
+					sc.close();
+					throw new IndexOutOfBoundsException(
+							Message.ERROR_DELETE_INVALID_INDEX);
+				}
+				indexList.add(currIndex);
+			}
+
+			for (int i = 0; i < indexList.size(); i++) {
+
+				int unfixedIndex = indexList.get(i);
+				int indexOffset = unfixedIndex - 1;
+				Task taskToRemove = dataParser.getRetrievedTaskList().get(
+						indexOffset);
+
+				taskToDeleteList.add(taskToRemove);
+			}
+
+			status = engine.deleteTask(taskToDeleteList);
+			auxParser.secondaryListRetrieval(status);
+
+		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_DELETE_IS_NAN);
+			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
+		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_DELETE_INVALID_INDEX);
+			status = new Success(false, Message.ERROR_DELETE_INVALID_INDEX);
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_DELETE_NO_TASK_LIST);
+			status = new Success(false, Message.ERROR_DELETE_NO_TASK_LIST);
+		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_DELETE);
+			status = new Success(false, Message.ERROR_DELETE);
+		}
+
+		sc.close();
+
+		LOGGER.fine("Delete command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
+	 */
+
+	public DisplayParser() {
+		engine = new Engine();
+
+		LOGGER.fine("Display Parser instantiated");
+	}
+
+	/**
+	 * This will parse the Display command, for viewing of DAY, WEEK or MONTH
+	 * agenda. It will return a SuccessDisplay object, which contains the view
+	 * type and list of Task(s) retrieved.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return SuccessDisplay object
+	 */
+
+	protected SuccessDisplay parseDisplayCommand(String remainingCommand) {
+
+		assert (remainingCommand != null);
+
+		LOGGER.fine("Parsing display command");
+
+		SuccessDisplay status = null;
+		Scanner sc = new Scanner(remainingCommand);
+		String displayType = KeywordConstant.KEYWORD_DATE;
+		Date startDate = null;
+		Date endDate = null;
+
+		List<Date> dateList = DateFixer.parseStringToDate(remainingCommand);
+
+		if (!dateList.isEmpty()) {
+
+			while (sc.hasNext()) {
+
+				String currWord = sc.next();
+
+				if (currWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DAY)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_DAYS)) {
+
+					displayType = KeywordConstant.KEYWORD_DAY;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEKS)) {
+
+					displayType = KeywordConstant.KEYWORD_WEEK;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTH)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTHS)) {
+
+					displayType = KeywordConstant.KEYWORD_MONTH;
+					break;
+
+				} else if (currWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_YEAR)
+						|| currWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_YEARS)) {
+
+					displayType = KeywordConstant.KEYWORD_YEAR;
+					break;
+				}
+			}
+
+			Date unfixedStartDate = dateList.remove(0);
+			startDate = DateFixer.fixStartDateDisplay(unfixedStartDate,
+					displayType);
+			if (!dateList.isEmpty()) {
+				Date unfixedEndDate = dateList.remove(0);
+				endDate = DateFixer.fixEndDateDisplay(unfixedEndDate,
+						displayType);
+			} else {
+				endDate = DateFixer.fixEndDateDisplay(unfixedStartDate,
+						displayType);
+			}
+
+			try {
+				status = engine
+						.retrieveDisplay(startDate, endDate, displayType);
+
+				status.setCalendar(startDate);
+
+			} catch (IOException e) {
+				LOGGER.warning(e.getMessage());
+				status = new SuccessDisplay(false, Message.ERROR_GENERAL);
+			}
+
+		} else {
+			LOGGER.warning(Message.FAIL_PARSE_COMMAND);
+			status = new SuccessDisplay(false, Message.FAIL_PARSE_COMMAND);
+		}
+		sc.close();
+
+		LOGGER.fine("Display command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
+	 */
+
+	public DoneParser(Map<String, String> keywordFullMap, DataParser dataParser) {
+		this.keywordFullMap = keywordFullMap;
+		this.dataParser = dataParser;
+		this.engine = new Engine();
+
+		LOGGER.fine("Done Parser instantiated");
+	}
+
+	/**
+	 * This method execute the done command. The input parameter
+	 * remainingCommand will contains the numbering of Task(s) that needed to be
+	 * done. It will form up the Task object(s) into a List, and pass it to
+	 * Engine to perform the necessary logic.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
+	 */
+
+	protected Success doneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing done command");
+
+		Success status = null;
+
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		ArrayList<Task> retrievedTaskList = dataParser.getRetrievedTaskList();
+
+		remainingCommand = remainingCommand.trim();
+		Scanner sc = new Scanner(remainingCommand);
+		List<Task> doneList = new ArrayList<Task>();
+
+		try {
+			while (sc.hasNext()) {
+
+				String currentValue = sc.next();
+				int indexOffset = Integer.parseInt(currentValue) - 1;
+				Task doneTask = retrievedTaskList.get(indexOffset);
+				doneList.add(doneTask);
+			}
+
+			status = engine.markAsDone(doneList);
+			auxParser.secondaryListRetrieval(status);
+		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_DONE_IS_NAN);
+			status = new Success(false, Message.ERROR_DONE_IS_NAN);
+		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_DONE_INVALID_INDEX);
+			status = new Success(false, Message.ERROR_DONE_INVALID_INDEX);
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_DONE_NO_TASK_LIST);
+			status = new Success(false, Message.ERROR_DONE_NO_TASK_LIST);
+		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_DONE);
+			status = new Success(false, Message.ERROR_DONE);
+		}
+
+		sc.close();
+
+		LOGGER.fine("Done command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+
+	/**
+	 * This method execute the undone command. The input parameter
+	 * remainingCommand will contains the numbering of Task(s) that needed to be
+	 * undone. It will form up the Task object(s) into a List, and pass it to
+	 * Engine to perform the necessary logic.
+	 * 
+	 * @param remainingCommand
+	 *            the remaining command after being truncated
+	 * @return Success object
+	 */
+
+	protected Success undoneCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing undone command");
+
+		Success status = null;
+
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		ArrayList<Task> retrievedTaskList = dataParser.getRetrievedTaskList();
+
+		remainingCommand = remainingCommand.trim();
+		Scanner sc = new Scanner(remainingCommand);
+		List<Task> undoneList = new ArrayList<Task>();
+
+		try {
+			while (sc.hasNext()) {
+
+				String currentValue = sc.next();
+				int indexOffset = Integer.parseInt(currentValue) - 1;
+				Task undoneTask = retrievedTaskList.get(indexOffset);
+				undoneList.add(undoneTask);
+			}
+
+			status = engine.markAsUndone(undoneList);
+			auxParser.secondaryListRetrieval(status);
+		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_IS_NAN);
+			status = new Success(false, Message.ERROR_UNDONE_IS_NAN);
+		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_INVALID_INDEX);
+			status = new Success(false, Message.ERROR_UNDONE_INVALID_INDEX);
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_NO_TASK_LIST);
+			status = new Success(false, Message.ERROR_UNDONE_NO_TASK_LIST);
+		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_UNDONE);
+			status = new Success(false, Message.ERROR_UNDONE);
+		}
+
+		sc.close();
+
+		LOGGER.fine("Undone command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
+	 */
+
+	public UpdateParser(Map<String, String> keywordFullMap,
+			DataParser dataParser) {
+		this.keywordFullMap = keywordFullMap;
+		this.dataParser = dataParser;
+		engine = new Engine();
+
+		LOGGER.fine("Update Parser instantiated");
+	}
+
+	/**
+	 * This method will parse the update command. The first time this method is
+	 * being called, it will take the appropriate Task in retrievedTaskList(if
+	 * any), and display it to the user. When the second time this method is
+	 * being called, it will take in the new updated Task (in String form) and
+	 * parse it into a Task object. It will then gives to Engine to perform the
+	 * necessary updates.
+	 * 
+	 * @param remainingCommand
+	 * @return
+	 */
+
+	protected Success parseUpdateCommand(String remainingCommand) {
+
+		LOGGER.fine("Parsing update command");
+
+		assert (remainingCommand != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		AddParser addParser = new AddParser(keywordFullMap);
+		ArrayList<Task> retrievedTaskList = dataParser.getRetrievedTaskList();
+		remainingCommand = remainingCommand.trim();
+
+		try {
+			int indexOffset = Integer.parseInt(remainingCommand) - 1;
+			Task taskToRemove = retrievedTaskList.get(indexOffset);
+			dataParser.setTaskToRemove(taskToRemove);
+			String taskDisplay = KeywordConstant.KEYWORD_UPDATE;
+			taskDisplay += " " + taskToRemove.toDisplay();
+
+			status = new Success(taskDisplay, true, null);
+
+		} catch (NumberFormatException e) {
+
+			Task taskToRemove = dataParser.getTaskToRemove();
+
+			if (taskToRemove != null) {
+
+				Success statusTask = addParser
+						.parseAddCommand(remainingCommand);
+
+				if (statusTask.isSuccess()) {
+					Task updatedTask = (Task) statusTask.getObj();
+					status = engine.updateTask(updatedTask, taskToRemove);
+
+					if (status.isSuccess()) {
+						auxParser.secondaryListRetrieval(status);
+						dataParser.setTaskToRemove(null);
+					}
+				}
+			} else {
+				LOGGER.warning(Message.ERROR_UPDATE_NO_TASK_LIST);
+				status = new Success(false, Message.ERROR_UPDATE_NO_TASK_LIST);
+			}
+		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_UPDATE_INVALID_INDEX);
+			status = new Success(false, Message.ERROR_UPDATE_INVALID_INDEX);
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_UPDATE_NO_TASK_LIST);
+			status = new Success(false, Message.ERROR_UPDATE_NO_TASK_LIST);
+		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_UPDATE);
+			status = new Success(false, Message.ERROR_UPDATE);
+		}
+
+		LOGGER.fine("Update command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
+	 */
+
+	public static String getFilenameDeadline() {
+		return getCanonicalPath() + File.separator + filenameDeadline;
+	}
+
+	/**
+	 * Set the full path of deadline task(s) file.
+	 */
+
+	public static void setFilenameDeadline(String filenameDeadline) {
+		FileName.filenameDeadline = filenameDeadline;
+	}
+
+	/**
+	 * Returns the full path of floating task(s) file, according to user save
+	 * path.
+	 * 
+	 * @return Floating full path of file
+	 */
+
+	public static String getFilenameFloating() {
+		return getCanonicalPath() + File.separator + filenameFloating;
+	}
+
+	/**
+	 * Set the full path of floating task(s) file.
+	 */
+
+	public static void setFilenameFloating(String filenameFloating) {
+		FileName.filenameFloating = filenameFloating;
+	}
+
+	/**
+	 * Returns the full path of normal task(s) file, according to user save
+	 * path.
+	 * 
+	 * @return Normal full path of file
+	 */
+
+	public static String getFilenameNormal() {
+		return getCanonicalPath() + File.separator + filenameNormal;
+	}
+
+	/**
+	 * Set the full path of normal task(s) file.
+	 */
+
+	public static void setFilenameNormal(String filenameNormal) {
+		FileName.filenameNormal = filenameNormal;
+	}
+
+	/**
+	 * Returns the full path of recurrence task(s) file, according to user save
+	 * path.
+	 * 
+	 * @return Recurrence full path of file
+	 */
+
+	public static String getFilenameRecur() {
+		return getCanonicalPath() + File.separator + filenameRecur;
+	}
+
+	/**
+	 * Set the full path of recurrence task(s) file.
+	 */
+
+	public static void setFilenameRecur(String filenameRecur) {
+		FileName.filenameRecur = filenameRecur;
+	}
+
+	/**
+	 * Returns the full path of configuration file, according to user save path.
+	 * 
+	 * @return Configuration full path of file
+	 */
+
+	public static String getFilenameCfg() {
+		return getCanonicalPath() + File.separator + filenameCfg;
+	}
+
+	/**
+	 * Set the full path of configuration file.
+	 */
+
+	public static void setFilenameCfg(String filenameCfg) {
+		FileName.filenameCfg = filenameCfg;
+	}
+
+	/**
+	 * Returns the full path of history file, according to user save path.
+	 * 
+	 * @return History full path of file
+	 */
+
+	public static String getFilenameHistory() {
+		return getCanonicalPath() + File.separator + filenameHistory;
+	}
+
+	/**
+	 * Set the full path of History file.
+	 */
+
+	public static void setFilenameHistory(String filenameHistory) {
+		FileName.filenameHistory = filenameHistory;
+	}
+
+	/**
+	 * Returns the full path of the canonical saved path, according to user save
+	 * path.
+	 * 
+	 * @return Canonical full path
+	 */
+
+	public static String getCanonicalPath() {
+		return canonicalPath;
+	}
+
+	/**
+	 * Set the canonical path.
+	 */
+
+	public static void setCanonicalPath(String canonicalPath) {
+		FileName.canonicalPath = canonicalPath;
+	}
+
+	/**
+	 * Set the default canonical path to be the current working directory.
+	 */
+
+	public static void setDefaultCanonicalPath() {
+		try {
+			canonicalPath = new File(".").getCanonicalPath();
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_GENERAL);
+		}
+	}
+
+	/**
+	 * Save the user specified saved path for data files.
+	 */
+
+	public static void writeCanonicalToFile() {
+		try {
+			File file = new File(FILENAME_PATH);
+			file.delete();
+			file.createNewFile();
+
+			PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+					new FileWriter(FILENAME_PATH, true)));
+			filewrite.println(getCanonicalPath());
+			filewrite.close();
+
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_SAVE_INTO_FILE);
+		}
+	}
+
+	/**
+	 * Read the user specified saved path for data files.
+	 */
+
+	public static String readCanonicalPathFromFile() {
+
+		File file = new File(FileName.FILENAME_PATH);
+		String retrievedCanonicalPath = null;
+
+		if (file.exists()) {
+
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(
+						FileName.FILENAME_PATH));
+
+				retrievedCanonicalPath = reader.readLine();
+				FileName.setCanonicalPath(retrievedCanonicalPath);
+
+				reader.close();
+
+			} catch (IOException e) {
+				System.err.println(Message.ERROR_SAVE_INTO_FILE);
+			}
+
+		} else {
+			setDefaultCanonicalPath();
+			writeCanonicalToFile();
+		}
+
+		return retrievedCanonicalPath;
+	}
+
+	/**
+	 * Returns the URL of the generated HTML file, according to user save path.
+	 * 
+	 * @return URL full path of HTML file
+	 */
+
+	public static String getLocalUrl() {
+		return localUrl;
+	}
+
+	/**
+	 * Set the URL of the generated HTML file.
+	 * 
+	 */
+
+	public static void setLocalUrl(String localUrl) {
+		FileName.localUrl = localUrl;
+	}
+
+	/**
+	 * Returns the relative path of the generated HTML file, according to user
+	 * save path.
+	 * 
+	 * @return Path of the generated HTML file
+	 */
+
+	public static String getRelativeWebUiPath() {
+		return relativeWebUiPath;
+	}
+
+	/**
+	 * Set the relative path of the generated HTML file.
+	 * 
+	 * @return Path of the generated HTML file
+	 */
+
+	public static void setRelativeWebUiPath(String relativeWebUiPath) {
+		FileName.relativeWebUiPath = relativeWebUiPath;
+	}
+
+	/**
+	 * Returns the full path of the generated HTML file, according to user save
+	 * path.
+	 * 
+	 * @return Full path of the generated HTML file
+	 */
+
+	public static String getFilenameCalendarUi() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + FileName.filenameCalendarUi;
+	}
+
+	/**
+	 * Returns the full URL of the generated HTML file, according to user save
+	 * path.
+	 * 
+	 * @return Full URL of the generated HTML file
+	 */
+
+	public static String getFilenameCalendarUiUrl() {
+		return getLocalUrl() + getCanonicalPath() + File.separator
+				+ getRelativeWebUiPath() + File.separator
+				+ FileName.filenameCalendarUi;
+	}
+
+	/**
+	 * Set the full path of the generated HTML file.
+	 * 
+	 */
+
+	public static void setFilenameMonthUi(String filenameMonthUi) {
+		FileName.filenameCalendarUi = filenameMonthUi;
+	}
+
+	/**
+	 * Returns the Web UI path.
+	 * 
+	 * @return Path of WebUI
+	 */
+
+	public static String getWebUiPath() {
+		return webUiPath;
+	}
+
+	/**
+	 * Set the Web UI path.
+	 */
+
+	public static void setWebUiPath(String webUiPath) {
+		FileName.webUiPath = webUiPath;
+	}
+
+	/**
+	 * Returns the path of the generated HTML file, within the program.
+	 * 
+	 * @return path of generated HTML file, within the program.
+	 */
+
+	public static String getFileNameCalendarViewProgram() {
+		return getWebUiPath() + filenameCalendarUi;
+	}
+
+	/**
+	 * Returns the path of the full calendar css, within the program.
+	 * 
+	 * @return path of full calendar css file, within the program.
+	 */
+
+	public static String getFileNameFullCalendarCssProgram() {
+		return getWebUiPath() + fileNameFullCalendarCss;
+	}
+
+	/**
+	 * Set the path of the full calendar css file, within the program.
+	 * 
+	 */
+
+	public static void setFileNameFullCalendarCss(String fileNameFullCalendarCss) {
+		FileName.fileNameFullCalendarCss = fileNameFullCalendarCss;
+	}
+
+	/**
+	 * Returns the path of the full calendar js file, within the program.
+	 * 
+	 * @return path of full calendar js file, within the program.
+	 */
+
+	public static String getFileNameFullCalendarJsProgram() {
+		return getWebUiPath() + fileNameFullCalendarJs;
+	}
+
+	/**
+	 * Set the path of the full calendar js file, within the program.
+	 * 
+	 */
+
+	public static void setFileNameFullCalendarJs(String fileNameFullCalendarJs) {
+		FileName.fileNameFullCalendarJs = fileNameFullCalendarJs;
+	}
+
+	/**
+	 * Returns the path of the jquery js file, within the program.
+	 * 
+	 * @return path of jquery js file, within the program.
+	 */
+
+	public static String getFileNameJqueryProgram() {
+		return getWebUiPath() + fileNameJquery;
+	}
+
+	/**
+	 * Set the path of the jquery js file, within the program.
+	 * 
+	 */
+
+	public static void setFileNameJquery(String fileNameJquery) {
+		FileName.fileNameJquery = fileNameJquery;
+	}
+
+	/**
+	 * Returns the path of the moment js file, within the program.
+	 * 
+	 * @return path of moment js file, within the program.
+	 */
+
+	public static String getFileNameMomentProgram() {
+		return getWebUiPath() + fileNameMoment;
+	}
+
+	/**
+	 * Set the path of the moment js file, within the program.
+	 * 
+	 */
+
+	public static void setFileNameMoment(String fileNameMoment) {
+		FileName.fileNameMoment = fileNameMoment;
+	}
+
+	/**
+	 * Set the filename of the generated HTML file, within the program.
+	 *
+	 */
+
+	public static void setFilenameCalendarUi(String filenameCalendarUi) {
+		FileName.filenameCalendarUi = filenameCalendarUi;
+	}
+
+	/**
+	 * Returns the path of the css folder, according to user saved path.
+	 * 
+	 * @return path of the css folder, according to user saved path.
+	 */
+
+	public static String getFolderCss() {
+		return getCanonicalPath() + File.separator + getWebUiPath()
+				+ File.separator + folderCss;
+	}
+
+	/**
+	 * Set the path of the css folder, according to user saved path.
+	 * 
+	 */
+
+	public static void setFolderCss(String folderCss) {
+		FileName.folderCss = folderCss;
+	}
+
+	/**
+	 * Returns the path of the js folder, according to user saved path.
+	 * 
+	 * @return path of the js folder, according to user saved path.
+	 */
+
+	public static String getFolderJs() {
+		return getCanonicalPath() + File.separator + getWebUiPath()
+				+ File.separator + folderJs;
+	}
+
+	/**
+	 * Set the path of the js folder, according to user saved path.
+	 * 
+	 */
+
+	public static void setFolderJs(String folderJs) {
+		FileName.folderJs = folderJs;
+	}
+
+	/**
+	 * Returns the path of the moment js file, according to user saved path.
+	 * 
+	 * @return path of the moment js file, according to user saved path.
+	 */
+
+	public static String getFileNameMomentLocal() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + folderJs + File.separator + fileNameMoment;
+	}
+
+	/**
+	 * Returns the path of the jquery js file, according to user saved path.
+	 * 
+	 * @return path of the jquery js file, according to user saved path.
+	 */
+
+	public static String getFileNameJqueryLocal() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + folderJs + File.separator + fileNameJquery;
+	}
+
+	/**
+	 * Returns the path of the full calendar js file, according to user saved
+	 * path.
+	 * 
+	 * @return path of the full calendar js file, according to user saved path.
+	 */
+
+	public static String getFileNameFullCalendarJsLocal() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + folderJs + File.separator
+				+ fileNameFullCalendarJs;
+	}
+
+	/**
+	 * Returns the path of the generated HTML file, according to user saved
+	 * path.
+	 * 
+	 * @return path of generated HTML file, according to user saved path.
+	 */
+
+	public static String getFileNameCalendarViewLocal() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + filenameCalendarUi;
+	}
+
+	/**
+	 * Returns the path of the full calendar css file, according to user saved
+	 * path.
+	 * 
+	 * @return path of the full calendar css file, according to user saved path.
+	 */
+
+	public static String getFileNameFullCalendarCssLocal() {
+		return getCanonicalPath() + File.separator + getRelativeWebUiPath()
+				+ File.separator + folderCss + File.separator
+				+ fileNameFullCalendarCss;
+	}
+
+	/**
+	 * This method will create the required physical file(s), if they did not
+	 * exist in the defined user saved path.
+	 */
+
+	public static void createFileIfNotExist() {
+
+		try {
+			createFile(FileName.getFilenameDeadline());
+			createFile(FileName.getFilenameFloating());
+			createFile(FileName.getFilenameNormal());
+			createFile(FileName.getFilenameRecur());
+			createFile(FileName.getFilenameCfg());
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_GENERAL);
+			System.exit(1);
+		}
+	}
+
+	/**
+	 * This method will create the file, according to the full path and file
+	 * name in the input parameter.
+	 * 
+	 * @param canonicalFileName
+	 *            The full path of the file, including the file name
+	 * @throws IOException
+	 *             Will throw this exception if unable to read or write on the
+	 *             file
+	 */
+
+	private static void createFile(String canonicalFileName) throws IOException {
+		File file = new File(canonicalFileName);
+
+		if (!file.exists()) {
+			if (canonicalFileName.equals(FileName.getFilenameCfg())) {
+				file.delete();
+				file.createNewFile();
+
+				Map<String, String> basicCommandMap = KeywordConstant
+						.createBasicMap();
+				String serializedBasicCommand = serializeToJson(basicCommandMap);
+
+				PrintWriter filewrite = new PrintWriter(new BufferedWriter(
+						new FileWriter(canonicalFileName, true)));
+				filewrite.println(serializedBasicCommand);
+				filewrite.close();
+			} else {
+				file.createNewFile();
+			}
+		}
+	}
+
+	/**
+	 * This method will serialize any given Object into its JSON form, in String
+	 * format.
+	 * 
+	 * @param object
+	 *            Object to be serialized to JSON
+	 * @return the object that is serialized to JSON, in String format
+	 */
+
+	private static String serializeToJson(Object object) {
+
+		String json;
+
+		Gson gson = new Gson();
+		json = gson.toJson(object);
+
+		return json;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
+	 */
+
+	public static Map<String, String> createBasicMap() {
+
+		Map<String, String> basicCommand = new HashMap<String, String>();
+		basicCommand.put(KEYWORD_ADD, KEYWORD_ADD);
+		basicCommand.put(KEYWORD_UPDATE, KEYWORD_UPDATE);
+		basicCommand.put(KEYWORD_DELETE, KEYWORD_DELETE);
+		basicCommand.put(KEYWORD_RETRIEVE, KEYWORD_RETRIEVE);
+		basicCommand.put(KEYWORD_BY, KEYWORD_BY);
+		basicCommand.put(KEYWORD_ON, KEYWORD_ON);
+		basicCommand.put(KEYWORD_AT, KEYWORD_AT);
+		basicCommand.put(KEYWORD_FROM, KEYWORD_FROM);
+		basicCommand.put(KEYWORD_SINCE, KEYWORD_SINCE);
+		basicCommand.put(KEYWORD_TO, KEYWORD_TO);
+		basicCommand.put(KEYWORD_EVERY, KEYWORD_EVERY);
+		basicCommand.put(KEYWORD_PRIORITY, KEYWORD_PRIORITY);
+		basicCommand.put(KEYWORD_REDO, KEYWORD_REDO);
+		basicCommand.put(KEYWORD_UNDO, KEYWORD_UNDO);
+		basicCommand.put(KEYWORD_DONE, KEYWORD_DONE);
+		basicCommand.put(KEYWORD_UNDONE, KEYWORD_UNDONE);
+		basicCommand.put(KEYWORD_CLEAR, KEYWORD_CLEAR);
+		basicCommand.put(KEYWORD_EXPORT, KEYWORD_EXPORT);
+		basicCommand.put(KEYWORD_ALL, KEYWORD_ALL);
+		basicCommand.put(KEYWORD_EXIT, KEYWORD_EXIT);
+		basicCommand.put(KEYWORD_DAILY, KEYWORD_DAILY);
+		basicCommand.put(KEYWORD_WEEKLY, KEYWORD_WEEKLY);
+		basicCommand.put(KEYWORD_MONTHLY, KEYWORD_MONTHLY);
+		basicCommand.put(KEYWORD_YEARLY, KEYWORD_YEARLY);
+		basicCommand.put(KEYWORD_DISPLAY, KEYWORD_DISPLAY);
+		basicCommand.put("high", Integer.toString(PRIORITY_HIGH));
+		basicCommand.put("medium", Integer.toString(PRIORITY_MEDIUM));
+		basicCommand.put("low", Integer.toString(PRIORITY_LOW));
+		basicCommand.put("search", KEYWORD_RETRIEVE);
+
+		return basicCommand;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+	 */
+
+	@Test
+	public void addNormalTask() {
+		initTestEnvironment();
+
+		String command = "this week from 12 April to 13 April";
+		String expected = "this week from 12 Apr 2015,  12:00:01 AM to 13 Apr 2015,  11:59:59 PM";
+
+		executeTestEquals(command, expected);
+	}
+
+	/**
+	 * This method test the addition of deadline task correctly.
+	 */
+
+	@Test
+	public void addDeadlineTask() {
+		initTestEnvironment();
+
+		String command = "this week by 13 April";
+		String expected = "this week by 13 Apr 2015,  11:59:59 PM";
+
+		executeTestEquals(command, expected);
+	}
+
+	/**
+	 * This method test the addition of floating task correctly.
+	 */
+
+	@Test
+	public void addFloatingTask() {
+		initTestEnvironment();
+
+		String command = "this week";
+		String expected = "this week";
+
+		executeTestEquals(command, expected);
+	}
+
+	/**********************
+	 * NON-TEST METHODS
+	 *********************/
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+	}
+
+	/**
+	 * This method test perform the necessary steps to publicize a method and
+	 * pass in the parameter. It also test the expected output against the
+	 * obtained output.
+	 */
+
+	private void executeTestEquals(String command, String expected) {
+
+		@SuppressWarnings("rawtypes")
+		Class[] argClasses = { String.class };
+		Object[] argObjects = { command };
+
+		Success status = invokePrivateMethod(AddParser.class,
+				"parseAddCommand", argClasses, argObjects);
+
+		Task task = (Task) status.getObj();
+		assertEquals(expected, task.toDisplay());
+	}
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	/**
+	 * @param targetClass
+	 *            the class of the method
+	 * @param methodName
+	 *            name of the method that want to be publicized
+	 * @param argClasses
+	 *            classes of the objects that is to be passed into the method
+	 * @param argObjects
+	 *            objects that is to be passed into the method
+	 * @return Success object
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Success invokePrivateMethod(Class targetClass,
+			String methodName, Class[] argClasses, Object[] argObjects) {
+
+		Success status = null;
+
+		try {
+			Validator validator = new Validator();
+			Object t = targetClass.getDeclaredConstructor(Map.class)
+					.newInstance(validator.getKeywordFullMap());
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (Success) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 */
+
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+	}
+
+	/**
+	 * This method test perform the necessary steps to publicize a method and
+	 * pass in the parameter. It also test the expected output against the
+	 * obtained output.
+	 */
+	private void executeTestTrue(String command) {
+
+		@SuppressWarnings("rawtypes")
+		Class[] argClasses = { String.class };
+		Object[] argObjects = { command };
+
+		Success status = invokePrivateMethod(RetrieveParser.class,
+				"parseRetrieveCommand", argClasses, argObjects);
+		System.out.println(status == null);
+		assertTrue(status.isSuccess());
+	}
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	/**
+	 * @param targetClass
+	 *            the class of the method
+	 * @param methodName
+	 *            name of the method that want to be publicized
+	 * @param argClasses
+	 *            classes of the objects that is to be passed into the method
+	 * @param argObjects
+	 *            objects that is to be passed into the method
+	 * @return Success object
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
+	 */
+
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		keywordValidator = new Validator();
+		addCommandList = new ArrayList<String>();
+	}
+
+	/**
+	 * This method will test the validation of individual keyword.
+	 */
+
+	@Test
+	public void testKeyword() {
+
+		initTestEnvironment();
+
+		String keyword = "add";
+
+		boolean isKeyword = keywordValidator.validateKeyword(keyword);
+
+		assertTrue(isKeyword);
+	}
+
+	/**
+	 * This method will test for invalid individual keyword.
+	 */
+
+	@Test
+	public void testInvalidKeyword() {
+
+		initTestEnvironment();
+
+		String command = "insert";
+
+		boolean isKeyword = keywordValidator.validateKeyword(command);
+
+		assertFalse(isKeyword);
+	}
+
+	/**
+	 * This method will test for a valid keyword sequence for add command.
+	 */
+
+	@Test
+	public void testKeywordSequenceAdd() {
+
+		initTestEnvironment();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("add");
+		keywordList.add("on");
+		keywordList.add("from");
+		keywordList.add("to");
+		keywordList.add("priority");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+	/**
+	 * This method will test for a valid keyword sequence for retrieve command.
+	 */
+
+	@Test
+	public void testKeywordSequenceRetrieve() {
+
+		initTestEnvironment();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("retrieve");
+		keywordList.add("priority");
+		keywordList.add("from");
+		keywordList.add("to");
+		keywordList.add("at");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 */
+
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		commandParser = new CommandParser();
+		keywordValidator = new Validator();
+		addCommandList = new ArrayList<String>();
+	}
+
+	/**
+	 * This method add in the sample data that is required for testing.
+	 */
+
+	public void addTask() {
+
+		clearTask();
+
+		// add task with a single date
+		String testCase1 = "add task one on 8 Apr";
+		addCommandList.add(testCase1);
+
+		// add task with a start date of 0000H to end date of 2359H
+		String testCase2 = "add task two from 7 April to 8 April";
+		addCommandList.add(testCase2);
+
+		// add task with a start date >0000H to end date of 2359H
+		String testCase3 = "add task three from 8 April 5:31pm to 9 April";
+		addCommandList.add(testCase3);
+
+		// add task with a start date 0000H to end date of <2359H
+		String testCase4 = "add task four from 9 April to 10 April 10:04am";
+		addCommandList.add(testCase4);
+
+		// add low priority task
+		String testCase5 = "add task five on 8 April 3pm priority low";
+		addCommandList.add(testCase5);
+
+		// add medium priority task
+		String testCase6 = "add task six on 8 April 3pm priority medium";
+		addCommandList.add(testCase6);
+
+		// add high priority task
+		String testCase7 = "add task seven on 8 April 3pm priority high";
+		addCommandList.add(testCase7);
+
+		// add deadline task 2359H
+		String testCase8 = "add task eight by 10 Apr";
+		addCommandList.add(testCase8);
+
+		// add deadline task <2359H
+		String testCase9 = "add task nine by 10 Apr 8:21pm";
+		addCommandList.add(testCase9);
+
+		// add floating task
+		String testCase10 = "add task ten";
+		addCommandList.add(testCase10);
+
+		for (int i = 0; i < addCommandList.size(); i++) {
+			String currCommand = addCommandList.get(i);
+			commandParser.parseCommand(currCommand);
+		}
+	}
+
+	/**
+	 * This method clears all data in the file.
+	 */
+
+	public void clearTask() {
+
+		addCommandList = new ArrayList<String>();
+
+		String retrieveCommand = "retrieve all";
+		String delCommand = "delete ";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+		Object obj = status.getObj();
+
+		if (status.isSuccess()) {
+
+			@SuppressWarnings("unchecked")
+			List<Task> taskList = (ArrayList<Task>) obj;
+
+			for (int i = 1; i <= taskList.size(); i++) {
+
+				delCommand += i;
+
+				if (i != taskList.size()) {
+					delCommand += " ";
+				}
+			}
+
+			commandParser.parseCommand(delCommand);
+
+			addCommandList = new ArrayList<String>();
+		}
+	}
+
+	/**
+	 * This method assist in asserting equals objects.
+	 */
+
+	private void testEquals(String command, List<String> taskAddedList) {
+
+		Collections.sort(taskAddedList);
+
+		// execute retrieve all command
+		Success status = commandParser.parseCommand(command);
+		Object obj = status.getObj();
+
+		if (status.isSuccess() && obj instanceof ArrayList<?>) {
+
+			// process retrieved tasks
+			@SuppressWarnings("unchecked")
+			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
+
+			List<String> retrievedList = new ArrayList<String>();
+
+			for (int i = 0; i < retrievedTaskList.size(); i++) {
+
+				Task currTask = retrievedTaskList.get(i);
+				retrievedList.add(currTask.toDisplay());
+			}
+
+			Collections.sort(retrievedList);
+
+			assertEquals(taskAddedList, retrievedList);
+		}
+	}
+
+	/***********************************
+	 * TEST CASE FOR KEYWORD VALIDATOR
+	 ***********************************/
+
+	/**
+	 * This method will test the validation of individual keyword.
+	 */
+
+	@Test
+	public void testKeyword() {
+
+		initTestEnvironment();
+		addTask();
+
+		String keyword = "add";
+
+		boolean isKeyword = keywordValidator.validateKeyword(keyword);
+
+		assertTrue(isKeyword);
+	}
+
+	/**
+	 * This method will test for invalid individual keyword.
+	 */
+
+	@Test
+	public void testInvalidKeyword() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrievee";
+
+		boolean isKeyword = keywordValidator.validateKeyword(command);
+
+		assertFalse(isKeyword);
+	}
+
+	/**
+	 * This method will test for a valid keyword sequence.
+	 */
+
+	@Test
+	public void testKeywordSequence() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("add");
+		keywordList.add("on");
+		keywordList.add("from");
+		keywordList.add("to");
+		keywordList.add("priority");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+	/**
+	 * This method will test for invalid keyword sequence.
+	 */
+
+	@Test
+	public void testInvalidKeywordSequence() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("add");
+		keywordList.add("on");
+		keywordList.add("to");
+		keywordList.add("from");
+		keywordList.add("priority");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertFalse(isKeyword);
+	}
+
+	/**
+	 * This method will test if the customized keyword mapping is working fine.
+	 */
+
+	@Test
+	public void testKeywordMapping() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("create");
+		keywordList.add("on");
+		keywordList.add("from");
+		keywordList.add("until");
+		keywordList.add("priority");
+		keywordList.add("urgent");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertTrue(isKeyword);
+	}
+
+	/**
+	 * This method will test for an invalid keyword mapping that does not exist
+	 * in command.cfg
+	 */
+
+	@Test
+	public void testInvalidKeywordMapping() {
+
+		initTestEnvironment();
+		addTask();
+
+		List<String> keywordList = new ArrayList<String>();
+
+		keywordList.add("create");
+		keywordList.add("on");
+		keywordList.add("since");
+		keywordList.add("until");
+		keywordList.add("priority");
+		keywordList.add("urgent");
+
+		boolean isKeyword = keywordValidator
+				.validateKeywordSequence(keywordList);
+
+		assertFalse(isKeyword);
+	}
+
+	/***********************************
+	 * TEST CASE FOR ADD COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if all task(s) is added successfully.
+	 */
+
+	@Test
+	public void testAddTasks() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve all";
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// processing expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task seven on 08 Apr 2015,  3:00:00 PM priority 2");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task ten");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the program rejects a command that has a start
+	 * date which does not resembles a Date.
+	 */
+
+	@Test
+	public void testAddInvalidStartDateNormal() {
+
+		initTestEnvironment();
+		addTask();
+
+		String currCommand = "add invalid start date from nowhere to 8 April";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		assertFalse(!status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the program rejects a command that has an end
+	 * date which does not resembles a Date.
+	 */
+
+	@Test
+	public void testAddInvalidEndDateNormal() {
+
+		initTestEnvironment();
+		addTask();
+
+		String currCommand = "add invalid end date from 8 April to nowhere";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		assertFalse(!status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the program rejects a command that has an
+	 * invalid due date which does not resembles a Date.
+	 */
+
+	@Test
+	public void testAddInvalidDeadlineDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String currCommand = "add invalid deadline date by nowhere";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the program fix a negative priority (<0) to low
+	 * priority (0).
+	 */
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAddInvalidNegativePriority() {
+
+		initTestEnvironment();
+		addTask();
+		Task actualTask = null;
+		int expectedLowPriority = 0;
+
+		String currCommand = "add invalid negative priority -1";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		if (status.isSuccess()) {
+			currCommand = "retrieve invalid negative";
+			status = commandParser.parseCommand(currCommand);
+		}
+
+		if (status.isSuccess()) {
+			actualTask = ((ArrayList<Task>) status.getObj()).get(0);
+		}
+
+		assertEquals(expectedLowPriority, actualTask.getPriority());
+	}
+
+	/**
+	 * This method will test if the program fix a higher positive priority (>2)
+	 * to high priority (2).
+	 */
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAddInvalidPositivePriority() {
+
+		initTestEnvironment();
+		addTask();
+		Task actualTask = null;
+		int expectedHighPriority = 2;
+
+		String currCommand = "add invalid positive priority 3";
+
+		Success status = commandParser.parseCommand(currCommand);
+
+		if (status.isSuccess()) {
+			currCommand = "retrieve invalid positive";
+			status = commandParser.parseCommand(currCommand);
+		}
+
+		if (status.isSuccess()) {
+			actualTask = ((ArrayList<Task>) status.getObj()).get(0);
+		}
+
+		assertEquals(expectedHighPriority, actualTask.getPriority());
+	}
+
+	/***********************************
+	 * TEST CASE FOR RETRIEVE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if a description that does not exist, will return
+	 * no result correctly.
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 */
+
+	@Test
+	public void testDeleteMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the deleting index is out of range (<1).
+	 * 
+	 */
+
+	@Test
+	public void testDeleteMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 0 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the deleting index is out of range (> retrieved
+	 * Task(s) list's size).
+	 * 
+	 */
+
+	@Test
+	public void testDeleteMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1 4";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the delete command contains non-numeric value.
+	 * 
+	 */
+
+	@Test
+	public void testDeleteNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 none-numeric 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the delete command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+
+	@Test
+	public void testDeleteWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String deleteCommand = "delete 3 1";
+
+		Success status = commandParser.parseCommand(deleteCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UPDATE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if the update command is able to update the Task
+	 * object successfully.
+	 * 
+	 */
+
+	@Test
+	public void testUpdate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 1";
+
+			status = commandParser.parseCommand(updateCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update updated task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM";
+			status = commandParser.parseCommand(updateCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("updated task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the update command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+
+	@Test
+	public void testUpdateInvalidWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String updateCommand = "update 1";
+
+		Success status = commandParser.parseCommand(updateCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the update command is disallowed if the update
+	 * command is an invalid range (<1)
+	 * 
+	 */
+
+	@Test
+	public void testUpdateInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 0";
+
+			status = commandParser.parseCommand(updateCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the update command is disallowed if the update
+	 * command is an invalid range (> retrieved Task(s) list's size).
+	 * 
+	 */
+
+	@Test
+	public void testUpdateInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String updateCommand = "update 4";
+
+			status = commandParser.parseCommand(updateCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UNDO COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if a single undo command is executing fine.
+	 * 
+	 */
+
+	@Test
+	public void testUndoSingle() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = commandParser.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = commandParser.parseCommand(undoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the undo command can be executed multiple times.
+	 * 
+	 */
+
+	@Test
+	public void testUndoMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = commandParser.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = commandParser.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the undo command is not executed if there is no
+	 * previous command that can be undo.
+	 * 
+	 */
+
+	@Test
+	public void testUndoInvalidEmptyStack() {
+
+		initTestEnvironment();
+		addTask();
+
+		UndoRedoManager.reset();
+
+		String undoCommand = "undo";
+
+		Success status = commandParser.parseCommand(undoCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR REDO COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test if a single redo command is executing fine.
+	 * 
+	 */
+
+	@Test
+	public void testRedoSingle() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = commandParser.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = commandParser.parseCommand(undoCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String redoCommand = "redo";
+
+			status = commandParser.parseCommand(redoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("mock task on 10 Apr 2015,  5:00:00 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the redo command can be executed multiple times.
+	 * 
+	 */
+
+	@Test
+	public void testRedoMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String deleteCommand = "delete 3 1";
+
+			status = commandParser.parseCommand(deleteCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String addCommand = "add mock task on 10 April 5pm";
+
+			status = commandParser.parseCommand(addCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoCommand = "undo";
+
+			status = commandParser.parseCommand(undoCommand);
+			status = commandParser.parseCommand(undoCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String redoCommand = "redo";
+
+			status = commandParser.parseCommand(redoCommand);
+			status = commandParser.parseCommand(redoCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("mock task on 10 Apr 2015,  5:00:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the redo command is not executed if there is no
+	 * previous undo command that can be redo.
+	 * 
+	 */
+
+	@Test
+	public void testRedoInvalidEmptyStack() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String redoCommand = "redo";
+
+		Success status = commandParser.parseCommand(redoCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR DONE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test for marking done multiple Task(s).
+	 * 
+	 */
+
+	@Test
+	public void testDoneMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+
+		retrieveCommand = "retrieve completed";
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the done index is out of range (<1).
+	 * 
+	 */
+
+	@Test
+	public void testDoneMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 0 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done index is out of range (> retrieved
+	 * Task(s) list's size).
+	 * 
+	 */
+
+	@Test
+	public void testDoneMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1 4";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done command contains non-numeric value.
+	 * 
+	 */
+
+	@Test
+	public void testDoneNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 none-numeric 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the done command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+
+	@Test
+	public void testDoneWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String doneCommand = "done 3 1";
+
+		Success status = commandParser.parseCommand(doneCommand);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/***********************************
+	 * TEST CASE FOR UNDONE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test for marking undone multiple Task(s).
+	 * 
+	 */
+
+	@Test
+	public void testUndoneMultiple() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String doneCommand = "done 3 1";
+
+			status = commandParser.parseCommand(doneCommand);
+		}
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(retrieveCommand, taskAddedList);
+	}
+
+	/**
+	 * This method will test if the undone index is out of range (<1).
+	 * 
+	 */
+
+	@Test
+	public void testUndoneMultipleInvalidLowerBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 0 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undoneCommand index is out of range (>
+	 * retrieved Task(s) list's size).
+	 * 
+	 */
+
+	@Test
+	public void testUndoneMultipleInvalidUpperBound() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 1 4";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undone command contains non-numeric value.
+	 * 
+	 */
+
+	@Test
+	public void testUndoneNaN() {
+
+		initTestEnvironment();
+		addTask();
+
+		String retrieveCommand = "retrieve 10 April";
+
+		Success status = commandParser.parseCommand(retrieveCommand);
+
+		if (status.isSuccess()) {
+
+			String undoneCommand = "undone 3 none-numeric 1";
+
+			status = commandParser.parseCommand(undoneCommand);
+		}
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test if the undone command is disallowed if there is no
+	 * previous retrieve command.
+	 * 
+	 */
+
+	@Test
+	public void testunDoneWithoutRetrieve() {
+
+		initTestEnvironment();
+		addTask();
+
+		commandParser = new CommandParser();
+
+		String undoneCommand = "undone 3 1";
+
+		Success status = commandParser.parseCommand(undoneCommand);
+
+		assertFalse(status.isSuccess());
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
+	 */
+
+	public KeywordStructure() {
+
+		init();
+	}
+
+	/**
+	 * It will execute all the possible keyword configurations.
+	 */
+
+	private void init() {
+
+		mainKeywordList = new ArrayList<KeywordNode>();
+
+		initAddKeyword();
+		initRetrieveKeyword();
+		initUpdateKeyword();
+		initDeleteKeyword();
+		initDoneKeyword();
+		initUndoneKeyword();
+		initRedoKeyword();
+		initUndoKeyword();
+		initClearKeyword();
+		initDisplayKeyword();
+		initExitKeyword();
+
+		LOGGER.fine("Keyword Structure initialized fully");
+	}
+
+	/**
+	 * It will execute the keyword configuration for add command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initAddKeyword() {
+
+		KeywordNode keyPriority = new KeywordNode(
+				KeywordConstant.KEYWORD_PRIORITY);
+
+		KeywordNode keyDaily = new KeywordNode(KeywordConstant.KEYWORD_DAILY);
+		keyDaily.addSubsequentKeywords(keyPriority);
+		KeywordNode keyWeekly = new KeywordNode(KeywordConstant.KEYWORD_WEEKLY);
+		keyWeekly.addSubsequentKeywords(keyPriority);
+		KeywordNode keyMonthly = new KeywordNode(
+				KeywordConstant.KEYWORD_MONTHLY);
+		keyMonthly.addSubsequentKeywords(keyPriority);
+		KeywordNode keyYearly = new KeywordNode(KeywordConstant.KEYWORD_YEARLY);
+		keyYearly.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToEvery = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToEvery.addSubsequentKeywords(keyPriority);
+		keyToEvery.addSubsequentKeywords(keyDaily);
+		keyToEvery.addSubsequentKeywords(keyWeekly);
+		keyToEvery.addSubsequentKeywords(keyMonthly);
+		keyToEvery.addSubsequentKeywords(keyYearly);
+
+		KeywordNode keyEvery = new KeywordNode(KeywordConstant.KEYWORD_EVERY);
+		keyEvery.addSubsequentKeywords(keyPriority);
+		keyEvery.addSubsequentKeywords(keyToEvery);
+		keyEvery.addSubsequentKeywords(keyDaily);
+		keyEvery.addSubsequentKeywords(keyWeekly);
+		keyEvery.addSubsequentKeywords(keyMonthly);
+		keyEvery.addSubsequentKeywords(keyYearly);
+
+		KeywordNode keyBy = new KeywordNode(KeywordConstant.KEYWORD_BY);
+		keyBy.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToOn = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToOn.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyFromOn = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFromOn.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyOn = new KeywordNode(KeywordConstant.KEYWORD_ON);
+		keyOn.addSubsequentKeywords(keyPriority);
+		keyOn.addSubsequentKeywords(keyFromOn);
+		keyOn.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyPriority);
+		keyAt.addSubsequentKeywords(keyFromOn);
+		keyAt.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyOnFrom = new KeywordNode(KeywordConstant.KEYWORD_ON);
+		keyOnFrom.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToFrom = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToFrom.addSubsequentKeywords(keyPriority);
+		keyToFrom.addSubsequentKeywords(keyOnFrom);
+
+		KeywordNode keyFrom = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFrom.addSubsequentKeywords(keyPriority);
+		keyFrom.addSubsequentKeywords(keyToFrom);
+
+		KeywordNode keyAdd = new KeywordNode(KeywordConstant.KEYWORD_ADD);
+		keyAdd.addSubsequentKeywords(keyPriority);
+		keyAdd.addSubsequentKeywords(keyEvery);
+		keyAdd.addSubsequentKeywords(keyBy);
+		keyAdd.addSubsequentKeywords(keyOn);
+		keyAdd.addSubsequentKeywords(keyFrom);
+		keyAdd.addSubsequentKeywords(keyAt);
+
+		mainKeywordList.add(keyAdd);
+	}
+
+	/**
+	 * It will execute the keyword configuration for retrieve command. This
+	 * method will arrange the possible combination and sequence for this
+	 * command.
+	 */
+
+	private void initRetrieveKeyword() {
+
+		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
+		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
+
+		KeywordNode keyAll = new KeywordNode(KeywordConstant.KEYWORD_ALL);
+		keyAll.addSubsequentKeywords(keyDone);
+		keyAll.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyToBase = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToBase.addSubsequentKeywords(keyDone);
+		keyToBase.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyAtBase = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAtBase.addSubsequentKeywords(keyDone);
+		keyAtBase.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyFromBase = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFromBase.addSubsequentKeywords(keyToBase);
+		keyFromBase.addSubsequentKeywords(keyDone);
+		keyFromBase.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyFromBase);
+		keyAt.addSubsequentKeywords(keyDone);
+		keyAt.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyOn = new KeywordNode(KeywordConstant.KEYWORD_ON);
+		keyOn.addSubsequentKeywords(keyFromBase);
+		keyOn.addSubsequentKeywords(keyAtBase);
+		keyOn.addSubsequentKeywords(keyDone);
+		keyOn.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyToFrom = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToFrom.addSubsequentKeywords(keyAtBase);
+		keyToFrom.addSubsequentKeywords(keyFromBase);
+		keyToFrom.addSubsequentKeywords(keyDone);
+		keyToFrom.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyFrom = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFrom.addSubsequentKeywords(keyAtBase);
+		keyFrom.addSubsequentKeywords(keyFromBase);
+		keyFrom.addSubsequentKeywords(keyToFrom);
+		keyFrom.addSubsequentKeywords(keyDone);
+		keyFrom.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyToPriority = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToPriority.addSubsequentKeywords(keyAtBase);
+		keyToPriority.addSubsequentKeywords(keyFromBase);
+		keyToPriority.addSubsequentKeywords(keyDone);
+		keyToPriority.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyFromPriority = new KeywordNode(
+				KeywordConstant.KEYWORD_FROM);
+		keyFromPriority.addSubsequentKeywords(keyAtBase);
+		keyFromPriority.addSubsequentKeywords(keyFromBase);
+		keyFromPriority.addSubsequentKeywords(keyToPriority);
+		keyFromPriority.addSubsequentKeywords(keyDone);
+		keyFromPriority.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyPriority = new KeywordNode(
+				KeywordConstant.KEYWORD_PRIORITY);
+		keyPriority.addSubsequentKeywords(keyFromPriority);
+		keyPriority.addSubsequentKeywords(keyAtBase);
+		keyPriority.addSubsequentKeywords(keyDone);
+		keyPriority.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyRetrieve = new KeywordNode(
+				KeywordConstant.KEYWORD_RETRIEVE);
+		keyRetrieve.addSubsequentKeywords(keyAll);
+		keyRetrieve.addSubsequentKeywords(keyAt);
+		keyRetrieve.addSubsequentKeywords(keyOn);
+		keyRetrieve.addSubsequentKeywords(keyFrom);
+		keyRetrieve.addSubsequentKeywords(keyPriority);
+		keyRetrieve.addSubsequentKeywords(keyToBase);
+		keyRetrieve.addSubsequentKeywords(keyDone);
+		keyRetrieve.addSubsequentKeywords(keyUndone);
+
+		mainKeywordList.add(keyRetrieve);
+	}
+
+	/**
+	 * It will execute the keyword configuration for update command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initUpdateKeyword() {
+
+		KeywordNode keyPriority = new KeywordNode(
+				KeywordConstant.KEYWORD_PRIORITY);
+
+		KeywordNode keyDaily = new KeywordNode(KeywordConstant.KEYWORD_DAILY);
+		keyDaily.addSubsequentKeywords(keyPriority);
+		KeywordNode keyWeekly = new KeywordNode(KeywordConstant.KEYWORD_WEEKLY);
+		keyWeekly.addSubsequentKeywords(keyPriority);
+		KeywordNode keyMonthly = new KeywordNode(
+				KeywordConstant.KEYWORD_MONTHLY);
+		keyMonthly.addSubsequentKeywords(keyPriority);
+		KeywordNode keyYearly = new KeywordNode(KeywordConstant.KEYWORD_YEARLY);
+		keyYearly.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToEvery = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToEvery.addSubsequentKeywords(keyPriority);
+		keyToEvery.addSubsequentKeywords(keyDaily);
+		keyToEvery.addSubsequentKeywords(keyWeekly);
+		keyToEvery.addSubsequentKeywords(keyMonthly);
+		keyToEvery.addSubsequentKeywords(keyYearly);
+
+		KeywordNode keyEvery = new KeywordNode(KeywordConstant.KEYWORD_EVERY);
+		keyEvery.addSubsequentKeywords(keyPriority);
+		keyEvery.addSubsequentKeywords(keyToEvery);
+		keyEvery.addSubsequentKeywords(keyDaily);
+		keyEvery.addSubsequentKeywords(keyWeekly);
+		keyEvery.addSubsequentKeywords(keyMonthly);
+		keyEvery.addSubsequentKeywords(keyYearly);
+
+		KeywordNode keyBy = new KeywordNode(KeywordConstant.KEYWORD_BY);
+		keyBy.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToOn = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToOn.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyFromOn = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFromOn.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyOn = new KeywordNode(KeywordConstant.KEYWORD_ON);
+		keyOn.addSubsequentKeywords(keyPriority);
+		keyOn.addSubsequentKeywords(keyFromOn);
+		keyOn.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
+		keyAt.addSubsequentKeywords(keyPriority);
+		keyAt.addSubsequentKeywords(keyFromOn);
+		keyAt.addSubsequentKeywords(keyToOn);
+
+		KeywordNode keyOnFrom = new KeywordNode(KeywordConstant.KEYWORD_ON);
+		keyOnFrom.addSubsequentKeywords(keyPriority);
+
+		KeywordNode keyToFrom = new KeywordNode(KeywordConstant.KEYWORD_TO);
+		keyToFrom.addSubsequentKeywords(keyPriority);
+		keyToFrom.addSubsequentKeywords(keyOnFrom);
+
+		KeywordNode keyFrom = new KeywordNode(KeywordConstant.KEYWORD_FROM);
+		keyFrom.addSubsequentKeywords(keyPriority);
+		keyFrom.addSubsequentKeywords(keyToFrom);
+
+		KeywordNode keyUpdate = new KeywordNode(KeywordConstant.KEYWORD_UPDATE);
+		keyUpdate.addSubsequentKeywords(keyPriority);
+		keyUpdate.addSubsequentKeywords(keyEvery);
+		keyUpdate.addSubsequentKeywords(keyBy);
+		keyUpdate.addSubsequentKeywords(keyOn);
+		keyUpdate.addSubsequentKeywords(keyFrom);
+		keyUpdate.addSubsequentKeywords(keyAt);
+
+		mainKeywordList.add(keyUpdate);
+	}
+
+	/**
+	 * It will execute the keyword configuration for delete command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initDeleteKeyword() {
+
+		KeywordNode keyDel = new KeywordNode(KeywordConstant.KEYWORD_DELETE);
+
+		mainKeywordList.add(keyDel);
+	}
+
+	/**
+	 * It will execute the keyword configuration for undo command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initUndoKeyword() {
+		KeywordNode keyUndo = new KeywordNode(KeywordConstant.KEYWORD_UNDO);
+
+		mainKeywordList.add(keyUndo);
+	}
+
+	/**
+	 * It will execute the keyword configuration for redo command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initRedoKeyword() {
+		KeywordNode keyRedo = new KeywordNode(KeywordConstant.KEYWORD_REDO);
+
+		mainKeywordList.add(keyRedo);
+	}
+
+	/**
+	 * It will execute the keyword configuration for done command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initDoneKeyword() {
+		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
+
+		mainKeywordList.add(keyDone);
+	}
+
+	/**
+	 * It will execute the keyword configuration for undone command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initUndoneKeyword() {
+		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
+
+		mainKeywordList.add(keyUndone);
+	}
+
+	/**
+	 * It will execute the keyword configuration for clear command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initClearKeyword() {
+		KeywordNode keyClear = new KeywordNode(KeywordConstant.KEYWORD_CLEAR);
+
+		mainKeywordList.add(keyClear);
+	}
+
+	/**
+	 * It will execute the keyword configuration for display command. This
+	 * method will arrange the possible combination and sequence for this
+	 * command.
+	 */
+
+	private void initDisplayKeyword() {
+		KeywordNode keyDisplay = new KeywordNode(
+				KeywordConstant.KEYWORD_DISPLAY);
+
+		mainKeywordList.add(keyDisplay);
+	}
+
+	/**
+	 * It will execute the keyword configuration for exit command. This method
+	 * will arrange the possible combination and sequence for this command.
+	 */
+
+	private void initExitKeyword() {
+		KeywordNode keyExit = new KeywordNode(KeywordConstant.KEYWORD_EXIT);
+
+		mainKeywordList.add(keyExit);
+	}
+
+	/**
+	 * This method will check the keyword sequence in the input parameter. It
+	 * will return a boolean value of true, if the given keywords list is in a
+	 * correct and expected order, as defined in the init methods above. It will
+	 * return false otherwise.
+	 * 
+	 * @param keywords
+	 *            List of keywords, in expected sequence
+	 * @return boolean value
+	 */
+
+	public boolean checkKeyword(List<String> keywords) {
+
+		boolean isCorrectKeyword = false;
+		Map<String, String> keywordFullMap = loadConfigFile();
+		List<KeywordNode> currentKeywordList = mainKeywordList;
+
+		for (int currIndex = 0; currIndex < keywords.size(); currIndex++) {
+
+			String currentKeyword = keywords.get(currIndex);
+			String resolvedWord = keywordFullMap.get(currentKeyword);
+
+			if (resolvedWord != null) {
+				try {
+					Integer.parseInt(resolvedWord);
+					isCorrectKeyword = true;
+					break;
+
+				} catch (NumberFormatException e) {
+					for (int i = 0; i < currentKeywordList.size(); i++) {
+
+						KeywordNode node = currentKeywordList.get(i);
+
+						if (node.equals(resolvedWord)) {
+							isCorrectKeyword = true;
+							currentKeywordList = node.getSubsequentKeywords();
+							break;
+						}
+					}
+				}
+
+				int lastIndex = keywords.size() - 1;
+
+				if (isCorrectKeyword && currIndex != lastIndex) {
+					isCorrectKeyword = false;
+				} else {
+					break;
+				}
+			} else {
+				isCorrectKeyword = false;
+			}
+		}
+
+		return isCorrectKeyword;
+	}
+
+	/**
+	 * This method will load the configuration file named command.cfg. This file
+	 * is customizable by the user. User may enter their desired keyword
+	 * mappings, according to their preference. Example: "create":"add" which
+	 * means that the new keyword "create" is being mapped onto existing keyword
+	 * "add".
+	 * 
+	 * @return Map<String, String> keywordFullMap The mapping of customized
+	 *         keywords, according to user preference.
+	 */
+
+	private Map<String, String> loadConfigFile() {
+
+		ConfigIO config = new ConfigIO();
+		Map<String, String> keywordFullMap = config.getFullKeywordMap();
+
+		return keywordFullMap;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
+	 */
+
+	public Validator() {
+
+		loadConfigFile();
+	}
+
+	/**
+	 * This method will load the configuration file named command.cfg. This
+	 * configuration files contains the keyword mapping that is customized by
+	 * the user, if any.
+	 * 
+	 */
+
+	private void loadConfigFile() {
+
+		ConfigIO config = new ConfigIO();
+		keywordFullMap = config.getFullKeywordMap();
+		LOGGER.fine("Config file loaded in Validator");
+	}
+
+	/**
+	 * This method will validate if a single word is a keyword. It will return a
+	 * boolean value of true, if it is a keyword (or customized keyword), as
+	 * defined in Map<String, String>keywordFullMap. It will return false
+	 * otherwise.
+	 * 
+	 * @param keyword
+	 *            A word that is to be determined is a keyword
+	 * @return boolean value
+	 */
+
+	public boolean validateKeyword(String keyword) {
+
+		assert (keyword != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		boolean isKeyword = false;
+
+		fixKeywordInconsistency(keyword);
+
+		if (keywordFullMap.containsKey(keyword)) {
+			isKeyword = true;
+		}
+
+		LOGGER.fine(keyword + " keyword validates to " + isKeyword);
+
+		return isKeyword;
+	}
+
+	/**
+	 * This method will validate the list of keywords if it has a valid
+	 * structure or sequence. This method will return true if the given list
+	 * have a valid sequence of keywords, as specified in KeywordStructure. It
+	 * will return false otherwise.
+	 * 
+	 * @param keywordList
+	 *            A list of keywords sequence that is to be validated
+	 * @return boolean value
+	 */
+
+	public boolean validateKeywordSequence(List<String> keywordList) {
+
+		assert (keywordList != null);
+
+		fixKeywordInconsistency(keywordList);
+
+		KeywordStructure keySequence = new KeywordStructure();
+		boolean isValidSequence = keySequence.checkKeyword(keywordList);
+
+		LOGGER.fine(keywordList.toString() + " keyword sequence validates to "
+				+ isValidSequence);
+
+		return isValidSequence;
+	}
+
+	/**
+	 * Fix the inconsistencies in a given keyword.
+	 * 
+	 * @param keyword
+	 *            keyword to be fixed
+	 * @return fixed keyword
+	 */
+
+	private String fixKeywordInconsistency(String keyword) {
+
+		assert (keyword != null);
+
+		keyword = keyword.toLowerCase();
+		keyword = keyword.trim();
+
+		return keyword;
+	}
+
+	/**
+	 * Fix the inconsistencies in a given list of keywords.
+	 * 
+	 * @param keywordList
+	 *            list of keywords to be fixed
+	 * @return fixed list of keywords
+	 */
+
+	private List<String> fixKeywordInconsistency(List<String> keywordList) {
+
+		assert (keywordList != null);
+
+		for (int i = 0; i < keywordList.size(); i++) {
+			String currKeyWord = keywordList.get(i);
+			currKeyWord = currKeyWord.toLowerCase();
+			currKeyWord = currKeyWord.trim();
+			keywordList.set(i, currKeyWord);
+		}
+
+		return keywordList;
+	}
+
+	/**
+	 * Returns the keywordFullMap that had been retrieved before.
+	 * 
+	 * @return keywordFullMap the mapping of customized keywords
+	 */
+
+	public Map<String, String> getKeywordFullMap() {
+		return keywordFullMap;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	 */
+
+	public HtmlBuilder(String displayType, Calendar displayCal,
+			List<Task> taskList) {
+		try {
+			init(displayType);
+			createHtml(taskList, displayCal, displayType);
+
+			writer.close();
+		} catch (IOException e) {
+			// continue
+		}
+	}
+
+	/**
+	 * Create an HTML file at the specified save path.
+	 * 
+	 * @param displayType
+	 *            the agenda type (DAY, WEEK, MONTH)
+	 * @throws UnsupportedEncodingException
+	 *             Will throw this exception if PrintWriter cannot write in
+	 *             UTF-8
+	 * @throws FileNotFoundException
+	 *             Will throw this exception if the HTML file cannot be found
+	 */
+
+	private void init(String displayType) throws UnsupportedEncodingException,
+			FileNotFoundException {
+
+		String fileName = FileName.getFilenameCalendarUi();
+
+		writer = new PrintWriter(fileName, "UTF-8");
+
+	}
+
+	/**
+	 * This will generate the HTML file, based on the input parameters in the
+	 * constructor. It will then create the HTML file, and display it in UI tier
+	 * via JavaFX WebView.
+	 * 
+	 * @param taskList
+	 *            List of Task(s), based on the display criteria
+	 * @param displayCal
+	 *            the starting date, depending on agenda type (DAY - a single
+	 *            day, WEEK - first day of the week, MONTH - first day of the
+	 *            month)
+	 * @param displayType
+	 *            the agenda type (DAY, WEEK, MONTH)
+	 */
+
+	private void createHtml(List<Task> taskList, Calendar displayCal,
+			String displayType) {
+
+		SimpleDateFormat sdfNormal = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+		writeHeaderHtml(displayCal, displayType, sdfNormal);
+
+		if (taskList != null) {
+
+			for (int i = 0; i < taskList.size(); i++) {
+
+				Task currTask = taskList.get(i);
+
+				// if (!(currTask instanceof FloatingTask)) {
+				String title = currTask.getTaskName();
+
+				writeTaskNameHtml(i, title);
+
+				if (currTask instanceof NormalTask) {
+
+					writeNormalTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof DeadlineTask) {
+
+					writeDeadlineTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof RecurrenceTask) {
+
+					writeRecurrenceTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof FloatingTask) {
+
+					writeFloatingTaskHtml(sdfNormal, currTask);
+				}
+
+				writeTaskPriorityHtml(currTask);
+
+				writer.println("}");
+				if (i != taskList.size() - 1) {
+					writer.println(",");
+				}
+			}
+		}
+		writeClosingHtml();
+	}
+
+	/**
+	 * Write the beginning html file
+	 * 
+	 * @param displayCal
+	 *            The starting date of the display agenda
+	 * @param displayType
+	 *            agenda view type
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 */
+
+	private void writeHeaderHtml(Calendar displayCal, String displayType,
+			SimpleDateFormat sdfNormal) {
+		writer.println("<head>");
+		writer.println("<link rel='stylesheet' href='css/fullcalendar.css' />");
+		writer.println("<script src='js/jquery-2.1.3.min.js'></script>");
+		writer.println("<script src='js/moment.js'></script>");
+		writer.println("<script src='js/fullcalendar.js'></script>");
+
+		writer.println("<script>");
+		writer.println("$(document).ready(function() {");
+		writer.println("$('#calendar').fullCalendar({");
+
+		// calendar data(s)
+		writer.println("header: {");
+		writer.println("left: '',");
+		writer.println("center: 'title',");
+		writer.println("right: ''");
+		writer.println("},");
+		writer.println("editable: false,");
+		writer.println("eventLimit: true,");
+
+		if (displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
+			writer.println("defaultView: 'agendaWeek',");
+		}
+
+		String dateView = sdfNormal.format(displayCal.getTime());
+		writer.println("defaultDate: '" + dateView + "',");
+
+		writer.println("events: [");
+	}
+
+	/**
+	 * Write the task name in html file
+	 * 
+	 * @param index
+	 *            the index of the current task
+	 * @param title
+	 *            title of the current task
+	 */
+
+	private void writeTaskNameHtml(int index, String title) {
+		writer.println("{");
+		int indexOffset = index + 1;
+		String fixedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "");
+
+		writer.println("title: '" + indexOffset + ". " + fixedTitle + "',");
+	}
+
+	/**
+	 * Write recurrence task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+
+
+
+
+

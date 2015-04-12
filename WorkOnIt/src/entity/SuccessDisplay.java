@@ -17,7 +17,7 @@ public class SuccessDisplay extends Success {
 	 *            the message that need to be return
 	 * @return
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public SuccessDisplay(boolean isSuccess, String message) {
 		super(isSuccess, message);
 
@@ -110,7 +110,7 @@ public class SuccessDisplay extends Success {
 	 * @return String the String generated from the SuccessDisplay property for
 	 *         display purpose
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	@Override
 	public String toString() {
 		return "SuccessDisplay [displayType=" + displayType + ", calendar="

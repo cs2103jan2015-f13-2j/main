@@ -22,7 +22,7 @@ public class RetrieveParserTest {
 	 * This method test if can retrieve a task with the following keyword
 	 * correctly.
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@Test
 	public void retrieveKeyword() {
 
@@ -69,7 +69,7 @@ public class RetrieveParserTest {
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
@@ -107,7 +107,7 @@ public class RetrieveParserTest {
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Success invokePrivateMethod(Class targetClass, String methodName,
 			Class[] argClasses, Object[] argObjects) {

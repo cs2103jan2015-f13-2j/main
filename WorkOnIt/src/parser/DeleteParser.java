@@ -29,7 +29,7 @@ public class DeleteParser {
 	 *            the data that contains current information
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public DeleteParser(Map<String, String> keywordFullMap,
 			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;

@@ -18,7 +18,7 @@ public class DeadlineTask extends Task {
 	 *            The date of the deadline of the task that need to be created
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public DeadlineTask(String taskName, int priority, Date deadline) {
 
 		super(taskName, priority);

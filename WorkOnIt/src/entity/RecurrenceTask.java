@@ -24,7 +24,8 @@ public class RecurrenceTask extends Task {
 	 *            need to be created
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M - unused
+	//dropped support for recurrence task
 	public RecurrenceTask(String taskName, int priority,
 			Date startRecurrenceDate, Date endRecurrenceDate) {
 

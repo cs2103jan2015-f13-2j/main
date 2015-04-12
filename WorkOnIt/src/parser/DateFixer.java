@@ -32,7 +32,7 @@ public class DateFixer {
 	 * @return fixedDate the Date object that is fixed or unfixed
 	 * 
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	protected static Date fixStartDate(Date inDate) {
 
 		LOGGER.fine("fixing the following start date : " + inDate.toString());

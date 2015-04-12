@@ -25,7 +25,7 @@ public class UndoRedoManager {
 	 *
 	 * @return
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	private UndoRedoManager() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();

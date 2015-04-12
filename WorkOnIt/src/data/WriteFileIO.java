@@ -47,7 +47,7 @@ public class WriteFileIO {
 		filename_deadline = FileName.getFilenameDeadline();
 		filename_history = FileName.getFilenameHistory();
 
-		LOGGER.fine("FileIO instantiated");
+		LOGGER.fine("WriteFileIO instantiated");
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class WriteFileIO {
 	 *            created by user
 	 * @return Success Object which contain the success/failure message
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	public Success saveIntoFile(Task task) {
 
 		LOGGER.fine("Saving into file: " + task.toDisplay());

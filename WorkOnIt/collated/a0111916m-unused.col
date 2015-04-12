@@ -1,0 +1,667 @@
+//@author: a0111916m-unused
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
+	 */
+
+	//dropped support for recurrence task
+	public RecurrenceTask(String taskName, int priority,
+			Date startRecurrenceDate, Date endRecurrenceDate) {
+
+		super(taskName, priority);
+
+		long generatedTagId = System.currentTimeMillis();
+		this.setTagId(generatedTagId);
+		this.setStartRecurrenceDate(startRecurrenceDate);
+		this.setEndRecurrenceDate(endRecurrenceDate);
+		this.setOccurenceType(KeywordConstant.KEYWORD_DEFAULT_OCCURENCE);
+
+	}
+
+	/**
+	 * This is constructor for recurrence task.
+	 *
+	 * @param String
+	 *            The task name that need to be created
+	 * @param int The priority of task that need to be created
+	 * @param Date
+	 *            The starting recurrence date of the recurrence of the task
+	 *            that need to be created
+	 * @param Date
+	 *            The ending recurrence date of the recurrence of the task that
+	 *            need to be created
+	 * @param String
+	 *            The occurrence type of the task.
+	 * @return
+	 */
+
+	public RecurrenceTask(String taskName, int priority,
+			Date startRecurrenceDate, Date endRecurrenceDate,
+			String occurenceType) {
+
+		super(taskName, priority);
+
+		long generatedTagId = System.currentTimeMillis();
+		this.setTagId(generatedTagId);
+		this.setStartRecurrenceDate(startRecurrenceDate);
+		this.setEndRecurrenceDate(endRecurrenceDate);
+		this.setOccurenceType(occurenceType);
+
+	}
+
+	/**
+	 * This is the method to get Tag ID from the recurrence task.
+	 *
+	 * @return Long The Tag ID from the recurrence Task.
+	 */
+
+	public long getTagId() {
+		return tagId;
+	}
+
+	/**
+	 * This is the method to set Tag ID for the recurrence task.
+	 *
+	 * @param Long
+	 *            The Tag ID of the task that need to be created
+	 *
+	 */
+
+	private void setTagId(long tagId) {
+		this.tagId = tagId;
+	}
+
+	/**
+	 * This is the method to get start recurrence date from the recurrence task.
+	 *
+	 * @return Date The start recurrence date from the recurrence Task.
+	 */
+
+	public Date getStartRecurrenceDate() {
+		return startRecurrenceDate;
+	}
+
+	/**
+	 * This is the method to set start recurrence date for the recurrence task.
+	 *
+	 * @param Date
+	 *            The start recurrence date of the task that need to be created
+	 *
+	 */
+
+	public void setStartRecurrenceDate(Date startRecurrenceDate) {
+		this.startRecurrenceDate = startRecurrenceDate;
+		super.setSortDate(startRecurrenceDate);
+	}
+
+	/**
+	 * This is the method to get end recurrence date from the recurrence task.
+	 *
+	 * @return Date The end recurrence date from the recurrence Task.
+	 */
+
+	public Date getEndRecurrenceDate() {
+		return endRecurrenceDate;
+	}
+
+	/**
+	 * This is the method to set end recurrence date for the recurrence task.
+	 *
+	 * @param Date
+	 *            The end recurrence date of the task that need to be created
+	 *
+	 */
+
+	public void setEndRecurrenceDate(Date endRecurrenceDate) {
+		if (endRecurrenceDate == null) {
+			this.endRecurrenceDate = this.getStartRecurrenceDate();
+		} else {
+			this.endRecurrenceDate = endRecurrenceDate;
+		}
+	}
+
+	/**
+	 * This is the method to get occurrence type from the recurrence task.
+	 *
+	 * @return String The occurrence type from the recurrence Task.
+	 */
+
+	public String getOccurenceType() {
+		return occurenceType;
+	}
+
+	/**
+	 * This is the method to set occurrence type for the recurrence task.
+	 *
+	 * @param String
+	 *            Set occurrence type for the recurrence Task.
+	 */
+
+	public void setOccurenceType(String occurenceType) {
+		this.occurenceType = occurenceType;
+	}
+
+	/**
+	 *
+	 * This is to generate the hash code from the recurrence task
+	 *
+	 * @return int The hash code generated.
+	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((endRecurrenceDate == null) ? 0 : endRecurrenceDate
+						.hashCode());
+		result = prime * result
+				+ ((occurenceType == null) ? 0 : occurenceType.hashCode());
+		result = prime
+				* result
+				+ ((startRecurrenceDate == null) ? 0 : startRecurrenceDate
+						.hashCode());
+		result = prime * result + (int) (tagId ^ (tagId >>> 32));
+		return result;
+	}
+
+	/**
+	 *
+	 * Compare between 2 recurrence task whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both recurrence task are the same, else
+	 *         false.
+	 */
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecurrenceTask other = (RecurrenceTask) obj;
+		if (endRecurrenceDate == null) {
+			if (other.endRecurrenceDate != null)
+				return false;
+		} else if (!endRecurrenceDate.equals(other.endRecurrenceDate))
+			return false;
+		if (occurenceType == null) {
+			if (other.occurenceType != null)
+				return false;
+		} else if (!occurenceType.equals(other.occurenceType))
+			return false;
+		if (startRecurrenceDate == null) {
+			if (other.startRecurrenceDate != null)
+				return false;
+		} else if (!startRecurrenceDate.equals(other.startRecurrenceDate))
+			return false;
+		if (tagId != other.tagId)
+			return false;
+		return true;
+	}
+
+	/**
+	 *
+	 * Generate the recurrence task property into String
+	 *
+	 * @return String the String generated from the recurrence Task property
+	 */
+
+	@Override
+	public String toString() {
+		return "RecurrenceTask [tagId=" + tagId + ", startRecurrenceDate="
+				+ startRecurrenceDate + ", endRecurrenceDate="
+				+ endRecurrenceDate + ", occurenceType=" + occurenceType
+				+ ", getTaskId()=" + getTaskId() + ", getTaskName()="
+				+ getTaskName() + ", getPriority()=" + getPriority()
+				+ ", getSortDate()=" + getSortDate() + ", getDateCreated()="
+				+ getDateCreated() + "]";
+	}
+
+	/**
+	 *
+	 * Generate the recurrence task property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the String generated from the recurrence Task property for
+	 *         display purpose
+	 */
+
+	@Override
+	public String toDisplay() {
+		String userString = "";
+
+		userString += this.getTaskName();
+
+		if (this.getStartRecurrenceDate().equals(this.getEndRecurrenceDate())) {
+			userString += " " + KeywordConstant.KEYWORD_EVERY;
+			userString += " "
+					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
+
+		} else {
+			userString += " " + KeywordConstant.KEYWORD_EVERY;
+			userString += " "
+					+ DATE_FORMAT.format(this.getStartRecurrenceDate());
+			userString += " " + KeywordConstant.KEYWORD_TO;
+			userString += " " + DATE_FORMAT.format(this.getEndRecurrenceDate());
+		}
+
+		userString += " " + this.getOccurenceType();
+
+		if (this.getPriority() != KeywordConstant.PRIORITY_MEDIUM) {
+			userString += " " + KeywordConstant.KEYWORD_PRIORITY;
+			userString += " " + this.getPriority();
+		}
+
+		return userString;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	 */
+
+	// dropped support for recurrence task
+	private Success createRecurrenceTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Recurrence Task");
+
+		taskDesc = taskDesc.trim();
+		remainingDate = remainingDate.trim();
+
+		Success status = null;
+		RecurrenceTask task = null;
+		Scanner sc = new Scanner(remainingDate);
+
+		String startRecurrenceDateString = "";
+		String endRecurrenceDateString = "";
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
+
+		boolean isEndRecurrenceDate = false;
+		boolean isPriority = false;
+
+		String occurenceType = "";
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (resolvedWord != null) {
+				if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_DAILY)) {
+					occurenceType = KeywordConstant.KEYWORD_DAILY;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEKLY)) {
+					occurenceType = KeywordConstant.KEYWORD_WEEKLY;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_MONTHLY)) {
+					occurenceType = KeywordConstant.KEYWORD_MONTHLY;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_YEARLY)) {
+					occurenceType = KeywordConstant.KEYWORD_YEARLY;
+				}
+			}
+
+			if (!isEndRecurrenceDate && !isPriority) {
+				// in between startDate and endDate
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+						isPriority = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						isEndRecurrenceDate = true;
+
+					} else {
+						startRecurrenceDateString += " " + currentWord;
+					}
+				} else {
+					startRecurrenceDateString += " " + currentWord;
+				}
+
+			} else if (isEndRecurrenceDate && !isPriority) {
+				// in between endDate and Priority
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+						isPriority = true;
+
+					} else {
+						endRecurrenceDateString += " " + currentWord;
+					}
+				} else {
+					endRecurrenceDateString += " " + currentWord;
+				}
+
+			} else if (isPriority) {
+				// After priority
+
+				try {
+					if (resolvedWord != null) {
+						priority = Integer.parseInt(resolvedWord);
+					} else {
+						priority = Integer.parseInt(currentWord);
+					}
+
+				} catch (NumberFormatException e) {
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
+				}
+			}
+		}
+
+		String combinedDate = startRecurrenceDateString + " to "
+				+ endRecurrenceDateString;
+		combinedDate = combinedDate.trim();
+		List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
+
+		Date startRecurrenceDate = null;
+		Date endRecurrenceDate = null;
+
+		if (!dateList.isEmpty()) {
+			Date unprocessedStartDate = dateList.remove(0);
+			startRecurrenceDate = DateFixer.fixStartDate(unprocessedStartDate);
+
+			if (!dateList.isEmpty()) {
+				Date unprocessedEndDate = dateList.remove(0);
+				endRecurrenceDate = DateFixer.fixEndDate(unprocessedEndDate);
+			}
+		}
+
+		if (occurenceType.isEmpty()) {
+			task = new RecurrenceTask(taskDesc, priority, startRecurrenceDate,
+					endRecurrenceDate);
+		} else {
+			task = new RecurrenceTask(taskDesc, priority, startRecurrenceDate,
+					endRecurrenceDate, occurenceType);
+		}
+		status = new Success(task, true, null);
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * Interpret the commands into Floating Task object.
+	 * 
+	 * @param taskDesc
+	 *            earlier truncated commands
+	 * @param remainingPriority
+	 *            remains of the priority, if any
+	 * @return
+	 */
+
+	private Success createFloatingTask(String taskDesc, String remainingPriority) {
+
+		assert (taskDesc != null && remainingPriority != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Floating Task");
+
+		taskDesc = taskDesc.trim();
+
+		Success status = null;
+		FloatingTask task = null;
+
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
+
+		if (remainingPriority != null) {
+
+			remainingPriority = remainingPriority.trim();
+			Scanner sc = new Scanner(remainingPriority);
+
+			if (sc.hasNext()) {
+
+				String currentWord = sc.next();
+				String resolvedWord = keywordFullMap.get(currentWord);
+
+				try {
+					if (resolvedWord != null) {
+						priority = Integer.parseInt(resolvedWord);
+					} else {
+						priority = Integer.parseInt(currentWord);
+					}
+
+				} catch (NumberFormatException e) {
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
+				}
+			}
+
+			sc.close();
+		}
+
+		task = new FloatingTask(taskDesc, priority);
+		status = new Success(task, true, null);
+
+		return status;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	 */
+
+	// dropped feature
+	private void writeRecurrenceTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		RecurrenceTask recurrenceTask = (RecurrenceTask) currTask;
+
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(recurrenceTask.getStartRecurrenceDate());
+		endCal.setTime(recurrenceTask.getEndRecurrenceDate());
+
+		if (startCal.equals(endCal)) {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "'");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "'");
+			}
+		} else {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "',");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "',");
+			}
+
+			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
+					&& endCal.get(Calendar.MINUTE) == 59
+					&& endCal.get(Calendar.SECOND) == 59) {
+				writer.println("end: '" + sdfNormal.format(endCal.getTime())
+						+ "'");
+			} else {
+				writer.println("end: '" + sdfTime.format(endCal.getTime())
+						+ "'");
+			}
+		}
+	}
+
+	/**
+	 * Write deadline task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		DeadlineTask deadlineTask = (DeadlineTask) currTask;
+		Calendar deadlineCal = Calendar.getInstance();
+		deadlineCal.setTime(deadlineTask.getDeadline());
+
+		if (deadlineCal.get(Calendar.HOUR_OF_DAY) == 23
+				&& deadlineCal.get(Calendar.MINUTE) == 59
+				&& deadlineCal.get(Calendar.SECOND) == 59) {
+			writer.println("start: '" + sdfNormal.format(deadlineCal.getTime())
+					+ "'");
+		} else {
+			writer.println("start: '" + sdfTime.format(deadlineCal.getTime())
+					+ "'");
+		}
+	}
+
+	/**
+	 * Write normal task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeNormalTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		NormalTask normalTask = (NormalTask) currTask;
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(normalTask.getStartDateTime());
+		endCal.setTime(normalTask.getEndDateTime());
+
+		if (startCal.equals(endCal)) {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "'");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "'");
+			}
+		} else {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "',");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "',");
+			}
+
+			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
+					&& endCal.get(Calendar.MINUTE) == 59
+					&& endCal.get(Calendar.SECOND) == 59) {
+
+				// offset current end date to the next day
+				endCal.add(Calendar.DATE, 1);
+				writer.println("end: '" + sdfNormal.format(endCal.getTime())
+						+ "'");
+			} else {
+				writer.println("end: '" + sdfTime.format(endCal.getTime())
+						+ "'");
+			}
+		}
+	}
+
+	/**
+	 * Write floating task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeFloatingTaskHtml(SimpleDateFormat sdfNormal, Task currTask) {
+		FloatingTask floatingTask = (FloatingTask) currTask;
+		Date createdDate = new Date(floatingTask.getTaskId());
+		Calendar createdCal = Calendar.getInstance();
+		createdCal.setTime(createdDate);
+
+		writer.println("start: '" + sdfNormal.format(createdCal.getTime())
+				+ "'");
+	}
+
+	/**
+	 * Write the priority or completed data into html file, if any.
+	 * 
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeTaskPriorityHtml(Task currTask) {
+		if (currTask.isCompleted()) {
+			writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL
+					+ "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
+		}
+	}
+
+	/**
+	 * Write the ending html file
+	 */
+
+	private void writeClosingHtml() {
+		writer.println("]");
+
+		writer.println("});");
+		writer.println("});");
+		writer.println("</script>");
+
+		writer.println("</head>");
+
+		writer.println("<body>");
+		writer.println("<div id='calendar'>");
+		writer.println("</div>");
+		writer.println("</body>");
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+
+
+
+
+

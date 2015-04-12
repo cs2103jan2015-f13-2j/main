@@ -36,7 +36,7 @@ public class HtmlBuilder {
 	 *            List of Task(s) that will be shown in the agenda, according to
 	 *            the display type and date range
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public HtmlBuilder(String displayType, Calendar displayCal,
 			List<Task> taskList) {
 		try {
@@ -201,7 +201,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-	// @author A0111916M - unused
+	//@author A0111916M - unused
 	// dropped feature
 	private void writeRecurrenceTaskHtml(SimpleDateFormat sdfNormal,
 			SimpleDateFormat sdfTime, Task currTask) {

@@ -20,7 +20,7 @@ public class ValidatorTest {
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();

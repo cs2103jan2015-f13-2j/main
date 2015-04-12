@@ -21,7 +21,7 @@ public class AddParserTest {
 	/**
 	 * This method test the addition of normal task correctly.
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	@Test
 	public void addNormalTask() {
 		initTestEnvironment();
@@ -35,7 +35,7 @@ public class AddParserTest {
 	/**
 	 * This method test the addition of deadline task correctly.
 	 */
-	
+
 	@Test
 	public void addDeadlineTask() {
 		initTestEnvironment();
@@ -49,7 +49,7 @@ public class AddParserTest {
 	/**
 	 * This method test the addition of floating task correctly.
 	 */
-	
+
 	@Test
 	public void addFloatingTask() {
 		initTestEnvironment();
@@ -59,7 +59,7 @@ public class AddParserTest {
 
 		executeTestEquals(command, expected);
 	}
-	
+
 	/**********************
 	 * NON-TEST METHODS
 	 *********************/
@@ -68,7 +68,7 @@ public class AddParserTest {
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	
+
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
@@ -79,7 +79,7 @@ public class AddParserTest {
 	 * pass in the parameter. It also test the expected output against the
 	 * obtained output.
 	 */
-	
+
 	private void executeTestEquals(String command, String expected) {
 
 		@SuppressWarnings("rawtypes")
@@ -92,7 +92,7 @@ public class AddParserTest {
 		Task task = (Task) status.getObj();
 		assertEquals(expected, task.toDisplay());
 	}
-	
+
 	/**
 	 * This method initiates the required information before executing the test
 	 * cases.
@@ -108,7 +108,7 @@ public class AddParserTest {
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Success invokePrivateMethod(Class targetClass,
 			String methodName, Class[] argClasses, Object[] argObjects) {

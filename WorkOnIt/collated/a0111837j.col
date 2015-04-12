@@ -1,0 +1,2548 @@
+//@author: a0111837j
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
+	 */
+
+	public KeyListener() {
+		// disable jnativehook logging
+		logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+		logger.setLevel(Level.OFF);
+	}
+
+	public void nativeKeyPressed(NativeKeyEvent e) {
+
+		String keyPressed = NativeKeyEvent.getKeyText(e.getKeyCode());
+
+		if (keyPressed.equals(hotkeyValueSecond)) {
+			isHotkeySecond = true;
+			if (isHotkeyFirst == true) {
+				new JFXPanel();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+
+						new Main().start(new Stage());
+					}
+				});
+			}
+		}
+		if (keyPressed.equals(hotkeyValueFirst)) {
+			isHotkeyFirst = true;
+			if (isHotkeySecond == true) {
+
+				new JFXPanel();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						new Main().start(new Stage());
+					}
+				});
+			}
+		}
+		if (keyPressed.equals(hotkeyValueClose)) {
+			try {
+				// Platform.exit();
+
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public void nativeKeyReleased(NativeKeyEvent e) {
+		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueSecond)) {
+			isHotkeySecond = false;
+		}
+		if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals(hotkeyValueFirst)) {
+			isHotkeyFirst = false;
+		}
+	}
+
+	public void nativeKeyTyped(NativeKeyEvent e) {
+
+	}
+
+	/**
+	 * This method registers the keyhook
+	 * 
+	 */
+
+	public void registerHook() {
+		try {
+			System.out.println("key hook registered successfully");
+			GlobalScreen.registerNativeHook();
+		} catch (NativeHookException e) {
+			System.out.println("hook registration fail");
+			System.exit(1);
+		} catch (Exception e) {
+			System.out.println("hook registration fail");
+			System.exit(1);
+		}
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	@Override
+	public void start(final Stage primaryStage) {
+
+		try {
+			/***********************
+			 * UI DECLARATION
+			 ***********************/
+
+			// UI DECLARE
+			final TextField txtF = new TextField();
+			final TextFieldListCell cellText = new TextFieldListCell();
+			final ListView listView = new ListView();
+			final WebView webview = new WebView();
+			final ScrollPane scrollPane = new ScrollPane();
+			final Popup popup = new Popup();
+			final WebEngine webengine = webview.getEngine();
+
+			Pane root = new Pane();
+			Scene scene = new Scene(root, TEXT_BOX_WIDTH, SCENE_HEIGHT);
+
+			// TEXTFLOW
+			final TextFlow tFlow = new TextFlow();
+
+			initializeGlobals();
+
+			/***********************
+			 * UI POSITIONING
+			 ***********************/
+
+			// UI - LIST VIEW POSITION
+			listView.setLayoutY(POSITION_LIST_VIEW_Y);
+
+			// UI - CALENDAR POSITION
+			scrollPane.setLayoutY(POSITION_CALENDAR_SCROLLPANE_Y);
+
+			// UI - TEXT FIELD POSITION
+			txtF.setLayoutX(POSITION_TEXT_BOX_X);
+			txtF.setLayoutY(POSITION_TEXT_BOX_Y);
+
+			/***********************
+			 * UI SETTINGS
+			 ***********************/
+
+			// UI - ROOT SETTINGS
+			root.setStyle("-fx-background-color: rgba(0, 0, 0, 0);"
+					+ "-fx-background-radius: 10;");
+
+			// UI - PRIMARY STAGE SETTINGS
+			primaryStage.initStyle(StageStyle.TRANSPARENT);
+			setProgramIconDesc(primaryStage);
+
+			// UI - SCENE SETTINGS
+			// scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
+			scene.setFill(null);
+
+			// UI - POP UP SETTINGS
+			popup.setAutoFix(true);
+			popup.setAutoHide(true);
+			popup.setHideOnEscape(true);
+
+			// UI - LIST VIEW SETTINGS
+			listView.setId("listView");
+			listView.setPrefSize(TEXT_BOX_WIDTH, LIST_VIEW_HEIGHT);
+			listView.setStyle("-fx-font-size: 15pt;");
+
+			listView.setOpacity(0);
+			listView.setEditable(true);
+			listView.setFocusTraversable(false);
+
+			// UI - CALENDAR SETTINGS
+			webview.setVisible(true);
+			scrollPane.setContent(webview);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
+			scrollPane.setVisible(false);
+
+			// UI - TEXT FIELD SETTINGS
+			txtF.setId("textField");
+			txtF.setPrefHeight(TEXT_BOX_HEIGHT);
+			txtF.setPrefWidth(TEXT_BOX_WIDTH);
+			txtF.setText(Message.UI_INPUT_HERE);
+			txtF.setFont(Font.font("Arial", 28));
+
+			// UI - TEXT FLOW SETTINGS
+			tFlow.setLayoutX(10);
+			tFlow.setLayoutY(10);
+
+			/***********************
+			 * UI ACTIONS
+			 ***********************/
+
+			// UI - LIST VIEW ACTIONS
+			listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					// addDataToListView();
+					listHandler(event, primaryStage, txtF, listView);
+					popup.hide();
+				}
+			});
+
+			// UI - TEXT FIELD ACTIONS
+			txtF.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+
+					System.out.println("textfield Text: " + txtF.getText());
+					scrollPane.setVisible(false);
+
+					wordHandler(txtF.getText(), listView, tFlow);
+					executeCommand(txtF, txtF.getText(), primaryStage, popup,
+							listView, tFlow);
+					handleCommandResponse(primaryStage, txtF, listView,
+							scrollPane, popup, webengine);
+					wordHandler(txtF.getText(), listView, tFlow);
+					indexCounter = 0;
+				}
+
+			});
+
+			txtF.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					keypressHandler(event, txtF.getText(), primaryStage, txtF,
+							listView, tFlow, true);
+					switchListView(listView, txtF, event);
+					popup.hide();
+				}
+			});
+
+			txtF.setOnKeyReleased(new EventHandler<KeyEvent>() {
+				public void handle(KeyEvent event) {
+					keypressHandler(event, txtF.getText(), primaryStage, txtF,
+							listView, tFlow, false);
+					switchListView(listView, txtF, event);
+				}
+			});
+
+			/***********************
+			 * UI DISPLAY OPTIONS
+			 ***********************/
+
+			root.getChildren().add(txtF);
+			root.getChildren().add(listView);
+			root.getChildren().add(scrollPane);
+			root.getChildren().add(tFlow);
+
+			primaryStage.setScene(scene);
+			primaryStage.setAlwaysOnTop(true);
+			primaryStage.show();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Handles the response of the executed command, it shows the user whether
+	 * the command is accepted or not, and calls for an appropriate response
+	 * when the command is executed correctly.
+	 *
+	 * @param primaryStage
+	 *            The stage of this application
+	 * @param txtF
+	 *            The main input textbox
+	 * @param listView
+	 *            The listview that contain tasks to be displayed
+	 * @param scrollPane
+	 *            The scrollpane containing the calendar
+	 * @param popup
+	 *            The popup to show whether command is accepted
+	 * @param webengine
+	 *            The WebEngine for creating the calendar
+	 */
+	private void handleCommandResponse(final Stage primaryStage,
+			final TextField txtF, final ListView listView,
+			final ScrollPane scrollPane, final Popup popup,
+			final WebEngine webengine) {
+
+		if (successObj != null) {
+			if (successObj.isSuccess()) {
+				Object returnObj = successObj.getObj();
+
+				handleDisplayCommand(txtF, listView, scrollPane, webengine,
+						returnObj);
+			}
+		} else {
+			showPopUp(null, false, primaryStage, popup);
+		}
+	}
+
+	/**
+	 * This method handles the list that will be shown after a successfully
+	 * executed command
+	 *
+	 * @param txtF
+	 *            The main input textbox
+	 * @param listView
+	 *            The listview that contain tasks to be displayed
+	 * @param taskList
+	 *            The list that contains task items
+	 * 
+	 */
+	private void handleDisplayList(final TextField txtF,
+			final ListView listView, List<Task> taskList) {
+		if (taskList.isEmpty()) {
+			listView.getItems().clear();
+			listView.setOpacity(0);
+			txtF.setText(Message.UI_NO_TASK_FOUND);
+			txtF.selectAll();
+		} else {
+			addTaskToListView(listView, successObj);
+			switchListView(listView);
+		}
+	}
+
+	/**
+	 * This method handles the displays of various objects being returned from
+	 * the appropriate commands
+	 * 
+	 * @param txtF
+	 *            The main input textbox
+	 * @param listView
+	 *            The listview that contain tasks to be displayed
+	 * @param scrollPane
+	 *            The scrollpane to contain the listview
+	 * @param webengine
+	 *            The webengine which creates the calendar
+	 * @param returnObj
+	 *            The embedded object of the Success object returned
+	 */
+	private void handleDisplayCommand(final TextField txtF,
+			final ListView listView, final ScrollPane scrollPane,
+			final WebEngine webengine, Object returnObj) {
+		if (successObj instanceof SuccessDisplay) {
+
+			SuccessDisplay sdObj = (SuccessDisplay) successObj;
+			displayCalendar(txtF, listView, scrollPane, webengine, sdObj);
+
+		} else {
+			if (returnObj instanceof ArrayList<?>) {
+
+				List<Task> taskList = (ArrayList<Task>) successObj.getObj();
+				handleDisplayList(txtF, listView, taskList);
+
+			} else if (returnObj instanceof SuccessDisplay) {
+
+				SuccessDisplay sdObj = (SuccessDisplay) returnObj;
+				displayCalendar(txtF, listView, scrollPane, webengine, sdObj);
+			}
+		}
+	}
+
+	/**
+	 * This method handles the displays of various objects being returned from
+	 * the appropriate commands
+	 * 
+	 * @param txtF
+	 *            The main input textbox
+	 * @param listView
+	 *            The listview that contain tasks to be displayed
+	 * @param scrollPane
+	 *            The scrollpane to contain the listview
+	 * @param webengine
+	 *            The webengine which creates the calendar
+	 * @param returnObj
+	 *            The embedded object of the Success object returned
+	 */
+	private void displayCalendar(final TextField txtF, final ListView listView,
+			final ScrollPane scrollPane, final WebEngine webengine,
+			SuccessDisplay sdObj) {
+		String displayType = sdObj.getDisplayType();
+		if (displayType.equals(KeywordConstant.KEYWORD_MONTH)
+				|| displayType.equals(KeywordConstant.KEYWORD_WEEK)) {
+			@SuppressWarnings("unchecked")
+			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+			Calendar displayCal = sdObj.getCalendar();
+
+			HtmlBuilder htmlBuilder = new HtmlBuilder(displayType, displayCal,
+					taskList);
+			webengine.setJavaScriptEnabled(true);
+			webengine.load(FileName.getFilenameCalendarUiUrl());
+
+			scrollPane.setVisible(true);
+
+		} else if (sdObj.getDisplayType().equals(KeywordConstant.KEYWORD_DAY)
+				|| sdObj.getDisplayType().equals(KeywordConstant.KEYWORD_DATE)) {
+			// daily view
+			List<Task> taskList = (ArrayList<Task>) sdObj.getObj();
+			handleDisplayList(txtF, listView, taskList);
+		}
+	}
+
+	/**
+	 * This method sets the appropriate icons of different sizes and the title
+	 * to the main stage of the application
+	 *
+	 * @param primaryStage
+	 *            The main stage of the application
+	 * 
+	 */
+	private void setProgramIconDesc(final Stage primaryStage) {
+		Image imgProgramIcon16 = new Image(Graphic.UI_PROGRAM_ICON_16);
+		Image imgProgramIcon24 = new Image(Graphic.UI_PROGRAM_ICON_24);
+		Image imgProgramIcon32 = new Image(Graphic.UI_PROGRAM_ICON_32);
+		Image imgProgramIcon64 = new Image(Graphic.UI_PROGRAM_ICON_64);
+		Image imgProgramIcon128 = new Image(Graphic.UI_PROGRAM_ICON_128);
+		Image imgProgramIcon256 = new Image(Graphic.UI_PROGRAM_ICON_256);
+		Image imgProgramIcon512 = new Image(Graphic.UI_PROGRAM_ICON_512);
+
+		primaryStage.getIcons().add(imgProgramIcon16);
+		primaryStage.getIcons().add(imgProgramIcon24);
+		primaryStage.getIcons().add(imgProgramIcon32);
+		primaryStage.getIcons().add(imgProgramIcon64);
+		primaryStage.getIcons().add(imgProgramIcon128);
+		primaryStage.getIcons().add(imgProgramIcon256);
+		primaryStage.getIcons().add(imgProgramIcon512);
+
+		primaryStage.setTitle(Message.UI_TITLE);
+	}
+
+	/**
+	 * This method initializes the global objects that is required by the
+	 * program
+	 * 
+	 */
+	public void initializeGlobals() {
+		elementList = new ArrayList<String>();
+		secondaryList = new ArrayList<String>();
+		commandValidator = new CommandParser();
+		keywordValidator = new Validator();
+		indexArray = new ArrayList<Integer>();
+	}
+
+	/**
+	 * This method shows the history of task names that the user has entered.
+	 * 
+	 * @param listView
+	 *            This listview is the container of the list items
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	private void executeCommand(TextField txtF, String commandString,
+			Stage primaryStage, Popup popup, ListView listView, TextFlow tFlow) {
+
+		Success status = null;
+
+		if (keywordValidator.validateKeywordSequence(secondaryList) == true) {
+
+			status = commandValidator.parseCommand(commandString);
+
+			if (status.isSuccess() == false) {
+				System.out.println(status.getMessage());
+			} else {
+				if (status.getObj() instanceof String) {
+					String updateCommand = (String) status.getObj();
+					txtF.setText(updateCommand);
+				} else {
+					txtF.clear();
+					listView.getItems().clear();
+					listView.setOpacity(0);
+				}
+
+				System.out.println(Message.SUCCESS_COMMAND);
+			}
+
+			showPopUp(status.getMessage(), status.isSuccess(), primaryStage,
+					popup);
+			tFlow.getChildren().clear();
+
+		} else {
+			showPopUp(null, false, primaryStage, popup);
+			System.out.println(Message.FAIL_PARSE_COMMAND);
+		}
+
+		successObj = status;
+	}
+
+	/**
+	 * This method handles the keypresses of the user
+	 * 
+	 * @param event
+	 *            This is the keypress event of the user
+	 * @param textFieldText
+	 *            This is the text from the textfield
+	 * @param stage
+	 *            This is the main stage of the application
+	 * @param txtF
+	 *            This is the text field from the application
+	 * @param listView
+	 *            This is the container containing the list of items
+	 */
+	public void keypressHandler(KeyEvent event, String textFieldText,
+			final Stage stage, TextField txtF, ListView listView,
+			TextFlow tFlow, boolean isOnKeyPressed) {
+
+		int maxCharacter = 43; // optimal value for the textbox dimension
+
+		if (event.getCode().equals(KeyCode.ESCAPE)) {
+			hide(stage);
+		} else if (event.getCode().equals(KeyCode.TAB) && isOnKeyPressed) {
+			int startPosition = 0;
+			if (indexArray.size() > 0) {
+				startPosition = indexArray.get(indexCounter);
+			}
+			int endPosition = 0;
+			int arrayOffset = 1;
+			if (indexCounter >= indexArray.size() - arrayOffset) {
+				endPosition = txtF.getLength();
+			} else {
+				endPosition = indexArray.get(indexCounter + arrayOffset);
+				endPosition -= secondaryList.get(indexCounter + 1).length();
+			}
+
+			// selecting in reverse
+			txtF.positionCaret(endPosition);
+			txtF.selectRange(endPosition, startPosition);
+
+			// increment tab counter
+			indexCounter++;
+
+			if (indexCounter >= indexArray.size()) {
+				indexCounter = 0;
+			}
+		} else if (event.getCode().equals(KeyCode.DOWN)) {
+			listView.requestFocus();
+		}
+		handleEachKey(txtF, tFlow);
+		if (txtF.getText().length() > maxCharacter) {
+			tFlow.getChildren().clear();
+		}
+		// detects a space, handle new word
+		if (event.getText().equals(" ")) {
+			wordHandler(textFieldText, listView, tFlow);
+		}
+	}
+
+	/**
+	 * This method handles each character of user input for textFlow
+	 * 
+	 * @param txtF
+	 *            This is the textfield of
+	 * @param tf
+	 *            This is the textflow of the text nodes
+	 */
+	public void handleEachKey(TextField txtF, TextFlow tf) {
+		String[] stringArr = txtF.getText().trim().split(" ");
+		tf.getChildren().clear();
+		for (int i = 0; i < stringArr.length; i++) {
+			Text currText;
+
+			currText = new Text(" " + stringArr[i]);
+
+			currText.setFont(Font.font("Arial", 28));
+			if (keywordValidator.validateKeyword(stringArr[i])) {
+				currText.setFill(Color.RED);
+
+			} else {
+				currText.setVisible(false);
+			}
+			tf.getChildren().add(currText);
+		}
+	}
+
+	/**
+	 * This method handles keypresses from within the list view
+	 *
+	 * @param event
+	 *            The key event by the user
+	 * @param stage
+	 *            The main stage of the application
+	 * @param txtF
+	 *            The text field of the application
+	 * @param listView
+	 *            This is the container containing the list of items
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	private void wordHandler(String textFieldText, ListView listView,
+			TextFlow tFlow) {
+
+		if (textFieldText == "") {
+			tFlow.getChildren().clear();
+		}
+
+		String[] stringArr = textFieldText.trim().split(" ");
+
+		resetDependentLists();
+		int startIndex = 0;
+		startIndex = loopTextNodes(listView, stringArr, startIndex);
+	}
+
+	/**
+	 * This method loops through the text nodes input by the user and processes
+	 * the keywords
+	 * 
+	 * @param listView
+	 *            This is the container containing the list of items
+	 * @param stringArr
+	 *            This is the string array of the text nodes
+	 * @param startIndex
+	 *            This is the start index
+	 * @return int startIndex
+	 */
+	private int loopTextNodes(ListView listView, String[] stringArr,
+			int startIndex) {
+		for (int i = 0; i < stringArr.length; i++) {
+			elementList.add(stringArr[i]);
+			// Text currText;
+
+			// currText = new Text(" " + stringArr[i]);
+
+			// currText.setFont(Font.font("Arial", 28));
+			int length = startIndex + stringArr[i].length();
+			if (i > 0) {
+				length++;
+			}
+
+			stringArr[i] = stringArr[i].toLowerCase();
+
+			// check if current word is a keyword
+			if (keywordValidator.validateKeyword(stringArr[i])) {
+				// txtF.setStyle("-fx-text-fill: red;");
+
+				String currentKeyword = stringArr[i];
+
+				indexArray.add(length);
+				// currText.setFill(Color.RED);
+				secondaryList.add(currentKeyword);
+
+				if (stringArr[i].equals(KeywordConstant.KEYWORD_ADD)) {
+					history(listView);
+
+				} else if (isHistory) {
+					listView.getItems().clear();
+					listView.setOpacity(0);
+					isHistory = false;
+				}
+
+			} else {
+				// currText.setVisible(false);
+			}
+			startIndex = length;
+			// tf.getChildren().add(currText);
+		}
+		return startIndex;
+	}
+
+	/**
+	 * This method resets and clears relevant lists after an operation
+	 */
+	private void resetDependentLists() {
+		elementList.clear();
+		secondaryList.clear();
+		// tf.getChildren().clear();
+		indexArray.clear();
+	}
+
+	/**
+	 * This method hides the main stage of the application
+	 * 
+	 * @param stage
+	 *            This is the main stage of the application
+	 */
+	private static void hide(final Stage stage) {
+		Platform.setImplicitExit(false);
+		stage.hide();
+	}
+
+	// for running via Main, bypassing hotkey
+	// public static void main(String[] args) {
+	// InitFileIO initFile = new InitFileIO();
+	// initFile.checkAndProcessFile();
+	// launch();
+	// }
+
+	/**
+	 * This method alternates between hiding and showing the list view
+	 * 
+	 * @param listView
+	 *            This is the container of the list of tasks
+	 * @param textField
+	 *            This is the main text field of the application
+	 */
+	// FOR KEY PRESS
+	private static void switchListView(ListView listView, TextField textField,
+			KeyEvent event) {
+
+		if (event.getCode().equals(KeyCode.DOWN) && listView.getOpacity() == 0) {
+			Success successObj = null;
+			successObj = commandValidator.parseCommand("display today");
+
+			addTaskToListView(listView, successObj);
+			if (listView.getItems().size() != 0) {
+				listView.setOpacity(1);
+			}
+		}
+		if (event.getCode().equals(KeyCode.UP)) {
+			listView.setOpacity(0);
+		}
+	}
+
+	/**
+	 * This method alternates between hiding and showing the list view
+	 *
+	 * @param listView
+	 *            This is the container for the list of items
+	 */
+	// FOR KEY ON ACTION
+	private static void switchListView(ListView listView) {
+		if (listView.getItems().size() != 0) {
+			listView.setOpacity(1);
+		} else {
+			listView.setOpacity(0);
+		}
+	}
+
+	/**
+	 * This method adds the task from the success object into the list view
+	 * 
+	 * @param listView
+	 *            This is the container containing the list of tasks
+	 * @param successObj
+	 *            This is the object containing the required data to add into
+	 *            the list
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
+	 */
+
+	public static void main(String[] args) {
+
+		setLogging(false);
+
+		InitFileIO initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		KeyListener listener = new KeyListener();
+
+		listener.registerHook();
+		GlobalScreen.addNativeKeyListener(listener);
+	}
+
+	/**
+	 * May enable or disable logging.
+	 * 
+	 * @param isLogging
+	 *            boolean value to enable or disable logging
+	 */
+	private static void setLogging(boolean isLogging) {
+
+		if (!isLogging) {
+			LOGGER.setUseParentHandlers(false);
+
+			Logger globalLogger = Logger.getLogger("global");
+			Handler[] handlers = globalLogger.getHandlers();
+			for (Handler handler : handlers) {
+				globalLogger.removeHandler(handler);
+			}
+		}
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
+	 */
+
+	public Success(boolean isSuccess, String message) {
+
+		this(null, isSuccess, message);
+	}
+
+	/**
+	 * This is constructor for Success class .
+	 *
+	 * @param Object
+	 *            object that need to be store inside the Success object.
+	 * @param boolean true if the operation is successfully go through, else
+	 *        false.
+	 * @param String
+	 *            the message that need to be return
+	 * 
+	 * @return
+	 */
+
+	public Success(Object obj, boolean isSuccess, String message) {
+
+		this.setObj(obj);
+		this.setSuccess(isSuccess);
+		this.setMessage(message);
+	}
+
+	/**
+	 * This is the method to get whether the Success Object is success or not
+	 *
+	 * @return boolean return true Success Object is successfully go through.
+	 */
+
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+
+	/**
+	 * This is the method to setSuccess Object is success or not
+	 *
+	 * param boolean set whether is success object is true or false.
+	 */
+
+	private void setSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
+	}
+
+	/**
+	 * This is the method to get message from the Success Object
+	 *
+	 * @return String return success message from the success object.
+	 */
+
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * This is the method to set message for the Success Object
+	 *
+	 * @return String set success message for the success object.
+	 */
+
+	private void setMessage(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * This is the method to get object from the Success Object
+	 *
+	 * @return Object return object from the success object.
+	 */
+
+	public Object getObj() {
+		return obj;
+	}
+
+	/**
+	 * This is the method to set object for the Success Object
+	 *
+	 * @return Object set object for the Success Object .
+	 */
+
+	public void setObj(Object obj) {
+		this.obj = obj;
+	}
+
+	/**
+	 *
+	 * Generate the Success Object property into String
+	 *
+	 * @return String the String generated from the Success Object property
+	 */
+
+	@Override
+	public String toString() {
+		return "Success [obj=" + obj + ", isSuccess=" + isSuccess
+				+ ", message=" + message + "]";
+	}
+
+	/**
+	 *
+	 * Compare between 2 Success Object whether they are the same or not.
+	 *
+	 * @param Object
+	 *            The parsed in object that need to be compared
+	 * @return boolean return true if both Success Object are the same, else
+	 *         false.
+	 */
+
+	@Override
+	public boolean equals(Object other) {
+		boolean isSame = false;
+
+		Success otherSuccess = (Success) other;
+		System.out.println(this);
+		System.out.println(otherSuccess);
+		if (otherSuccess.getMessage().equals(this.getMessage())) {
+			if (otherSuccess.getObj() != null && this.getObj() != null) {
+				Object returnObj = otherSuccess.getObj();
+				Object thisObj = this.getObj();
+
+				if (returnObj instanceof ArrayList<?>) {
+					ArrayList<?> otherList = (ArrayList<?>) returnObj;
+					ArrayList<?> thisList = (ArrayList<?>) thisObj;
+					// System.out.println(otherList.size() + " " +
+					// thisList.size());
+					if (otherList.size() == thisList.size()) {
+						isSame = true;
+					}
+				}
+			} else {
+				isSame = true;
+			}
+		}
+
+		return isSame;
+
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	 */
+
+	public SuccessDisplay(boolean isSuccess, String message) {
+		super(isSuccess, message);
+
+	}
+
+	/**
+	 * This is constructor for SuccessDisplay class .
+	 *
+	 * @param String
+	 *            the message that need to be return
+	 * @param Object
+	 *            object that need to be store inside the Success Display
+	 *            object.
+	 * @param boolean true if the operation is successfully go through, else
+	 *        false.
+	 * @param String
+	 *            the message that need to be return
+	 * @return
+	 */
+
+	public SuccessDisplay(String displayType, Object obj, boolean isSuccess,
+			String message) {
+
+		super(obj, isSuccess, message);
+		setDisplayType(displayType);
+
+	}
+
+	/**
+	 * This is the method to get the display type for SuccessDisplay Object .
+	 *
+	 * @return String return the display type of the SuccessDisplay Object
+	 */
+
+	public String getDisplayType() {
+		return displayType;
+	}
+
+	/**
+	 * This is the method to set the display type for SuccessDisplay Object .
+	 *
+	 * @param String
+	 *            set the display type of the SuccessDisplay Object
+	 */
+
+	private void setDisplayType(String displayType) {
+		this.displayType = displayType;
+	}
+
+	/**
+	 * This is the method to get the calendar for SuccessDisplay Object .
+	 *
+	 * @return Calendar return the calendar of the SuccessDisplay Object
+	 */
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	/**
+	 * This is the method to set the calendar for SuccessDisplay Object .
+	 *
+	 * @param Calendar
+	 *            set the calendar of the SuccessDisplay Object
+	 */
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+
+	/**
+	 * This is the method to set the date for SuccessDisplay Object .
+	 *
+	 * @param Date
+	 *            set the date of the SuccessDisplay Object
+	 */
+
+	public void setCalendar(Date date) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		this.calendar = calendar;
+	}
+
+	/**
+	 *
+	 * Generate the SuccessDisplay property into String and it is for display
+	 * purpose
+	 *
+	 * @return String the String generated from the SuccessDisplay property for
+	 *         display purpose
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
+	 */
+
+	@SuppressWarnings("unchecked")
+	protected void secondaryListRetrieval(Success status) {
+
+		Success retrievalStatus = null;
+		CommandParser commandParser = new CommandParser();
+
+		if (status.isSuccess() == true && dataParser.getLastRetrieve() != null) {
+
+			Scanner retrievalSD = new Scanner(dataParser.getLastRetrieve());
+			String type = null;
+			if (retrievalSD.hasNext()) {
+				type = retrievalSD.next();
+				type = keywordFullMap.get(type);
+
+				if (type.equalsIgnoreCase(KeywordConstant.KEYWORD_DISPLAY)) {
+
+					retrievalStatus = (SuccessDisplay) retrievalStatus;
+				}
+			}
+			retrievalStatus = commandParser.parseCommand(dataParser
+					.getLastRetrieve());
+
+			if (retrievalStatus instanceof SuccessDisplay) {
+				status.setObj(retrievalStatus);
+				dataParser
+						.setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+								.getObj());
+			} else {
+				status.setObj(retrievalStatus.getObj());
+				dataParser
+						.setRetrievedTaskList((ArrayList<Task>) retrievalStatus
+								.getObj());
+			}
+			retrievalSD.close();
+		}
+	}
+
+	/**
+	 * Returns a boolean regarding whether the String parameter is a number or
+	 * not.
+	 *
+	 * @param text
+	 *            String to be determined whether it is a number
+	 * @return boolean whether text is a number
+	 */
+
+	public boolean isNaN(String text) {
+		boolean isNumber;
+
+		try {
+			Integer.parseInt(text);
+			isNumber = true;
+		} catch (NumberFormatException e) {
+			isNumber = false;
+		}
+
+		return !isNumber;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 */
+
+	@SuppressWarnings("unchecked")
+	private Success executeRetrieveCommand(String remainingCommand) {
+
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+
+		if (remainingCommand == null) {
+			status = new Success(false, Message.FAIL_PARSE_COMMAND);
+		} else {
+
+			RetrieveParser retrieveParser = new RetrieveParser(keywordFullMap,
+					dataParser);
+
+			dataParser.setLastRetrieve(KeywordConstant.KEYWORD_RETRIEVE);
+			remainingCommand = remainingCommand.trim();
+
+			status = retrieveParser.parseRetrieveCommand(remainingCommand);
+
+			dataParser.setRetrievedTaskList(null);
+			if (status.isSuccess() == true) {
+				dataParser.appendLastRetrieve(remainingCommand);
+				if (status.getObj() != null) {
+					dataParser.setRetrievedTaskList((ArrayList<Task>) status
+							.getObj());
+				}
+			}
+		}
+
+		return status;
+	}
+
+	/**
+	 * Begin executing "delete" command. It will call DeleteParser to continue
+	 * parsing command for "delete". It will pass back a Success object to
+	 * parseCommand method, which will then pass back to UI tier.
+	 * 
+	 * @param remainingCommand
+	 *            The remaining command that were truncated
+	 * @return Success object
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
+	 */
+
+	public ArrayList<Task> getRetrievedTaskList() {
+		return retrievedTaskList;
+	}
+
+	/**
+	 * Set the retrieved list that is filled with Task(s), if any.
+	 * 
+	 * @param retrievedTaskList
+	 *            set the list of Task(s)
+	 */
+
+	public void setRetrievedTaskList(ArrayList<Task> retrievedTaskList) {
+		this.retrievedTaskList = retrievedTaskList;
+	}
+
+	/**
+	 * Returns the last retrieved or displayed command, if any retrieve or
+	 * display is performed.
+	 * 
+	 * @return lastRetrieve The command that were used previously
+	 */
+
+	public String getLastRetrieve() {
+		return lastRetrieve;
+	}
+
+	/**
+	 * Set the last retrieved or displayed command, if any retrieve or display
+	 * is performed.
+	 * 
+	 * @param lastRetrieve
+	 *            Set the command that were used previously
+	 */
+
+	public void setLastRetrieve(String lastRetrieve) {
+		this.lastRetrieve = lastRetrieve;
+	}
+
+	/**
+	 * Append more commands to previous retrieve or display command.
+	 * 
+	 * @param append
+	 *            Append more command to existing last retrieve command
+	 */
+
+	public void appendLastRetrieve(String append) {
+		this.lastRetrieve += " " + append;
+	}
+
+	/**
+	 * Returns the Task object that is pending for update, if any update command
+	 * is executed.
+	 * 
+	 * @return taskToRemove The Task object that will be used for update, if any
+	 *         update command is executed.
+	 */
+
+	public Task getTaskToRemove() {
+		return taskToRemove;
+	}
+
+	/**
+	 * Set the Task object that is pending for update, if any update command is
+	 * performed.
+	 * 
+	 * @param taskToRemove
+	 *            Set the Task object to be updated, if any update command is
+	 *            performed.
+	 */
+
+	public void setTaskToRemove(Task taskToRemove) {
+		this.taskToRemove = taskToRemove;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
+	 */
+
+	public RetrieveParser(Map<String, String> keywordFullMap,
+			DataParser dataParser) {
+		this.keywordFullMap = keywordFullMap;
+		this.dataParser = dataParser;
+		engine = new Engine();
+
+		LOGGER.fine("Retrieve Parser instantiated");
+	}
+
+	/**
+	 * Returns a Success object containing date retrieved from that will be
+	 * passed to the UI tier of the program to handle. This method will always
+	 * return the Success object containing relevant information regardless of
+	 * successful retrieval or not.
+	 *
+	 * @param remainingCommand
+	 *            command that is left after processing
+	 * @return Success object
+	 */
+
+	protected Success parseRetrieveCommand(String remainingCommand) {
+
+		assert (remainingCommand != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing retrieve command");
+
+		Success status = null;
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		Scanner sc = new Scanner(remainingCommand);
+		String remainingText = "";
+		String searchString = "";
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
+		boolean isPriority = false;
+		boolean isAll = false;
+		boolean isFrom = false;
+		boolean isOn = false;
+		boolean isDesc = false;
+		boolean isDay = false;
+		boolean isWeek = false;
+		boolean isMonth = false;
+		boolean isResolved = false;
+		boolean isDoneUndone = false;
+
+		Date startDate = null;
+		Date endDate = null;
+
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (resolvedWord != null) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+
+					remainingText = sc.nextLine();
+					isSingleDate = true;
+					isDoubleDate = true;
+					isFrom = true;
+					isResolved = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
+
+					remainingText = sc.nextLine();
+					isSingleDate = true;
+					isDoubleDate = false;
+					isOn = true;
+					isResolved = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
+					isAll = true;
+					isResolved = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
+
+					remainingText = sc.nextLine();
+					isPriority = true;
+					isResolved = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)
+						|| resolvedWord
+								.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+					if (sc.hasNextLine()) {
+						remainingText = sc.nextLine();
+					} else {
+						remainingText = currentWord;
+					}
+					isDoneUndone = true;
+					isResolved = true;
+
+				}
+			} else {
+				searchString += " " + currentWord;
+
+			}
+		}
+
+		String combinedSearch = searchString + " " + remainingText;
+
+		// if captured by searchString and not remainingText, means the user
+		// only typed a single date
+		if (isResolved == false) {
+			if (remainingText.trim().equals("")
+					&& DateFixer.parseStringToDate(combinedSearch).size() > 0) {
+				String[] mthArray = { "january", "february", "march", "april",
+						"may", "june", "july", "august", "september",
+						"october", "november", "december" };
+
+				Scanner dateScanner = new Scanner(combinedSearch);
+
+				while (dateScanner.hasNext()) {
+					String currWord = dateScanner.next();
+
+					boolean isCurrNumber = !auxParser.isNaN(currWord);
+					// if there's number, it's a single day, else it's just
+					// month
+					if (isCurrNumber == true) {
+						isDoubleDate = false;
+						isDay = true;
+					} else {
+						for (int i = 0; i < mthArray.length; i++) {
+							String currMonth = mthArray[i];
+							if (currMonth.contains(currWord)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_MONTH)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_MONTHS)) {
+								isMonth = true;
+								isDoubleDate = true;
+							} else if (currWord
+									.equals(KeywordConstant.KEYWORD_WEEK)
+									|| currWord
+											.equals(KeywordConstant.KEYWORD_WEEKS)) {
+								isWeek = true;
+								isDoubleDate = true;
+							}
+						}
+					}
+				}
+
+				if (isDay == false && isWeek == false && isMonth == true) {
+					Date unfixedMonth = null;
+
+					List<Date> dateList = DateFixer
+							.parseStringToDate(searchString);
+
+					if (!dateList.isEmpty()) {
+						unfixedMonth = dateList.remove(0);
+					}
+
+					startDate = DateFixer.fixStartDateDisplay(unfixedMonth,
+							KeywordConstant.KEYWORD_MONTH);
+					endDate = DateFixer.fixEndDateDisplay(unfixedMonth,
+							KeywordConstant.KEYWORD_MONTH);
+
+				} else if (isDay == true && isWeek == false && isMonth == true) {
+					isSingleDate = true;
+					isDoubleDate = false;
+					remainingText = searchString;
+				} else if (isDay == false && isWeek == true && isMonth == false) {
+					Date unfixedWeek = null;
+
+					List<Date> dateList = DateFixer
+							.parseStringToDate(searchString);
+					if (!dateList.isEmpty()) {
+						unfixedWeek = dateList.remove(0);
+					}
+
+					startDate = DateFixer.fixStartDateDisplay(unfixedWeek,
+							KeywordConstant.KEYWORD_WEEK);
+					endDate = DateFixer.fixEndDateDisplay(unfixedWeek,
+							KeywordConstant.KEYWORD_WEEK);
+				} else {
+					isSingleDate = true;
+					remainingText = searchString;
+				}
+
+				dateScanner.close();
+			} else {
+
+				// retrieve using description
+				if (isOn == true) {
+					combinedSearch = searchString.trim() + " on "
+							+ remainingText.trim();
+				} else if (isFrom == true) {
+					combinedSearch = searchString.trim() + " from "
+							+ remainingText.trim();
+				}
+
+				isDesc = true;
+			}
+		}
+
+		if (isAll == true) {
+			status = retrieveAllDates();
+		} else if (isPriority == true) {
+			status = retrievePriority(remainingText.trim());
+		} else if (isDesc == true) {
+			status = retrieveTaskDesc(combinedSearch.trim());
+		} else if (isDoneUndone == true) {
+			status = retrieveDoneUndone(remainingText.trim());
+		} else {
+
+			if (isSingleDate == true && isDoubleDate == false) {
+
+				status = retrieveSingleDate(remainingText.trim());
+			} else if (isSingleDate == true && isDoubleDate == true) {
+
+				status = retrieveInBetween(remainingText.trim());
+			} else if (isSingleDate == false && isDoubleDate == true) {
+				if (isMonth == true || isWeek == true) {
+					status = retrieveInBetween(startDate, endDate);
+				} else {
+					status = retrieveInBetween(remainingText.trim());
+				}
+			} else {
+
+			}
+		}
+
+		sc.close();
+
+		LOGGER.fine("Retrieve command returns with Success value : "
+				+ status.isSuccess());
+
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command for done or undone Task(s).
+	 * It will parse the retrieve command and call method in Engine to retrieve
+	 * the appropriate Task(s).
+	 * 
+	 * @param remainingText
+	 *            the remaining command after being truncated
+	 * @return Success object
+	 */
+
+	private Success retrieveDoneUndone(String remainingText) {
+
+		assert (remainingText != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve done/undone command");
+
+		Success status = null;
+		Scanner sc = new Scanner(remainingText);
+		boolean isStatusResolved = false;
+		boolean isDone = false;
+
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+				isDone = true;
+				isStatusResolved = true;
+			} else if (resolvedWord
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+				isDone = false;
+				isStatusResolved = true;
+			}
+		}
+
+		if (isStatusResolved == true) {
+			status = engine.getCompleteTask(isDone);
+		}
+
+		sc.close();
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving Task(s)
+	 * object that contains words in remainingText. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingText
+	 *            The text that need to be retrieved
+	 * @return Success object
+	 */
+
+	private Success retrieveTaskDesc(String remainingText) {
+
+		assert (remainingText != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task description command");
+
+		Success status = null;
+
+		Scanner sc = new Scanner(remainingText);
+		String searchString = "";
+
+		String startDateString = "";
+		String endDateString = "";
+		boolean isDescResolved = false;
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (resolvedWord != null) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+					startDateString = sc.nextLine();
+					isDescResolved = true;
+					isSingleDate = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+					isDescResolved = true;
+					isSingleDate = true;
+					isDoubleDate = true;
+
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+					endDateString = sc.nextLine();
+					isDescResolved = true;
+					isSingleDate = false;
+					isDoubleDate = true;
+				} else {
+					startDateString += " " + currentWord;
+				}
+
+			} else {
+				// isDescResolved = true;
+				if (isDescResolved == false) {
+					searchString += " " + currentWord;
+				} else {
+					startDateString += " " + currentWord;
+				}
+			}
+
+		}
+
+		searchString = searchString.trim();
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
+
+		if (isSingleDate == false && isDoubleDate == false) {
+
+			status = engine.searchTask(searchString);
+		} else if (isSingleDate == true && isDoubleDate == false) {
+			Date fromDate = null;
+
+			List<Date> dateList = DateFixer.parseStringToDate(startDateString);
+
+			if (!dateList.isEmpty()) {
+				fromDate = dateList.remove(0);
+			}
+			Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+
+			status = engine.searchTask(searchString, fixedSingleDate);
+
+		} else if (isSingleDate == true && isDoubleDate == true) {
+			Date fromDate = null;
+			Date maxDate = null;
+
+			List<Date> dateList = DateFixer.parseStringToDate(startDateString);
+
+			if (!dateList.isEmpty()) {
+				fromDate = dateList.remove(0);
+			}
+
+			dateList = DateFixer.parseStringToDate(KeywordConstant.DATE_MAX);
+			if (!dateList.isEmpty()) {
+				maxDate = dateList.remove(0);
+			}
+			Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+
+			status = engine.searchTask(searchString, fixedSingleDate, maxDate);
+
+		} else if (isSingleDate == false && isDoubleDate == true) {
+			Date fromDate = null;
+			Date endDate = null;
+
+			List<Date> dateList = DateFixer.parseStringToDate(startDateString);
+
+			if (!dateList.isEmpty()) {
+				fromDate = dateList.remove(0);
+			}
+
+			dateList = DateFixer.parseStringToDate(endDateString);
+			if (!dateList.isEmpty()) {
+				endDate = dateList.remove(0);
+			}
+			Date fixedStartDate = DateFixer.fixStartDate(fromDate);
+			Date fixedEndDate = DateFixer.fixEndDate(endDate);
+
+			status = engine.searchTask(searchString, fixedStartDate,
+					fixedEndDate);
+
+		}
+
+		sc.close();
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving Task(s)
+	 * object that have the specified priority. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingPriority
+	 *            priority level that need to be retrieved
+	 * @return Success object
+	 */
+
+	private Success retrievePriority(String remainingPriority) {
+
+		assert (remainingPriority != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve priority command");
+
+		Scanner sc = new Scanner(remainingPriority);
+		Success status = null;
+		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
+		int priority = -1;
+		String startDateString = "";
+		String endDateString = "";
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
+		boolean isPriorityResolved = false;
+
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (isPriorityResolved == false) {
+				if (resolvedWord != null) {
+					if (auxParser.isNaN(resolvedWord) == false) {
+						priority = Integer.parseInt(resolvedWord);
+						isPriorityResolved = true;
+					}
+				} else {
+					if (auxParser.isNaN(currentWord) == false) {
+						priority = Integer.parseInt(currentWord);
+						isPriorityResolved = true;
+					}
+				}
+
+			} else {
+
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+						isSingleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+						isSingleDate = true;
+						isDoubleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						endDateString = sc.nextLine();
+						isSingleDate = false;
+
+					} else {
+						startDateString += " " + currentWord;
+					}
+
+				} else {
+					startDateString += " " + currentWord;
+				}
+			}
+
+		}
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
+		try {
+			if (priority >= KeywordConstant.PRIORITY_MIN
+					&& priority <= KeywordConstant.PRIORITY_MAX) {
+
+				if (isSingleDate == false && isDoubleDate == false) {
+					status = engine.retrieveTask(priority);
+
+				} else if (isSingleDate == true && isDoubleDate == false) {
+					Date fromDate = null;
+
+					List<Date> dateList = DateFixer
+							.parseStringToDate(startDateString);
+
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+					}
+					Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+					status = engine.retrieveTask(priority, fixedSingleDate);
+
+				} else if (isSingleDate == true && isDoubleDate == true) {
+
+					List<Date> dateList = DateFixer
+							.parseStringToDate(startDateString);
+
+					Date fromDate = null;
+
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+					}
+
+					Date maxDate = null;
+					List<Date> dateMaxList = DateFixer
+							.parseStringToDate(KeywordConstant.DATE_MAX);
+
+					if (!dateMaxList.isEmpty()) {
+						maxDate = dateMaxList.remove(0);
+					}
+
+					Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+					status = engine.retrieveTask(priority, fixedSingleDate,
+							maxDate);
+
+				} else if (isSingleDate == false && isDoubleDate == true) {
+
+					String combinedDate = startDateString + " to "
+							+ endDateString;
+					combinedDate = combinedDate.trim();
+
+					List<Date> dateList = DateFixer
+							.parseStringToDate(combinedDate);
+
+					Date fromDate = null;
+					Date toDate = null;
+
+					if (!dateList.isEmpty()) {
+						fromDate = dateList.remove(0);
+
+						if (!dateList.isEmpty()) {
+							toDate = dateList.remove(0);
+						}
+					}
+
+					Date fixedStartDate = DateFixer.fixStartDate(fromDate);
+					Date fixedEndDate = DateFixer.fixEndDate(toDate);
+					status = engine.retrieveTask(priority, fixedStartDate,
+							fixedEndDate);
+				}
+
+			} else {
+				status = new Success(false, Message.ERROR_RETRIEVE);
+			}
+
+		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(null, false, Message.ERROR_RETRIEVE);
+		}
+		sc.close();
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object. It will parse the retrieve command and call method in
+	 * Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @return Success object
+	 */
+
+	private Success retrieveAllDates() {
+
+		LOGGER.fine("Processing retrieve all task" + " command");
+		Success status = null;
+		status = engine.retrieveTask();
+
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object that is on a particular Date. It will parse the retrieve
+	 * command and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param remainingDate
+	 *            a String that resembles a Date
+	 * @return Success object
+	 */
+
+	private Success retrieveSingleDate(String remainingDate) {
+
+		assert (remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task with single date command");
+
+		Scanner sc = new Scanner(remainingDate);
+		String dateString = "";
+		Success status = null;
+		boolean isInBetweenTime = false;
+
+		while (sc.hasNext()) {
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (resolvedWord != null) {
+				if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+					isInBetweenTime = true;
+				} else if (resolvedWord
+						.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+					isInBetweenTime = true;
+					dateString += " " + currentWord;
+				} else {
+					dateString += " " + currentWord;
+				}
+			} else {
+				dateString += " " + currentWord;
+			}
+
+		}
+		dateString = dateString.trim();
+		try {
+			if (isInBetweenTime == true) {
+				String preparedStatement = KeywordConstant.KEYWORD_FROM
+						+ dateString;
+
+				status = retrieveInBetween(preparedStatement);
+
+			} else {
+				Date onDate = null;
+				Date fixedStartDate = null;
+				Date fixedEndDate = null;
+				List<Date> dateList = DateFixer.parseStringToDate(dateString);
+
+				if (!dateList.isEmpty()) {
+					onDate = dateList.remove(0);
+					fixedStartDate = DateFixer.fixStartDate(onDate);
+					fixedEndDate = DateFixer.fixEndDate(onDate);
+				}
+				status = engine.retrieveTask(fixedStartDate, fixedEndDate);
+			}
+
+		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(null, false, Message.ERROR_RETRIEVE);
+		}
+		sc.close();
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command by retrieving Task(s) object
+	 * that lies in between two Date objects. It will parse the retrieve command
+	 * and call method in Engine to retrieve the appropriate Task(s).
+	 * 
+	 * @param start
+	 *            start Date object
+	 * @param end
+	 *            end Date object
+	 * @return Success object
+	 */
+
+	private Success retrieveInBetween(Date start, Date end) {
+
+		assert (start != null && end != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task within a date range command");
+
+		Success status = null;
+
+		try {
+			status = engine.retrieveTask(start, end);
+		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(null, false, Message.ERROR_RETRIEVE);
+		}
+		return status;
+	}
+
+	/**
+	 * This method will process a retrieve command command by retrieving all
+	 * Task(s) object that is between a range of two Dates. It will parse the
+	 * retrieve command and call method in Engine to retrieve the appropriate
+	 * Task(s).
+	 * 
+	 * @param remainingDate
+	 *            a String that resembles two Date objects
+	 * @return Success object
+	 */
+
+	private Success retrieveInBetween(String remainingDate) {
+
+		assert (remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task within a date range (String format) command");
+
+		Scanner sc = new Scanner(remainingDate);
+		String startDateString = "";
+		String endDateString = "";
+
+		Success status = null;
+		boolean isEndDate = false;
+
+		while (sc.hasNext()) {
+
+			String currentWord = sc.next();
+			String resolvedWord = keywordFullMap.get(currentWord);
+
+			if (!isEndDate) {
+				if (resolvedWord != null) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						isEndDate = true;
+					}
+				} else {
+					startDateString += " " + currentWord;
+				}
+			} else {
+
+				endDateString += " " + currentWord;
+			}
+		}
+
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
+
+		try {
+			Date fromDate = null;
+			Date toDate = null;
+			Date fixedFromDate = null;
+			Date fixedToDate = null;
+			List<Date> dateListFrom = DateFixer
+					.parseStringToDate(startDateString);
+
+			if (!dateListFrom.isEmpty()) {
+				fromDate = dateListFrom.remove(0);
+				fixedFromDate = DateFixer.fixStartDate(fromDate);
+			}
+			if (!endDateString.equals("")) {
+
+				String combinedDate = startDateString + " to " + endDateString;
+
+				combinedDate = combinedDate.trim();
+				List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+					fixedFromDate = DateFixer.fixStartDate(fromDate);
+					if (!dateList.isEmpty()) {
+						toDate = dateList.remove(0);
+						fixedToDate = DateFixer.fixEndDate(toDate);
+
+					}
+				}
+
+				status = engine.retrieveTask(fixedFromDate, fixedToDate);
+
+			} else {
+
+				List<Date> dateListTo = DateFixer
+						.parseStringToDate(KeywordConstant.DATE_MAX);
+
+				if (!dateListTo.isEmpty()) {
+					toDate = dateListTo.remove(0);
+				}
+
+				status = engine.retrieveTask(fromDate, toDate);
+			}
+
+		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(null, false, Message.ERROR_RETRIEVE);
+		}
+
+		sc.close();
+		return status;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		String status = null;
+
+		try {
+
+			Object t = targetClass.getDeclaredConstructor().newInstance();
+
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (String) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 */
+
+	@Test
+	public void retrieveKeyword() {
+
+		initTestEnvironment();
+
+		String command = "test";
+
+		executeTestTrue(command);
+	}
+
+	/**
+	 * This method test if can retrieve a task with a priority within a date
+	 * range.
+	 */
+	@Test
+	public void retrieveKeywordPiorityDateRange() {
+
+		initTestEnvironment();
+
+		String command = "priority 2 from 10 April to 12 April";
+
+		executeTestTrue(command);
+	}
+
+	/**
+	 * This method test if can retrieve a task with a priority within a date
+	 * range.
+	 */
+	@Test
+	public void retrieveKeywordDateRange() {
+
+		initTestEnvironment();
+
+		String command = "from 10 April to 12 April";
+
+		executeTestTrue(command);
+	}
+
+	/**********************
+	 * NON-TEST METHODS
+	 *********************/
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Success invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		Success status = null;
+
+		try {
+			Validator validator = new Validator();
+			Object t = targetClass.getDeclaredConstructor(Map.class,
+					DataParser.class).newInstance(
+					validator.getKeywordFullMap(), new DataParser());
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (Success) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 */
+
+	@Test
+	public void testRetrieveDescriptionNoResult() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve cat";
+
+		Success status = commandParser.parseCommand(command);
+		Object obj = status.getObj();
+
+		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
+
+			@SuppressWarnings("unchecked")
+			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
+
+			assertEquals(0, retrievedTaskList.size());
+		}
+	}
+
+	/**
+	 * This method will test if a description that exist, will return the result
+	 * correctly.
+	 */
+
+	@Test
+	public void testRetrieveDescriptionWithResult() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve task";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// processing expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task seven on 08 Apr 2015,  3:00:00 PM priority 2");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task ten");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that have a start and end
+	 * date, if it return the result correctly.
+	 */
+
+	@Test
+	public void testRetrieveStartEndDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve from 9 April to 10 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// processing expected output
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that have a start date, if
+	 * it return the result correctly.
+	 */
+
+	@Test
+	public void testRetrieveOneDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve on 10 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// processing expected output
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that have a single date,
+	 * but there is no Task(s) on that date.
+	 * 
+	 */
+
+	@Test
+	public void testRetrieveOneDateNoResult() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve on 20 May";
+
+		Success status = commandParser.parseCommand(command);
+		Object obj = status.getObj();
+
+		if ((status.isSuccess() && obj instanceof ArrayList<?>)) {
+
+			@SuppressWarnings("unchecked")
+			List<Task> retrievedTaskList = (ArrayList<Task>) obj;
+
+			assertEquals(0, retrievedTaskList.size());
+		}
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for high
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+
+	@Test
+	public void testRetrievePriorityHigh() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 2";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task seven on 08 Apr 2015,  3:00:00 PM priority 2");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for medium
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+
+	@Test
+	public void testRetrievePriorityMedium() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 1";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList
+				.add("task four from 09 Apr 2015,  12:00:01 AM to 10 Apr 2015,  10:04:00 AM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task ten");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for low
+	 * priority, if it return the result correctly.
+	 * 
+	 */
+
+	@Test
+	public void testRetrievePriorityLow() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 0";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for an invalid
+	 * negative priority, if the application rejects the command.
+	 * 
+	 */
+
+	@Test
+	public void testRetrieveInvalidNegativePriority() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority -1";
+
+		Success status = commandParser.parseCommand(command);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for an invalid
+	 * higher priority, if the application rejects the command.
+	 * 
+	 */
+
+	@Test
+	public void testRetrieveInvalidPositivePriority() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 3";
+
+		Success status = commandParser.parseCommand(command);
+
+		assertFalse(status.isSuccess());
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for a
+	 * particular priority on a single date, if it return the result correctly.
+	 * 
+	 */
+
+	@Test
+	public void testRetrievePrioritySingleDate() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 0 at 8 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList.add("task five on 08 Apr 2015,  3:00:00 PM priority 0");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/**
+	 * This method will test for the retrieve command that search for a
+	 * particular priority within a start and end date, if it return the result
+	 * correctly.
+	 * 
+	 */
+
+	@Test
+	public void testRetrievePriorityWithDateRange() {
+
+		initTestEnvironment();
+		addTask();
+
+		String command = "retrieve priority 1 from 7 April to 8 April";
+
+		List<String> taskAddedList = new ArrayList<String>();
+
+		// adding expected output
+		taskAddedList
+				.add("task two from 07 Apr 2015,  12:00:01 AM to 08 Apr 2015,  11:59:59 PM");
+		taskAddedList.add("task one on 08 Apr 2015,  12:00:01 AM");
+		taskAddedList.add("task six on 08 Apr 2015,  3:00:00 PM");
+		taskAddedList
+				.add("task three from 08 Apr 2015,  5:31:00 PM to 09 Apr 2015,  5:31:00 PM");
+		taskAddedList.add("task nine by 10 Apr 2015,  8:21:00 PM");
+		taskAddedList.add("task eight by 10 Apr 2015,  11:59:59 PM");
+
+		testEquals(command, taskAddedList);
+	}
+
+	/***********************************
+	 * TEST CASE FOR DELETE COMMAND
+	 ***********************************/
+
+	/**
+	 * This method will test for deleting multiple Task(s).
+	 * 
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		String status = null;
+
+		try {
+			Object t = targetClass.getDeclaredConstructor().newInstance();
+
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (String) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+
+
+
+
+

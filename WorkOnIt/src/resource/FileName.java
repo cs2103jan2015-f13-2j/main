@@ -43,7 +43,7 @@ public class FileName {
 	 * 
 	 * @return Deadline full path of file
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public static String getFilenameDeadline() {
 		return getCanonicalPath() + File.separator + filenameDeadline;
 	}

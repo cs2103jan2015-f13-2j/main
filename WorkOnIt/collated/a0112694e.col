@@ -1,0 +1,2657 @@
+//@author: a0112694e
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	public static void listHandler(KeyEvent event, final Stage stage,
+			TextField txtF, ListView listView) {
+		if (event.getCode().equals(KeyCode.ESCAPE)) {
+			hide(stage);
+		}
+
+		if (listView.getFocusModel().getFocusedIndex() - 1 == -1
+				&& event.getCode().equals(KeyCode.UP)) {
+			txtF.requestFocus();
+			// listView.setOpacity(0);
+		}
+
+		if (event.getCode().equals(KeyCode.LEFT)
+				|| event.getCode().equals(KeyCode.RIGHT)) {
+			txtF.requestFocus();
+		}
+	}
+
+	/**
+	 * This method handles the words of user input
+	 * 
+	 * @param textFieldText
+	 *            This is the text of the textfield
+	 * @param listView
+	 *            This is the container containing the list of items
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 */
+
+	private static void addTaskToListView(ListView listView, Success successObj) {
+
+		Image imgDoneTask = new Image(Graphic.UI_GREEN_TICK_PATH);
+		Image imgHighPriority = new Image(Graphic.UI_URGENT_PATH);
+		Image imgNormalPriority = new Image(Graphic.UI_NORMAL_PATH);
+		Image imgLowPriority = new Image(Graphic.UI_LOW_PATH);
+
+		if (successObj.getObj() == null) {
+			listView.getItems().clear();
+		} else {
+			ObservableList task = FXCollections.observableArrayList();
+			Object obj = successObj.getObj();
+
+			String displayTitle = getAgendaTitle(successObj);
+
+			if (!displayTitle.equalsIgnoreCase(KeywordConstant.KEYWORD_DEFAULT)) {
+				Pane pane = new Pane();
+				Label agendaTitle = new Label();
+				agendaTitle.setText(displayTitle);
+				agendaTitle
+						.setStyle("-fx-font-weight: bold ; -fx-underline: true;");
+				agendaTitle.getStyleClass().add("title");
+				agendaTitle.setLayoutX(100);
+
+				pane.getChildren().add(agendaTitle);
+				task.add(pane);
+			}
+
+			if (obj instanceof ArrayList<?>) {
+
+				ArrayList<?> objectList = (ArrayList<?>) obj;
+
+				if (!objectList.isEmpty()) {
+					Object firstObj = ((ArrayList) obj).get(0);
+
+					if (firstObj instanceof Task) {
+
+						ArrayList<Task> allTask = (ArrayList<Task>) obj;
+						Collections.sort(allTask, Task.taskComparator);
+
+						for (int i = 0; i < allTask.size(); i++) {
+							String displayDate = getDateFromTask(allTask.get(i));
+
+							Pane pane = new Pane();
+
+							Label taskName = new Label();
+							Label taskDate = new Label();
+							pane.setMinWidth(TEXT_BOX_WIDTH);
+
+							taskName.setText((i + 1) + ") "
+									+ allTask.get(i).getTaskName());
+							taskName.setAlignment(Pos.CENTER_RIGHT);
+							taskName.setMaxWidth(TEXT_BOX_WIDTH / 2);
+							taskName.setMaxHeight(200);
+							taskName.setWrapText(true);
+							taskName.setLayoutX(40);
+
+							taskDate.setText(displayDate);
+							taskDate.setAlignment(Pos.CENTER_RIGHT);
+							taskDate.setLayoutX(TEXT_BOX_WIDTH / 2);
+
+							if (allTask.get(i).isCompleted() == true) {
+								pane.getChildren().add(
+										new ImageView(imgDoneTask));
+							} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_HIGH) {
+								pane.getChildren().add(
+										new ImageView(imgHighPriority));
+							} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+								pane.getChildren().add(
+										new ImageView(imgNormalPriority));
+							} else if (allTask.get(i).getPriority() == KeywordConstant.PRIORITY_LOW) {
+								pane.getChildren().add(
+										new ImageView(imgLowPriority));
+							}
+
+							pane.getChildren().add(taskName);
+							pane.getChildren().add(taskDate);
+							pane.getStyleClass().add("title");
+
+							task.add(pane);
+						}
+
+					} else if (firstObj instanceof String) {
+
+						ArrayList<String> historyList = (ArrayList<String>) obj;
+
+						for (int i = 0; i < historyList.size(); i++) {
+
+							String currHistory = historyList.get(i);
+							task.add(currHistory);
+						}
+
+					}
+
+					listView.setItems(task);
+				}
+
+			} else if (obj instanceof String) {
+				listView.getItems().clear();
+			}
+		}
+	}
+
+	/**
+	 * This method formats the agenda view's title from data retrieved from the
+	 * success object.
+	 * 
+	 * @param successObj
+	 *            This object contains the relevant data to be displayed
+	 * @return String containing the formatted title
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\ConfigIO.java
+	 */
+
+	public Map<String, String> getFullKeywordMap() {
+
+		String loadedContents = loadFromFile();
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> KEYWORD_MAP = (Map<String, String>) Serializer
+				.deserializeFromJson(loadedContents, HashMap.class);
+
+		LOGGER.fine("customized Keyword Map retrieved successfully");
+
+		return KEYWORD_MAP;
+	}
+
+	/**
+	 *
+	 * load all the command and keyword from config file.
+	 *
+	 * @return String return the keyword and command from config file.
+	 */
+
+	private String loadFromFile() {
+
+		String loadedContents = null;
+		String filenameCfg = FileName.getFilenameCfg();
+
+		File configFile = new File(filenameCfg);
+
+		try {
+
+			if (configFile.exists()) {
+
+				Scanner fileScanner = new Scanner(configFile);
+
+				loadedContents = fileScanner.nextLine();
+				fileScanner.close();
+
+			} else {
+				createNewFile(configFile);
+				System.err.println(Message.FILE_CREATED);
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println(Message.FILE_NOT_FOUND);
+		}
+
+		return loadedContents;
+	}
+
+	/**
+	 *
+	 * This method is to create new file for the config file.
+	 *
+	 * @param File
+	 *            create new file with specific File object.
+	 */
+
+	private void createNewFile(File file) {
+
+		assert (file != null);
+
+		try {
+			file.createNewFile();
+
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\ConfigIO.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\InitFileIO.java
+	 */
+
+	public void checkAndProcessFile() {
+
+		LOGGER.fine("Checking required files on init");
+
+		FileName.readCanonicalPathFromFile();
+
+		if (!isFilesExist()) {
+			LOGGER.warning("File(s) does not exist. Request save path.");
+			showChooseFolderUi();
+		}
+	}
+
+	/**
+	 *
+	 * prompt user the choose folder UI for user to choose UI.
+	 *
+	 *
+	 * @param
+	 * @return
+	 */
+
+	private void showChooseFolderUi() {
+		new JFXPanel();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				new ChooseFolder().start(new Stage());
+			}
+		});
+	}
+
+	/**
+	 *
+	 * Check whether the data file is exist
+	 *
+	 * @return boolean true if the datafile exist , else return false.
+	 */
+
+	private boolean isFilesExist() {
+
+		boolean isExist = true;
+
+		File fileNormal = new File(FileName.getFilenameNormal());
+		File fileFloating = new File(FileName.getFilenameFloating());
+		File fileRecur = new File(FileName.getFilenameRecur());
+		File fileDeadline = new File(FileName.getFilenameDeadline());
+
+		if (!fileNormal.exists()) {
+			LOGGER.warning("normal task data file does not exist");
+			isExist = false;
+		}
+
+		if (!fileFloating.exists()) {
+			LOGGER.warning("floating task data file does not exist");
+			isExist = false;
+		}
+
+		if (!fileRecur.exists()) {
+			LOGGER.warning("recurrence task data file does not exist");
+			isExist = false;
+		}
+
+		if (!fileDeadline.exists()) {
+			LOGGER.warning("deadline task data file does not exist");
+			isExist = false;
+		}
+
+		return isExist;
+	}
+
+	/**
+	 *
+	 * Copy data file to the specific path
+	 *
+	 * @return String the starting destination of the file that need to be copy
+	 * @return String the ending destination of the file that need to be copy
+	 * 
+	 */
+
+	public static void copyFileUsingFileStreams(String sourceString,
+			String destString) throws IOException {
+
+		assert (sourceString != null);
+		assert (destString != null);
+
+		File dest = new File(destString);
+
+		if (!dest.exists()) {
+			dest.createNewFile();
+		}
+
+		InputStream input = null;
+		OutputStream output = null;
+		try {
+			input = ChooseFolder.class.getResourceAsStream(sourceString);
+			output = new FileOutputStream(dest);
+			byte[] buf = new byte[1024];
+			int bytesRead;
+			while ((bytesRead = input.read(buf)) > 0) {
+				output.write(buf, 0, bytesRead);
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			input.close();
+			output.close();
+		}
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\InitFileIO.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\ReadFileIO.java
+	 */
+
+	public Success loadFromFileTask(String file_keyword) {
+
+		LOGGER.fine("Searching the following in files: " + file_keyword);
+
+		assert (file_keyword != null);
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		file_type = getFileTypeWithKeyword(file_keyword);
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			reader = new BufferedReader(new FileReader(file_type));
+			String printLine;
+
+			if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						Task task = (FloatingTask) Serializer
+								.deserializeFromJson(printLine,
+										FloatingTask.class);
+						taskList.add(task);
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						Task task = (NormalTask) Serializer
+								.deserializeFromJson(printLine,
+										NormalTask.class);
+						taskList.add(task);
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						Task task = (DeadlineTask) Serializer
+								.deserializeFromJson(printLine,
+										DeadlineTask.class);
+						taskList.add(task);
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+			} else if (file_keyword
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						Task task = (RecurrenceTask) Serializer
+								.deserializeFromJson(printLine,
+										RecurrenceTask.class);
+						taskList.add(task);
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * get the file name the on keyword for the file.
+	 *
+	 * @param String
+	 *            keyword which specific which file name to be return
+	 * @return String the name of file from the keyword.
+	 */
+
+	private String getFileTypeWithKeyword(String file_keyword) {
+
+		LOGGER.fine("Get the file name: " + file_keyword);
+
+		String type = "";
+
+		if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_FLOATING_TASK)) {
+			type = filename_floating;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_NORMAL_TASK)) {
+			type = filename_normal;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_RECUR_TASK)) {
+			type = filename_recur;
+		} else if (file_keyword
+				.equalsIgnoreCase(KeywordConstant.KEYWORD_DEADLINE_TASK)) {
+			type = filename_deadline;
+		}
+
+		return type;
+	}
+
+	/**
+	 * load task from data file base on the input date
+	 *
+	 * @param date
+	 *            which specific which task to retrieve
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadFromStartDate(Date date) {
+
+		assert (date != null);
+
+		LOGGER.fine("search from start date: " + date.toString());
+
+		Success successObj;
+		String printLine;
+		BufferedReader recurReader = null;
+		BufferedReader deadlineReader = null;
+		BufferedReader normalReader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			recurReader = new BufferedReader(new FileReader(filename_recur));
+			deadlineReader = new BufferedReader(new FileReader(
+					filename_deadline));
+			normalReader = new BufferedReader(new FileReader(filename_normal));
+
+			while ((printLine = normalReader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+
+					if (checkNormalTaskDate(task, date)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.getDeadline().compareTo(date) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getStartRecurrenceDate().getDate() == date
+							.getDate()
+							&& task.getStartRecurrenceDate().getMonth() == date
+									.getMonth()
+							&& task.getStartRecurrenceDate().getYear() == date
+									.getYear()) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * load task from data file in between the start date and end date.
+	 *
+	 * @param Date
+	 *            startDate which specific the start date
+	 * @param Date
+	 *            endDate which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadFromBetweenDate(Date startDate, Date endDate) {
+
+		assert (startDate != null);
+		assert (endDate != null);
+
+		LOGGER.fine("search from start & end date: [" + startDate.toString()
+				+ "] [" + endDate.toString() + "]");
+
+		Success successObj;
+		BufferedReader recurReader = null;
+		BufferedReader deadlineReader = null;
+		BufferedReader normalReader = null;
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			recurReader = new BufferedReader(new FileReader(filename_recur));
+			deadlineReader = new BufferedReader(new FileReader(
+					filename_deadline));
+			normalReader = new BufferedReader(new FileReader(filename_normal));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (checkNormalTaskBetweenDate(task, startDate, endDate)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+
+					if (task.getDeadline().compareTo(startDate) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getStartRecurrenceDate().compareTo(startDate) > 0
+							&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * load task from data file base on task priority
+	 *
+	 * @param int specific task priority for the task
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadFromPriority(int priority) {
+
+		assert (priority >= 0 && priority <= 2);
+
+		LOGGER.fine("search task with priority: " + priority);
+
+		Success successObj;
+		BufferedReader recurReader = null;
+		BufferedReader deadlineReader = null;
+		BufferedReader normalReader = null;
+		BufferedReader floatReader = null;
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			recurReader = new BufferedReader(new FileReader(filename_recur));
+			deadlineReader = new BufferedReader(new FileReader(
+					filename_deadline));
+			normalReader = new BufferedReader(new FileReader(filename_normal));
+			floatReader = new BufferedReader(new FileReader(filename_floating));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getPriority() == priority) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.getPriority() == priority) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getPriority() == priority) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = floatReader.readLine()) != null) {
+				try {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.getPriority() == priority) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+			floatReader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * load task from data file base on its priority and its date
+	 *
+	 * @param int specific task priority for the task
+	 * @param Date
+	 *            date which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadFromPriorityAndDate(int priority, Date date) {
+
+		assert (priority >= 0 && priority <= 2);
+		assert (date != null);
+
+		LOGGER.fine("search task with priority and date: " + priority + ", ["
+				+ date.toString() + "]");
+
+		Success successObj;
+		BufferedReader recurReader = null;
+		BufferedReader deadlineReader = null;
+		BufferedReader normalReader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			recurReader = new BufferedReader(new FileReader(filename_recur));
+			deadlineReader = new BufferedReader(new FileReader(
+					filename_deadline));
+			normalReader = new BufferedReader(new FileReader(filename_normal));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getPriority() == priority
+							&& checkNormalTaskDate(task, date)) {
+
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.getPriority() == priority
+							&& task.getDeadline().compareTo(date) > 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getPriority() == priority
+							&& task.getStartRecurrenceDate().getDate() == date
+									.getDate()
+							&& task.getStartRecurrenceDate().getMonth() == date
+									.getMonth()
+							&& task.getStartRecurrenceDate().getYear() == date
+									.getYear()) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * load task from data file in between the start date,end date and priority.
+	 *
+	 * @param int specific task priority for the task
+	 * @param Date
+	 *            startDate which specific the start date
+	 * @param Date
+	 *            endDate which specific the end date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
+			Date endDate) {
+
+		assert (priority >= 0 && priority <= 2);
+		assert (startDate != null);
+		assert (endDate != null);
+
+		LOGGER.fine("search task with priority and within date range: "
+				+ priority + ", [" + startDate.toString() + "] ["
+				+ endDate.toString() + "]");
+
+		Success successObj;
+		BufferedReader recurReader = null;
+		BufferedReader deadlineReader = null;
+		BufferedReader normalReader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+
+			recurReader = new BufferedReader(new FileReader(filename_recur));
+			deadlineReader = new BufferedReader(new FileReader(
+					filename_deadline));
+			normalReader = new BufferedReader(new FileReader(filename_normal));
+
+			String printLine;
+
+			while ((printLine = normalReader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getPriority() == priority
+							&& checkNormalTaskBetweenDate(task, startDate,
+									endDate)) {
+
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = deadlineReader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.getPriority() == priority
+							&& task.getDeadline().compareTo(startDate) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			while ((printLine = recurReader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getPriority() == priority
+							&& task.getStartRecurrenceDate().compareTo(
+									startDate) > 0
+							&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			recurReader.close();
+			deadlineReader.close();
+			normalReader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * load task from data file which already marked as done
+	 *
+	 * @param boolean the specific boolean which indicate wether task is already
+	 *        completed
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success getCompletedTask(boolean isCompleted) {
+
+		LOGGER.fine("search task is complete/incompliete: " + isCompleted);
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_floating));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * load task from data file which already marked as done on a date.
+	 *
+	 * @param boolean the specific boolean which indicate wether task is already
+	 *        completed
+	 * @param Date
+	 *            date which specific the task date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
+
+		LOGGER.fine("search task is complete/incomplete on a date: "
+				+ isCompleted + ", [" + date.toString() + "]");
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		assert (date != null);
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted
+							&& checkNormalTaskDate(task, date)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted
+							&& task.getDeadline().compareTo(date) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_floating));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * load task from data file which already marked as done from a start date
+	 * to an end date.
+	 *
+	 * @param boolean The specific boolean which indicate wether task is already
+	 *        completed
+	 * @param Date
+	 *            start date which specific the task date
+	 * @param Date
+	 *            end date which specific the task date
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
+			Date startDate, Date endDate) {
+
+		LOGGER.fine("search task is complete/incomplete within a date range: "
+				+ isCompleted + ", [" + startDate.toString() + "] ["
+				+ endDate.toString() + "]");
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		assert (startDate != null);
+		assert (endDate != null);
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.isCompleted() == isCompleted
+							&& checkNormalTaskBetweenDate(task, startDate,
+									endDate)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					// if haven't reach deadline yet.
+					if (task.isCompleted() == isCompleted
+							&& task.getDeadline().compareTo(startDate) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_floating));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+					if (task.isCompleted() == isCompleted) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * search for a list of task base on the keyword entered
+	 *
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success searchFromFile(String keyword) {
+
+		LOGGER.fine("search task with keyword: " + keyword);
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		assert (keyword != null);
+
+		keyword = keyword.trim();
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_recur));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_floating));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					FloatingTask task = (FloatingTask) Serializer
+							.deserializeFromJson(printLine, FloatingTask.class);
+
+					if (task.getTaskName().toLowerCase().contains(keyword)) {
+
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+
+			reader.close();
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * search for a list of task base on the keyword entered on a date
+	 *
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @param Date
+	 *            specific date which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success searchFromFileWithDate(String keyword, Date date) {
+
+		LOGGER.fine("search task with keyword on a date: " + keyword + ", ["
+				+ date.toString() + "]");
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		assert (keyword != null);
+		assert (date != null);
+
+		keyword = keyword.trim();
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& checkNormalTaskDate(task, date)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& task.getDeadline().compareTo(date) > 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_recur));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& task.getStartRecurrenceDate().getDate() == date
+									.getDate()
+							&& task.getStartRecurrenceDate().getMonth() == date
+									.getMonth()
+							&& task.getStartRecurrenceDate().getYear() == date
+									.getYear()) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+			reader.close();
+		} catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * search for a list of task base on the keyword entered from a start date
+	 * to an end date
+	 *
+	 * @param String
+	 *            specific keyword which user enter to search
+	 * @param Date
+	 *            specific start date which user enter to search
+	 * @param Date
+	 *            specific end date which user enter to search
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success searchFromFileBetweenDate(String keyword, Date startDate,
+			Date endDate) {
+
+		LOGGER.fine("search task with keyword within a date range: " + keyword
+				+ ", [" + startDate.toString() + "] [" + endDate.toString()
+				+ "]");
+
+		Success successObj;
+		BufferedReader reader = null;
+
+		assert (keyword != null);
+		assert (endDate != null);
+		assert (startDate != null);
+
+		keyword = keyword.trim();
+
+		try {
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			reader = new BufferedReader(new FileReader(filename_normal));
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					NormalTask task = (NormalTask) Serializer
+							.deserializeFromJson(printLine, NormalTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& checkNormalTaskBetweenDate(task, startDate,
+									endDate)) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_deadline));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					DeadlineTask task = (DeadlineTask) Serializer
+							.deserializeFromJson(printLine, DeadlineTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& task.getDeadline().compareTo(startDate) >= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+
+			reader.close();
+
+			reader = new BufferedReader(new FileReader(filename_recur));
+
+			while ((printLine = reader.readLine()) != null) {
+				try {
+					RecurrenceTask task = (RecurrenceTask) Serializer
+							.deserializeFromJson(printLine,
+									RecurrenceTask.class);
+					if (task.getTaskName().toLowerCase().contains(keyword)
+							&& task.getStartRecurrenceDate().compareTo(
+									startDate) > 0
+							&& task.getStartRecurrenceDate().compareTo(endDate) <= 0) {
+						taskList.add(task);
+					}
+				} catch (JsonSyntaxException e) {
+					// skip error
+				}
+			}
+			successObj = new Success(taskList, true,
+					Message.SUCCESS_RETRIEVE_LIST);
+			reader.close();
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+
+	}
+
+	/**
+	 * Get the history of added task from file.
+	 * 
+	 * @return Success object
+	 */
+
+	public Success getHistory() {
+
+		LOGGER.fine("get history");
+
+		Success status = null;
+
+		File file = new File(filename_history);
+
+		if (file.exists()) {
+
+			ArrayList<String> historyList = new ArrayList<String>();
+
+			try {
+				BufferedReader historyReader = new BufferedReader(
+						new FileReader(filename_history));
+
+				String printLine;
+
+				while ((printLine = historyReader.readLine()) != null) {
+					historyList.add(printLine);
+				}
+
+				status = new Success(historyList, true,
+						Message.SUCCESS_GET_HISTORY);
+
+				historyReader.close();
+
+			} catch (FileNotFoundException e) {
+				status = new Success(false, Message.FAIL_GET_HISTORY);
+			} catch (Exception e) {
+				status = new Success(false, Message.FAIL_GET_HISTORY);
+			}
+		} else {
+			status = new Success(false, Message.FAIL_GET_HISTORY);
+		}
+
+		return status;
+	}
+
+	/**
+	 * Check wether the task date and the date entered are the same
+	 *
+	 * @param Task
+	 *            the task which have the task date to be compared
+	 * @param Date
+	 *            the date that need to be compared
+	 * @return boolean true if the both date are the same
+	 */
+
+	private static boolean checkNormalTaskDate(NormalTask task, Date date) {
+		boolean matchDate = false;
+
+		if (task.getStartDateTime().equals(task.getEndDateTime())) {
+			if (task.getStartDateTime().getDate() == date.getDate()
+					&& task.getStartDateTime().getMonth() == date.getMonth()
+					&& task.getStartDateTime().getYear() == date.getYear()) {
+				matchDate = true;
+			}
+		} else {
+			if (task.getStartDateTime().compareTo(date) <= 0
+					&& task.getEndDateTime().compareTo(date) >= 0) {
+				matchDate = true;
+			}
+
+		}
+		return matchDate;
+	}
+
+	/**
+	 * Check wether the task date is the between the start and end date entered.
+	 *
+	 * @param Task
+	 *            the task which have the task date to be compared
+	 * @param Date
+	 *            the start date that need to be compared
+	 * @param Date
+	 *            the end date that need to be compared
+	 * @return boolean true if the both date are the same
+	 */
+
+	private static boolean checkNormalTaskBetweenDate(NormalTask task,
+			Date startDate, Date endDate) {
+		boolean matchDate = false;
+
+		if ((task.getEndDateTime().compareTo(endDate) >= 0 && task
+				.getStartDateTime().compareTo(endDate) <= 0)
+				|| (task.getEndDateTime().compareTo(startDate) >= 0 && task
+						.getStartDateTime().compareTo(startDate) <= 0)
+				|| (task.getEndDateTime().compareTo(endDate) <= 0 && task
+						.getStartDateTime().compareTo(startDate) >= 0)) {
+			matchDate = true;
+		}
+
+		return matchDate;
+	}
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\ReadFileIO.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\Serializer.java
+	 */
+
+	public static String serializeToJson(Object object) {
+
+		String json;
+
+		Gson gson = new Gson();
+		json = gson.toJson(object);
+
+		return json;
+	}
+
+	/**
+	 *
+	 * convert the Json into Object from the text file
+	 *
+	 * @param String
+	 *            Json String that need to be convert into Object
+	 * @param Class
+	 *            <T> The class type of object that need to be converted
+	 * @return Object The object that converted from the Json String.
+	 */
+	public static <T> Object deserializeFromJson(String json, Class<T> type) {
+
+		Gson gson = new Gson();
+		Object object = gson.fromJson(json, type);
+
+		return object;
+	}
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\Serializer.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\WriteFileIO.java
+	 */
+
+	public Success saveIntoFile(Task task) {
+
+		LOGGER.fine("Saving into file: " + task.toDisplay());
+
+		Success status = null;
+
+		assert (task != null);
+
+		addHistory(task.getTaskName());
+
+		file_type = getFileType(task);
+
+		String gsonSerial = Serializer.serializeToJson(task);
+		PrintWriter filewrite = null;
+
+		try {
+			filewrite = new PrintWriter(new BufferedWriter(new FileWriter(
+					file_type, true)));
+			filewrite.println(gsonSerial);
+
+			status = new Success(true, Message.SUCCESS_ADDED);
+			filewrite.close();
+
+		} catch (IOException e) {
+			System.err.println(Message.ERROR_SAVE_INTO_FILE);
+			status = new Success(false, Message.ERROR_SAVE_INTO_FILE);
+		}
+
+		return status;
+	}
+
+	/**
+	 * get name of file base on the task class.
+	 *
+	 * @param Task
+	 *            Type of task which parse in.
+	 * @return String Name of file for the task parse in.
+	 */
+
+	private String getFileType(Task task) {
+
+		LOGGER.fine("Identifying the file type of this task: "
+				+ task.toDisplay());
+
+		String type = null;
+
+		if (task instanceof FloatingTask) {
+			type = filename_floating;
+		} else if (task instanceof NormalTask) {
+			type = filename_normal;
+		} else if (task instanceof RecurrenceTask) {
+			type = filename_recur;
+		} else if (task instanceof DeadlineTask) {
+			type = filename_deadline;
+		}
+		return type;
+	}
+
+	/**
+	 * Delete task from the data file
+	 *
+	 * @param Task
+	 *            the specific task that need to be deleted from the data file
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success deleteFromFile(Task taskObj) {
+
+		LOGGER.fine("delete task from file: " + taskObj.toDisplay());
+
+		Success successObj = null;
+
+		BufferedReader reader = null;
+
+		getFileType(taskObj);
+
+		try {
+
+			List<Task> taskList = new ArrayList<Task>();
+			String printLine;
+
+			if (taskObj instanceof NormalTask) {
+
+				reader = new BufferedReader(new FileReader(filename_normal));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						NormalTask task = (NormalTask) Serializer
+								.deserializeFromJson(printLine,
+										NormalTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_DELETE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_normal);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+
+				}
+
+				filewriteIntoFile.close();
+
+			}
+
+			if (taskObj instanceof FloatingTask) {
+
+				reader = new BufferedReader(new FileReader(filename_floating));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						FloatingTask task = (FloatingTask) Serializer
+								.deserializeFromJson(printLine,
+										FloatingTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_DELETE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_floating);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+
+					filewriteIntoFile.println(gsonSerial);
+
+				}
+
+				filewriteIntoFile.close();
+			}
+
+			if (taskObj instanceof DeadlineTask) {
+
+				reader = new BufferedReader(new FileReader(filename_deadline));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						DeadlineTask task = (DeadlineTask) Serializer
+								.deserializeFromJson(printLine,
+										DeadlineTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_DELETE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_deadline);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+
+				}
+
+				filewriteIntoFile.close();
+			}
+
+			if (taskObj instanceof RecurrenceTask) {
+
+				reader = new BufferedReader(new FileReader(filename_recur));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						RecurrenceTask task = (RecurrenceTask) Serializer
+								.deserializeFromJson(printLine,
+										RecurrenceTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_DELETE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_recur);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+				}
+
+				filewriteIntoFile.close();
+			}
+
+			reader.close();
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+
+		}
+		return successObj;
+	}
+
+	/**
+	 * update task from the data file by overwriting the old task.
+	 *
+	 * @param Task
+	 *            the specific task that need to be updated from the data file
+	 * @param Task
+	 *            the specific task that need to be deleted from the data file
+	 * @return Success Object which contain message and task ArrayList from data
+	 *         file
+	 */
+
+	public Success updateFromFile(Task taskUpdate, Task taskObj) {
+
+		LOGGER.fine("update task from file: " + taskUpdate.toDisplay());
+
+		Success successObj = null;
+		BufferedReader reader = null;
+		getFileType(taskObj);
+
+		try {
+
+			List<Task> taskList = new ArrayList<Task>();
+
+			String printLine;
+
+			if (taskObj instanceof NormalTask) {
+
+				reader = new BufferedReader(new FileReader(filename_normal));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						NormalTask task = (NormalTask) Serializer
+								.deserializeFromJson(printLine,
+										NormalTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_UPDATE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_normal);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+
+				}
+				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
+			}
+
+			if (taskObj instanceof FloatingTask) {
+
+				reader = new BufferedReader(new FileReader(filename_floating));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						FloatingTask task = (FloatingTask) Serializer
+								.deserializeFromJson(printLine,
+										FloatingTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_UPDATE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_floating);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+
+				}
+
+				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
+			}
+
+			if (taskObj instanceof DeadlineTask) {
+
+				reader = new BufferedReader(new FileReader(filename_deadline));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						DeadlineTask task = (DeadlineTask) Serializer
+								.deserializeFromJson(printLine,
+										DeadlineTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_UPDATE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_deadline);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+				}
+
+				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
+			}
+
+			if (taskObj instanceof RecurrenceTask) {
+
+				reader = new BufferedReader(new FileReader(filename_recur));
+				while ((printLine = reader.readLine()) != null) {
+					try {
+						RecurrenceTask task = (RecurrenceTask) Serializer
+								.deserializeFromJson(printLine,
+										RecurrenceTask.class);
+						if (task.getTaskId() != taskObj.getTaskId()) {
+							taskList.add(task);
+						} else {
+							successObj = new Success(null, true,
+									Message.SUCCESS_UPDATE);
+						}
+					} catch (JsonSyntaxException e) {
+						// skip error
+					}
+				}
+
+				File newFile = new File(filename_recur);
+				PrintWriter filewriteIntoFile = new PrintWriter(newFile);
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					String gsonSerial = Serializer.serializeToJson(taskList
+							.get(i));
+					filewriteIntoFile.println(gsonSerial);
+				}
+
+				filewriteIntoFile.close();
+				saveIntoFile(taskUpdate);
+			}
+
+			reader.close();
+		}
+
+		catch (IOException e) {
+			successObj = new Success(false, e.getMessage());
+		}
+
+		return successObj;
+	}
+
+	/**
+	 * Insert the history of added task into file.
+	 * 
+	 * @param the
+	 *            task name that is to be inserted into history
+	 * @return Success object
+	 */
+
+	public Success addHistory(String toAdd) {
+
+		LOGGER.fine("adding history: " + toAdd);
+
+		Success status = null;
+		PrintWriter filewrite = null;
+
+		File file = new File(filename_history);
+
+		try {
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			filewrite = new PrintWriter(new BufferedWriter(new FileWriter(
+					filename_history, true)));
+			filewrite.println(toAdd);
+
+			status = new Success(true, Message.SUCCESS_ADD_HISTORY);
+			filewrite.close();
+
+		} catch (IOException e) {
+			status = new Success(false, Message.FAIL_ADD_HISTORY);
+		} catch (Exception e) {
+			status = new Success(false, Message.FAIL_ADD_HISTORY);
+		}
+
+		return status;
+	}
+
+}
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\WriteFileIO.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	 */
+
+	public Success undoTask() {
+
+		LOGGER.info("process undo");
+
+		UndoRedoManager.getInstance();
+		Success successObj = UndoRedoManager.undoTaskFunction();
+
+		return successObj;
+
+	}
+
+	/**
+	 * call the redoTaskFunction method in Utility class to redo the last task
+	 *
+	 * @param
+	 * @return Success Success object which contain the message from utility
+	 */
+	public Success redoTask() {
+
+		LOGGER.info("process redo");
+
+		UndoRedoManager.getInstance();
+		Success successObj = UndoRedoManager.redoTaskFunction();
+
+		return successObj;
+	}
+
+	/**
+	 * This method will retrieve Task(s) for displaying agenda view.
+	 * 
+	 * @param startDate
+	 *            the beginning date
+	 * @param endDate
+	 *            the ending date
+	 * @param displayType
+	 *            the agenda view type
+	 * @return
+	 * @throws IOException
+	 *             Will throw this exception if the file cannot be read or write
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\UndoRedoManager.java
+	 */
+
+	private UndoRedoManager() {
+		undoStack = new Stack<TaskHistory>();
+		redoStack = new Stack<TaskHistory>();
+
+		LOGGER.fine("UndoRedoManager instantiated");
+	}
+
+	/**
+	 * instantiate the UndoRedoManager object.
+	 *
+	 * @return UndoRedoManager the only UndoRedoManager object which belong to
+	 *         the class
+	 */
+
+	public static UndoRedoManager getInstance() {
+
+		if (obj == null) {
+			obj = new UndoRedoManager();
+			return obj;
+		} else {
+			return obj;
+		}
+	}
+
+	/**
+	 * re-instantiate both of the undo and redo stack.
+	 *
+	 * @return
+	 */
+
+	public static void reset() {
+		undoStack = new Stack<TaskHistory>();
+		redoStack = new Stack<TaskHistory>();
+
+		LOGGER.fine("Reset UndoRedoManager");
+	}
+
+	/**
+	 * add Task into the undo stack
+	 *
+	 * @return
+	 */
+
+	public static void addUndoStack(TaskHistory task) {
+		undoStack.push(task);
+		LOGGER.fine("Added history into undo stack");
+	}
+
+	/**
+	 * add Task into the redo stack
+	 *
+	 * @return
+	 */
+
+	public static void addRedoStack(TaskHistory task) {
+		redoStack.push(task);
+		LOGGER.fine("Added history into redo stack");
+	}
+
+	/**
+	 * undo the last command from the undo stack
+	 *
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message.
+	 */
+
+	public static Success undoTaskFunction() {
+
+		LOGGER.fine("Performing undo");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+
+		if (undoStack.size() > 0) {
+			TaskHistory undoTask = undoStack.pop();
+			String undoOperation = undoTask.getOperation();
+
+			// delete the task obj.
+			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+				Task taskObj = undoTask.getTask();
+				status = dataStorage.deleteFromFile(taskObj);
+			}
+			// add the taskObj.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+				List<Task> taskListToRevert = undoTask.getTaskList();
+				boolean isMarkAllDeleted = true;
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+					Success successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (successObj == null || !successObj.isSuccess()) {
+						isMarkAllDeleted = false;
+					}
+				}
+
+				if (isMarkAllDeleted) {
+					status = new Success(true, Message.SUCCESS_DELETE);
+				} else {
+					LOGGER.warning(Message.ERROR_DELETE);
+					status = new Success(false, Message.ERROR_DELETE);
+				}
+			}
+			// revert the taskObj to previous version.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+				Task taskObj = undoTask.getTask();
+				Task taskToRevert = undoTask.getAuxTask();
+				status = dataStorage.updateFromFile(taskToRevert, taskObj);
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+
+				boolean isMarkAllUndone = true;
+				List<Task> taskListToRevert = undoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+
+					currentTask.setCompleted(false);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+				}
+
+				if (isMarkAllUndone) {
+					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+				} else {
+					LOGGER.warning(Message.FAIL_MARK_UNDONE);
+					status = new Success(false, Message.FAIL_MARK_UNDONE);
+				}
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+
+				boolean isMarkAllDone = true;
+				List<Task> taskListToRevert = undoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+
+					currentTask.setCompleted(true);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+				}
+
+				if (isMarkAllDone) {
+					status = new Success(true, Message.SUCCESS_MARK_DONE);
+				} else {
+					LOGGER.warning(Message.FAIL_MARK_DONE);
+					status = new Success(false, Message.FAIL_MARK_DONE);
+				}
+			}
+
+			redoStack.push(undoTask);
+
+		} else {
+			LOGGER.warning(Message.FAIL_UNDO);
+			status = new Success(false, Message.FAIL_UNDO);
+		}
+		return status;
+	}
+
+	/**
+	 * redo the last command from the redo stack
+	 *
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message.
+	 */
+
+	public static Success redoTaskFunction() {
+
+		LOGGER.fine("Performing redo");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+
+		if (redoStack.size() > 0) {
+			TaskHistory redoTask = redoStack.pop();
+			String undoOperation = redoTask.getOperation();
+			Task taskObj = redoTask.getTask();
+
+			// add the task obj.
+			if (undoOperation.equalsIgnoreCase(KeywordConstant.KEYWORD_ADD)) {
+				status = dataStorage.saveIntoFile(taskObj);
+			}
+			// delete the taskObj.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DELETE)) {
+				List<Task> taskListToRevert = redoTask.getTaskList();
+				boolean isMarkAllDeleted = true;
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+					Success successObj = status = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (successObj == null || !successObj.isSuccess()) {
+						isMarkAllDeleted = false;
+					}
+				}
+
+				if (isMarkAllDeleted) {
+					status = new Success(true, Message.SUCCESS_DELETE);
+				} else {
+					LOGGER.warning(Message.ERROR_DELETE);
+					status = new Success(false, Message.ERROR_DELETE);
+				}
+			}
+			// revert the taskObj to previous version.
+			else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UPDATE)) {
+				Task taskToRevert = redoTask.getAuxTask();
+				status = dataStorage.updateFromFile(taskObj, taskToRevert);
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+
+				boolean isMarkAllUndone = true;
+				List<Task> taskListToRevert = redoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+
+					currentTask.setCompleted(false);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllUndone = false;
+					}
+				}
+
+				if (isMarkAllUndone) {
+					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
+				} else {
+					LOGGER.warning(Message.FAIL_MARK_UNDONE);
+					status = new Success(false, Message.FAIL_MARK_UNDONE);
+				}
+
+			} else if (undoOperation
+					.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+
+				boolean isMarkAllDone = true;
+				List<Task> taskListToRevert = redoTask.getTaskList();
+
+				for (int i = 0; i < taskListToRevert.size(); i++) {
+
+					Task currentTask = taskListToRevert.get(i);
+
+					Success successObj = dataStorage
+							.deleteFromFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+
+					currentTask.setCompleted(true);
+					successObj = dataStorage.saveIntoFile(currentTask);
+
+					if (!successObj.isSuccess()) {
+						isMarkAllDone = false;
+					}
+				}
+
+				if (isMarkAllDone) {
+					status = new Success(true, Message.SUCCESS_MARK_DONE);
+				} else {
+					LOGGER.warning(Message.FAIL_MARK_DONE);
+					status = new Success(false, Message.FAIL_MARK_DONE);
+				}
+			}
+
+			undoStack.push(redoTask);
+
+		} else {
+			LOGGER.warning(Message.FAIL_REDO);
+			status = new Success(false, Message.FAIL_REDO);
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\UndoRedoManager.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	 */
+
+	@Test
+	public void getNormalFileWithKeyword() {
+
+		initTestEnvironment();
+
+		String keyword = KeywordConstant.KEYWORD_NORMAL_TASK;
+		String fileName = FileName.getFilenameNormal();
+
+		executeTestEquals(keyword, fileName);
+	}
+
+	/**
+	 * This method test if can get a correct file name with the following
+	 * keyword correctly.
+	 */
+	@Test
+	public void getDeadlineFileWithKeyword() {
+
+		initTestEnvironment();
+
+		String keyword = KeywordConstant.KEYWORD_DEADLINE_TASK;
+		String fileName = FileName.getFilenameDeadline();
+
+		executeTestEquals(keyword, fileName);
+	}
+
+	/**
+	 * This method test if can get a correct file name with the following
+	 * keyword correctly.
+	 */
+	@Test
+	public void getFloatingFileWithKeyword() {
+
+		initTestEnvironment();
+
+		String keyword = KeywordConstant.KEYWORD_FLOATING_TASK;
+		String fileName = FileName.getFilenameFloating();
+
+		executeTestEquals(keyword, fileName);
+	}
+
+	/**********************
+	 * NON-TEST METHODS
+	 *********************/
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		readFile = new ReadFileIO();
+
+	}
+
+	/**
+	 * This method test perform the necessary steps to publicize a method and
+	 * pass in the parameter. It also test the expected output against the
+	 * obtained output.
+	 */
+	private void executeTestEquals(String keyword, String fileName) {
+
+		@SuppressWarnings("rawtypes")
+		Class[] argClasses = { String.class };
+		Object[] argObjects = { keyword };
+
+		String expectedFileName = invokePrivateMethod(ReadFileIO.class,
+				"getFileTypeWithKeyword", argClasses, argObjects);
+
+		assertEquals(expectedFileName, fileName);
+
+	}
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	/**
+	 * @param targetClass
+	 *            the class of the method
+	 * @param methodName
+	 *            name of the method that want to be publicized
+	 * @param argClasses
+	 *            classes of the objects that is to be passed into the method
+	 * @param argObjects
+	 *            objects that is to be passed into the method
+	 * @return String
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	 */
+
+	@Test
+	public void getNormalFileWithTaskType() {
+
+		initTestEnvironment();
+
+		Date startDate = new Date();
+		startDate.setHours(0);
+		Date endDate = new Date();
+		endDate.setHours(1);
+
+		NormalTask normalTask = new NormalTask("eat noodle", 1, startDate,
+				endDate);
+		String fileName = FileName.getFilenameNormal();
+
+		executeTestEquals(normalTask, fileName);
+	}
+
+	/**
+	 * This method test if can get a correct file name with the task type
+	 * correctly.
+	 */
+	@Test
+	public void getDeadlineFileWithTaskType() {
+
+		initTestEnvironment();
+
+		Date date = new Date();
+		date.setHours(0);
+
+		DeadlineTask deadlineTask = new DeadlineTask("cook noodle", 1, date);
+		String fileName = FileName.getFilenameDeadline();
+
+		executeTestEquals(deadlineTask, fileName);
+	}
+
+	/**
+	 * This method test if can get a correct file name with the task type
+	 * correctly.
+	 */
+	@Test
+	public void getFloatingFileWithTaskType() {
+
+		initTestEnvironment();
+
+		FloatingTask floatingTask = new FloatingTask("sell noodle", 0);
+		String fileName = FileName.getFilenameFloating();
+
+		executeTestEquals(floatingTask, fileName);
+	}
+
+	/**********************
+	 * NON-TEST METHODS
+	 *********************/
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	public void initTestEnvironment() {
+		initFile = new InitFileIO();
+		initFile.checkAndProcessFile();
+		readFile = new ReadFileIO();
+
+	}
+
+	/**
+	 * This method test perform the necessary steps to publicize a method and
+	 * pass in the parameter. It also test the expected output against the
+	 * obtained output.
+	 */
+	private void executeTestEquals(Object obj, String fileName) {
+
+		@SuppressWarnings("rawtypes")
+		Class[] argClasses = { Task.class };
+		Object[] argObjects = { obj };
+
+		String expectedFileName = invokePrivateMethod(WriteFileIO.class,
+				"getFileType", argClasses, argObjects);
+
+		assertEquals(expectedFileName, fileName);
+
+	}
+
+	/**
+	 * This method initiates the required information before executing the test
+	 * cases.
+	 */
+	/**
+	 * @param targetClass
+	 *            the class of the method
+	 * @param methodName
+	 *            name of the method that want to be publicized
+	 * @param argClasses
+	 *            classes of the objects that is to be passed into the method
+	 * @param argObjects
+	 *            objects that is to be passed into the method
+	 * @return String
+	 */
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+
+
+
+
+

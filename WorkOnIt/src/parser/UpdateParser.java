@@ -29,7 +29,7 @@ public class UpdateParser {
 	 *            the data that contains current information
 	 * @return
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public UpdateParser(Map<String, String> keywordFullMap,
 			DataParser dataParser) {
 		this.keywordFullMap = keywordFullMap;

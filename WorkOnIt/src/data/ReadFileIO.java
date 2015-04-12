@@ -57,7 +57,7 @@ public class ReadFileIO {
 	 *            keyword which specific which class type to retrieve
 	 * @return Success Object which contain the success/failure message
 	 */
-	// author : A0112694E
+	//@author A0112694E
 	public Success loadFromFileTask(String file_keyword) {
 
 		LOGGER.fine("Searching the following in files: " + file_keyword);

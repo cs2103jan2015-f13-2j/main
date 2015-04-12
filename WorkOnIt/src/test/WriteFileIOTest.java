@@ -27,12 +27,12 @@ public class WriteFileIOTest {
 
 	InitFileIO initFile = null;
 	ReadFileIO readFile = null;
-	
+
 	/**
 	 * This method test if can get a correct file name with the task type
 	 * correctly.
 	 */
-	// @author A0112694E
+	//@author A0112694E
 	@Test
 	public void getNormalFileWithTaskType() {
 
@@ -42,11 +42,12 @@ public class WriteFileIOTest {
 		startDate.setHours(0);
 		Date endDate = new Date();
 		endDate.setHours(1);
-		
-		NormalTask normalTask = new NormalTask("eat noodle", 1, startDate, endDate);
+
+		NormalTask normalTask = new NormalTask("eat noodle", 1, startDate,
+				endDate);
 		String fileName = FileName.getFilenameNormal();
-		
-		executeTestEquals(normalTask,fileName);
+
+		executeTestEquals(normalTask, fileName);
 	}
 
 	/**
@@ -57,14 +58,14 @@ public class WriteFileIOTest {
 	public void getDeadlineFileWithTaskType() {
 
 		initTestEnvironment();
-		
+
 		Date date = new Date();
 		date.setHours(0);
 
 		DeadlineTask deadlineTask = new DeadlineTask("cook noodle", 1, date);
 		String fileName = FileName.getFilenameDeadline();
 
-		executeTestEquals(deadlineTask,fileName);
+		executeTestEquals(deadlineTask, fileName);
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class WriteFileIOTest {
 		FloatingTask floatingTask = new FloatingTask("sell noodle", 0);
 		String fileName = FileName.getFilenameFloating();
 
-		executeTestEquals(floatingTask,fileName);
+		executeTestEquals(floatingTask, fileName);
 	}
 
 	/**********************
@@ -94,7 +95,7 @@ public class WriteFileIOTest {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
 		readFile = new ReadFileIO();
-		
+
 	}
 
 	/**
@@ -111,10 +112,8 @@ public class WriteFileIOTest {
 		String expectedFileName = invokePrivateMethod(WriteFileIO.class,
 				"getFileType", argClasses, argObjects);
 
-		
 		assertEquals(expectedFileName, fileName);
-		
-		
+
 	}
 
 	/**
@@ -132,7 +131,7 @@ public class WriteFileIOTest {
 	 *            objects that is to be passed into the method
 	 * @return String
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String invokePrivateMethod(Class targetClass, String methodName,
 			Class[] argClasses, Object[] argObjects) {
@@ -141,16 +140,16 @@ public class WriteFileIOTest {
 
 		try {
 			Object t = targetClass.getDeclaredConstructor().newInstance();
-			
+
 			Method method = targetClass.getDeclaredMethod(methodName,
 					argClasses);
-			
+
 			System.out.println(method.getName());
 			method.setAccessible(true);
 
 			t = method.invoke(t, argObjects);
 
-			status =  (String) t;
+			status = (String) t;
 
 		} catch (NoSuchMethodException e) {
 			System.err.println(e.getMessage());

@@ -27,7 +27,7 @@ public class WorkOnItTest {
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public void initTestEnvironment() {
 		initFile = new InitFileIO();
 		initFile.checkAndProcessFile();
@@ -450,7 +450,7 @@ public class WorkOnItTest {
 	 * This method will test if a description that does not exist, will return
 	 * no result correctly.
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@Test
 	public void testRetrieveDescriptionNoResult() {
 
@@ -754,7 +754,7 @@ public class WorkOnItTest {
 	 * This method will test for deleting multiple Task(s).
 	 * 
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	@Test
 	public void testDeleteMultiple() {
 

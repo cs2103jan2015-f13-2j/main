@@ -18,7 +18,7 @@ public class Start {
 	 * 
 	 * @param args
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public static void main(String[] args) {
 
 		setLogging(false);

@@ -12,7 +12,7 @@ public class KeywordNode {
 	 * This is constructor for KeywordNode .
 	 *
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public KeywordNode() {
 		this(new String(), new ArrayList<KeywordNode>());
 

@@ -17,7 +17,7 @@ public class DataParser {
 	 * @return retrievedTaskList previous Task(s) that were retrieved or
 	 *         displayed, if any
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	public ArrayList<Task> getRetrievedTaskList() {
 		return retrievedTaskList;
 	}

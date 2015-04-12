@@ -23,7 +23,7 @@ public class CommandParser {
 	/**
 	 * Constructor for Command Parser. It will set up necessary datas.
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	public CommandParser() {
 
 		engine = new Engine();
@@ -299,7 +299,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111837J
+	//@author A0111837J
 	@SuppressWarnings("unchecked")
 	private Success executeRetrieveCommand(String remainingCommand) {
 
@@ -342,7 +342,7 @@ public class CommandParser {
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// @author A0111916M
+	//@author A0111916M
 	private Success executeDeleteCommand(String remainingCommand) {
 
 		assert (keywordFullMap != null);
