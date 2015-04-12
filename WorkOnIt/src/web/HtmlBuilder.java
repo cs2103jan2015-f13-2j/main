@@ -91,6 +91,60 @@ public class HtmlBuilder {
 		SimpleDateFormat sdfNormal = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+		writeHeaderHtml(displayCal, displayType, sdfNormal);
+
+		if (taskList != null) {
+
+			for (int i = 0; i < taskList.size(); i++) {
+
+				Task currTask = taskList.get(i);
+
+				// if (!(currTask instanceof FloatingTask)) {
+				String title = currTask.getTaskName();
+
+				writeTaskNameHtml(i, title);
+
+				if (currTask instanceof NormalTask) {
+
+					writeNormalTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof DeadlineTask) {
+
+					writeDeadlineTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof RecurrenceTask) {
+
+					writeRecurrenceTaskHtml(sdfNormal, sdfTime, currTask);
+
+				} else if (currTask instanceof FloatingTask) {
+
+					writeFloatingTaskHtml(sdfNormal, currTask);
+				}
+
+				writeTaskPriorityHtml(currTask);
+
+				writer.println("}");
+				if (i != taskList.size() - 1) {
+					writer.println(",");
+				}
+			}
+		}
+		writeClosingHtml();
+	}
+
+	/**
+	 * Write the beginning html file
+	 * 
+	 * @param displayCal
+	 *            The starting date of the display agenda
+	 * @param displayType
+	 *            agenda view type
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 */
+	// @author A0111916M
+	private void writeHeaderHtml(Calendar displayCal, String displayType,
+			SimpleDateFormat sdfNormal) {
 		writer.println("<head>");
 		writer.println("<link rel='stylesheet' href='css/fullcalendar.css' />");
 		writer.println("<script src='js/jquery-2.1.3.min.js'></script>");
@@ -102,7 +156,6 @@ public class HtmlBuilder {
 		writer.println("$('#calendar').fullCalendar({");
 
 		// calendar data(s)
-
 		writer.println("header: {");
 		writer.println("left: '',");
 		writer.println("center: 'title',");
@@ -119,158 +172,208 @@ public class HtmlBuilder {
 		writer.println("defaultDate: '" + dateView + "',");
 
 		writer.println("events: [");
+	}
 
-		if (taskList != null) {
+	/**
+	 * Write the task name in html file
+	 * 
+	 * @param index
+	 *            the index of the current task
+	 * @param title
+	 *            title of the current task
+	 */
+	// @author A0111916M
+	private void writeTaskNameHtml(int index, String title) {
+		writer.println("{");
+		int indexOffset = index + 1;
+		String fixedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "");
 
-			for (int i = 0; i < taskList.size(); i++) {
+		writer.println("title: '" + indexOffset + ". " + fixedTitle + "',");
+	}
 
-				Task currTask = taskList.get(i);
+	/**
+	 * Write recurrence task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+	// @author A0111916M - unused
+	// dropped feature
+	private void writeRecurrenceTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		RecurrenceTask recurrenceTask = (RecurrenceTask) currTask;
 
-				// if (!(currTask instanceof FloatingTask)) {
-				String title = currTask.getTaskName();
-				// System.out.println(title);
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(recurrenceTask.getStartRecurrenceDate());
+		endCal.setTime(recurrenceTask.getEndRecurrenceDate());
 
-				writer.println("{");
-				int indexOffset = i + 1;
-				String fixedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "");
-				writer.println("title: '" + indexOffset + ". " + fixedTitle
+		if (startCal.equals(endCal)) {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "'");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "'");
+			}
+		} else {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "',");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
 						+ "',");
+			}
 
-				if (currTask instanceof NormalTask) {
-
-					NormalTask normalTask = (NormalTask) currTask;
-					Calendar startCal = Calendar.getInstance();
-					Calendar endCal = Calendar.getInstance();
-					startCal.setTime(normalTask.getStartDateTime());
-					endCal.setTime(normalTask.getEndDateTime());
-
-					if (startCal.equals(endCal)) {
-						if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-								&& startCal.get(Calendar.MINUTE) == 0
-								&& startCal.get(Calendar.SECOND) == 1) {
-							writer.println("start: '"
-									+ sdfNormal.format(startCal.getTime())
-									+ "'");
-						} else {
-							writer.println("start: '"
-									+ sdfTime.format(startCal.getTime()) + "'");
-						}
-					} else {
-						if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-								&& startCal.get(Calendar.MINUTE) == 0
-								&& startCal.get(Calendar.SECOND) == 1) {
-							writer.println("start: '"
-									+ sdfNormal.format(startCal.getTime())
-									+ "',");
-						} else {
-							writer.println("start: '"
-									+ sdfTime.format(startCal.getTime()) + "',");
-						}
-
-						if (endCal.get(Calendar.HOUR_OF_DAY) == 23
-								&& endCal.get(Calendar.MINUTE) == 59
-								&& endCal.get(Calendar.SECOND) == 59) {
-
-							// offset current end date to the next day
-							endCal.add(Calendar.DATE, 1);
-							writer.println("end: '"
-									+ sdfNormal.format(endCal.getTime()) + "'");
-						} else {
-							writer.println("end: '"
-									+ sdfTime.format(endCal.getTime()) + "'");
-						}
-					}
-
-				} else if (currTask instanceof DeadlineTask) {
-
-					DeadlineTask deadlineTask = (DeadlineTask) currTask;
-					Calendar deadlineCal = Calendar.getInstance();
-					deadlineCal.setTime(deadlineTask.getDeadline());
-
-					if (deadlineCal.get(Calendar.HOUR_OF_DAY) == 23
-							&& deadlineCal.get(Calendar.MINUTE) == 59
-							&& deadlineCal.get(Calendar.SECOND) == 59) {
-						writer.println("start: '"
-								+ sdfNormal.format(deadlineCal.getTime()) + "'");
-					} else {
-						writer.println("start: '"
-								+ sdfTime.format(deadlineCal.getTime()) + "'");
-					}
-				} else if (currTask instanceof RecurrenceTask) {
-
-					RecurrenceTask recurrenceTask = (RecurrenceTask) currTask;
-
-					Calendar startCal = Calendar.getInstance();
-					Calendar endCal = Calendar.getInstance();
-					startCal.setTime(recurrenceTask.getStartRecurrenceDate());
-					endCal.setTime(recurrenceTask.getEndRecurrenceDate());
-
-					if (startCal.equals(endCal)) {
-						if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-								&& startCal.get(Calendar.MINUTE) == 0
-								&& startCal.get(Calendar.SECOND) == 1) {
-							writer.println("start: '"
-									+ sdfNormal.format(startCal.getTime())
-									+ "'");
-						} else {
-							writer.println("start: '"
-									+ sdfTime.format(startCal.getTime()) + "'");
-						}
-					} else {
-						if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-								&& startCal.get(Calendar.MINUTE) == 0
-								&& startCal.get(Calendar.SECOND) == 1) {
-							writer.println("start: '"
-									+ sdfNormal.format(startCal.getTime())
-									+ "',");
-						} else {
-							writer.println("start: '"
-									+ sdfTime.format(startCal.getTime()) + "',");
-						}
-
-						if (endCal.get(Calendar.HOUR_OF_DAY) == 23
-								&& endCal.get(Calendar.MINUTE) == 59
-								&& endCal.get(Calendar.SECOND) == 59) {
-							writer.println("end: '"
-									+ sdfNormal.format(endCal.getTime()) + "'");
-						} else {
-							writer.println("end: '"
-									+ sdfTime.format(endCal.getTime()) + "'");
-						}
-					}
-
-				} else if (currTask instanceof FloatingTask) {
-
-					FloatingTask floatingTask = (FloatingTask) currTask;
-					Date createdDate = new Date(floatingTask.getTaskId());
-					Calendar createdCal = Calendar.getInstance();
-					createdCal.setTime(createdDate);
-
-					writer.println("start: '"
-							+ sdfNormal.format(createdCal.getTime()) + "'");
-				}
-
-				if (currTask.isCompleted()) {
-					writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL
-							+ "'");
-				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
-					writer.println(", color: '"
-							+ Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
-				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
-					writer.println(", color: '"
-							+ Graphic.WEBUI_PRIORITY_MEDIUM_VAL + "'");
-				} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
-					writer.println(", color: '"
-							+ Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
-				}
-
-				writer.println("}");
-				if (i != taskList.size() - 1) {
-					writer.println(",");
-				}
-				// }
+			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
+					&& endCal.get(Calendar.MINUTE) == 59
+					&& endCal.get(Calendar.SECOND) == 59) {
+				writer.println("end: '" + sdfNormal.format(endCal.getTime())
+						+ "'");
+			} else {
+				writer.println("end: '" + sdfTime.format(endCal.getTime())
+						+ "'");
 			}
 		}
+	}
+
+	/**
+	 * Write deadline task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+	// @author A0111916M
+	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		DeadlineTask deadlineTask = (DeadlineTask) currTask;
+		Calendar deadlineCal = Calendar.getInstance();
+		deadlineCal.setTime(deadlineTask.getDeadline());
+
+		if (deadlineCal.get(Calendar.HOUR_OF_DAY) == 23
+				&& deadlineCal.get(Calendar.MINUTE) == 59
+				&& deadlineCal.get(Calendar.SECOND) == 59) {
+			writer.println("start: '" + sdfNormal.format(deadlineCal.getTime())
+					+ "'");
+		} else {
+			writer.println("start: '" + sdfTime.format(deadlineCal.getTime())
+					+ "'");
+		}
+	}
+
+	/**
+	 * Write normal task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+	// @author A0111916M
+	private void writeNormalTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		NormalTask normalTask = (NormalTask) currTask;
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(normalTask.getStartDateTime());
+		endCal.setTime(normalTask.getEndDateTime());
+
+		if (startCal.equals(endCal)) {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "'");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "'");
+			}
+		} else {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "',");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "',");
+			}
+
+			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
+					&& endCal.get(Calendar.MINUTE) == 59
+					&& endCal.get(Calendar.SECOND) == 59) {
+
+				// offset current end date to the next day
+				endCal.add(Calendar.DATE, 1);
+				writer.println("end: '" + sdfNormal.format(endCal.getTime())
+						+ "'");
+			} else {
+				writer.println("end: '" + sdfTime.format(endCal.getTime())
+						+ "'");
+			}
+		}
+	}
+
+	/**
+	 * Write floating task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+	// @author A0111916M
+	private void writeFloatingTaskHtml(SimpleDateFormat sdfNormal, Task currTask) {
+		FloatingTask floatingTask = (FloatingTask) currTask;
+		Date createdDate = new Date(floatingTask.getTaskId());
+		Calendar createdCal = Calendar.getInstance();
+		createdCal.setTime(createdDate);
+
+		writer.println("start: '" + sdfNormal.format(createdCal.getTime())
+				+ "'");
+	}
+
+	/**
+	 * Write the priority or completed data into html file, if any.
+	 * 
+	 * @param currTask
+	 *            the current task
+	 */
+	// @author A0111916M
+	private void writeTaskPriorityHtml(Task currTask) {
+		if (currTask.isCompleted()) {
+			writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL
+					+ "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
+		}
+	}
+
+	/**
+	 * Write the ending html file
+	 */
+	// @author A0111916M
+	private void writeClosingHtml() {
 		writer.println("]");
 
 		writer.println("});");
@@ -283,6 +386,6 @@ public class HtmlBuilder {
 		writer.println("<div id='calendar'>");
 		writer.println("</div>");
 		writer.println("</body>");
-
 	}
+
 }

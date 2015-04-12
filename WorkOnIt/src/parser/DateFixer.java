@@ -193,6 +193,7 @@ public class DateFixer {
 		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
 
 			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.setFirstDayOfWeek(Calendar.SUNDAY);
 			firstDateOfWeek.add(
 					Calendar.DAY_OF_WEEK,
 					firstDateOfWeek.getFirstDayOfWeek()
@@ -285,6 +286,7 @@ public class DateFixer {
 		} else if (displayType.equalsIgnoreCase(KeywordConstant.KEYWORD_WEEK)) {
 
 			Calendar firstDateOfWeek = (Calendar) inCalendar.clone();
+			firstDateOfWeek.setFirstDayOfWeek(Calendar.SUNDAY);
 			firstDateOfWeek.add(
 					Calendar.DAY_OF_WEEK,
 					firstDateOfWeek.getFirstDayOfWeek()
