@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.KeywordConstant;
@@ -16,6 +17,9 @@ public class RetrieveParser {
 	private Map<String, String> keywordFullMap = null;
 	private Engine engine = null;
 	private DataParser dataParser = null;
+
+	private static final Logger LOGGER = Logger.getLogger(RetrieveParser.class
+			.getName());
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -33,6 +37,8 @@ public class RetrieveParser {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		engine = new Engine();
+
+		LOGGER.fine("Retrieve Parser instantiated");
 	}
 
 	/**
@@ -47,9 +53,12 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	protected Success parseRetrieveCommand(String remainingCommand) {
+
 		assert (remainingCommand != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing retrieve command");
 
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
@@ -247,7 +256,12 @@ public class RetrieveParser {
 
 			}
 		}
+
 		sc.close();
+
+		LOGGER.fine("Retrieve command returns with Success value : "
+				+ status.isSuccess());
+
 		return status;
 	}
 
@@ -266,6 +280,8 @@ public class RetrieveParser {
 		assert (remainingText != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve done/undone command");
 
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
@@ -305,11 +321,14 @@ public class RetrieveParser {
 	 */
 	// @author A0111837J
 	private Success retrieveTaskDesc(String remainingText) {
-		Success status = null;
 
 		assert (remainingText != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task description command");
+
+		Success status = null;
 
 		Scanner sc = new Scanner(remainingText);
 		String searchString = "";
@@ -436,6 +455,8 @@ public class RetrieveParser {
 		assert (remainingPriority != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve priority command");
 
 		Scanner sc = new Scanner(remainingPriority);
 		Success status = null;
@@ -566,6 +587,7 @@ public class RetrieveParser {
 			}
 
 		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
 			status = new Success(null, false, Message.ERROR_RETRIEVE);
 		}
 		sc.close();
@@ -582,6 +604,7 @@ public class RetrieveParser {
 	// @author A0111837J
 	private Success retrieveAllDates() {
 
+		LOGGER.fine("Processing retrieve all task" + " command");
 		Success status = null;
 		status = engine.retrieveTask();
 
@@ -603,6 +626,8 @@ public class RetrieveParser {
 		assert (remainingDate != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task with single date command");
 
 		Scanner sc = new Scanner(remainingDate);
 		String dateString = "";
@@ -651,6 +676,7 @@ public class RetrieveParser {
 			}
 
 		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
 			status = new Success(null, false, Message.ERROR_RETRIEVE);
 		}
 		sc.close();
@@ -675,10 +701,14 @@ public class RetrieveParser {
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
 
+		LOGGER.fine("Processing retrieve task within a date range command");
+
 		Success status = null;
+
 		try {
 			status = engine.retrieveTask(start, end);
 		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
 			status = new Success(null, false, Message.ERROR_RETRIEVE);
 		}
 		return status;
@@ -700,6 +730,8 @@ public class RetrieveParser {
 		assert (remainingDate != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing retrieve task within a date range (String format) command");
 
 		Scanner sc = new Scanner(remainingDate);
 		String startDateString = "";
@@ -775,6 +807,7 @@ public class RetrieveParser {
 			}
 
 		} catch (IOException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
 			status = new Success(null, false, Message.ERROR_RETRIEVE);
 		}
 

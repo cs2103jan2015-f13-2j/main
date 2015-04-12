@@ -2,6 +2,7 @@ package logic;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import resource.KeywordConstant;
 import resource.Message;
@@ -10,11 +11,14 @@ import entity.Success;
 import entity.Task;
 import entity.TaskHistory;
 
-public class Utility {
+public class UndoRedoManager {
 
 	public static Stack<TaskHistory> undoStack = null;
 	public static Stack<TaskHistory> redoStack = null;
-	private static Utility obj = null;
+	private static UndoRedoManager obj = null;
+
+	private static final Logger LOGGER = Logger.getLogger(UndoRedoManager.class
+			.getName());
 
 	/**
 	 * instantiate both of the undo and redo stack.
@@ -22,21 +26,24 @@ public class Utility {
 	 * @return
 	 */
 	// @author A0112694E
-	private Utility() {
+	private UndoRedoManager() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
+
+		LOGGER.fine("UndoRedoManager instantiated");
 	}
 
 	/**
-	 * instantiate the utility object.
+	 * instantiate the UndoRedoManager object.
 	 *
-	 * @return Utility the only Utility object which belong to the class
+	 * @return UndoRedoManager the only UndoRedoManager object which belong to
+	 *         the class
 	 */
 	// @author A0112694E
-	public static Utility getInstance() {
+	public static UndoRedoManager getInstance() {
 
 		if (obj == null) {
-			obj = new Utility();
+			obj = new UndoRedoManager();
 			return obj;
 		} else {
 			return obj;
@@ -52,6 +59,8 @@ public class Utility {
 	public static void reset() {
 		undoStack = new Stack<TaskHistory>();
 		redoStack = new Stack<TaskHistory>();
+
+		LOGGER.fine("Reset UndoRedoManager");
 	}
 
 	/**
@@ -62,7 +71,7 @@ public class Utility {
 	// @author A0112694E
 	public static void addUndoStack(TaskHistory task) {
 		undoStack.push(task);
-
+		LOGGER.fine("Added history into undo stack");
 	}
 
 	/**
@@ -73,6 +82,7 @@ public class Utility {
 	// @author A0112694E
 	public static void addRedoStack(TaskHistory task) {
 		redoStack.push(task);
+		LOGGER.fine("Added history into redo stack");
 	}
 
 	/**
@@ -83,6 +93,8 @@ public class Utility {
 	 */
 	// @author A0112694E
 	public static Success undoTaskFunction() {
+
+		LOGGER.fine("Performing undo");
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
@@ -115,6 +127,7 @@ public class Utility {
 				if (isMarkAllDeleted) {
 					status = new Success(true, Message.SUCCESS_DELETE);
 				} else {
+					LOGGER.warning(Message.ERROR_DELETE);
 					status = new Success(false, Message.ERROR_DELETE);
 				}
 			}
@@ -153,6 +166,7 @@ public class Utility {
 				if (isMarkAllUndone) {
 					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
 				} else {
+					LOGGER.warning(Message.FAIL_MARK_UNDONE);
 					status = new Success(false, Message.FAIL_MARK_UNDONE);
 				}
 
@@ -184,6 +198,7 @@ public class Utility {
 				if (isMarkAllDone) {
 					status = new Success(true, Message.SUCCESS_MARK_DONE);
 				} else {
+					LOGGER.warning(Message.FAIL_MARK_DONE);
 					status = new Success(false, Message.FAIL_MARK_DONE);
 				}
 			}
@@ -191,6 +206,7 @@ public class Utility {
 			redoStack.push(undoTask);
 
 		} else {
+			LOGGER.warning(Message.FAIL_UNDO);
 			status = new Success(false, Message.FAIL_UNDO);
 		}
 		return status;
@@ -204,6 +220,8 @@ public class Utility {
 	 */
 	// @author A0112694E
 	public static Success redoTaskFunction() {
+
+		LOGGER.fine("Performing redo");
 
 		Success status = null;
 		FileIO dataStorage = new FileIO();
@@ -237,6 +255,7 @@ public class Utility {
 				if (isMarkAllDeleted) {
 					status = new Success(true, Message.SUCCESS_DELETE);
 				} else {
+					LOGGER.warning(Message.ERROR_DELETE);
 					status = new Success(false, Message.ERROR_DELETE);
 				}
 			}
@@ -273,6 +292,7 @@ public class Utility {
 				if (isMarkAllUndone) {
 					status = new Success(true, Message.SUCCESS_MARK_UNDONE);
 				} else {
+					LOGGER.warning(Message.FAIL_MARK_UNDONE);
 					status = new Success(false, Message.FAIL_MARK_UNDONE);
 				}
 
@@ -304,6 +324,7 @@ public class Utility {
 				if (isMarkAllDone) {
 					status = new Success(true, Message.SUCCESS_MARK_DONE);
 				} else {
+					LOGGER.warning(Message.FAIL_MARK_DONE);
 					status = new Success(false, Message.FAIL_MARK_DONE);
 				}
 			}
@@ -311,6 +332,7 @@ public class Utility {
 			undoStack.push(redoTask);
 
 		} else {
+			LOGGER.warning(Message.FAIL_REDO);
 			status = new Success(false, Message.FAIL_REDO);
 		}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.Message;
@@ -15,6 +16,8 @@ public class DeleteParser {
 	private Engine engine = null;
 	private Map<String, String> keywordFullMap = null;
 	private DataParser dataParser = null;
+	private static final Logger LOGGER = Logger.getLogger(DeleteParser.class
+			.getName());
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -32,6 +35,8 @@ public class DeleteParser {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		engine = new Engine();
+
+		LOGGER.fine("Delete Parser instantiated");
 	}
 
 	/**
@@ -49,6 +54,8 @@ public class DeleteParser {
 		assert (index != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing delete command");
 
 		Success status = null;
 		AuxParser auxParser = new AuxParser(keywordFullMap, dataParser);
@@ -85,16 +92,23 @@ public class DeleteParser {
 			auxParser.secondaryListRetrieval(status);
 
 		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_DELETE_IS_NAN);
 			status = new Success(false, Message.ERROR_DELETE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_DELETE_INVALID_INDEX);
 			status = new Success(false, Message.ERROR_DELETE_INVALID_INDEX);
 		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_DELETE_NO_TASK_LIST);
 			status = new Success(false, Message.ERROR_DELETE_NO_TASK_LIST);
 		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_DELETE);
 			status = new Success(false, Message.ERROR_DELETE);
 		}
 
 		sc.close();
+
+		LOGGER.fine("Delete command returns with Success value : "
+				+ status.isSuccess());
 
 		return status;
 	}

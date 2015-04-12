@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import logic.Utility;
+import logic.UndoRedoManager;
 import data.InitFileIO;
 
 import org.junit.Test;
@@ -1096,7 +1096,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		Utility.reset();
+		UndoRedoManager.reset();
 
 		String undoCommand = "undo";
 

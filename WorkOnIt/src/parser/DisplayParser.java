@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.KeywordConstant;
@@ -13,6 +14,8 @@ import entity.SuccessDisplay;
 public class DisplayParser {
 
 	private Engine engine = null;
+	private static final Logger LOGGER = Logger.getLogger(DisplayParser.class
+			.getName());
 
 	/**
 	 * This constructor will instantiate an Engine instance.
@@ -21,6 +24,8 @@ public class DisplayParser {
 	// @author A0111916M
 	public DisplayParser() {
 		engine = new Engine();
+		
+		LOGGER.fine("Display Parser instantiated");
 	}
 
 	/**
@@ -37,6 +42,8 @@ public class DisplayParser {
 
 		assert (remainingCommand != null);
 
+		LOGGER.fine("Parsing display command");
+		
 		SuccessDisplay status = null;
 		Scanner sc = new Scanner(remainingCommand);
 		String displayType = KeywordConstant.KEYWORD_DATE;
@@ -103,13 +110,19 @@ public class DisplayParser {
 				status.setCalendar(startDate);
 
 			} catch (IOException e) {
+				LOGGER.warning(e.getMessage());
 				status = new SuccessDisplay(false, Message.ERROR_GENERAL);
 			}
 
 		} else {
+			LOGGER.warning(Message.FAIL_PARSE_COMMAND);
 			status = new SuccessDisplay(false, Message.FAIL_PARSE_COMMAND);
 		}
 		sc.close();
+		
+		LOGGER.fine("Display command returns with Success value : "
+				+ status.isSuccess());
+		
 		return status;
 	}
 

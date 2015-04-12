@@ -6,11 +6,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import resource.FileName;
 import resource.Message;
 
 public class ConfigIO {
+
+	private static final Logger LOGGER = Logger.getLogger(ConfigIO.class
+			.getName());
+
 	/**
 	 *
 	 * get the full keyword map
@@ -26,6 +31,8 @@ public class ConfigIO {
 		Map<String, String> KEYWORD_MAP = (Map<String, String>) Serializer
 				.deserializeFromJson(loadedContents, HashMap.class);
 
+		LOGGER.fine("customized Keyword Map retrieved successfully");
+		
 		return KEYWORD_MAP;
 	}
 
@@ -73,8 +80,8 @@ public class ConfigIO {
 	// @author A0112694E
 	private void createNewFile(File file) {
 
-		assert(file != null);
-		
+		assert (file != null);
+
 		try {
 			file.createNewFile();
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import resource.KeywordConstant;
 
@@ -14,6 +15,8 @@ public class DateFixer {
 
 	private static int delayInMillisec = 4000; // 4 sec optimal delay time for
 												// process
+	private static final Logger LOGGER = Logger.getLogger(DateFixer.class
+			.getName());
 
 	/**
 	 * This method will fix any Date object to its beginning time, which is
@@ -31,6 +34,8 @@ public class DateFixer {
 	 */
 	// @author A0111916M
 	protected static Date fixStartDate(Date inDate) {
+
+		LOGGER.fine("fixing the following start date : " + inDate.toString());
 
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();
@@ -75,6 +80,8 @@ public class DateFixer {
 	// @author A0111916M
 	protected static Date fixEndDate(Date inDate) {
 
+		LOGGER.fine("fixing the following end date : " + inDate.toString());
+
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();
 		Calendar nowCalendar = Calendar.getInstance();
@@ -115,6 +122,8 @@ public class DateFixer {
 	// @author A0111916M
 	protected static List<Date> parseStringToDate(String dateInfo) {
 
+		LOGGER.fine("Parsing date String to Date object using Natty library");
+
 		List<Date> dates = new ArrayList<Date>();
 
 		if (dateInfo != null) {
@@ -146,6 +155,9 @@ public class DateFixer {
 	 */
 	// @author A0111916M
 	protected static Date fixStartDateDisplay(Date inDate, String displayType) {
+
+		LOGGER.fine("fixing the following start date for Display: "
+				+ inDate.toString());
 
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();
@@ -235,6 +247,9 @@ public class DateFixer {
 	 */
 	// @author A0111916M
 	protected static Date fixEndDateDisplay(Date inDate, String displayType) {
+
+		LOGGER.fine("fixing the following end date for Display: "
+				+ inDate.toString());
 
 		Calendar inCalendar = Calendar.getInstance();
 		Calendar auxCalendar = Calendar.getInstance();

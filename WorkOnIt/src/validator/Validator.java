@@ -2,12 +2,15 @@ package validator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import data.ConfigIO;
 
 public class Validator {
 
 	private Map<String, String> keywordFullMap = null;
+	private static final Logger LOGGER = Logger.getLogger(Validator.class
+			.getName());
 
 	/**
 	 * This constructor will load the configuration file.
@@ -30,6 +33,7 @@ public class Validator {
 
 		ConfigIO config = new ConfigIO();
 		keywordFullMap = config.getFullKeywordMap();
+		LOGGER.fine("Config file loaded in Validator");
 	}
 
 	/**
@@ -45,10 +49,10 @@ public class Validator {
 	// @author A0111916M
 	public boolean validateKeyword(String keyword) {
 
-		assert(keyword != null);
-		assert(keywordFullMap != null);
-		assert(!keywordFullMap.isEmpty());
-		
+		assert (keyword != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		boolean isKeyword = false;
 
 		fixKeywordInconsistency(keyword);
@@ -56,6 +60,8 @@ public class Validator {
 		if (keywordFullMap.containsKey(keyword)) {
 			isKeyword = true;
 		}
+
+		LOGGER.fine(keyword + " keyword validates to " + isKeyword);
 
 		return isKeyword;
 	}
@@ -73,12 +79,15 @@ public class Validator {
 	// @author A0111916M
 	public boolean validateKeywordSequence(List<String> keywordList) {
 
-		assert(keywordList != null);
-		
+		assert (keywordList != null);
+
 		fixKeywordInconsistency(keywordList);
 
 		KeywordStructure keySequence = new KeywordStructure();
 		boolean isValidSequence = keySequence.checkKeyword(keywordList);
+
+		LOGGER.fine(keywordList.toString() + " keyword sequence validates to "
+				+ isValidSequence);
 
 		return isValidSequence;
 	}
@@ -93,8 +102,8 @@ public class Validator {
 	// @author A0111916M
 	private String fixKeywordInconsistency(String keyword) {
 
-		assert(keyword != null);
-		
+		assert (keyword != null);
+
 		keyword = keyword.toLowerCase();
 		keyword = keyword.trim();
 
@@ -111,8 +120,8 @@ public class Validator {
 	// @author A0111916M
 	private List<String> fixKeywordInconsistency(List<String> keywordList) {
 
-		assert(keywordList != null);
-		
+		assert (keywordList != null);
+
 		for (int i = 0; i < keywordList.size(); i++) {
 			String currKeyWord = keywordList.get(i);
 			currKeyWord = currKeyWord.toLowerCase();

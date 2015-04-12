@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import resource.FileName;
 import resource.KeywordConstant;
@@ -35,6 +36,9 @@ public class FileIO {
 
 	private static String file_type = null;
 
+	private static final Logger LOGGER = Logger.getLogger(FileIO.class
+			.getName());
+
 	public FileIO() {
 
 		filename_floating = FileName.getFilenameFloating();
@@ -42,6 +46,8 @@ public class FileIO {
 		filename_recur = FileName.getFilenameRecur();
 		filename_deadline = FileName.getFilenameDeadline();
 		filename_history = FileName.getFilenameHistory();
+
+		LOGGER.fine("FileIO instantiated");
 	}
 
 	/**
@@ -54,10 +60,12 @@ public class FileIO {
 	// @author A0112694E
 	public Success saveIntoFile(Task task) {
 
+		LOGGER.fine("Saving into file: " + task.toDisplay());
+
 		Success status = null;
 
-		assert(task!=null);
-		
+		assert (task != null);
+
 		addHistory(task.getTaskName());
 
 		file_type = getFileType(task);
@@ -65,8 +73,6 @@ public class FileIO {
 		String gsonSerial = Serializer.serializeToJson(task);
 		PrintWriter filewrite = null;
 
-		
-		
 		try {
 			filewrite = new PrintWriter(new BufferedWriter(new FileWriter(
 					file_type, true)));
@@ -93,6 +99,9 @@ public class FileIO {
 	// @author A0112694E
 	private String getFileType(Task task) {
 
+		LOGGER.fine("Identifying the file type of this task: "
+				+ task.toDisplay());
+
 		String type = null;
 
 		if (task instanceof FloatingTask) {
@@ -117,8 +126,10 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadFromFileTask(String file_keyword) {
 
-		assert(file_keyword != null);
-		
+		LOGGER.fine("Searching the following in files: " + file_keyword);
+
+		assert (file_keyword != null);
+
 		Success successObj;
 		BufferedReader reader = null;
 
@@ -201,6 +212,8 @@ public class FileIO {
 	// @author A0112694E
 	private String getFileTypeWithKeyword(String file_keyword) {
 
+		LOGGER.fine("Get the file name: " + file_keyword);
+
 		String type = "";
 
 		if (file_keyword
@@ -231,8 +244,10 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadFromStartDate(Date date) {
 
-		assert(date != null);
-		
+		assert (date != null);
+
+		LOGGER.fine("search from start date: " + date.toString());
+
 		Success successObj;
 		String printLine;
 		BufferedReader recurReader = null;
@@ -318,9 +333,12 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadFromBetweenDate(Date startDate, Date endDate) {
 
-		assert(startDate != null);
-		assert(endDate != null);
-		
+		assert (startDate != null);
+		assert (endDate != null);
+
+		LOGGER.fine("search from start & end date: [" + startDate.toString()
+				+ "] [" + endDate.toString() + "]");
+
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -399,8 +417,10 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadFromPriority(int priority) {
 
-		assert(priority >= 0 && priority <= 3);
-		
+		assert (priority >= 0 && priority <= 2);
+
+		LOGGER.fine("search task with priority: " + priority);
+
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -494,10 +514,12 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadFromPriorityAndDate(int priority, Date date) {
 
-		
-		assert(priority >= 0 && priority <= 3);
-		assert(date != null);
-		
+		assert (priority >= 0 && priority <= 2);
+		assert (date != null);
+
+		LOGGER.fine("search task with priority and date: " + priority + ", ["
+				+ date.toString() + "]");
+
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -589,10 +611,14 @@ public class FileIO {
 	public Success loadFromPriorityBetweenDate(int priority, Date startDate,
 			Date endDate) {
 
-		assert(priority >= 0 && priority <= 3);
-		assert(startDate != null);
-		assert(endDate != null);
-		
+		assert (priority >= 0 && priority <= 2);
+		assert (startDate != null);
+		assert (endDate != null);
+
+		LOGGER.fine("search task with priority and within date range: "
+				+ priority + ", [" + startDate.toString() + "] ["
+				+ endDate.toString() + "]");
+
 		Success successObj;
 		BufferedReader recurReader = null;
 		BufferedReader deadlineReader = null;
@@ -677,6 +703,9 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success getCompletedTask(boolean isCompleted) {
+
+		LOGGER.fine("search task is complete/incompliete: " + isCompleted);
+
 		Success successObj;
 		BufferedReader reader = null;
 
@@ -754,11 +783,15 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success loadCompletedTaskWithDate(boolean isCompleted, Date date) {
+
+		LOGGER.fine("search task is complete/incomplete on a date: "
+				+ isCompleted + ", [" + date.toString() + "]");
+
 		Success successObj;
 		BufferedReader reader = null;
 
-		assert(date != null);
-		
+		assert (date != null);
+
 		try {
 			List<Task> taskList = new ArrayList<Task>();
 			String printLine;
@@ -842,12 +875,16 @@ public class FileIO {
 	// @author A0112694E
 	public Success loadCompletedTaskBetweenDate(boolean isCompleted,
 			Date startDate, Date endDate) {
+
+		LOGGER.fine("search task is complete/incomplete within a date range: "
+				+ isCompleted + ", [" + startDate.toString() + "] ["
+				+ endDate.toString() + "]");
+
 		Success successObj;
 		BufferedReader reader = null;
-		
-		assert(startDate != null);
-		assert(endDate != null);
-		
+
+		assert (startDate != null);
+		assert (endDate != null);
 
 		try {
 			List<Task> taskList = new ArrayList<Task>();
@@ -927,11 +964,14 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success searchFromFile(String keyword) {
+
+		LOGGER.fine("search task with keyword: " + keyword);
+
 		Success successObj;
 		BufferedReader reader = null;
 
-		assert(keyword != null);
-		
+		assert (keyword != null);
+
 		keyword = keyword.trim();
 
 		try {
@@ -1028,13 +1068,16 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success searchFromFileWithDate(String keyword, Date date) {
+
+		LOGGER.fine("search task with keyword on a date: " + keyword + ", ["
+				+ date.toString() + "]");
+
 		Success successObj;
 		BufferedReader reader = null;
 
-		assert(keyword != null);
-		assert(date != null);
+		assert (keyword != null);
+		assert (date != null);
 
-		
 		keyword = keyword.trim();
 
 		try {
@@ -1121,13 +1164,18 @@ public class FileIO {
 	// @author A0112694E
 	public Success searchFromFileBetweenDate(String keyword, Date startDate,
 			Date endDate) {
+
+		LOGGER.fine("search task with keyword within a date range: " + keyword
+				+ ", [" + startDate.toString() + "] [" + endDate.toString()
+				+ "]");
+
 		Success successObj;
 		BufferedReader reader = null;
 
-		assert(keyword != null);
-		assert(endDate != null);
-		assert(startDate != null);
-		
+		assert (keyword != null);
+		assert (endDate != null);
+		assert (startDate != null);
+
 		keyword = keyword.trim();
 
 		try {
@@ -1208,6 +1256,9 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success deleteFromFile(Task taskObj) {
+
+		LOGGER.fine("delete task from file: " + taskObj.toDisplay());
+
 		Success successObj = null;
 
 		BufferedReader reader = null;
@@ -1374,6 +1425,9 @@ public class FileIO {
 	 */
 	// @author A0112694E
 	public Success updateFromFile(Task taskUpdate, Task taskObj) {
+
+		LOGGER.fine("update task from file: " + taskUpdate.toDisplay());
+
 		Success successObj = null;
 		BufferedReader reader = null;
 		getFileType(taskObj);
@@ -1528,12 +1582,16 @@ public class FileIO {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Insert the history of added task into file.
+	 * 
+	 * @param the
+	 *            task name that is to be inserted into history
+	 * @return Success object
 	 */
-	// @author
+	// @author A0112694E
 	public Success addHistory(String toAdd) {
+
+		LOGGER.fine("adding history: " + toAdd);
 
 		Success status = null;
 		PrintWriter filewrite = null;
@@ -1562,12 +1620,14 @@ public class FileIO {
 	}
 
 	/**
-	 *
-	 * @param
-	 * @return
+	 * Get the history of added task from file.
+	 * 
+	 * @return Success object
 	 */
-	// @author
+	// @author A0112694E
 	public Success getHistory() {
+
+		LOGGER.fine("get history");
 
 		Success status = null;
 

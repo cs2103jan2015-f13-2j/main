@@ -2,6 +2,7 @@ package parser;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.KeywordConstant;
@@ -14,6 +15,9 @@ public class UpdateParser {
 	private Map<String, String> keywordFullMap = null;
 	private Engine engine = null;
 	private DataParser dataParser = null;
+
+	private static final Logger LOGGER = Logger.getLogger(UpdateParser.class
+			.getName());
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -31,6 +35,8 @@ public class UpdateParser {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		engine = new Engine();
+
+		LOGGER.fine("Update Parser instantiated");
 	}
 
 	/**
@@ -46,6 +52,8 @@ public class UpdateParser {
 	 */
 	// @author A0111916M
 	protected Success parseUpdateCommand(String remainingCommand) {
+
+		LOGGER.fine("Parsing update command");
 
 		assert (remainingCommand != null);
 		assert (keywordFullMap != null);
@@ -85,16 +93,22 @@ public class UpdateParser {
 					}
 				}
 			} else {
-
+				LOGGER.warning(Message.ERROR_UPDATE_NO_TASK_LIST);
 				status = new Success(false, Message.ERROR_UPDATE_NO_TASK_LIST);
 			}
 		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_UPDATE_INVALID_INDEX);
 			status = new Success(false, Message.ERROR_UPDATE_INVALID_INDEX);
 		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_UPDATE_NO_TASK_LIST);
 			status = new Success(false, Message.ERROR_UPDATE_NO_TASK_LIST);
 		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_UPDATE);
 			status = new Success(false, Message.ERROR_UPDATE);
 		}
+
+		LOGGER.fine("Update command returns with Success value : "
+				+ status.isSuccess());
 
 		return status;
 	}

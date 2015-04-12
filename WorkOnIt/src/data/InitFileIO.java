@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 import application.ChooseFolder;
 import javafx.application.Platform;
@@ -13,6 +14,10 @@ import javafx.stage.Stage;
 import resource.FileName;
 
 public class InitFileIO {
+
+	private static final Logger LOGGER = Logger.getLogger(InitFileIO.class
+			.getName());
+
 	/**
 	 *
 	 * check and process all the data file.
@@ -23,9 +28,12 @@ public class InitFileIO {
 	// @author A0112694E
 	public void checkAndProcessFile() {
 
+		LOGGER.fine("Checking required files on init");
+
 		FileName.readCanonicalPathFromFile();
 
 		if (!isFilesExist()) {
+			LOGGER.warning("File(s) does not exist. Request save path.");
 			showChooseFolderUi();
 		}
 	}
@@ -66,18 +74,22 @@ public class InitFileIO {
 		File fileDeadline = new File(FileName.getFilenameDeadline());
 
 		if (!fileNormal.exists()) {
+			LOGGER.warning("normal task data file does not exist");
 			isExist = false;
 		}
 
 		if (!fileFloating.exists()) {
+			LOGGER.warning("floating task data file does not exist");
 			isExist = false;
 		}
 
 		if (!fileRecur.exists()) {
+			LOGGER.warning("recurrence task data file does not exist");
 			isExist = false;
 		}
 
 		if (!fileDeadline.exists()) {
+			LOGGER.warning("deadline task data file does not exist");
 			isExist = false;
 		}
 
@@ -96,9 +108,9 @@ public class InitFileIO {
 	public static void copyFileUsingFileStreams(String sourceString,
 			String destString) throws IOException {
 
-		assert(sourceString != null);
-		assert(destString != null);
-		
+		assert (sourceString != null);
+		assert (destString != null);
+
 		File dest = new File(destString);
 
 		if (!dest.exists()) {

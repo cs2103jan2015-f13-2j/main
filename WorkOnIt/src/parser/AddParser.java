@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.KeywordConstant;
@@ -20,6 +21,8 @@ public class AddParser {
 
 	private Map<String, String> keywordFullMap = null;
 	private Engine engine = null;
+	private static final Logger LOGGER = Logger.getLogger(AddParser.class
+			.getName());
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -33,6 +36,8 @@ public class AddParser {
 	public AddParser(Map<String, String> keywordFullMap) {
 		this.keywordFullMap = keywordFullMap;
 		engine = new Engine();
+
+		LOGGER.fine("Add Parser instantiated");
 	}
 
 	/**
@@ -49,6 +54,8 @@ public class AddParser {
 	protected Success processAddCommand(String remainingCommand,
 			DataParser dataParser) {
 
+		LOGGER.fine("Processing add command");
+
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
 
@@ -63,6 +70,10 @@ public class AddParser {
 			status = engine.addTask(task);
 			auxParser.secondaryListRetrieval(status);
 		}
+
+		LOGGER.fine("Add command returns with Success value : "
+				+ status.isSuccess());
+
 		return status;
 	}
 
@@ -79,6 +90,8 @@ public class AddParser {
 
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+		
+		LOGGER.fine("Parsing add command");
 
 		Success status = null;
 
@@ -157,7 +170,7 @@ public class AddParser {
 				try {
 					remainingPriority = sc.nextLine();
 				} catch (NoSuchElementException e) {
-					System.err.println(Message.ERROR_NO_PRIORITY_FOUND);
+					LOGGER.warning(Message.ERROR_NO_PRIORITY_FOUND);
 				}
 				taskDesc = taskDesc.trim();
 				status = createFloatingTask(taskDesc, remainingPriority);
@@ -166,8 +179,10 @@ public class AddParser {
 			sc.close();
 
 		} catch (NullPointerException e) {
+			LOGGER.warning(e.getMessage());
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		} catch (Exception e) {
+			LOGGER.warning(e.getMessage());
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
 
@@ -189,6 +204,8 @@ public class AddParser {
 		assert (taskDesc != null && remainingDate != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Normal Task");
 
 		taskDesc = taskDesc.trim();
 
@@ -253,7 +270,7 @@ public class AddParser {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err.println(Message.FAIL_PARSE_PRIORITY);
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -299,6 +316,8 @@ public class AddParser {
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
 
+		LOGGER.fine("Parsing Deadline Task");
+
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
 
@@ -341,7 +360,7 @@ public class AddParser {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err.println(Message.FAIL_PARSE_PRIORITY);
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -378,6 +397,8 @@ public class AddParser {
 		assert (taskDesc != null && remainingDate != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Recurrence Task");
 
 		taskDesc = taskDesc.trim();
 		remainingDate = remainingDate.trim();
@@ -464,7 +485,7 @@ public class AddParser {
 					}
 
 				} catch (NumberFormatException e) {
-					System.err.println(Message.FAIL_PARSE_PRIORITY);
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 		}
@@ -517,6 +538,8 @@ public class AddParser {
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
 
+		LOGGER.fine("Parsing Floating Task");
+
 		taskDesc = taskDesc.trim();
 
 		Success status = null;
@@ -542,7 +565,7 @@ public class AddParser {
 					}
 
 				} catch (NumberFormatException e) {
-					// ignore error
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
 				}
 			}
 

@@ -3,6 +3,7 @@ package validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import data.ConfigIO;
 import resource.KeywordConstant;
@@ -11,6 +12,8 @@ import entity.KeywordNode;
 public class KeywordStructure {
 
 	private List<KeywordNode> mainKeywordList;
+	private static final Logger LOGGER = Logger
+			.getLogger(KeywordStructure.class.getName());
 
 	/**
 	 * This constructor will execute the init method. By instantiating this
@@ -45,6 +48,8 @@ public class KeywordStructure {
 		initClearKeyword();
 		initDisplayKeyword();
 		initExitKeyword();
+
+		LOGGER.fine("Keyword Structure initialized fully");
 	}
 
 	/**

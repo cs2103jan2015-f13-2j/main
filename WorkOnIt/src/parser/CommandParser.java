@@ -3,6 +3,7 @@ package parser;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.KeywordConstant;
@@ -16,6 +17,8 @@ public class CommandParser {
 	private Engine engine;
 	private Map<String, String> keywordFullMap = null;
 	private static DataParser dataParser = null;
+	private static final Logger LOGGER = Logger.getLogger(CommandParser.class
+			.getName());
 
 	/**
 	 * Constructor for Command Parser. It will set up necessary datas.
@@ -28,6 +31,8 @@ public class CommandParser {
 		Validator keywordValidator = new Validator();
 		keywordFullMap = keywordValidator.getKeywordFullMap();
 		dataParser = new DataParser();
+
+		LOGGER.fine("Command Parser instantiated");
 	}
 
 	/**
@@ -43,6 +48,8 @@ public class CommandParser {
 
 		status = engine.getHistory();
 
+		LOGGER.fine("History received successfully");
+
 		return status;
 	}
 
@@ -56,6 +63,8 @@ public class CommandParser {
 	 */
 	// @author A0111916M
 	public Success parseCommand(String fullCommand) {
+
+		LOGGER.fine("Parsing command : " + fullCommand);
 
 		Success status = null;
 
@@ -133,6 +142,8 @@ public class CommandParser {
 
 		sc.close();
 
+		LOGGER.fine("Parsing command isSuccess : " + status.isSuccess());
+
 		return status;
 	}
 
@@ -141,6 +152,8 @@ public class CommandParser {
 	 */
 	// @author A0111916M
 	private void executeExitCommand() {
+
+		LOGGER.fine("Exiting application");
 		System.exit(0);
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import logic.Engine;
 import resource.Message;
@@ -15,6 +16,9 @@ public class DoneParser {
 	private Engine engine = null;
 	private Map<String, String> keywordFullMap = null;
 	private DataParser dataParser = null;
+
+	private static final Logger LOGGER = Logger.getLogger(DoneParser.class
+			.getName());
 
 	/**
 	 * This constructor takes in a full map of keywords, if any. It will make
@@ -30,6 +34,8 @@ public class DoneParser {
 		this.keywordFullMap = keywordFullMap;
 		this.dataParser = dataParser;
 		this.engine = new Engine();
+
+		LOGGER.fine("Done Parser instantiated");
 	}
 
 	/**
@@ -47,6 +53,8 @@ public class DoneParser {
 
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing done command");
 
 		Success status = null;
 
@@ -69,16 +77,23 @@ public class DoneParser {
 			status = engine.markAsDone(doneList);
 			auxParser.secondaryListRetrieval(status);
 		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_DONE_IS_NAN);
 			status = new Success(false, Message.ERROR_DONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_DONE_INVALID_INDEX);
 			status = new Success(false, Message.ERROR_DONE_INVALID_INDEX);
 		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_DONE_NO_TASK_LIST);
 			status = new Success(false, Message.ERROR_DONE_NO_TASK_LIST);
 		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_DONE);
 			status = new Success(false, Message.ERROR_DONE);
 		}
 
 		sc.close();
+
+		LOGGER.fine("Done command returns with Success value : "
+				+ status.isSuccess());
 
 		return status;
 	}
@@ -98,6 +113,8 @@ public class DoneParser {
 
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Processing undone command");
 
 		Success status = null;
 
@@ -120,16 +137,23 @@ public class DoneParser {
 			status = engine.markAsUndone(undoneList);
 			auxParser.secondaryListRetrieval(status);
 		} catch (NumberFormatException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_IS_NAN);
 			status = new Success(false, Message.ERROR_UNDONE_IS_NAN);
 		} catch (IndexOutOfBoundsException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_INVALID_INDEX);
 			status = new Success(false, Message.ERROR_UNDONE_INVALID_INDEX);
 		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_UNDONE_NO_TASK_LIST);
 			status = new Success(false, Message.ERROR_UNDONE_NO_TASK_LIST);
 		} catch (Exception e) {
+			LOGGER.warning(Message.ERROR_UNDONE);
 			status = new Success(false, Message.ERROR_UNDONE);
 		}
 
 		sc.close();
+
+		LOGGER.fine("Undone command returns with Success value : "
+				+ status.isSuccess());
 
 		return status;
 	}
