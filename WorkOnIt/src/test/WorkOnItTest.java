@@ -761,7 +761,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -892,7 +892,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 		if (status.isSuccess()) {
@@ -1007,7 +1007,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -1047,7 +1047,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -1120,7 +1120,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -1168,7 +1168,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -1247,7 +1247,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -1382,7 +1382,7 @@ public class WorkOnItTest {
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
