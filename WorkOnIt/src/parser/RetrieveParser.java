@@ -482,7 +482,6 @@ public class RetrieveParser {
 		searchString = searchString.trim();
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
-		String combinedString = searchString + startDateString + endDateString;
 
 		if (isSingleDate == false && isDoubleDate == false) {
 
