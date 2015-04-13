@@ -255,7 +255,7 @@ public class HtmlBuilder {
 	 * @param currTask
 	 *            the current task
 	 */
-
+	//@author A0111916M
 	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
 			SimpleDateFormat sdfTime, Task currTask) {
 		DeadlineTask deadlineTask = (DeadlineTask) currTask;

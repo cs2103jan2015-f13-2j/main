@@ -535,7 +535,7 @@ public class AddParser {
 	 *            remains of the priority, if any
 	 * @return
 	 */
-
+	//@author A0111916M
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
 
 		assert (taskDesc != null && remainingPriority != null);
