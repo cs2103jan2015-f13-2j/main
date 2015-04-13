@@ -494,8 +494,6 @@
 			final Stage stage, TextField txtF, ListView listView,
 			TextFlow tFlow, boolean isOnKeyPressed) {
 
-		int maxCharacter = 43; // optimal value for the textbox dimension
-
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
 		} else if (event.getCode().equals(KeyCode.TAB) && isOnKeyPressed) {

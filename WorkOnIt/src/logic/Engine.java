@@ -192,7 +192,7 @@ public class Engine {
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
 
-		assert (priority >= 0 && priority <= 3);
+		assert (priority >= 0 && priority <= 2);
 
 		status = dataStorage.loadFromPriority(priority);
 
@@ -218,7 +218,7 @@ public class Engine {
 		ReadFileIO dataStorage = new ReadFileIO();
 
 		assert (date != null);
-		assert (priority >= 0 && priority <= 3);
+		assert (priority >= 0 && priority <= 2);
 
 		status = dataStorage.loadFromPriorityAndDate(priority, date);
 
@@ -246,7 +246,7 @@ public class Engine {
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
 
-		assert (priority >= 0 && priority <= 3);
+		assert (priority >= 0 && priority <= 2);
 		assert (startDate != null && endDate != null);
 
 		status = dataStorage.loadFromPriorityBetweenDate(priority, startDate,

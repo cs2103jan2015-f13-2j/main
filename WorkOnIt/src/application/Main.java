@@ -64,18 +64,20 @@ public class Main extends Application {
 	private boolean isHistory = false;
 
 	// SCALE
-	final static int TEXT_BOX_HEIGHT = 50;
-	final static int TEXT_BOX_WIDTH = 750;
-	final static int SCENE_HEIGHT = 600;
-	final static int LIST_VIEW_HEIGHT = 350;
-	final static int SCROLL_PANE_HEIGHT = 610;
-	final static int SCROLL_PANE_WIDTH = TEXT_BOX_WIDTH + 20;
+	private final static int TEXT_BOX_HEIGHT = 50;
+	private final static int TEXT_BOX_WIDTH = 750;
+	private final static int SCENE_HEIGHT = 600;
+	private final static int LIST_VIEW_HEIGHT = 350;
+	private final static int SCROLL_PANE_WIDTH = TEXT_BOX_WIDTH + 20;
 
 	// POSITION ADJUSTMENTS
-	final static int POSITION_LIST_VIEW_Y = 50;
-	final static int POSITION_TEXT_BOX_X = 0;
-	final static int POSITION_TEXT_BOX_Y = 0;
-	final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
+	private final static int POSITION_LIST_VIEW_Y = 50;
+	private final static int POSITION_TEXT_BOX_X = 0;
+	private final static int POSITION_TEXT_BOX_Y = 0;
+	private final static int POSITION_CALENDAR_SCROLLPANE_Y = 60;
+	
+	//TEXTBOX MAX LENGTH
+	private final static int maxCharacter = 50; // optimal value for the textbox dimension
 
 	/**
 	 * This method initiates and sets up the User interface for the application
@@ -501,8 +503,6 @@ public class Main extends Application {
 	public void keypressHandler(KeyEvent event, String textFieldText,
 			final Stage stage, TextField txtF, ListView listView,
 			TextFlow tFlow, boolean isOnKeyPressed) {
-
-		int maxCharacter = 43; // optimal value for the textbox dimension
 
 		if (event.getCode().equals(KeyCode.ESCAPE)) {
 			hide(stage);
