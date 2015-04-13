@@ -209,10 +209,30 @@ public class AddParser {
 
 		taskDesc = taskDesc.trim();
 
-		NormalTask task = null;
+		Success status = null;
+
+		status = processNormalTask(taskDesc, remainingDate);
+
+		return status;
+	}
+
+	/**
+	 * This method process and parse the information for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param remainingDate
+	 *            remaining date String
+	 * @return
+	 */
+	private Success processNormalTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
 		Scanner sc = new Scanner(remainingDate);
-
 		String startDateString = "";
 		String endDateString = "";
 		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
@@ -275,12 +295,44 @@ public class AddParser {
 			}
 		}
 
+		status = postProcessNormalTask(taskDesc, startDateString,
+				endDateString, priority);
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * This method process the dates for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param startDateString
+	 *            task start date that is in String
+	 * @param endDateString
+	 *            task end date that is in String
+	 * @param priority
+	 *            priority level, if any
+	 * @return Success object
+	 */
+
+	private Success postProcessNormalTask(String taskDesc,
+			String startDateString, String endDateString, int priority) {
+
+		assert (taskDesc != null && startDateString != null && endDateString != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		NormalTask task = null;
+		Success status = null;
 		String combinedDate = startDateString + " to " + endDateString;
 		combinedDate = combinedDate.trim();
 		List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
 
 		Date fromDate = null;
 		Date toDate = null;
+		boolean isValidDateRange = true;
 
 		if (!dateList.isEmpty()) {
 			Date unprocessedStartDate = dateList.remove(0);
@@ -289,16 +341,23 @@ public class AddParser {
 			if (!dateList.isEmpty()) {
 				Date unprocessedEndDate = dateList.remove(0);
 				toDate = DateFixer.fixEndDate(unprocessedEndDate);
+
+				if (toDate.compareTo(fromDate) < 0) {
+					isValidDateRange = false;
+				}
 			}
 
-			task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
-			status = new Success(task, true, null);
+			if (isValidDateRange) {
+				task = new NormalTask(taskDesc.trim(), priority, fromDate,
+						toDate);
+				status = new Success(task, true, null);
+			} else {
+				status = new Success(false, Message.FAIL_PARSE_COMMAND);
+			}
 
 		} else {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-		sc.close();
-
 		return status;
 	}
 
@@ -324,9 +383,29 @@ public class AddParser {
 		remainingDate = remainingDate.trim();
 
 		Success status = null;
-		DeadlineTask task = null;
-		Scanner sc = new Scanner(remainingDate);
 
+		status = processDeadlineTask(taskDesc, remainingDate);
+
+		return status;
+	}
+
+	/**
+	 * This method process and parse the information for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the current task
+	 * @param remainingDate
+	 *            the remaining date in String form, if any
+	 * @return
+	 */
+	private Success processDeadlineTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+		Scanner sc = new Scanner(remainingDate);
 		String deadlineDateString = "";
 		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
@@ -366,6 +445,31 @@ public class AddParser {
 				}
 			}
 		}
+		status = postProcessDeadlineTask(taskDesc, deadlineDateString, priority);
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * This method process the dates for Deadline Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param deadlineDateString
+	 *            deadline date that is in String
+	 * @param priority
+	 *            priority level, if any
+	 * @return Success object
+	 */
+
+	private Success postProcessDeadlineTask(String taskDesc,
+			String deadlineDateString, int priority) {
+
+		Success status = null;
+		DeadlineTask task = null;
+
 		deadlineDateString = deadlineDateString.trim();
 		List<Date> dateList = DateFixer.parseStringToDate(deadlineDateString);
 		Date deadlineDate = null;
@@ -379,9 +483,6 @@ public class AddParser {
 		} else {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-
-		sc.close();
-
 		return status;
 	}
 
@@ -551,6 +652,26 @@ public class AddParser {
 
 		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
+		priority = processPriorityFloatingTask(remainingPriority, priority);
+
+		task = new FloatingTask(taskDesc, priority);
+		status = new Success(task, true, null);
+
+		return status;
+	}
+
+	/**
+	 * This process and parse the priority for Floating Task
+	 * 
+	 * @param remainingPriority
+	 *            the priority level in String, if any
+	 * @param priority
+	 *            the priority value, if any
+	 * @return int priority level
+	 */
+	
+	private int processPriorityFloatingTask(String remainingPriority,
+			int priority) {
 		if (remainingPriority != null) {
 
 			remainingPriority = remainingPriority.trim();
@@ -575,10 +696,6 @@ public class AddParser {
 
 			sc.close();
 		}
-
-		task = new FloatingTask(taskDesc, priority);
-		status = new Success(task, true, null);
-
-		return status;
+		return priority;
 	}
 }
