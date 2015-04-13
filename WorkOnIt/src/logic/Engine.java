@@ -137,12 +137,14 @@ public class Engine {
 	 *         Message and Array List of task retrieve from data file.
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success retrieveTask(Date date) throws IOException {
 
 		LOGGER.info("process retrieve task singe date");
 
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
+		date.setSeconds(0);
 		status = dataStorage.loadFromStartDate(date);
 
 		return status;
@@ -160,6 +162,7 @@ public class Engine {
 	 *         Message and Array List of task retrieve from data file.
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
@@ -167,6 +170,7 @@ public class Engine {
 
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
+		startDate.setSeconds(0);
 		status = dataStorage.loadFromBetweenDate(startDate, endDate);
 
 		return status;
@@ -255,7 +259,7 @@ public class Engine {
 	 * This method will call the loadCompletedTaskWithDate method in fileIO to
 	 * load the task which has mark as completed with date
 	 *
-	 * @param boolean boolean which specific the wether the task has been
+	 * @param boolean boolean which specific the whether the task has been
 	 *        completed or not
 	 * @param Date
 	 *            date which specific the task date.
@@ -282,7 +286,7 @@ public class Engine {
 	 * to load the task between start date and end date entered and which mark
 	 * as completed
 	 *
-	 * @param boolean boolean which specific the wether the task has been
+	 * @param boolean boolean which specific the whether the task has been
 	 *        completed or not
 	 * @param Date
 	 *            start date which specific the task start date.
@@ -372,7 +376,7 @@ public class Engine {
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	//@author
+	@SuppressWarnings("deprecation")
 	public Success searchTask(String keyword, Date startDate, Date endDate) {
 
 		LOGGER.info("process search task with keyword within a date range");
@@ -382,6 +386,7 @@ public class Engine {
 
 		assert (keyword != null && startDate != null && endDate != null);
 
+		startDate.setSeconds(0);
 		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
 				endDate);
 

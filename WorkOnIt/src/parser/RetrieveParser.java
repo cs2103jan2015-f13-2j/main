@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -92,7 +93,7 @@ public class RetrieveParser {
 					isSingleDate = true;
 					isDoubleDate = true;
 					isFrom = true;
-					isResolved = true;
+					// isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
@@ -106,12 +107,13 @@ public class RetrieveParser {
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
 					isAll = true;
-					isResolved = true;
+					// isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
-
-					remainingText = sc.nextLine();
+					if (sc.hasNext()) {
+						remainingText = sc.nextLine();
+					}
 					isPriority = true;
 					isResolved = true;
 
@@ -119,14 +121,17 @@ public class RetrieveParser {
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)
 						|| resolvedWord
 								.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-					if (sc.hasNextLine()) {
-						remainingText = sc.nextLine();
+					if (sc.hasNext()) {
+						remainingText = resolvedWord + " " + sc.nextLine();
 					} else {
 						remainingText = currentWord;
 					}
+
 					isDoneUndone = true;
 					isResolved = true;
 
+				} else {
+					searchString += " " + currentWord;
 				}
 			} else {
 				searchString += " " + currentWord;
@@ -146,12 +151,11 @@ public class RetrieveParser {
 						"october", "november", "december" };
 
 				Scanner dateScanner = new Scanner(combinedSearch);
-
 				while (dateScanner.hasNext()) {
 					String currWord = dateScanner.next();
 
 					boolean isCurrNumber = !auxParser.isNaN(currWord);
-					// if there's number, it's a single day, else it's just
+					// if there's number, it's a single day/time, else it's just
 					// month
 					if (isCurrNumber == true) {
 						isDoubleDate = false;
@@ -172,6 +176,8 @@ public class RetrieveParser {
 											.equals(KeywordConstant.KEYWORD_WEEKS)) {
 								isWeek = true;
 								isDoubleDate = true;
+							} else {
+								isDesc = true;
 							}
 						}
 					}
@@ -229,36 +235,41 @@ public class RetrieveParser {
 				isDesc = true;
 			}
 		}
-
-		if (isAll == true) {
-			status = retrieveAllDates();
-		} else if (isPriority == true) {
-			status = retrievePriority(remainingText.trim());
-		} else if (isDesc == true) {
-			status = retrieveTaskDesc(combinedSearch.trim());
-		} else if (isDoneUndone == true) {
-			status = retrieveDoneUndone(remainingText.trim());
-		} else {
-
-			if (isSingleDate == true && isDoubleDate == false) {
-
-				status = retrieveSingleDate(remainingText.trim());
-			} else if (isSingleDate == true && isDoubleDate == true) {
-
-				status = retrieveInBetween(remainingText.trim());
-			} else if (isSingleDate == false && isDoubleDate == true) {
-				if (isMonth == true || isWeek == true) {
-					status = retrieveInBetween(startDate, endDate);
-				} else {
-					status = retrieveInBetween(remainingText.trim());
-				}
+		try {
+			if (isAll == true) {
+				status = retrieveAllDates();
+			} else if (isPriority == true) {
+				status = retrievePriority(remainingText.trim());
+			} else if (isDesc == true) {
+				status = retrieveTaskDesc(combinedSearch.trim());
+			} else if (isDoneUndone == true) {
+				status = retrieveDoneUndone(remainingText.trim());
 			} else {
 
+				if (isSingleDate == true && isDoubleDate == false) {
+
+					status = retrieveSingleDate(remainingText.trim());
+				} else if (isSingleDate == true && isDoubleDate == true) {
+
+					status = retrieveInBetween(remainingText.trim());
+				} else if (isSingleDate == false && isDoubleDate == true) {
+					if (isMonth == true || isWeek == true) {
+						status = retrieveInBetween(startDate, endDate);
+					} else {
+						status = retrieveInBetween(remainingText.trim());
+					}
+				} else {
+					status = new Success(false, Message.ERROR_RETRIEVE);
+				}
 			}
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(false, Message.ERROR_RETRIEVE);
+		} catch (NoSuchElementException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(false, Message.ERROR_RETRIEVE);
 		}
-
 		sc.close();
-
 		LOGGER.fine("Retrieve command returns with Success value : "
 				+ status.isSuccess());
 
@@ -276,7 +287,6 @@ public class RetrieveParser {
 	 */
 
 	private Success retrieveDoneUndone(String remainingText) {
-
 		assert (remainingText != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
@@ -287,23 +297,115 @@ public class RetrieveParser {
 		Scanner sc = new Scanner(remainingText);
 		boolean isStatusResolved = false;
 		boolean isDone = false;
-
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
+		String startDateString = "";
+		String endDateString = "";
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
+			if (resolvedWord != null) {
+				if (isStatusResolved == false) {
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+						isDone = true;
+						isStatusResolved = true;
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+						isDone = false;
+						isStatusResolved = true;
+					}
 
-			if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
-				isDone = true;
-				isStatusResolved = true;
-			} else if (resolvedWord
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-				isDone = false;
-				isStatusResolved = true;
+				} else {
+
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+						isSingleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+						isSingleDate = true;
+						isDoubleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						endDateString = sc.nextLine();
+						isSingleDate = false;
+
+					} else {
+						startDateString += " " + currentWord;
+					}
+				}
+			} else {
+				startDateString += " " + currentWord;
 			}
 		}
-
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
 		if (isStatusResolved == true) {
-			status = engine.getCompleteTask(isDone);
+
+			if (isSingleDate == false && isDoubleDate == false) {
+				status = engine.getCompleteTask(isDone);
+
+			} else if (isSingleDate == true && isDoubleDate == false) {
+				Date fromDate = null;
+
+				List<Date> dateList = DateFixer
+						.parseStringToDate(startDateString);
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+				}
+				Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+				status = engine
+						.getCompleteTaskWithDate(isDone, fixedSingleDate);
+
+			} else if (isSingleDate == true && isDoubleDate == true) {
+
+				List<Date> dateList = DateFixer
+						.parseStringToDate(startDateString);
+
+				Date fromDate = null;
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+				}
+
+				Date maxDate = null;
+				List<Date> dateMaxList = DateFixer
+						.parseStringToDate(KeywordConstant.DATE_MAX);
+
+				if (!dateMaxList.isEmpty()) {
+					maxDate = dateMaxList.remove(0);
+				}
+
+				Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+				status = engine.getCompleteTaskBetweenDate(isDone,
+						fixedSingleDate, maxDate);
+
+			} else if (isSingleDate == false && isDoubleDate == true) {
+				String combinedDate = startDateString + " to " + endDateString;
+				combinedDate = combinedDate.trim();
+
+				List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
+
+				Date fromDate = null;
+				Date toDate = null;
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+
+					if (!dateList.isEmpty()) {
+						toDate = dateList.remove(0);
+					}
+				}
+
+				Date fixedStartDate = DateFixer.fixStartDate(fromDate);
+				Date fixedEndDate = DateFixer.fixEndDate(toDate);
+				status = engine.getCompleteTaskBetweenDate(isDone,
+						fixedStartDate, fixedEndDate);
+			}
+
 		}
 
 		sc.close();
@@ -380,6 +482,7 @@ public class RetrieveParser {
 		searchString = searchString.trim();
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
+		String combinedString = searchString + startDateString + endDateString;
 
 		if (isSingleDate == false && isDoubleDate == false) {
 
@@ -393,7 +496,6 @@ public class RetrieveParser {
 				fromDate = dateList.remove(0);
 			}
 			Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
-
 			status = engine.searchTask(searchString, fixedSingleDate);
 
 		} else if (isSingleDate == true && isDoubleDate == true) {
@@ -431,9 +533,19 @@ public class RetrieveParser {
 			Date fixedStartDate = DateFixer.fixStartDate(fromDate);
 			Date fixedEndDate = DateFixer.fixEndDate(endDate);
 
-			status = engine.searchTask(searchString, fixedStartDate,
-					fixedEndDate);
+			try {
+				if (searchString.length() == 0) {
 
+					status = engine.retrieveTask(fixedStartDate, fixedEndDate);
+
+				} else {
+					status = engine.searchTask(searchString, fixedStartDate,
+							fixedEndDate);
+				}
+			} catch (IOException e) {
+				LOGGER.warning(Message.ERROR_RETRIEVE);
+				status = new Success(false, Message.ERROR_RETRIEVE);
+			}
 		}
 
 		sc.close();
@@ -489,7 +601,9 @@ public class RetrieveParser {
 
 				if (resolvedWord != null) {
 					if (resolvedWord
-							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
 						isSingleDate = true;
 
 					} else if (resolvedWord
