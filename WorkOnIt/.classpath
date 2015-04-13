@@ -9,9 +9,5 @@
 	<classpathentry kind="lib" path="lib/JNativeHook.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/flowless-0.4.3.jar"/>
-	<classpathentry kind="lib" path="lib/reactfx-2.0-M4.jar"/>
-	<classpathentry kind="lib" path="lib/undofx-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/wellbehavedfx-0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
