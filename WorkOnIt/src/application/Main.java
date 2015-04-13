@@ -191,7 +191,6 @@ public class Main extends Application {
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
-					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
 
 					wordHandler(txtF.getText(), listView, tFlow);
@@ -462,7 +461,7 @@ public class Main extends Application {
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
-				System.out.println(status.getMessage());
+				
 			} else {
 				if (status.getObj() instanceof String) {
 					String updateCommand = (String) status.getObj();
@@ -472,8 +471,6 @@ public class Main extends Application {
 					listView.getItems().clear();
 					listView.setOpacity(0);
 				}
-
-				System.out.println(Message.SUCCESS_COMMAND);
 			}
 
 			showPopUp(status.getMessage(), status.isSuccess(), primaryStage,
@@ -482,7 +479,6 @@ public class Main extends Application {
 
 		} else {
 			showPopUp(null, false, primaryStage, popup);
-			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
 
 		successObj = status;
@@ -596,7 +592,6 @@ public class Main extends Application {
 		if (listView.getFocusModel().getFocusedIndex() - 1 == -1
 				&& event.getCode().equals(KeyCode.UP)) {
 			txtF.requestFocus();
-			// listView.setOpacity(0);
 		}
 
 		if (event.getCode().equals(KeyCode.LEFT)
@@ -644,11 +639,7 @@ public class Main extends Application {
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-			// Text currText;
-
-			// currText = new Text(" " + stringArr[i]);
-
-			// currText.setFont(Font.font("Arial", 28));
+			
 			int length = startIndex + stringArr[i].length();
 			if (i > 0) {
 				length++;
@@ -704,13 +695,6 @@ public class Main extends Application {
 		Platform.setImplicitExit(false);
 		stage.hide();
 	}
-
-	// for running via Main, bypassing hotkey
-	// public static void main(String[] args) {
-	// InitFileIO initFile = new InitFileIO();
-	// initFile.checkAndProcessFile();
-	// launch();
-	// }
 
 	/**
 	 * This method alternates between hiding and showing the list view
