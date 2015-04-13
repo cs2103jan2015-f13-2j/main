@@ -295,17 +295,23 @@ public class RetrieveParser {
 
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
+
 		boolean isStatusResolved = false;
 		boolean isDone = false;
 		boolean isSingleDate = false;
 		boolean isDoubleDate = false;
+
 		String startDateString = "";
 		String endDateString = "";
+
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
+
 			if (resolvedWord != null) {
+
 				if (isStatusResolved == false) {
+
 					if (resolvedWord
 							.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
 						isDone = true;
@@ -319,7 +325,9 @@ public class RetrieveParser {
 				} else {
 
 					if (resolvedWord
-							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
 						isSingleDate = true;
 
 					} else if (resolvedWord
@@ -340,8 +348,10 @@ public class RetrieveParser {
 				startDateString += " " + currentWord;
 			}
 		}
+
 		startDateString = startDateString.trim();
 		endDateString = endDateString.trim();
+
 		if (isStatusResolved == true) {
 
 			if (isSingleDate == false && isDoubleDate == false) {
@@ -717,7 +727,7 @@ public class RetrieveParser {
 
 	private Success retrieveAllDates() {
 
-		LOGGER.fine("Processing retrieve all task" + " command");
+		LOGGER.fine("Processing retrieve all task command");
 		Success status = null;
 		status = engine.retrieveTask();
 
