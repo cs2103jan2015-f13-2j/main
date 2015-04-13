@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\KeyListener.java
 	 */
 
 	public KeyListener() {
@@ -84,14 +84,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\KeyListener.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	@Override
@@ -146,7 +146,6 @@
 			setProgramIconDesc(primaryStage);
 
 			// UI - SCENE SETTINGS
-			// scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
 
 			// UI - POP UP SETTINGS
@@ -165,9 +164,13 @@
 
 			// UI - CALENDAR SETTINGS
 			webview.setVisible(true);
+			webview.setStyle("overflow-x: hidden;");
+			webview.setStyle("overflow-y: hidden;");
+			scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+			scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 			scrollPane.setContent(webview);
+			scrollPane.setPrefWidth(SCROLL_PANE_WIDTH);
 			scrollPane.setFitToWidth(true);
-			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
 			scrollPane.setVisible(false);
 
 			// UI - TEXT FIELD SETTINGS
@@ -198,7 +201,6 @@
 			txtF.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 
-					System.out.println("textfield Text: " + txtF.getText());
 					scrollPane.setVisible(false);
 
 					wordHandler(txtF.getText(), listView, tFlow);
@@ -431,14 +433,14 @@
 	 * @param listView
 	 *            This listview is the container of the list items
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	private void executeCommand(TextField txtF, String commandString,
@@ -451,7 +453,7 @@
 			status = commandValidator.parseCommand(commandString);
 
 			if (status.isSuccess() == false) {
-				System.out.println(status.getMessage());
+				
 			} else {
 				if (status.getObj() instanceof String) {
 					String updateCommand = (String) status.getObj();
@@ -461,8 +463,6 @@
 					listView.getItems().clear();
 					listView.setOpacity(0);
 				}
-
-				System.out.println(Message.SUCCESS_COMMAND);
 			}
 
 			showPopUp(status.getMessage(), status.isSuccess(), primaryStage,
@@ -471,7 +471,6 @@
 
 		} else {
 			showPopUp(null, false, primaryStage, popup);
-			System.out.println(Message.FAIL_PARSE_COMMAND);
 		}
 
 		successObj = status;
@@ -575,14 +574,14 @@
 	 * @param listView
 	 *            This is the container containing the list of items
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	private void wordHandler(String textFieldText, ListView listView,
@@ -615,11 +614,7 @@
 			int startIndex) {
 		for (int i = 0; i < stringArr.length; i++) {
 			elementList.add(stringArr[i]);
-			// Text currText;
-
-			// currText = new Text(" " + stringArr[i]);
-
-			// currText.setFont(Font.font("Arial", 28));
+			
 			int length = startIndex + stringArr[i].length();
 			if (i > 0) {
 				length++;
@@ -676,13 +671,6 @@
 		stage.hide();
 	}
 
-	// for running via Main, bypassing hotkey
-	// public static void main(String[] args) {
-	// InitFileIO initFile = new InitFileIO();
-	// initFile.checkAndProcessFile();
-	// launch();
-	// }
-
 	/**
 	 * This method alternates between hiding and showing the list view
 	 * 
@@ -733,14 +721,14 @@
 	 *            This is the object containing the required data to add into
 	 *            the list
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Start.java
 	 */
 
 	public static void main(String[] args) {
@@ -774,14 +762,14 @@
 		}
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Start.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Success.java
 	 */
 
 	public Success(boolean isSuccess, String message) {
@@ -923,14 +911,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Success.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
 	 */
 
 	public SuccessDisplay(boolean isSuccess, String message) {
@@ -1025,14 +1013,14 @@
 	 * @return String the String generated from the SuccessDisplay property for
 	 *         display purpose
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AuxParser.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1095,14 +1083,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AuxParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1147,14 +1135,14 @@
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DataParser.java
 	 */
 
 	public ArrayList<Task> getRetrievedTaskList() {
@@ -1232,14 +1220,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DataParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\RetrieveParser.java
 	 */
 
 	public RetrieveParser(Map<String, String> keywordFullMap,
@@ -1302,7 +1290,7 @@
 					isSingleDate = true;
 					isDoubleDate = true;
 					isFrom = true;
-					isResolved = true;
+					// isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
@@ -1316,12 +1304,13 @@
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_ALL)) {
 					isAll = true;
-					isResolved = true;
+					// isResolved = true;
 
 				} else if (resolvedWord
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_PRIORITY)) {
-
-					remainingText = sc.nextLine();
+					if (sc.hasNext()) {
+						remainingText = sc.nextLine();
+					}
 					isPriority = true;
 					isResolved = true;
 
@@ -1329,14 +1318,17 @@
 						.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)
 						|| resolvedWord
 								.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-					if (sc.hasNextLine()) {
-						remainingText = sc.nextLine();
+					if (sc.hasNext()) {
+						remainingText = resolvedWord + " " + sc.nextLine();
 					} else {
 						remainingText = currentWord;
 					}
+
 					isDoneUndone = true;
 					isResolved = true;
 
+				} else {
+					searchString += " " + currentWord;
 				}
 			} else {
 				searchString += " " + currentWord;
@@ -1356,12 +1348,11 @@
 						"october", "november", "december" };
 
 				Scanner dateScanner = new Scanner(combinedSearch);
-
 				while (dateScanner.hasNext()) {
 					String currWord = dateScanner.next();
 
 					boolean isCurrNumber = !auxParser.isNaN(currWord);
-					// if there's number, it's a single day, else it's just
+					// if there's number, it's a single day/time, else it's just
 					// month
 					if (isCurrNumber == true) {
 						isDoubleDate = false;
@@ -1382,6 +1373,8 @@
 											.equals(KeywordConstant.KEYWORD_WEEKS)) {
 								isWeek = true;
 								isDoubleDate = true;
+							} else {
+								isDesc = true;
 							}
 						}
 					}
@@ -1439,36 +1432,41 @@
 				isDesc = true;
 			}
 		}
-
-		if (isAll == true) {
-			status = retrieveAllDates();
-		} else if (isPriority == true) {
-			status = retrievePriority(remainingText.trim());
-		} else if (isDesc == true) {
-			status = retrieveTaskDesc(combinedSearch.trim());
-		} else if (isDoneUndone == true) {
-			status = retrieveDoneUndone(remainingText.trim());
-		} else {
-
-			if (isSingleDate == true && isDoubleDate == false) {
-
-				status = retrieveSingleDate(remainingText.trim());
-			} else if (isSingleDate == true && isDoubleDate == true) {
-
-				status = retrieveInBetween(remainingText.trim());
-			} else if (isSingleDate == false && isDoubleDate == true) {
-				if (isMonth == true || isWeek == true) {
-					status = retrieveInBetween(startDate, endDate);
-				} else {
-					status = retrieveInBetween(remainingText.trim());
-				}
+		try {
+			if (isAll == true) {
+				status = retrieveAllDates();
+			} else if (isPriority == true) {
+				status = retrievePriority(remainingText.trim());
+			} else if (isDesc == true) {
+				status = retrieveTaskDesc(combinedSearch.trim());
+			} else if (isDoneUndone == true) {
+				status = retrieveDoneUndone(remainingText.trim());
 			} else {
 
+				if (isSingleDate == true && isDoubleDate == false) {
+
+					status = retrieveSingleDate(remainingText.trim());
+				} else if (isSingleDate == true && isDoubleDate == true) {
+
+					status = retrieveInBetween(remainingText.trim());
+				} else if (isSingleDate == false && isDoubleDate == true) {
+					if (isMonth == true || isWeek == true) {
+						status = retrieveInBetween(startDate, endDate);
+					} else {
+						status = retrieveInBetween(remainingText.trim());
+					}
+				} else {
+					status = new Success(false, Message.ERROR_RETRIEVE);
+				}
 			}
+		} catch (NullPointerException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(false, Message.ERROR_RETRIEVE);
+		} catch (NoSuchElementException e) {
+			LOGGER.warning(Message.ERROR_RETRIEVE);
+			status = new Success(false, Message.ERROR_RETRIEVE);
 		}
-
 		sc.close();
-
 		LOGGER.fine("Retrieve command returns with Success value : "
 				+ status.isSuccess());
 
@@ -1486,7 +1484,6 @@
 	 */
 
 	private Success retrieveDoneUndone(String remainingText) {
-
 		assert (remainingText != null);
 		assert (keywordFullMap != null);
 		assert (!keywordFullMap.isEmpty());
@@ -1495,25 +1492,127 @@
 
 		Success status = null;
 		Scanner sc = new Scanner(remainingText);
+
 		boolean isStatusResolved = false;
 		boolean isDone = false;
+		boolean isSingleDate = false;
+		boolean isDoubleDate = false;
+
+		String startDateString = "";
+		String endDateString = "";
 
 		while (sc.hasNext()) {
 			String currentWord = sc.next();
 			String resolvedWord = keywordFullMap.get(currentWord);
 
-			if (resolvedWord.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
-				isDone = true;
-				isStatusResolved = true;
-			} else if (resolvedWord
-					.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
-				isDone = false;
-				isStatusResolved = true;
+			if (resolvedWord != null) {
+
+				if (isStatusResolved == false) {
+
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_DONE)) {
+						isDone = true;
+						isStatusResolved = true;
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_UNDONE)) {
+						isDone = false;
+						isStatusResolved = true;
+					}
+
+				} else {
+
+					if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
+						isSingleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_FROM)) {
+						isSingleDate = true;
+						isDoubleDate = true;
+
+					} else if (resolvedWord
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_TO)) {
+						endDateString = sc.nextLine();
+						isSingleDate = false;
+
+					} else {
+						startDateString += " " + currentWord;
+					}
+				}
+			} else {
+				startDateString += " " + currentWord;
 			}
 		}
 
+		startDateString = startDateString.trim();
+		endDateString = endDateString.trim();
+
 		if (isStatusResolved == true) {
-			status = engine.getCompleteTask(isDone);
+
+			if (isSingleDate == false && isDoubleDate == false) {
+				status = engine.getCompleteTask(isDone);
+
+			} else if (isSingleDate == true && isDoubleDate == false) {
+				Date fromDate = null;
+
+				List<Date> dateList = DateFixer
+						.parseStringToDate(startDateString);
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+				}
+				Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+				status = engine
+						.getCompleteTaskWithDate(isDone, fixedSingleDate);
+
+			} else if (isSingleDate == true && isDoubleDate == true) {
+
+				List<Date> dateList = DateFixer
+						.parseStringToDate(startDateString);
+
+				Date fromDate = null;
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+				}
+
+				Date maxDate = null;
+				List<Date> dateMaxList = DateFixer
+						.parseStringToDate(KeywordConstant.DATE_MAX);
+
+				if (!dateMaxList.isEmpty()) {
+					maxDate = dateMaxList.remove(0);
+				}
+
+				Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
+				status = engine.getCompleteTaskBetweenDate(isDone,
+						fixedSingleDate, maxDate);
+
+			} else if (isSingleDate == false && isDoubleDate == true) {
+				String combinedDate = startDateString + " to " + endDateString;
+				combinedDate = combinedDate.trim();
+
+				List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
+
+				Date fromDate = null;
+				Date toDate = null;
+
+				if (!dateList.isEmpty()) {
+					fromDate = dateList.remove(0);
+
+					if (!dateList.isEmpty()) {
+						toDate = dateList.remove(0);
+					}
+				}
+
+				Date fixedStartDate = DateFixer.fixStartDate(fromDate);
+				Date fixedEndDate = DateFixer.fixEndDate(toDate);
+				status = engine.getCompleteTaskBetweenDate(isDone,
+						fixedStartDate, fixedEndDate);
+			}
+
 		}
 
 		sc.close();
@@ -1603,7 +1702,6 @@
 				fromDate = dateList.remove(0);
 			}
 			Date fixedSingleDate = DateFixer.fixStartDate(fromDate);
-
 			status = engine.searchTask(searchString, fixedSingleDate);
 
 		} else if (isSingleDate == true && isDoubleDate == true) {
@@ -1641,9 +1739,19 @@
 			Date fixedStartDate = DateFixer.fixStartDate(fromDate);
 			Date fixedEndDate = DateFixer.fixEndDate(endDate);
 
-			status = engine.searchTask(searchString, fixedStartDate,
-					fixedEndDate);
+			try {
+				if (searchString.length() == 0) {
 
+					status = engine.retrieveTask(fixedStartDate, fixedEndDate);
+
+				} else {
+					status = engine.searchTask(searchString, fixedStartDate,
+							fixedEndDate);
+				}
+			} catch (IOException e) {
+				LOGGER.warning(Message.ERROR_RETRIEVE);
+				status = new Success(false, Message.ERROR_RETRIEVE);
+			}
 		}
 
 		sc.close();
@@ -1699,7 +1807,9 @@
 
 				if (resolvedWord != null) {
 					if (resolvedWord
-							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)) {
+							.equalsIgnoreCase(KeywordConstant.KEYWORD_AT)
+							|| resolvedWord
+									.equalsIgnoreCase(KeywordConstant.KEYWORD_ON)) {
 						isSingleDate = true;
 
 					} else if (resolvedWord
@@ -1814,7 +1924,7 @@
 
 	private Success retrieveAllDates() {
 
-		LOGGER.fine("Processing retrieve all task" + " command");
+		LOGGER.fine("Processing retrieve all task command");
 		Success status = null;
 		status = engine.retrieveTask();
 
@@ -2026,14 +2136,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\RetrieveParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
 	 */
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -2074,14 +2184,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 	 */
 
 	@Test
@@ -2130,14 +2240,14 @@
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 	 */
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -2179,14 +2289,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	@Test
@@ -2492,14 +2602,14 @@
 	 * This method will test for deleting multiple Task(s).
 	 * 
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
 	 */
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -2540,7 +2650,7 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
 
 
 

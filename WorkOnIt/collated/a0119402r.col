@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 	 */
 
 	public Success addTask(Task task) {
@@ -113,12 +113,14 @@
 	 *         Message and Array List of task retrieve from data file.
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success retrieveTask(Date date) throws IOException {
 
 		LOGGER.info("process retrieve task singe date");
 
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
+		date.setSeconds(0);
 		status = dataStorage.loadFromStartDate(date);
 
 		return status;
@@ -136,6 +138,7 @@
 	 *         Message and Array List of task retrieve from data file.
 	 */
 
+	@SuppressWarnings("deprecation")
 	public Success retrieveTask(Date startDate, Date endDate)
 			throws IOException {
 
@@ -143,6 +146,7 @@
 
 		Success status = null;
 		ReadFileIO dataStorage = new ReadFileIO();
+		startDate.setSeconds(0);
 		status = dataStorage.loadFromBetweenDate(startDate, endDate);
 
 		return status;
@@ -231,7 +235,7 @@
 	 * This method will call the loadCompletedTaskWithDate method in fileIO to
 	 * load the task which has mark as completed with date
 	 *
-	 * @param boolean boolean which specific the wether the task has been
+	 * @param boolean boolean which specific the whether the task has been
 	 *        completed or not
 	 * @param Date
 	 *            date which specific the task date.
@@ -258,7 +262,7 @@
 	 * to load the task between start date and end date entered and which mark
 	 * as completed
 	 *
-	 * @param boolean boolean which specific the wether the task has been
+	 * @param boolean boolean which specific the whether the task has been
 	 *        completed or not
 	 * @param Date
 	 *            start date which specific the task start date.
@@ -348,7 +352,128 @@
 	 * @return Success Success object return by the fileIO contain the success
 	 *         Message and Array List of task retrieve from data file.
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	@SuppressWarnings("deprecation")
+	public Success searchTask(String keyword, Date startDate, Date endDate) {
+
+		LOGGER.info("process search task with keyword within a date range");
+
+		Success status = null;
+		ReadFileIO dataStorage = new ReadFileIO();
+
+		assert (keyword != null && startDate != null && endDate != null);
+
+		startDate.setSeconds(0);
+		status = dataStorage.searchFromFileBetweenDate(keyword, startDate,
+				endDate);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the deleteFromFile method in fileIO to delete the
+	 * specific task parse in.
+	 *
+	 * @param List
+	 *            List of task that need to be deleted from the data file
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success deleteTask(List<Task> deleteList) {
+
+		LOGGER.info("process delete task");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+		boolean isMarkAllDeleted = true;
+
+		for (int i = 0; i < deleteList.size(); i++) {
+
+			Task currentTask = deleteList.get(i);
+			Success successObj = dataStorage.deleteFromFile(currentTask);
+
+			if (!successObj.isSuccess()) {
+				isMarkAllDeleted = false;
+			}
+		}
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_DELETE, deleteList);
+
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		if (isMarkAllDeleted) {
+			status = new Success(true, Message.SUCCESS_DELETE);
+		} else {
+			status = new Success(false, Message.ERROR_DELETE);
+		}
+
+		return status;
+	}
+
+	/**
+	 * This method will call the updateFromFile method in fileIO to update the
+	 * specific task parse in
+	 *
+	 * @param Task
+	 *            the new task that need to be updated
+	 * @param Task
+	 *            the old task that need to be overwrite.
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success updateTask(Task taskUpdate, Task taskOld) {
+
+		LOGGER.info("process update task");
+
+		Success status = null;
+		WriteFileIO dataStorage = new WriteFileIO();
+
+		if (taskOld.isCompleted()) {
+			taskUpdate.setCompleted(true);
+		}
+
+		status = dataStorage.updateFromFile(taskUpdate, taskOld);
+
+		TaskHistory taskHistoryObj = new TaskHistory(
+				KeywordConstant.KEYWORD_UPDATE, taskUpdate, taskOld);
+		UndoRedoManager.getInstance();
+		UndoRedoManager.addUndoStack(taskHistoryObj);
+
+		return status;
+	}
+
+	/**
+	 * This method will call the getCompletedTask method in fileIO to load the
+	 * task which mark as completed
+	 *
+	 * @param boolean boolean which specific the wether the task has been
+	 *        completed or not
+	 * @return Success Success object return by the fileIO contain the success
+	 *         Message and Array List of task retrieve from data file.
+	 */
+
+	public Success getCompleteTask(boolean isComplete) {
+
+		LOGGER.info("process retrieve completed/incomplete task");
+
+		Success status = null;
+		ReadFileIO dataStorage = new ReadFileIO();
+
+		status = dataStorage.getCompletedTask(isComplete);
+
+		return status;
+	}
+
+	/**
+	 * call the undoTaskFunction method in Utility class to undo the last task
+	 *
+	 * @param
+	 * @return Success Success object which contain the message from utility
+	 */
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 
 
 

@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	public static void listHandler(KeyEvent event, final Stage stage,
@@ -15,7 +15,6 @@
 		if (listView.getFocusModel().getFocusedIndex() - 1 == -1
 				&& event.getCode().equals(KeyCode.UP)) {
 			txtF.requestFocus();
-			// listView.setOpacity(0);
 		}
 
 		if (event.getCode().equals(KeyCode.LEFT)
@@ -32,14 +31,14 @@
 	 * @param listView
 	 *            This is the container containing the list of items
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	private static void addTaskToListView(ListView listView, Success successObj) {
@@ -153,14 +152,14 @@
 	 *            This object contains the relevant data to be displayed
 	 * @return String containing the formatted title
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\ConfigIO.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\data\ConfigIO.java
 	 */
 
 	public Map<String, String> getFullKeywordMap() {
@@ -231,14 +230,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\ConfigIO.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\data\ConfigIO.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\InitFileIO.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\data\InitFileIO.java
 	 */
 
 	public void checkAndProcessFile() {
@@ -352,14 +351,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\InitFileIO.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\data\InitFileIO.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\ReadFileIO.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\data\ReadFileIO.java
 	 */
 
 	public Success loadFromFileTask(String file_keyword) {
@@ -1590,14 +1589,14 @@
 		return matchDate;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\ReadFileIO.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\data\ReadFileIO.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\Serializer.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\data\Serializer.java
 	 */
 
 	public static String serializeToJson(Object object) {
@@ -1629,14 +1628,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\Serializer.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\data\Serializer.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\data\WriteFileIO.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\data\WriteFileIO.java
 	 */
 
 	public Success saveIntoFile(Task task) {
@@ -2071,14 +2070,14 @@
 	}
 
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\data\WriteFileIO.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\data\WriteFileIO.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 	 */
 
 	public Success undoTask() {
@@ -2121,14 +2120,14 @@
 	 * @throws IOException
 	 *             Will throw this exception if the file cannot be read or write
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\UndoRedoManager.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\logic\UndoRedoManager.java
 	 */
 
 	private UndoRedoManager() {
@@ -2446,14 +2445,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\UndoRedoManager.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\logic\UndoRedoManager.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
 	 */
 
 	@Test
@@ -2545,14 +2544,14 @@
 	 *            objects that is to be passed into the method
 	 * @return String
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
 	 */
 
 	@Test
@@ -2653,7 +2652,7 @@
 	 *            objects that is to be passed into the method
 	 * @return String
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
 
 
 

@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\ChooseFolder.java
 	 */
 
 	@Override
@@ -153,14 +153,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\ChooseFolder.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	private void history(ListView listView) {
@@ -189,14 +189,14 @@
 	 * @param listView
 	 *            This listview is the container of the list items
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 	 */
 
 	private static String getAgendaTitle(Success successObj) {
@@ -405,14 +405,14 @@
 		popup.show(primaryStage);
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\DeadlineTask.java
 	 */
 
 	public DeadlineTask(String taskName, int priority, Date deadline) {
@@ -526,14 +526,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\DeadlineTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\FloatingTask.java
 	 */
 
 	public FloatingTask(String taskName, int priority) {
@@ -577,14 +577,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\FloatingTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\KeywordNode.java
 	 */
 
 	public KeywordNode() {
@@ -720,14 +720,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\KeywordNode.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\NormalTask.java
 	 */
 
 	public NormalTask(String taskName, int priority, Date startDateTime,
@@ -885,14 +885,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\NormalTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
 	 */
 
 	@Override
@@ -903,14 +903,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Task.java
 	 */
 
 	public Task(String taskName, int priority) {
@@ -1026,14 +1026,14 @@
 	 * @param
 	 * @return
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Task.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\TaskHistory.java
 	 */
 
 	public TaskHistory(String operation, Task task) {
@@ -1213,14 +1213,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\TaskHistory.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1435,14 +1435,14 @@
 	}
 
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
 	 */
 
 	public AddParser(Map<String, String> keywordFullMap) {
@@ -1621,10 +1621,30 @@
 
 		taskDesc = taskDesc.trim();
 
-		NormalTask task = null;
+		Success status = null;
+
+		status = processNormalTask(taskDesc, remainingDate);
+
+		return status;
+	}
+
+	/**
+	 * This method process and parse the information for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param remainingDate
+	 *            remaining date String
+	 * @return
+	 */
+	private Success processNormalTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
 		Success status = null;
 		Scanner sc = new Scanner(remainingDate);
-
 		String startDateString = "";
 		String endDateString = "";
 		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
@@ -1687,12 +1707,44 @@
 			}
 		}
 
+		status = postProcessDateNormalTask(taskDesc, startDateString,
+				endDateString, priority);
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * This method process the dates for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param startDateString
+	 *            task start date that is in String
+	 * @param endDateString
+	 *            task end date that is in String
+	 * @param priority
+	 *            priority level, if any
+	 * @return Success object
+	 */
+
+	private Success postProcessDateNormalTask(String taskDesc,
+			String startDateString, String endDateString, int priority) {
+
+		assert (taskDesc != null && startDateString != null && endDateString != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		NormalTask task = null;
+		Success status = null;
 		String combinedDate = startDateString + " to " + endDateString;
 		combinedDate = combinedDate.trim();
 		List<Date> dateList = DateFixer.parseStringToDate(combinedDate);
 
 		Date fromDate = null;
 		Date toDate = null;
+		boolean isValidDateRange = true;
 
 		if (!dateList.isEmpty()) {
 			Date unprocessedStartDate = dateList.remove(0);
@@ -1701,16 +1753,23 @@
 			if (!dateList.isEmpty()) {
 				Date unprocessedEndDate = dateList.remove(0);
 				toDate = DateFixer.fixEndDate(unprocessedEndDate);
+
+				if (toDate.compareTo(fromDate) < 0) {
+					isValidDateRange = false;
+				}
 			}
 
-			task = new NormalTask(taskDesc.trim(), priority, fromDate, toDate);
-			status = new Success(task, true, null);
+			if (isValidDateRange) {
+				task = new NormalTask(taskDesc.trim(), priority, fromDate,
+						toDate);
+				status = new Success(task, true, null);
+			} else {
+				status = new Success(false, Message.FAIL_PARSE_COMMAND);
+			}
 
 		} else {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-		sc.close();
-
 		return status;
 	}
 
@@ -1736,9 +1795,29 @@
 		remainingDate = remainingDate.trim();
 
 		Success status = null;
-		DeadlineTask task = null;
-		Scanner sc = new Scanner(remainingDate);
 
+		status = processDeadlineTask(taskDesc, remainingDate);
+
+		return status;
+	}
+
+	/**
+	 * This method process and parse the information for Normal Task
+	 * 
+	 * @param taskDesc
+	 *            description of the current task
+	 * @param remainingDate
+	 *            the remaining date in String form, if any
+	 * @return
+	 */
+	private Success processDeadlineTask(String taskDesc, String remainingDate) {
+
+		assert (taskDesc != null && remainingDate != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		Success status = null;
+		Scanner sc = new Scanner(remainingDate);
 		String deadlineDateString = "";
 		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
 
@@ -1778,6 +1857,31 @@
 				}
 			}
 		}
+		status = postProcessDateDeadlineTask(taskDesc, deadlineDateString, priority);
+
+		sc.close();
+
+		return status;
+	}
+
+	/**
+	 * This method process the dates for Deadline Task
+	 * 
+	 * @param taskDesc
+	 *            description of the task
+	 * @param deadlineDateString
+	 *            deadline date that is in String
+	 * @param priority
+	 *            priority level, if any
+	 * @return Success object
+	 */
+
+	private Success postProcessDateDeadlineTask(String taskDesc,
+			String deadlineDateString, int priority) {
+
+		Success status = null;
+		DeadlineTask task = null;
+
 		deadlineDateString = deadlineDateString.trim();
 		List<Date> dateList = DateFixer.parseStringToDate(deadlineDateString);
 		Date deadlineDate = null;
@@ -1791,9 +1895,6 @@
 		} else {
 			status = new Success(false, Message.FAIL_PARSE_COMMAND);
 		}
-
-		sc.close();
-
 		return status;
 	}
 
@@ -1806,14 +1907,87 @@
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	 */
+
+	private Success createFloatingTask(String taskDesc, String remainingPriority) {
+
+		assert (taskDesc != null && remainingPriority != null);
+		assert (keywordFullMap != null);
+		assert (!keywordFullMap.isEmpty());
+
+		LOGGER.fine("Parsing Floating Task");
+
+		taskDesc = taskDesc.trim();
+
+		Success status = null;
+		FloatingTask task = null;
+
+		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
+
+		priority = processPriorityFloatingTask(remainingPriority, priority);
+
+		task = new FloatingTask(taskDesc, priority);
+		status = new Success(task, true, null);
+
+		return status;
+	}
+
+	/**
+	 * This process and parse the priority for Floating Task
+	 * 
+	 * @param remainingPriority
+	 *            the priority level in String, if any
+	 * @param priority
+	 *            the priority value, if any
+	 * @return int priority level
+	 */
+	
+	private int processPriorityFloatingTask(String remainingPriority,
+			int priority) {
+		if (remainingPriority != null) {
+
+			remainingPriority = remainingPriority.trim();
+			Scanner sc = new Scanner(remainingPriority);
+
+			if (sc.hasNext()) {
+
+				String currentWord = sc.next();
+				String resolvedWord = keywordFullMap.get(currentWord);
+
+				try {
+					if (resolvedWord != null) {
+						priority = Integer.parseInt(resolvedWord);
+					} else {
+						priority = Integer.parseInt(currentWord);
+					}
+
+				} catch (NumberFormatException e) {
+					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
+				}
+			}
+
+			sc.close();
+		}
+		return priority;
+	}
+}
+
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	public CommandParser() {
@@ -2091,14 +2265,14 @@
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	private Success executeDeleteCommand(String remainingCommand) {
@@ -2183,14 +2357,14 @@
 		return status;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DateFixer.java
 	 */
 
 	protected static Date fixStartDate(Date inDate) {
@@ -2490,14 +2664,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DateFixer.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DeleteParser.java
 	 */
 
 	public DeleteParser(Map<String, String> keywordFullMap,
@@ -2584,14 +2758,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DeleteParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DisplayParser.java
 	 */
 
 	public DisplayParser() {
@@ -2700,14 +2874,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DisplayParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DoneParser.java
 	 */
 
 	public DoneParser(Map<String, String> keywordFullMap, DataParser dataParser) {
@@ -2839,14 +3013,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DoneParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\UpdateParser.java
 	 */
 
 	public UpdateParser(Map<String, String> keywordFullMap,
@@ -2933,14 +3107,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\UpdateParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\resource\FileName.java
 	 */
 
 	public static String getFilenameDeadline() {
@@ -3490,14 +3664,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\resource\FileName.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\resource\KeywordConstant.java
 	 */
 
 	public static Map<String, String> createBasicMap() {
@@ -3537,14 +3711,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\resource\KeywordConstant.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\AddParserTest.java
 	 */
 
 	@Test
@@ -3672,14 +3846,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\AddParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -3719,14 +3893,14 @@
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\ValidatorTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -3816,14 +3990,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\ValidatorTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -4248,14 +4422,14 @@
 	 * This method will test if a description that does not exist, will return
 	 * no result correctly.
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	@Test
@@ -4264,7 +4438,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4395,7 +4569,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 		if (status.isSuccess()) {
@@ -4510,7 +4684,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4550,7 +4724,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4623,7 +4797,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4671,7 +4845,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4750,7 +4924,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -4885,7 +5059,7 @@
 		initTestEnvironment();
 		addTask();
 
-		String retrieveCommand = "retrieve 10 April";
+		String retrieveCommand = "retrieve on 10 April";
 
 		Success status = commandParser.parseCommand(retrieveCommand);
 
@@ -5011,14 +5185,14 @@
 		assertFalse(status.isSuccess());
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\validator\KeywordStructure.java
 	 */
 
 	public KeywordStructure() {
@@ -5133,70 +5307,58 @@
 
 	private void initRetrieveKeyword() {
 
-		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
-		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
-
 		KeywordNode keyAll = new KeywordNode(KeywordConstant.KEYWORD_ALL);
-		keyAll.addSubsequentKeywords(keyDone);
-		keyAll.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToBase = new KeywordNode(KeywordConstant.KEYWORD_TO);
-		keyToBase.addSubsequentKeywords(keyDone);
-		keyToBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyAtBase = new KeywordNode(KeywordConstant.KEYWORD_AT);
-		keyAtBase.addSubsequentKeywords(keyDone);
-		keyAtBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFromBase = new KeywordNode(KeywordConstant.KEYWORD_FROM);
 		keyFromBase.addSubsequentKeywords(keyToBase);
-		keyFromBase.addSubsequentKeywords(keyDone);
-		keyFromBase.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyAt = new KeywordNode(KeywordConstant.KEYWORD_AT);
 		keyAt.addSubsequentKeywords(keyFromBase);
-		keyAt.addSubsequentKeywords(keyDone);
-		keyAt.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyOn = new KeywordNode(KeywordConstant.KEYWORD_ON);
 		keyOn.addSubsequentKeywords(keyFromBase);
 		keyOn.addSubsequentKeywords(keyAtBase);
-		keyOn.addSubsequentKeywords(keyDone);
-		keyOn.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToFrom = new KeywordNode(KeywordConstant.KEYWORD_TO);
 		keyToFrom.addSubsequentKeywords(keyAtBase);
 		keyToFrom.addSubsequentKeywords(keyFromBase);
-		keyToFrom.addSubsequentKeywords(keyDone);
-		keyToFrom.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFrom = new KeywordNode(KeywordConstant.KEYWORD_FROM);
 		keyFrom.addSubsequentKeywords(keyAtBase);
 		keyFrom.addSubsequentKeywords(keyFromBase);
 		keyFrom.addSubsequentKeywords(keyToFrom);
-		keyFrom.addSubsequentKeywords(keyDone);
-		keyFrom.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyToPriority = new KeywordNode(KeywordConstant.KEYWORD_TO);
 		keyToPriority.addSubsequentKeywords(keyAtBase);
 		keyToPriority.addSubsequentKeywords(keyFromBase);
-		keyToPriority.addSubsequentKeywords(keyDone);
-		keyToPriority.addSubsequentKeywords(keyUndone);
 
 		KeywordNode keyFromPriority = new KeywordNode(
 				KeywordConstant.KEYWORD_FROM);
 		keyFromPriority.addSubsequentKeywords(keyAtBase);
 		keyFromPriority.addSubsequentKeywords(keyFromBase);
 		keyFromPriority.addSubsequentKeywords(keyToPriority);
-		keyFromPriority.addSubsequentKeywords(keyDone);
-		keyFromPriority.addSubsequentKeywords(keyUndone);
+
+		KeywordNode keyOnPriority = new KeywordNode(KeywordConstant.KEYWORD_ON);
 
 		KeywordNode keyPriority = new KeywordNode(
 				KeywordConstant.KEYWORD_PRIORITY);
 		keyPriority.addSubsequentKeywords(keyFromPriority);
 		keyPriority.addSubsequentKeywords(keyAtBase);
-		keyPriority.addSubsequentKeywords(keyDone);
-		keyPriority.addSubsequentKeywords(keyUndone);
+		keyPriority.addSubsequentKeywords(keyOnPriority);
+
+		KeywordNode keyDone = new KeywordNode(KeywordConstant.KEYWORD_DONE);
+		keyDone.addSubsequentKeywords(keyFromPriority);
+		keyDone.addSubsequentKeywords(keyAtBase);
+		keyDone.addSubsequentKeywords(keyOnPriority);
+
+		KeywordNode keyUndone = new KeywordNode(KeywordConstant.KEYWORD_UNDONE);
+		keyUndone.addSubsequentKeywords(keyFromPriority);
+		keyUndone.addSubsequentKeywords(keyAtBase);
+		keyUndone.addSubsequentKeywords(keyOnPriority);
 
 		KeywordNode keyRetrieve = new KeywordNode(
 				KeywordConstant.KEYWORD_RETRIEVE);
@@ -5206,6 +5368,8 @@
 		keyRetrieve.addSubsequentKeywords(keyFrom);
 		keyRetrieve.addSubsequentKeywords(keyPriority);
 		keyRetrieve.addSubsequentKeywords(keyToBase);
+		keyRetrieve.addSubsequentKeywords(keyDone);
+		keyRetrieve.addSubsequentKeywords(keyUndone);
 		keyRetrieve.addSubsequentKeywords(keyDone);
 		keyRetrieve.addSubsequentKeywords(keyUndone);
 
@@ -5455,14 +5619,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\validator\KeywordStructure.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\validator\Validator.java
 	 */
 
 	public Validator() {
@@ -5591,14 +5755,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\validator\Validator.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
 	 */
 
 	public HtmlBuilder(String displayType, Calendar displayCal,
@@ -5765,7 +5929,151 @@
 	 * @param currTask
 	 *            the current task
 	 */
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	 */
+
+	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		DeadlineTask deadlineTask = (DeadlineTask) currTask;
+		Calendar deadlineCal = Calendar.getInstance();
+		deadlineCal.setTime(deadlineTask.getDeadline());
+
+		if (deadlineCal.get(Calendar.HOUR_OF_DAY) == 23
+				&& deadlineCal.get(Calendar.MINUTE) == 59
+				&& deadlineCal.get(Calendar.SECOND) == 59) {
+			writer.println("start: '" + sdfNormal.format(deadlineCal.getTime())
+					+ "'");
+		} else {
+			writer.println("start: '" + sdfTime.format(deadlineCal.getTime())
+					+ "'");
+		}
+	}
+
+	/**
+	 * Write normal task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeNormalTaskHtml(SimpleDateFormat sdfNormal,
+			SimpleDateFormat sdfTime, Task currTask) {
+		NormalTask normalTask = (NormalTask) currTask;
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(normalTask.getStartDateTime());
+		endCal.setTime(normalTask.getEndDateTime());
+
+		if (startCal.equals(endCal)) {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "'");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "'");
+			}
+		} else {
+			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
+					&& startCal.get(Calendar.MINUTE) == 0
+					&& startCal.get(Calendar.SECOND) == 1) {
+				writer.println("start: '"
+						+ sdfNormal.format(startCal.getTime()) + "',");
+			} else {
+				writer.println("start: '" + sdfTime.format(startCal.getTime())
+						+ "',");
+			}
+
+			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
+					&& endCal.get(Calendar.MINUTE) == 59
+					&& endCal.get(Calendar.SECOND) == 59) {
+
+				// offset current end date to the next day
+				endCal.add(Calendar.DATE, 1);
+				writer.println("end: '" + sdfNormal.format(endCal.getTime())
+						+ "'");
+			} else {
+				writer.println("end: '" + sdfTime.format(endCal.getTime())
+						+ "'");
+			}
+		}
+	}
+
+	/**
+	 * Write floating task data into html file
+	 * 
+	 * @param sdfNormal
+	 *            normal display date formatter
+	 * @param sdfTime
+	 *            time display date formatter
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeFloatingTaskHtml(SimpleDateFormat sdfNormal, Task currTask) {
+		FloatingTask floatingTask = (FloatingTask) currTask;
+		Date createdDate = new Date(floatingTask.getTaskId());
+		Calendar createdCal = Calendar.getInstance();
+		createdCal.setTime(createdDate);
+
+		writer.println("start: '" + sdfNormal.format(createdCal.getTime())
+				+ "'");
+	}
+
+	/**
+	 * Write the priority or completed data into html file, if any.
+	 * 
+	 * @param currTask
+	 *            the current task
+	 */
+
+	private void writeTaskPriorityHtml(Task currTask) {
+		if (currTask.isCompleted()) {
+			writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL
+					+ "'");
+		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
+			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
+		}
+	}
+
+	/**
+	 * Write the ending html file
+	 */
+
+	private void writeClosingHtml() {
+		writer.println("]");
+
+		writer.println("});");
+		writer.println("});");
+		writer.println("</script>");
+
+		writer.println("</head>");
+
+		writer.println("<body>");
+		writer.println("<div id='calendar'>");
+		writer.println("</div>");
+		writer.println("</body>");
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
 
 
 

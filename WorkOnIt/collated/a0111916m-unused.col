@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\RecurrenceTask.java
 	 */
 
 	//dropped support for recurrence task
@@ -263,14 +263,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\RecurrenceTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
 	 */
 
 	// dropped support for recurrence task
@@ -413,62 +413,14 @@
 	 *            remains of the priority, if any
 	 * @return
 	 */
-
-	private Success createFloatingTask(String taskDesc, String remainingPriority) {
-
-		assert (taskDesc != null && remainingPriority != null);
-		assert (keywordFullMap != null);
-		assert (!keywordFullMap.isEmpty());
-
-		LOGGER.fine("Parsing Floating Task");
-
-		taskDesc = taskDesc.trim();
-
-		Success status = null;
-		FloatingTask task = null;
-
-		int priority = KeywordConstant.PRIORITY_DEFAULT_PRIORITY;
-
-		if (remainingPriority != null) {
-
-			remainingPriority = remainingPriority.trim();
-			Scanner sc = new Scanner(remainingPriority);
-
-			if (sc.hasNext()) {
-
-				String currentWord = sc.next();
-				String resolvedWord = keywordFullMap.get(currentWord);
-
-				try {
-					if (resolvedWord != null) {
-						priority = Integer.parseInt(resolvedWord);
-					} else {
-						priority = Integer.parseInt(currentWord);
-					}
-
-				} catch (NumberFormatException e) {
-					LOGGER.warning(Message.FAIL_PARSE_PRIORITY);
-				}
-			}
-
-			sc.close();
-		}
-
-		task = new FloatingTask(taskDesc, priority);
-		status = new Success(task, true, null);
-
-		return status;
-	}
-}
-
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
 	 */
 
 	// dropped feature
@@ -524,142 +476,7 @@
 	 * @param currTask
 	 *            the current task
 	 */
-
-	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
-			SimpleDateFormat sdfTime, Task currTask) {
-		DeadlineTask deadlineTask = (DeadlineTask) currTask;
-		Calendar deadlineCal = Calendar.getInstance();
-		deadlineCal.setTime(deadlineTask.getDeadline());
-
-		if (deadlineCal.get(Calendar.HOUR_OF_DAY) == 23
-				&& deadlineCal.get(Calendar.MINUTE) == 59
-				&& deadlineCal.get(Calendar.SECOND) == 59) {
-			writer.println("start: '" + sdfNormal.format(deadlineCal.getTime())
-					+ "'");
-		} else {
-			writer.println("start: '" + sdfTime.format(deadlineCal.getTime())
-					+ "'");
-		}
-	}
-
-	/**
-	 * Write normal task data into html file
-	 * 
-	 * @param sdfNormal
-	 *            normal display date formatter
-	 * @param sdfTime
-	 *            time display date formatter
-	 * @param currTask
-	 *            the current task
-	 */
-
-	private void writeNormalTaskHtml(SimpleDateFormat sdfNormal,
-			SimpleDateFormat sdfTime, Task currTask) {
-		NormalTask normalTask = (NormalTask) currTask;
-		Calendar startCal = Calendar.getInstance();
-		Calendar endCal = Calendar.getInstance();
-		startCal.setTime(normalTask.getStartDateTime());
-		endCal.setTime(normalTask.getEndDateTime());
-
-		if (startCal.equals(endCal)) {
-			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-					&& startCal.get(Calendar.MINUTE) == 0
-					&& startCal.get(Calendar.SECOND) == 1) {
-				writer.println("start: '"
-						+ sdfNormal.format(startCal.getTime()) + "'");
-			} else {
-				writer.println("start: '" + sdfTime.format(startCal.getTime())
-						+ "'");
-			}
-		} else {
-			if (startCal.get(Calendar.HOUR_OF_DAY) == 0
-					&& startCal.get(Calendar.MINUTE) == 0
-					&& startCal.get(Calendar.SECOND) == 1) {
-				writer.println("start: '"
-						+ sdfNormal.format(startCal.getTime()) + "',");
-			} else {
-				writer.println("start: '" + sdfTime.format(startCal.getTime())
-						+ "',");
-			}
-
-			if (endCal.get(Calendar.HOUR_OF_DAY) == 23
-					&& endCal.get(Calendar.MINUTE) == 59
-					&& endCal.get(Calendar.SECOND) == 59) {
-
-				// offset current end date to the next day
-				endCal.add(Calendar.DATE, 1);
-				writer.println("end: '" + sdfNormal.format(endCal.getTime())
-						+ "'");
-			} else {
-				writer.println("end: '" + sdfTime.format(endCal.getTime())
-						+ "'");
-			}
-		}
-	}
-
-	/**
-	 * Write floating task data into html file
-	 * 
-	 * @param sdfNormal
-	 *            normal display date formatter
-	 * @param sdfTime
-	 *            time display date formatter
-	 * @param currTask
-	 *            the current task
-	 */
-
-	private void writeFloatingTaskHtml(SimpleDateFormat sdfNormal, Task currTask) {
-		FloatingTask floatingTask = (FloatingTask) currTask;
-		Date createdDate = new Date(floatingTask.getTaskId());
-		Calendar createdCal = Calendar.getInstance();
-		createdCal.setTime(createdDate);
-
-		writer.println("start: '" + sdfNormal.format(createdCal.getTime())
-				+ "'");
-	}
-
-	/**
-	 * Write the priority or completed data into html file, if any.
-	 * 
-	 * @param currTask
-	 *            the current task
-	 */
-
-	private void writeTaskPriorityHtml(Task currTask) {
-		if (currTask.isCompleted()) {
-			writer.println(", color: '" + Graphic.WEBUI_DONE_COLOR_VAL + "'");
-		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_HIGH) {
-			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_HIGH_VAL + "'");
-		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_MEDIUM) {
-			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_MEDIUM_VAL
-					+ "'");
-		} else if (currTask.getPriority() == KeywordConstant.PRIORITY_LOW) {
-			writer.println(", color: '" + Graphic.WEBUI_PRIORITY_LOW_VAL + "'");
-		}
-	}
-
-	/**
-	 * Write the ending html file
-	 */
-
-	private void writeClosingHtml() {
-		writer.println("]");
-
-		writer.println("});");
-		writer.println("});");
-		writer.println("</script>");
-
-		writer.println("</head>");
-
-		writer.println("<body>");
-		writer.println("<div id='calendar'>");
-		writer.println("</div>");
-		writer.println("</body>");
-	}
-
-}
-
-	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
+	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
 
 
 
