@@ -295,7 +295,7 @@ public class AddParser {
 			}
 		}
 
-		status = postProcessNormalTask(taskDesc, startDateString,
+		status = postProcessDateNormalTask(taskDesc, startDateString,
 				endDateString, priority);
 
 		sc.close();
@@ -317,7 +317,7 @@ public class AddParser {
 	 * @return Success object
 	 */
 
-	private Success postProcessNormalTask(String taskDesc,
+	private Success postProcessDateNormalTask(String taskDesc,
 			String startDateString, String endDateString, int priority) {
 
 		assert (taskDesc != null && startDateString != null && endDateString != null);
@@ -445,7 +445,7 @@ public class AddParser {
 				}
 			}
 		}
-		status = postProcessDeadlineTask(taskDesc, deadlineDateString, priority);
+		status = postProcessDateDeadlineTask(taskDesc, deadlineDateString, priority);
 
 		sc.close();
 
@@ -464,7 +464,7 @@ public class AddParser {
 	 * @return Success object
 	 */
 
-	private Success postProcessDeadlineTask(String taskDesc,
+	private Success postProcessDateDeadlineTask(String taskDesc,
 			String deadlineDateString, int priority) {
 
 		Success status = null;
