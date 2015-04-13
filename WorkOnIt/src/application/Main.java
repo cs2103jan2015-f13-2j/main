@@ -37,6 +37,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -64,10 +65,11 @@ public class Main extends Application {
 
 	// SCALE
 	final static int TEXT_BOX_HEIGHT = 50;
-	final static int TEXT_BOX_WIDTH = 700;
-	final static int SCENE_HEIGHT = 550;
-	final static int LIST_VIEW_HEIGHT = 250;
-	final static int SCROLL_PANE_HEIGHT = 800;
+	final static int TEXT_BOX_WIDTH = 750;
+	final static int SCENE_HEIGHT = 600;
+	final static int LIST_VIEW_HEIGHT = 350;
+	final static int SCROLL_PANE_HEIGHT = 610;
+	final static int SCROLL_PANE_WIDTH = TEXT_BOX_WIDTH + 20;
 
 	// POSITION ADJUSTMENTS
 	final static int POSITION_LIST_VIEW_Y = 50;
@@ -134,7 +136,6 @@ public class Main extends Application {
 			setProgramIconDesc(primaryStage);
 
 			// UI - SCENE SETTINGS
-			// scene.getStylesheets().add(this.getClass().getResource("../css/application.css").toExternalForm());
 			scene.setFill(null);
 
 			// UI - POP UP SETTINGS
@@ -153,9 +154,13 @@ public class Main extends Application {
 
 			// UI - CALENDAR SETTINGS
 			webview.setVisible(true);
+			webview.setStyle("overflow-x: hidden;");
+			webview.setStyle("overflow-y: hidden;");
+			scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+			scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 			scrollPane.setContent(webview);
+			scrollPane.setPrefWidth(SCROLL_PANE_WIDTH);
 			scrollPane.setFitToWidth(true);
-			scrollPane.setPrefSize(TEXT_BOX_WIDTH, SCROLL_PANE_HEIGHT);
 			scrollPane.setVisible(false);
 
 			// UI - TEXT FIELD SETTINGS
