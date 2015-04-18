@@ -116,7 +116,7 @@ public class ReadFileIOTest {
 	 *            objects that is to be passed into the method
 	 * @return String
 	 */
-	//@author A0111837J
+	//@author f13-2j-reused
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String invokePrivateMethod(Class targetClass, String methodName,
 			Class[] argClasses, Object[] argObjects) {

@@ -107,7 +107,7 @@ public class RetrieveParserTest {
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-	//@author A0111837J
+	//@author f13-2j-reused
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Success invokePrivateMethod(Class targetClass, String methodName,
 			Class[] argClasses, Object[] argObjects) {

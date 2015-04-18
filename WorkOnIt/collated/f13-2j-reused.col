@@ -1,0 +1,197 @@
+//@author: f13-2j-reused
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Success invokePrivateMethod(Class targetClass,
+			String methodName, Class[] argClasses, Object[] argObjects) {
+
+		Success status = null;
+
+		try {
+			Validator validator = new Validator();
+			Object t = targetClass.getDeclaredConstructor(Map.class)
+					.newInstance(validator.getKeywordFullMap());
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (Success) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		String status = null;
+
+		try {
+
+			Object t = targetClass.getDeclaredConstructor().newInstance();
+
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (String) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ReadFileIOTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Success invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		Success status = null;
+
+		try {
+			Validator validator = new Validator();
+			Object t = targetClass.getDeclaredConstructor(Map.class,
+					DataParser.class).newInstance(
+					validator.getKeywordFullMap(), new DataParser());
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (Success) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+	 */
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String invokePrivateMethod(Class targetClass, String methodName,
+			Class[] argClasses, Object[] argObjects) {
+
+		String status = null;
+
+		try {
+			Object t = targetClass.getDeclaredConstructor().newInstance();
+
+			Method method = targetClass.getDeclaredMethod(methodName,
+					argClasses);
+
+			System.out.println(method.getName());
+			method.setAccessible(true);
+
+			t = method.invoke(t, argObjects);
+
+			status = (String) t;
+
+		} catch (NoSuchMethodException e) {
+			System.err.println(e.getMessage());
+		} catch (SecurityException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalAccessException e) {
+			System.err.println(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.err.println(e.getMessage());
+		} catch (InvocationTargetException e) {
+			System.err.println(e.getMessage());
+		} catch (InstantiationException e) {
+			System.err.println(e.getMessage());
+		}
+
+		return status;
+	}
+
+}
+
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WriteFileIOTest.java
+
+
+
+
+

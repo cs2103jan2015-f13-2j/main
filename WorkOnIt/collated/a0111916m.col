@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\ChooseFolder.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
 	 */
 
 	@Override
@@ -153,14 +153,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\ChooseFolder.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\ChooseFolder.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 	 */
 
 	private void history(ListView listView) {
@@ -189,14 +189,14 @@
 	 * @param listView
 	 *            This listview is the container of the list items
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 	 */
 
 	private static String getAgendaTitle(Success successObj) {
@@ -405,14 +405,14 @@
 		popup.show(primaryStage);
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\DeadlineTask.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
 	 */
 
 	public DeadlineTask(String taskName, int priority, Date deadline) {
@@ -526,14 +526,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\DeadlineTask.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\DeadlineTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\FloatingTask.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
 	 */
 
 	public FloatingTask(String taskName, int priority) {
@@ -577,14 +577,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\FloatingTask.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\FloatingTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\KeywordNode.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
 	 */
 
 	public KeywordNode() {
@@ -720,14 +720,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\KeywordNode.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\KeywordNode.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\NormalTask.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
 	 */
 
 	public NormalTask(String taskName, int priority, Date startDateTime,
@@ -885,14 +885,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\NormalTask.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\NormalTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
 	 */
 
 	@Override
@@ -903,14 +903,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Task.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
 	 */
 
 	public Task(String taskName, int priority) {
@@ -1026,14 +1026,14 @@
 	 * @param
 	 * @return
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Task.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Task.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\TaskHistory.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
 	 */
 
 	public TaskHistory(String operation, Task task) {
@@ -1213,14 +1213,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\TaskHistory.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\TaskHistory.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1435,14 +1435,14 @@
 	}
 
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\logic\Engine.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\logic\Engine.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 	 */
 
 	public AddParser(Map<String, String> keywordFullMap) {
@@ -1907,14 +1907,14 @@
 	 *            remains of the command
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 	 */
 
 	private Success createFloatingTask(String taskDesc, String remainingPriority) {
@@ -1980,14 +1980,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	public CommandParser() {
@@ -2265,14 +2265,14 @@
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	private Success executeDeleteCommand(String remainingCommand) {
@@ -2357,14 +2357,14 @@
 		return status;
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DateFixer.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
 	 */
 
 	protected static Date fixStartDate(Date inDate) {
@@ -2664,14 +2664,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DateFixer.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DateFixer.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DeleteParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
 	 */
 
 	public DeleteParser(Map<String, String> keywordFullMap,
@@ -2758,14 +2758,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DeleteParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DeleteParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DisplayParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
 	 */
 
 	public DisplayParser() {
@@ -2874,14 +2874,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DisplayParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DisplayParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DoneParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
 	 */
 
 	public DoneParser(Map<String, String> keywordFullMap, DataParser dataParser) {
@@ -3013,14 +3013,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DoneParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DoneParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\UpdateParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
 	 */
 
 	public UpdateParser(Map<String, String> keywordFullMap,
@@ -3107,14 +3107,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\UpdateParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\UpdateParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\resource\FileName.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
 	 */
 
 	public static String getFilenameDeadline() {
@@ -3664,14 +3664,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\resource\FileName.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\FileName.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\resource\KeywordConstant.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
 	 */
 
 	public static Map<String, String> createBasicMap() {
@@ -3711,14 +3711,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\resource\KeywordConstant.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\resource\KeywordConstant.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\AddParserTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
 	 */
 
 	@Test
@@ -3807,53 +3807,14 @@
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Success invokePrivateMethod(Class targetClass,
-			String methodName, Class[] argClasses, Object[] argObjects) {
-
-		Success status = null;
-
-		try {
-			Validator validator = new Validator();
-			Object t = targetClass.getDeclaredConstructor(Map.class)
-					.newInstance(validator.getKeywordFullMap());
-			Method method = targetClass.getDeclaredMethod(methodName,
-					argClasses);
-			System.out.println(method.getName());
-			method.setAccessible(true);
-
-			t = method.invoke(t, argObjects);
-
-			status = (Success) t;
-
-		} catch (NoSuchMethodException e) {
-			System.err.println(e.getMessage());
-		} catch (SecurityException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalAccessException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-		} catch (InvocationTargetException e) {
-			System.err.println(e.getMessage());
-		} catch (InstantiationException e) {
-			System.err.println(e.getMessage());
-		}
-
-		return status;
-	}
-
-}
-
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\AddParserTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\AddParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -3893,14 +3854,14 @@
 	 *            objects that is to be passed into the method
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\ValidatorTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -3990,14 +3951,14 @@
 
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\ValidatorTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\ValidatorTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	public void initTestEnvironment() {
@@ -4422,14 +4383,14 @@
 	 * This method will test if a description that does not exist, will return
 	 * no result correctly.
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	@Test
@@ -5185,14 +5146,14 @@
 		assertFalse(status.isSuccess());
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\validator\KeywordStructure.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
 	 */
 
 	public KeywordStructure() {
@@ -5619,14 +5580,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\validator\KeywordStructure.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\KeywordStructure.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\validator\Validator.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
 	 */
 
 	public Validator() {
@@ -5755,14 +5716,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\validator\Validator.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\validator\Validator.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 	 */
 
 	public HtmlBuilder(String displayType, Calendar displayCal,
@@ -5929,14 +5890,14 @@
 	 * @param currTask
 	 *            the current task
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 	 */
 
 	private void writeDeadlineTaskHtml(SimpleDateFormat sdfNormal,
@@ -6073,7 +6034,7 @@
 
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 
 
 

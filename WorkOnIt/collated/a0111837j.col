@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\KeyListener.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
 	 */
 
 	public KeyListener() {
@@ -84,14 +84,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\KeyListener.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\KeyListener.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 	 */
 
 	@Override
@@ -433,14 +433,14 @@
 	 * @param listView
 	 *            This listview is the container of the list items
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 	 */
 
 	private void executeCommand(TextField txtF, String commandString,
@@ -572,14 +572,14 @@
 	 * @param listView
 	 *            This is the container containing the list of items
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 	 */
 
 	private void wordHandler(String textFieldText, ListView listView,
@@ -719,14 +719,14 @@
 	 *            This is the object containing the required data to add into
 	 *            the list
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Main.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Main.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\application\Start.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
 	 */
 
 	public static void main(String[] args) {
@@ -760,14 +760,14 @@
 		}
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\application\Start.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\application\Start.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Success.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
 	 */
 
 	public Success(boolean isSuccess, String message) {
@@ -909,14 +909,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\Success.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\Success.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
 	 */
 
 	public SuccessDisplay(boolean isSuccess, String message) {
@@ -1011,14 +1011,14 @@
 	 * @return String the String generated from the SuccessDisplay property for
 	 *         display purpose
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\SuccessDisplay.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\SuccessDisplay.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AuxParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1081,14 +1081,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AuxParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AuxParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -1133,14 +1133,14 @@
 	 *            The remaining command that were truncated
 	 * @return Success object
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\CommandParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\CommandParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DataParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
 	 */
 
 	public ArrayList<Task> getRetrievedTaskList() {
@@ -1218,14 +1218,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\DataParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\DataParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\RetrieveParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
 	 */
 
 	public RetrieveParser(Map<String, String> keywordFullMap,
@@ -2134,62 +2134,14 @@
 	}
 }
 
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\RetrieveParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\RetrieveParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
-	 */
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String invokePrivateMethod(Class targetClass, String methodName,
-			Class[] argClasses, Object[] argObjects) {
-
-		String status = null;
-
-		try {
-
-			Object t = targetClass.getDeclaredConstructor().newInstance();
-
-			Method method = targetClass.getDeclaredMethod(methodName,
-					argClasses);
-			System.out.println(method.getName());
-			method.setAccessible(true);
-
-			t = method.invoke(t, argObjects);
-
-			status = (String) t;
-
-		} catch (NoSuchMethodException e) {
-			System.err.println(e.getMessage());
-		} catch (SecurityException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalAccessException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-		} catch (InvocationTargetException e) {
-			System.err.println(e.getMessage());
-		} catch (InstantiationException e) {
-			System.err.println(e.getMessage());
-		}
-
-		return status;
-	}
-
-}
-
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\ReadFileIOTest.java
-
-
-
-
-
-	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
 	 */
 
 	@Test
@@ -2238,63 +2190,14 @@
 	 * This method initiates the required information before executing the test
 	 * cases.
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\RetrieveParserTest.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
-	 */
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Success invokePrivateMethod(Class targetClass, String methodName,
-			Class[] argClasses, Object[] argObjects) {
-
-		Success status = null;
-
-		try {
-			Validator validator = new Validator();
-			Object t = targetClass.getDeclaredConstructor(Map.class,
-					DataParser.class).newInstance(
-					validator.getKeywordFullMap(), new DataParser());
-			Method method = targetClass.getDeclaredMethod(methodName,
-					argClasses);
-			System.out.println(method.getName());
-			method.setAccessible(true);
-
-			t = method.invoke(t, argObjects);
-
-			status = (Success) t;
-
-		} catch (NoSuchMethodException e) {
-			System.err.println(e.getMessage());
-		} catch (SecurityException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalAccessException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-		} catch (InvocationTargetException e) {
-			System.err.println(e.getMessage());
-		} catch (InstantiationException e) {
-			System.err.println(e.getMessage());
-		}
-
-		return status;
-	}
-
-}
-
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\RetrieveParserTest.java
-
-
-
-
-
-	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 	 */
 
 	@Test
@@ -2600,55 +2503,7 @@
 	 * This method will test for deleting multiple Task(s).
 	 * 
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WorkOnItTest.java
-
-
-
-
-
-	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
-	 */
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String invokePrivateMethod(Class targetClass, String methodName,
-			Class[] argClasses, Object[] argObjects) {
-
-		String status = null;
-
-		try {
-			Object t = targetClass.getDeclaredConstructor().newInstance();
-
-			Method method = targetClass.getDeclaredMethod(methodName,
-					argClasses);
-
-			System.out.println(method.getName());
-			method.setAccessible(true);
-
-			t = method.invoke(t, argObjects);
-
-			status = (String) t;
-
-		} catch (NoSuchMethodException e) {
-			System.err.println(e.getMessage());
-		} catch (SecurityException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalAccessException e) {
-			System.err.println(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println(e.getMessage());
-		} catch (InvocationTargetException e) {
-			System.err.println(e.getMessage());
-		} catch (InstantiationException e) {
-			System.err.println(e.getMessage());
-		}
-
-		return status;
-	}
-
-}
-
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\test\WriteFileIOTest.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\test\WorkOnItTest.java
 
 
 

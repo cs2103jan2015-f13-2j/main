@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\entity\RecurrenceTask.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
 	 */
 
 	//dropped support for recurrence task
@@ -263,14 +263,14 @@
 		return userString;
 	}
 }
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\entity\RecurrenceTask.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\entity\RecurrenceTask.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 	 */
 
 	// dropped support for recurrence task
@@ -413,14 +413,14 @@
 	 *            remains of the priority, if any
 	 * @return
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\parser\AddParser.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\parser\AddParser.java
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	 * origin: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 	 */
 
 	// dropped feature
@@ -476,7 +476,7 @@
 	 * @param currTask
 	 *            the current task
 	 */
-	// End of segment: C:\Users\Anis\Desktop\WorkOnIt\src\web\HtmlBuilder.java
+	// End of segment: C:\Users\Anis\git\main\WorkOnIt\src\web\HtmlBuilder.java
 
 
 
